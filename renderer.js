@@ -18,13 +18,15 @@ function printError(err, msg, url) {
 var server = http.createServer(function onCliReq(cliReq, cliRes) {
     var cliSoc = cliReq.socket || cliReq.connection;
     var x = NodeUrl.parse(cliReq.url);
-    let targetUrl = `${x.hostname}${x.pathname}`;
-    let path = Targets.find((file) => {
-        targetUrl.indexOf(`/${file.name}/`)
+    let matchFile = Targets.find((file) => {
+        return x.pathname.includes(`/${file.name}`);
     });
-    if (path) {
-        fs.stat(path, (stat) => {
-            if (stat.isDirectory) {}
+    if (matchFile) {
+        return fs.readFile(matchFile.path, (err, data) => {
+            if (err) throw err;
+            cliRes.writeHead(200, {'Content-Type': 'text/plain'});
+            cliRes.write(data);
+            cliRes.end();
         });
     }
     var svrReq = http.request({host: PROXY_HOST || x.hostname,
@@ -65,8 +67,7 @@ server.on('connect', function onCliConn(cliReq, cliSoc, cliHead) {
             svrSoc.on('error', funcOnSocErr(cliSoc, 'svrSoc', cliReq.url));
         });
         svrReq.on('error', funcOnSocErr(cliSoc, 'svrRq2', cliReq.url));
-    }
-    else {
+    } else {
         svrSoc = net.connect(x.port || 443, x.hostname, function onSvrConn() {
             cliSoc.write('HTTP/1.0 200 Connection established\r\n\r\n');
             if (cliHead && cliHead.length) svrSoc.write(cliHead);
