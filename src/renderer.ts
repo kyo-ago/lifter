@@ -2,14 +2,13 @@ import {FileFactory} from "./domain/file/file-factory";
 import {FileRepository} from "./domain/file/file-repository";
 let fileRepository = new FileRepository();
 
-window.ondragover = function (e) {
-    e.preventDefault();
-};
-window.ondragleave = document.body.ondragend = function (e) {
-    e.preventDefault();
-};
-window.ondrop = function (e) {
-    e.preventDefault();
-    let files = Array.from(e.dataTransfer.files).map((file) => FileFactory.createFile(file));
-    fileRepository.storeList()
-};
+window.addEventListener("dragover", (e) => e.preventDefault());
+window.addEventListener("dragleave", (e) => e.preventDefault());
+window.addEventListener("drop", (e) => e.preventDefault());
+document.body.addEventListener("dragend", (e) => e.preventDefault());
+
+window.addEventListener("drop", (e) => {
+    let dfiles = Array.from(e.dataTransfer.files);
+    let files = dfiles.map((file) => FileFactory.createFile(file));
+    fileRepository.storeList(files);
+});
