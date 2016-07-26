@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "outDir": "./build/",
+    "module": "commonjs",
+    "target": "es6",
+    "rootDir": "./",
+    "declaration": false,
+    "noEmitOnError": true,
+    "noImplicitThis": true,
+    "lib": ["es5", "dom", "es2015.promise"]
+  },
+  "include": [
+    "./src/index.ts",
+    "./src/renderer.ts"
+  ],
+  "exclude": [
+    "./node_modules/"
+  ]
+}
