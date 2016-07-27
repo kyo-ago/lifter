@@ -1,24 +1,23 @@
 {
   "name": "lifter",
   "version": "0.0.1",
-  "description": "",
-  "main": "build/index.js",
-  "scripts": {
-    "start": "electron .",
-    "fix": "fixpack",
-    "build": "tsc -p ./tsconfig.json",
-    "watch": "tsc -p ./tsconfig.json --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "typescript-dddbase": "0.0.1"
   },
-  "author": "",
-  "license": "GPL",
   "devDependencies": {
+    "@types/electron": "^0.37.14",
+    "@types/node": "^4.0.30",
     "electron-prebuilt": "^1.2.8",
     "fixpack": "^2.3.1",
     "typescript": "^2.0.0"
   },
-  "dependencies": {
-    "@types/electron": "^0.37.14",
-    "typescript-dddbase": "0.0.1"
+  "license": "GPL",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "fix": "fixpack",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "tsc -p ./tsconfig.json --watch"
   }
 }
