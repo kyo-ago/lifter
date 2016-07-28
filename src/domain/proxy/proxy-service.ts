@@ -3,7 +3,6 @@ import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-respond
 const http = require('http');
 const NodeUrl = require('url');
 const net = require('net');
-const fs = require('fs');
 
 export class ProxyService {
     private HTTP_PORT = 8080;
@@ -19,7 +18,7 @@ export class ProxyService {
             var cliSoc = cliReq.socket || cliReq.connection;
             var x = NodeUrl.parse(cliReq.url);
 
-            this.autoResponderEntryRepository
+            this.autoResponderEntryRepository.findMatchEntry
             // let matchFile = Targets.find((file) => {
             //     return x.pathname.includes(`/${file.name}`);
             // });

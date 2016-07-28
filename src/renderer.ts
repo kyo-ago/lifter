@@ -1,4 +1,3 @@
-import {AutoResponderEntryFactory} from "./domain/auto-responder-entry/auto-responder-entry-factory";
 import {AutoResponderEntryRepository} from "./domain/auto-responder-entry/auto-responder-entry-repository";
 import {ProxyService} from "./domain/proxy/proxy-service";
 

@@ -2,7 +2,7 @@
   "name": "lifter",
   "version": "0.0.1",
   "dependencies": {
-    "typescript-dddbase": "0.0.1"
+    "typescript-dddbase": "0.0.2"
   },
   "devDependencies": {
     "@types/electron": "^0.37.14",
