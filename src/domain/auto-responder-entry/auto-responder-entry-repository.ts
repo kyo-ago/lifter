@@ -1,21 +1,19 @@
+import {Url} from "url";
 import {OnMemoryRepository} from "typescript-dddbase";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
-
-const NodeUrl = require('url');
+import {ClientRequestPathname} from "../client-request/client-request-pathname";
 
 export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
     storeFilesList(files: File[]) {
         files.map((file) => this.store(AutoResponderEntryFactory.createFile(file)));
     }
-    findMatchEntry(path: string): Promise<LocalFileResponderEntity> {
-        let url = NodeUrl.parse(path);
-        url.pathname
+    findMatchEntry(url: Url): Promise<LocalFileResponderEntity | null> {
         Object.keys(this.entities).find((key) => {
             let entity = this.entities[key];
-            entity.matchPathname(url.pathname);
+            entity.getMatchResponder(new ClientRequestPathname(url));
         });
     }
 }

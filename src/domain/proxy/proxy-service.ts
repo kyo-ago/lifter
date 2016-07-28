@@ -23,7 +23,7 @@ export class ProxyService {
             //     return x.pathname.includes(`/${file.name}`);
             // });
             // if (matchFile) {
-            //     return fs.readFile(matchFile.path, (err, data) => {
+            //     return Fs.readFile(matchFile.path, (err, data) => {
             //         if (err) throw err;
             //         cliRes.writeHead(200, {'Content-Type': 'text/plain'});
             //         cliRes.write(data);

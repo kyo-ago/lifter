@@ -1,5 +1,7 @@
-import {Stats} from "fs";
-const fs = require('fs');
+import {Stats} from "Fs";
+import {ClientRequestPathname} from "../client-request/client-request-pathname";
+const Path = require('path');
+const Fs = require('Fs');
 
 export class AutoResponderEntryPath {
     constructor(
@@ -8,7 +10,14 @@ export class AutoResponderEntryPath {
 
     getState(): Promise<Stats> {
         return new Promise((resolve, reject) => {
-            fs.stat(this.value, (err, stats) => err ? reject(err) : resolve(stats));
+            Fs.stat(this.value, (err, stats) => err ? reject(err) : resolve(stats));
+        });
+    }
+
+    getMathFile(path: ClientRequestPathname): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            let basename = Path.basename(this.value);
+            path
         });
     }
 }

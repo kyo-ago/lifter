@@ -1,3 +1,4 @@
+import {ClientRequestPathname} from "../client-request/client-request-pathname";
 export class AutoResponderEntryPattern {
     private regExp: RegExp;
 
@@ -7,7 +8,7 @@ export class AutoResponderEntryPattern {
         this.regExp = new RegExp(`/${this.value}(/|$)`);
     }
 
-    isMatch(path: string) {
-        return this.regExp.test(path);
+    isMatch(path: ClientRequestPathname) {
+        return this.regExp.test(path.getValue());
     }
 }
