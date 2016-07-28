@@ -1,3 +1,5 @@
+import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
+
 const http = require('http');
 const NodeUrl = require('url');
 const net = require('net');
@@ -9,10 +11,15 @@ export class ProxyService {
     private PROXY_HOST = this.PROXY_URL ?  NodeUrl.parse(this.PROXY_URL).hostname    : null;
     private PROXY_PORT = this.PROXY_URL ? (NodeUrl.parse(this.PROXY_URL).port || 80) : null;
 
+    constructor(private autoResponderEntryRepository: AutoResponderEntryRepository) {
+    }
+
     createServer() {
         var server = http.createServer((cliReq: any, cliRes: any) => {
             var cliSoc = cliReq.socket || cliReq.connection;
             var x = NodeUrl.parse(cliReq.url);
+
+            this.autoResponderEntryRepository
             // let matchFile = Targets.find((file) => {
             //     return x.pathname.includes(`/${file.name}`);
             // });

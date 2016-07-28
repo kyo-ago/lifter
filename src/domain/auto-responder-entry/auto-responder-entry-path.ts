@@ -1,4 +1,4 @@
-export class FileName {
+export class AutoResponderEntryPath {
     constructor(
         public value: string
     ) {}

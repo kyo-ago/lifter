@@ -1,6 +1,6 @@
 import {NumberIdentity} from "typescript-dddbase";
 
-export class FileIdentity extends NumberIdentity {
+export class AutoResponderEntryIdentity extends NumberIdentity {
     constructor(
         identity: number
     ) {
