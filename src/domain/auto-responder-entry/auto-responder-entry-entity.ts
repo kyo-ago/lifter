@@ -1,4 +1,4 @@
-import {Stats} from "Fs";
+import {Stats} from "fs";
 import {Entity} from "typescript-dddbase";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryPattern} from "./auto-responder-entry-pattern";
@@ -29,8 +29,11 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
                 return LocalFileResponderFactory.createResponder(this.path, this.type);
             }
             if (stats.isDirectory()) {
-                return this.path.getMathFile(path).then(() => {
-                    return LocalFileResponderFactory.createResponder(this.path, this.type);
+                return this.path.getMathFile(path).then((path) => {
+                    if (!path) {
+                        return null;
+                    }
+                    return LocalFileResponderFactory.createResponder(path, this.type);
                 });
             }
             return Promise.reject(`Invalid type error`);

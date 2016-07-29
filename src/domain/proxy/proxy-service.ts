@@ -18,31 +18,29 @@ export class ProxyService {
             var cliSoc = cliReq.socket || cliReq.connection;
             var x = NodeUrl.parse(cliReq.url);
 
-            this.autoResponderEntryRepository.findMatchEntry
-            // let matchFile = Targets.find((file) => {
-            //     return x.pathname.includes(`/${file.name}`);
-            // });
-            // if (matchFile) {
-            //     return Fs.readFile(matchFile.path, (err, data) => {
-            //         if (err) throw err;
-            //         cliRes.writeHead(200, {'Content-Type': 'text/plain'});
-            //         cliRes.write(data);
-            //         cliRes.end();
-            //     });
-            // }
-            var svrReq = http.request({host: this.PROXY_HOST || x.hostname,
-                                          port: this.PROXY_PORT || x.port || 80,
-                                          path: this.PROXY_URL ? cliReq.url : x.path,
-                                          method: cliReq.method, headers: cliReq.headers,
-                                          agent: cliSoc.$agent}, (svrRes: any) => {
-                cliRes.writeHead(svrRes.statusCode, svrRes.headers);
-                svrRes.pipe(cliRes);
-            });
-            cliReq.pipe(svrReq);
-            svrReq.on('error', (err: any) => {
-                cliRes.writeHead(400, err.message, {'content-type': 'text/html'});
-                cliRes.end('<h1>' + err.message + '<br/>' + cliReq.url + '</h1>');
-                this.printError(err, 'svrReq', x.hostname + ':' + (x.port || 80));
+            let proxyServer = () => {
+                var svrReq = http.request({host: this.PROXY_HOST || x.hostname,
+                                              port: this.PROXY_PORT || x.port || 80,
+                                              path: this.PROXY_URL ? cliReq.url : x.path,
+                                              method: cliReq.method, headers: cliReq.headers,
+                                              agent: cliSoc.$agent}, (svrRes: any) => {
+                    cliRes.writeHead(svrRes.statusCode, svrRes.headers);
+                    svrRes.pipe(cliRes);
+                });
+                cliReq.pipe(svrReq);
+                svrReq.on('error', (err: any) => {
+                    cliRes.writeHead(400, err.message, {'content-type': 'text/html'});
+                    cliRes.end('<h1>' + err.message + '<br/>' + cliReq.url + '</h1>');
+                    this.printError(err, 'svrReq', x.hostname + ':' + (x.port || 80));
+                });
+            };
+
+            this.autoResponderEntryRepository.findMatchEntry(x.pathname).then((result) => {
+                if (!result) {
+                    return proxyServer();
+                }
+                cliRes.writeHead(200, result.getHeader());
+                result.getStream().pipe(cliReq);
             });
         }).listen(this.HTTP_PORT);
 

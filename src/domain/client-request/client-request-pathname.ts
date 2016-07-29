@@ -1,12 +1,9 @@
-import {Url} from "url";
-
 export class ClientRequestPathname {
     private value: string;
 
     constructor(
-        url: Url,
+        private value: string,
     ) {
-        this.value = url.pathname;
     }
 
     getValue() {
