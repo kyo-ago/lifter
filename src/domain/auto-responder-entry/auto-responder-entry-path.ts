@@ -14,10 +14,17 @@ export class AutoResponderEntryPath {
         });
     }
 
-    getMathFile(path: ClientRequestPathname): Promise<boolean> {
+    getMathFile(requestPath: ClientRequestPathname): Promise<boolean> {
         return new Promise((resolve, reject) => {
             let basename = Path.basename(this.value);
-            path
+            let paths = requestPath.getValue().split(`/${basename}/`);
+            paths.shift();
+            Path.join(paths);
+            Fs.access('/etc/passwd', Fs.constants.R_OK, (err) => {
+                console.log(err ? 'no access!' : 'can read/write');
+            });
         });
     }
+
+    private getFileFromDir() {}
 }
