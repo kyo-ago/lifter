@@ -15,6 +15,6 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
             return promise.then((result) => {
                 return result || entity.getMatchResponder(new ClientRequestPathname(path));
             });
-        }, Promise.resolve());
+        }, Promise.resolve(null));
     }
 }

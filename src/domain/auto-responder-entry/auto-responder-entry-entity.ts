@@ -23,8 +23,11 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
             if (!this.pattern.isMatch(path)) {
                 return resolve(null);
             }
-            return this.path.getState();
-        }).then((stats: Stats) => {
+            this.path.getState().then(resolve);
+        }).then((stats: Stats | null) => {
+            if (!stats) {
+                return null;
+            }
             if (stats.isFile()) {
                 return LocalFileResponderFactory.createResponder(this.path, this.type);
             }

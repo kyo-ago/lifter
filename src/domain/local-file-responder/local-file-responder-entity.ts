@@ -1,4 +1,4 @@
-const Fs = require('Fs');
+const fs = require('fs');
 import {Entity} from "typescript-dddbase";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {AutoResponderEntryType} from "../auto-responder-entry/auto-responder-entry-type";
@@ -14,10 +14,10 @@ export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity>
     }
 
     getStream() {
-        return Fs.createReadStream(this.path);
+        return this.path.getStream();
     }
 
     getHeader() {
-        return `${this.type}`;
+        return `${this.type.getValue()}`;
     }
 }

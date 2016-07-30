@@ -1,7 +1,7 @@
 import {Stats} from "fs";
 import {ClientRequestPathname} from "../client-request/client-request-pathname";
 const Path = require('path');
-const Fs = require('Fs');
+const fs = require('fs');
 
 export class AutoResponderEntryPath {
     constructor(
@@ -10,7 +10,9 @@ export class AutoResponderEntryPath {
 
     getState(): Promise<Stats> {
         return new Promise((resolve, reject) => {
-            Fs.stat(this.value, (err, stats) => err ? reject(err) : resolve(stats));
+            fs.stat(this.value, (err: any, stats: Stats) => {
+                err ? reject(err) : resolve(stats);
+            });
         });
     }
 
@@ -20,9 +22,13 @@ export class AutoResponderEntryPath {
             let paths = requestPath.getValue().split(`/${basename}/`);
             paths.shift();
             let localPath = Path.join(paths);
-            Fs.access(localPath, Fs.constants.R_OK, (err) => {
+            fs.access(localPath, fs.constants.R_OK, (err: any) => {
                 resolve(err ? null : new AutoResponderEntryPath(localPath));
             });
         });
+    }
+
+    getStream() {
+        return fs.createReadStream(this.value);
     }
 }

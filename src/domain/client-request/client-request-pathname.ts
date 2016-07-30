@@ -1,6 +1,4 @@
 export class ClientRequestPathname {
-    private value: string;
-
     constructor(
         private value: string,
     ) {
