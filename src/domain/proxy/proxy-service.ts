@@ -39,8 +39,14 @@ export class ProxyService {
                 if (!result) {
                     return proxyServer();
                 }
-                cliRes.writeHead(200, result.getHeader());
-                result.getStream().pipe(cliReq);
+                cliRes.writeHead(200, {
+                    // 'Content-Length': Buffer.byteLength(body),
+                    'content-type': result.getContentType()
+                });
+                result.getBody().then((body) => {
+                    cliRes.write(body);
+                    cliRes.end();
+                });
             });
         }).listen(this.HTTP_PORT);
 

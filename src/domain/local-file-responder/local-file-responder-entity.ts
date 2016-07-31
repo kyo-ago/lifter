@@ -13,11 +13,11 @@ export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity>
         super(identity);
     }
 
-    getStream() {
-        return this.path.getStream();
+    getBody() {
+        return this.path.getBody();
     }
 
-    getHeader() {
-        return `${this.type.getValue()}`;
+    getContentType() {
+        return this.type.getValue();
     }
 }
