@@ -27,7 +27,7 @@ export class AutoResponderEntryPath {
             paths.shift();
             let localPath = paths.join(Path.sep);
             let absolutePath = `${this.value}${Path.sep}${localPath}`;
-            fs.access(absolutePath, fs.constants.R_OK, (err: any) => {
+            fs.access(absolutePath, fs.R_OK, (err: any) => {
                 resolve(err ? null : new AutoResponderEntryPath(absolutePath));
             });
         });

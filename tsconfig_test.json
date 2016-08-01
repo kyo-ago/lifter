@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "outDir": "./build/",
+    "module": "commonjs",
+    "target": "es6",
+    "rootDir": "./",
+    "listFiles": false,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "noEmitOnError": true,
+    "noImplicitThis": true,
+    "lib": ["es5", "dom", "es2015"]
+  },
+  "include": [
+    "./test/**/*.ts"
+  ],
+  "exclude": [
+    "./node_modules/"
+  ]
+}
