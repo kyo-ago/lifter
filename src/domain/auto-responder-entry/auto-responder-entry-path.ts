@@ -20,9 +20,11 @@ export class AutoResponderEntryPath {
         return new Promise((resolve, reject) => {
             let basename = Path.basename(this.value);
             let paths = requestPath.getValue().split(`${Path.sep}${basename}${Path.sep}`);
+            paths.shift();
             let localPath = paths.join(Path.sep);
-            fs.access(localPath, fs.constants.R_OK, (err: any) => {
-                resolve(err ? null : new AutoResponderEntryPath(localPath));
+            let absolutePath = `${this.value}${Path.sep}${localPath}`;
+            fs.access(absolutePath, fs.constants.R_OK, (err: any) => {
+                resolve(err ? null : new AutoResponderEntryPath(absolutePath));
             });
         });
     }
