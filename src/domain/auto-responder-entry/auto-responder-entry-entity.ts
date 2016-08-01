@@ -7,6 +7,7 @@ import {AutoResponderEntryType} from "./auto-responder-entry-type";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {LocalFileResponderFactory} from "../local-file-responder/local-file-responder-factory";
 import {ClientRequestPathname} from "../client-request/client-request-pathname";
+import {LocalFileResponderSize} from "../local-file-responder/local-file-responder-size";
 
 export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity> {
     constructor(
@@ -19,27 +20,49 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
     }
 
     getMatchResponder(path: ClientRequestPathname): Promise<LocalFileResponderEntity | null> {
+        return this.getMatchStats(path).then((stats: Stats | null) => {
+            if (!stats) {
+                return null;
+            }
+            if (stats.isFile()) {
+                return this.getFileResponder(stats);
+            }
+            if (stats.isDirectory()) {
+                return this.getDirectoryResponder(path);
+            }
+            return Promise.reject(`Invalid type error`);
+        });
+    }
+
+    private getMatchStats(path: ClientRequestPathname) {
         return new Promise((resolve) => {
             if (!this.pattern.isMatch(path)) {
                 return resolve(null);
             }
             this.path.getState().then(resolve);
-        }).then((stats: Stats | null) => {
-            if (!stats) {
+        });
+    }
+
+    private getFileResponder(stats: Stats) {
+        return LocalFileResponderFactory.createResponder(
+            this.path,
+            this.type,
+            new LocalFileResponderSize(stats.size),
+        );
+    }
+
+    private getDirectoryResponder(path: ClientRequestPathname) {
+        return this.path.getMathFile(path).then((path) => {
+            if (!path) {
                 return null;
             }
-            if (stats.isFile()) {
-                return LocalFileResponderFactory.createResponder(this.path, this.type);
-            }
-            if (stats.isDirectory()) {
-                return this.path.getMathFile(path).then((path) => {
-                    if (!path) {
-                        return null;
-                    }
-                    return LocalFileResponderFactory.createResponder(path, this.type);
-                });
-            }
-            return Promise.reject(`Invalid type error`);
+            return path.getState().then((stats: Stats) => {
+                return LocalFileResponderFactory.createResponder(
+                    path,
+                    this.type,
+                    new LocalFileResponderSize(stats.size),
+                );
+            });
         });
     }
 }

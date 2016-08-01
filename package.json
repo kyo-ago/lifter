@@ -12,6 +12,7 @@
     "@types/node": "^4.0.30",
     "electron-prebuilt": "^1.2.8",
     "fixpack": "^2.3.1",
+    "mocha": "^3.0.0",
     "typescript": "^2.0.0"
   },
   "license": "GPL",

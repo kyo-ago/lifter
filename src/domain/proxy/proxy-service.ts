@@ -1,3 +1,4 @@
+import {ServerResponse} from "http";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
 
 const http = require('http');
@@ -14,7 +15,7 @@ export class ProxyService {
     }
 
     createServer() {
-        var server = http.createServer((cliReq: any, cliRes: any) => {
+        var server = http.createServer((cliReq: any, cliRes: ServerResponse) => {
             var cliSoc = cliReq.socket || cliReq.connection;
             var x = NodeUrl.parse(cliReq.url);
 
@@ -39,14 +40,12 @@ export class ProxyService {
                 if (!result) {
                     return proxyServer();
                 }
-                cliRes.writeHead(200, {
-                    // 'Content-Length': Buffer.byteLength(body),
-                    'content-type': result.getContentType()
-                });
+                cliRes.writeHead(200, result.getHeader());
                 result.getBody().then((body) => {
                     cliRes.write(body);
                     cliRes.end();
                 });
+
             });
         }).listen(this.HTTP_PORT);
 
