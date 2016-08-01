@@ -2,6 +2,7 @@ import {Entity} from "typescript-dddbase";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {AutoResponderEntryType} from "../auto-responder-entry/auto-responder-entry-type";
 import {AutoResponderEntryPath} from "../auto-responder-entry/auto-responder-entry-path";
+const mime = require('mime');
 
 export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity> {
     constructor(
@@ -17,6 +18,6 @@ export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity>
     }
 
     getContentType() {
-        return this.type.getValue();
+        return this.type.getValue() || mime.lookup(this.path.getValue());
     }
 }

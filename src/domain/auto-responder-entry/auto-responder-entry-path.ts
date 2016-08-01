@@ -8,6 +8,10 @@ export class AutoResponderEntryPath {
         private value: string
     ) {}
 
+    getValue() {
+        return this.value;
+    }
+
     getState(): Promise<Stats> {
         return new Promise((resolve, reject) => {
             fs.stat(this.value, (err: any, stats: Stats) => {
