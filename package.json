@@ -1,5 +1,6 @@
 {
   "name": "lifter",
+  "description": "Electron Local Proxy for Fiddler users",
   "version": "0.0.1",
   "dependencies": {
     "mime": "^1.3.4",
@@ -15,8 +16,9 @@
     "mocha": "^3.0.0",
     "typescript": "^2.0.0"
   },
-  "license": "GPL",
+  "license": "GPL-3.0",
   "main": "build/index.js",
+  "repository": "kyo-ago/lifter",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "fix": "fixpack",
