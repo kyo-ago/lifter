@@ -7,7 +7,7 @@
     "rootDir": "./src/",
     "declaration": false,
     "noEmitOnError": true,
-    "noImplicitThis": true,
+    "jsx": "React",
     "lib": ["es5", "dom", "es2015"]
   },
   "include": [

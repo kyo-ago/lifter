@@ -1,6 +1,8 @@
 import {AutoResponderEntryRepository} from "./domain/auto-responder-entry/auto-responder-entry-repository";
 import {ProxyService} from "./domain/proxy/proxy-service";
 
+import {Render} from "./ui/render";
+
 let autoResponderEntryRepository = new AutoResponderEntryRepository();
 let proxyService                 = new ProxyService(autoResponderEntryRepository);
 
@@ -14,3 +16,15 @@ window.addEventListener("drop", (e) => {
 });
 
 proxyService.createServer();
+
+Render(
+    {
+        entries: [
+            {
+                pattern: "pattern",
+                path: "path",
+                type: "type",
+            }
+        ]
+    }
+);
