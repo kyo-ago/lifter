@@ -13,18 +13,20 @@ document.body.addEventListener("dragend", (e) => e.preventDefault());
 
 window.addEventListener("drop", (e) => {
     autoResponderEntryRepository.storeFilesList(Array.from(e.dataTransfer.files));
+    autoResponderEntryRepository.getFilesList().then((files) => {
+        Render({
+            entries: files
+        });
+    });
 });
 
 proxyService.createServer();
 
-Render(
-    {
-        entries: [
-            {
-                pattern: "pattern",
-                path: "path",
-                type: "type",
-            }
-        ]
-    }
-);
+Render([
+   {
+       id: 1,
+       pattern: "pattern",
+       path: "path",
+       type: "type",
+   }
+]);
