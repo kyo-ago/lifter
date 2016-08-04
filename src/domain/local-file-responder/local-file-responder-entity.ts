@@ -31,6 +31,6 @@ export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity>
     }
 
     private getContentLength() {
-        return this.size.getValue();
+        return this.size.value;
     }
 }

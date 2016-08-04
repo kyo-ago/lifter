@@ -1,9 +1,9 @@
 export class LocalFileResponderSize {
     constructor(
-        private value: number
+        private _value: number
     ) {}
 
-    getValue() {
-        return this.value;
+    get value() {
+        return this._value;
     }
 }
