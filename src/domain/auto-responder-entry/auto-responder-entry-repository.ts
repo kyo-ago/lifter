@@ -19,13 +19,13 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
         }, Promise.resolve(null));
     }
     getFilesList(): Promise<AutoResponderBoxEntry[]> {
-        return new Promise(() => {
+        return new Promise((resolve) => {
             let sortedValues = Object.keys(this.entities)
                 .map(_ => Number(_))
                 .sort()
                 .map(_ => this.entities[_])
             ;
-            return sortedValues.reduce((base, entity: AutoResponderEntryEntity) => {
+            let entries = sortedValues.reduce((base: AutoResponderBoxEntry[], entity: AutoResponderEntryEntity) => {
                 base.push({
                     id: entity.id,
                     pattern: entity.pattern,
@@ -33,7 +33,8 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
                     type: entity.type,
                 });
                 return base;
-            }, []);
+            }, <AutoResponderBoxEntry[]>[]);
+            resolve(entries);
         });
     }
 }

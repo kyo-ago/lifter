@@ -3,9 +3,9 @@ export class AutoResponderEntryPattern {
     private regExp: RegExp;
 
     constructor(
-        private value: string
+        private _value: string
     ) {
-        this.regExp = new RegExp(`/${this.value}(/|$)`);
+        this.regExp = new RegExp(`/${this._value}(/|$)`);
     }
 
     isMatch(path: ClientRequestPathname) {
@@ -13,6 +13,6 @@ export class AutoResponderEntryPattern {
     }
 
     get value() {
-        return this.value;
+        return this._value;
     }
 }

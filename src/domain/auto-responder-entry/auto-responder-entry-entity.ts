@@ -12,9 +12,9 @@ import {LocalFileResponderSize} from "../local-file-responder/local-file-respond
 export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity> {
     constructor(
         identity: AutoResponderEntryIdentity,
-        private pattern: AutoResponderEntryPattern,
-        private path: AutoResponderEntryPath,
-        private type: AutoResponderEntryType,
+        private _pattern: AutoResponderEntryPattern,
+        private _path: AutoResponderEntryPath,
+        private _type: AutoResponderEntryType,
     ) {
         super(identity);
     }
@@ -24,15 +24,15 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
     }
 
     get pattern() {
-        return this.pattern.value;
+        return this._pattern.value;
     }
 
     get path() {
-        return this.path.value;
+        return this._path.value;
     }
 
     get type() {
-        return this.type.value;
+        return this._type.value;
     }
 
     getMatchResponder(path: ClientRequestPathname): Promise<LocalFileResponderEntity | null> {
@@ -52,30 +52,30 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
 
     private getMatchStats(path: ClientRequestPathname) {
         return new Promise((resolve) => {
-            if (!this.pattern.isMatch(path)) {
+            if (!this._pattern.isMatch(path)) {
                 return resolve(null);
             }
-            this.path.getState().then(resolve);
+            this._path.getState().then(resolve);
         });
     }
 
     private getFileResponder(stats: Stats) {
         return LocalFileResponderFactory.createResponder(
-            this.path,
-            this.type,
+            this._path,
+            this._type,
             new LocalFileResponderSize(stats.size),
         );
     }
 
     private getDirectoryResponder(path: ClientRequestPathname) {
-        return this.path.getMathFile(path).then((path) => {
+        return this._path.getMathFile(path).then((path) => {
             if (!path) {
                 return null;
             }
             return path.getState().then((stats: Stats) => {
                 return LocalFileResponderFactory.createResponder(
                     path,
-                    this.type,
+                    this._type,
                     new LocalFileResponderSize(stats.size),
                 );
             });

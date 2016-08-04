@@ -1,9 +1,9 @@
 export class AutoResponderEntryType {
     constructor(
-        private value: string
+        private _value: string
     ) {}
 
     get value() {
-        return this.value;
+        return this._value;
     }
 }
