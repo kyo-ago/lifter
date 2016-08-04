@@ -4,7 +4,7 @@ import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {ClientRequestPathname} from "../client-request/client-request-pathname";
-import {AutoResponderBoxProps, AutoResponderBoxEntry} from "../../ui/auto-responder-box";
+import {AutoResponderBoxEntry} from "../../ui/auto-responder-box";
 
 export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
     storeFilesList(files: File[]) {
@@ -20,7 +20,20 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
     }
     getFilesList(): Promise<AutoResponderBoxEntry[]> {
         return new Promise(() => {
-
+            let sortedValues = Object.keys(this.entities)
+                .map(_ => Number(_))
+                .sort()
+                .map(_ => this.entities[_])
+            ;
+            return sortedValues.reduce((base, entity: AutoResponderEntryEntity) => {
+                base.push({
+                    id: entity.id,
+                    pattern: entity.pattern,
+                    path: entity.path,
+                    type: entity.type,
+                });
+                return base;
+            }, []);
         });
     }
 }

@@ -8,7 +8,7 @@ export class AutoResponderEntryPath {
         private value: string
     ) {}
 
-    getValue() {
+    get value() {
         return this.value;
     }
 

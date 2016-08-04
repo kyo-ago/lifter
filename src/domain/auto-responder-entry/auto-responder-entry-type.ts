@@ -3,7 +3,7 @@ export class AutoResponderEntryType {
         private value: string
     ) {}
 
-    getValue() {
+    get value() {
         return this.value;
     }
 }

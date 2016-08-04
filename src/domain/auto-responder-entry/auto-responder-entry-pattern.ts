@@ -11,4 +11,8 @@ export class AutoResponderEntryPattern {
     isMatch(path: ClientRequestPathname) {
         return this.regExp.test(path.getValue());
     }
+
+    get value() {
+        return this.value;
+    }
 }

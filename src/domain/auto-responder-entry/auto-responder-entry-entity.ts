@@ -19,6 +19,22 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
         super(identity);
     }
 
+    get id() {
+        return this.getIdentity().getValue();
+    }
+
+    get pattern() {
+        return this.pattern.value;
+    }
+
+    get path() {
+        return this.path.value;
+    }
+
+    get type() {
+        return this.type.value;
+    }
+
     getMatchResponder(path: ClientRequestPathname): Promise<LocalFileResponderEntity | null> {
         return this.getMatchStats(path).then((stats: Stats | null) => {
             if (!stats) {
