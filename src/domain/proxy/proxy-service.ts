@@ -37,16 +37,26 @@ export class ProxyService {
         server.on('connect', (cliReq: any, cliSoc: any, cliHead: any) => {
             let svrSoc: any;
             let reqestUrl = NodeUrl.parse('https://' + cliReq.url);
-            svrSoc = net.connect(reqestUrl.port || 443, reqestUrl.hostname, () => {
-                cliSoc.write('HTTP/1.0 200 Connection established\r\n\r\n');
-                if (cliHead && cliHead.length) svrSoc.write(cliHead);
-                cliSoc.pipe(svrSoc);
-            });
-            svrSoc.pipe(cliSoc);
-            svrSoc.on('error', this.funcOnSocErr(cliSoc, 'svrSoc', cliReq.url));
-            cliSoc.on('error', (err: any) => {
-                if (svrSoc) svrSoc.end();
-                this.printError(err, 'cliSoc', cliReq.url);
+            this.autoResponderEntryRepository.findMatchEntry(reqestUrl.pathname).then((result) => {
+                if (!result) {
+                    svrSoc = net.connect(reqestUrl.port || 443, reqestUrl.hostname, () => {
+                        cliSoc.write('HTTP/1.0 200 Connection established\r\n\r\n');
+                        if (cliHead && cliHead.length) svrSoc.write(cliHead);
+                        cliSoc.pipe(svrSoc);
+                    });
+                    svrSoc.pipe(cliSoc);
+                    svrSoc.on('error', this.funcOnSocErr(cliSoc, 'svrSoc', cliReq.url));
+                    cliSoc.on('error', (err: any) => {
+                        if (svrSoc) svrSoc.end();
+                        this.printError(err, 'cliSoc', cliReq.url);
+                    });
+                    return;
+                }
+                cliSoc.writeHead(200, result.getHeader());
+                result.getBody().then((body) => {
+                    cliSoc.write(body);
+                    cliSoc.end();
+                });
             });
         });
 
