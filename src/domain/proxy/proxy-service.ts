@@ -35,8 +35,9 @@ export class ProxyService {
         });
 
         server.on('connect', (cliReq: any, cliSoc: any, cliHead: any) => {
-            var svrSoc: any, x = NodeUrl.parse('https://' + cliReq.url);
-            svrSoc = net.connect(x.port || 443, x.hostname, () => {
+            let svrSoc: any;
+            let reqestUrl = NodeUrl.parse('https://' + cliReq.url);
+            svrSoc = net.connect(reqestUrl.port || 443, reqestUrl.hostname, () => {
                 cliSoc.write('HTTP/1.0 200 Connection established\r\n\r\n');
                 if (cliHead && cliHead.length) svrSoc.write(cliHead);
                 cliSoc.pipe(svrSoc);
@@ -67,9 +68,10 @@ export class ProxyService {
     }
 
     private requestProxyToServer(url: Url, cliReq: IncomingMessage, cliRes: ServerResponse) {
+        let port = url.port || 80;
         let svrReq = http.request({
             host: url.hostname,
-            port: url.port || 80,
+            port: port,
             path: url.path,
             method: cliReq.method,
             headers: cliReq.headers,
@@ -80,9 +82,10 @@ export class ProxyService {
         });
         cliReq.pipe(svrReq);
         svrReq.on('error', (err: any) => {
+            let escapedUrl = cliReq.url.replace(/./, (_) => `&#${_};`);
             cliRes.writeHead(400, err.message, {'content-type': 'text/html'});
-            cliRes.end('<h1>' + err.message + '<br/>' + cliReq.url + '</h1>');
-            this.printError(err, 'svrReq', url.hostname + ':' + (url.port || 80));
+            cliRes.end('<h1>' + err.message + '<br/>' + escapedUrl + '</h1>');
+            this.printError(err, 'svrReq', url.hostname + ':' + port);
         });
     }
 }
