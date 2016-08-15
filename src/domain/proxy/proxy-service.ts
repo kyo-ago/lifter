@@ -7,6 +7,12 @@ const http = require('http');
 const NodeUrl = require('url');
 const net = require('net');
 
+const Proxy = require('http-mitm-proxy');
+const proxy = Proxy();
+declare class Buffer {
+    constructor(...args: any[]);
+}
+
 export class ProxyService {
     private HTTP_PORT = 8080;
 
@@ -14,88 +20,30 @@ export class ProxyService {
     }
 
     createServer() {
-        var server = http.createServer((cliReq: IncomingMessage, cliRes: ServerResponse) => {
-            var reqestUrl = NodeUrl.parse(cliReq.url);
+        proxy.onError(function(ctx: any, err: any) {
+            console.error('proxy error:', err);
+        });
 
-            this.autoResponderEntryRepository.findMatchEntry(reqestUrl.pathname).then((result) => {
-                if (!result) {
-                    return this.requestProxyToServer(reqestUrl, cliReq, cliRes);
-                }
-                cliRes.writeHead(200, result.getHeader());
-                result.getBody().then((body) => {
-                    cliRes.write(body);
-                    cliRes.end();
+        proxy.onRequest(function(ctx: any, callback: any) {
+            if (ctx.clientToProxyRequest.headers.host == 'www.google.com'
+                && ctx.clientToProxyRequest.url.indexOf('/search') == 0) {
+                ctx.use(Proxy.gunzip);
+
+                ctx.onResponseData(function(ctx: any, chunk: any, callback: any) {
+                    chunk = new Buffer(chunk.toString().replace(/<h3.*?<\/h3>/g, '<h3>Pwned!</h3>'));
+                    return callback(null, chunk);
                 });
-            });
-        }).listen(this.HTTP_PORT);
-
-        server.on('clientError', (err: any, cliSoc: any) => {
-            cliSoc.end();
-            this.printError(err, 'cliErr', '');
+            }
+            return callback();
         });
 
-        server.on('connect', (cliReq: any, cliSoc: any, cliHead: any) => {
-            let svrSoc: any;
-            let reqestUrl = NodeUrl.parse('https://' + cliReq.url);
-            this.autoResponderEntryRepository.findMatchEntry(reqestUrl.pathname).then((result) => {
-                if (!result) {
-                    svrSoc = net.connect(reqestUrl.port || 443, reqestUrl.hostname, () => {
-                        cliSoc.write('HTTP/1.0 200 Connection established\r\n\r\n');
-                        if (cliHead && cliHead.length) svrSoc.write(cliHead);
-                        cliSoc.pipe(svrSoc);
-                    });
-                    svrSoc.pipe(cliSoc);
-                    svrSoc.on('error', this.funcOnSocErr(cliSoc, 'svrSoc', cliReq.url));
-                    cliSoc.on('error', (err: any) => {
-                        if (svrSoc) svrSoc.end();
-                        this.printError(err, 'cliSoc', cliReq.url);
-                    });
-                    return;
-                }
-                cliSoc.writeHead(200, result.getHeader());
-                result.getBody().then((body) => {
-                    cliSoc.write(body);
-                    cliSoc.end();
-                });
-            });
-        });
-
-        server.on('connection', (cliSoc: any) => {
-            cliSoc.$agent = new http.Agent({keepAlive: true});
-            cliSoc.$agent.on('error', (err: any) => console.log('agent:', err));
-        });
-    }
-
-    private printError(err: string, msg: string, url: string) {
-        console.error('%s %s: %s', new Date().toLocaleTimeString(), msg, url, err);
-    }
-
-    private funcOnSocErr(soc: any, msg: string, url: string) {
-        return (err: string) => {
-            soc.end();
-            this.printError(err, msg, url);
-        };
-    }
-
-    private requestProxyToServer(url: Url, cliReq: IncomingMessage, cliRes: ServerResponse) {
-        let port = url.port || 80;
-        let svrReq = http.request({
-            host: url.hostname,
-            port: port,
-            path: url.path,
-            method: cliReq.method,
-            headers: cliReq.headers,
-            agent: (<any>cliReq.socket).$agent
-        }, (svrRes: any) => {
-            cliRes.writeHead(svrRes.statusCode, svrRes.headers);
-            svrRes.pipe(cliRes);
-        });
-        cliReq.pipe(svrReq);
-        svrReq.on('error', (err: any) => {
-            let escapedUrl = cliReq.url.replace(/./, (_) => `&#${_};`);
-            cliRes.writeHead(400, err.message, {'content-type': 'text/html'});
-            cliRes.end('<h1>' + err.message + '<br/>' + escapedUrl + '</h1>');
-            this.printError(err, 'svrReq', url.hostname + ':' + port);
+        proxy.listen({
+            port: this.HTTP_PORT,
+            silent: true
+        }, (err: any) => {
+            if (err) {
+                console.error(err);
+            }
         });
     }
 }
