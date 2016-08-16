@@ -2,9 +2,11 @@ import {AutoResponderEntryRepository} from "./domain/auto-responder-entry/auto-r
 import {ProxyService} from "./domain/proxy/proxy-service";
 
 import {Render} from "./ui/render";
+import {ClientRequestRepository} from "./domain/client-request/client-request-repository";
 
 let autoResponderEntryRepository = new AutoResponderEntryRepository();
-let proxyService                 = new ProxyService(autoResponderEntryRepository);
+let clientRequestRepository      = new ClientRequestRepository();
+let proxyService                 = new ProxyService(autoResponderEntryRepository, clientRequestRepository);
 
 window.addEventListener("dragover", (e) => e.preventDefault());
 window.addEventListener("dragleave", (e) => e.preventDefault());

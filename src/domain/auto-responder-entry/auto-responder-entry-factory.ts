@@ -11,7 +11,7 @@ interface InFile extends File {
 export class AutoResponderEntryFactory {
     private static identity = 0;
 
-    static createFile(file: File): AutoResponderEntryEntity {
+    static createFromFile(file: File): AutoResponderEntryEntity {
         let path = (<InFile>file).path;
         return new AutoResponderEntryEntity(
             new AutoResponderEntryIdentity(this.identity++),

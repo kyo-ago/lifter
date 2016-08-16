@@ -7,7 +7,7 @@ import {AutoResponderEntryIdentity} from "../../../src/domain/auto-responder-ent
 import {AutoResponderEntryPattern} from "../../../src/domain/auto-responder-entry/auto-responder-entry-pattern";
 import {AutoResponderEntryPath} from "../../../src/domain/auto-responder-entry/auto-responder-entry-path";
 import {AutoResponderEntryType} from "../../../src/domain/auto-responder-entry/auto-responder-entry-type";
-import {ClientRequestPathname} from "../../../src/domain/client-request/client-request-pathname";
+import {ClientRequestUrl} from "../../../src/domain/client-request/client-request-url";
 import {LocalFileResponderEntity} from "../../../src/domain/local-file-responder/local-file-responder-entity";
 
 describe('AutoResponderEntryEntity', () => {
@@ -19,7 +19,7 @@ describe('AutoResponderEntryEntity', () => {
         new AutoResponderEntryType(''),
     );
     it('match directoryAutoResponderEntryEntity.getMatchResponder', () => {
-        let clientRequestPathname = new ClientRequestPathname(Path.resolve(__filename));
+        let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));
         return directoryAutoResponderEntryEntity.getMatchResponder(clientRequestPathname).then((resolve) => {
             assert(resolve instanceof LocalFileResponderEntity);
             assert(resolve.getHeader()['content-type'] === 'application/javascript');
@@ -30,7 +30,7 @@ describe('AutoResponderEntryEntity', () => {
         });
     });
     it('unmatch directoryAutoResponderEntryEntity.getMatchResponder', () => {
-        let clientRequestPathname = new ClientRequestPathname(Path.resolve(__dirname) + '/hoge');
+        let clientRequestPathname = new ClientRequestUrl(Path.resolve(__dirname) + '/hoge');
         return directoryAutoResponderEntryEntity.getMatchResponder(clientRequestPathname).then((resolve) => {
             assert(resolve === null);
         });
@@ -44,7 +44,7 @@ describe('AutoResponderEntryEntity', () => {
         new AutoResponderEntryType('application/javascript'),
     );
     it('match fileAutoResponderEntryEntity.getMatchResponder', () => {
-        let clientRequestPathname = new ClientRequestPathname(Path.resolve(__filename));
+        let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));
         return fileAutoResponderEntryEntity.getMatchResponder(clientRequestPathname).then((resolve) => {
             assert(resolve instanceof LocalFileResponderEntity);
             assert(resolve.getHeader()['content-type'] === 'application/javascript');
@@ -55,7 +55,7 @@ describe('AutoResponderEntryEntity', () => {
         });
     });
     it('unmatch fileAutoResponderEntryEntity.getMatchResponder', () => {
-        let clientRequestPathname = new ClientRequestPathname(Path.resolve(__dirname) + '/hoge');
+        let clientRequestPathname = new ClientRequestUrl(Path.resolve(__dirname) + '/hoge');
         return fileAutoResponderEntryEntity.getMatchResponder(clientRequestPathname).then((resolve) => {
             assert(resolve === null);
         });

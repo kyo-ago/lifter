@@ -1,5 +1,5 @@
 import {Stats} from "fs";
-import {ClientRequestPathname} from "../client-request/client-request-pathname";
+import {ClientRequestUrl} from "../client-request/client-request-url";
 const Path = require('path');
 const fs = require('fs');
 
@@ -20,10 +20,10 @@ export class AutoResponderEntryPath {
         });
     }
 
-    getMathFile(requestPath: ClientRequestPathname): Promise<AutoResponderEntryPath | null> {
+    getMathFile(requestPath: ClientRequestUrl): Promise<AutoResponderEntryPath | null> {
         return new Promise((resolve, reject) => {
             let basename = Path.basename(this._value);
-            let paths = requestPath.getValue().split(`${Path.sep}${basename}${Path.sep}`);
+            let paths = requestPath.getPathname().split(`${Path.sep}${basename}${Path.sep}`);
             paths.shift();
             let localPath = paths.join(Path.sep);
             let absolutePath = `${this._value}${Path.sep}${localPath}`;

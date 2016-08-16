@@ -6,7 +6,7 @@ import {AutoResponderEntryPath} from "./auto-responder-entry-path";
 import {AutoResponderEntryType} from "./auto-responder-entry-type";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {LocalFileResponderFactory} from "../local-file-responder/local-file-responder-factory";
-import {ClientRequestPathname} from "../client-request/client-request-pathname";
+import {ClientRequestUrl} from "../client-request/client-request-url";
 import {LocalFileResponderSize} from "../local-file-responder/local-file-responder-size";
 
 export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity> {
@@ -35,7 +35,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
         return this._type.value;
     }
 
-    getMatchResponder(path: ClientRequestPathname): Promise<LocalFileResponderEntity | null> {
+    getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return this.getMatchStats(path).then((stats: Stats | null) => {
             if (!stats) {
                 return null;
@@ -50,7 +50,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
         });
     }
 
-    private getMatchStats(path: ClientRequestPathname) {
+    private getMatchStats(path: ClientRequestUrl) {
         return new Promise((resolve) => {
             if (!this._pattern.isMatch(path)) {
                 return resolve(null);
@@ -67,7 +67,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
         );
     }
 
-    private getDirectoryResponder(path: ClientRequestPathname) {
+    private getDirectoryResponder(path: ClientRequestUrl) {
         return this._path.getMathFile(path).then((path) => {
             if (!path) {
                 return null;

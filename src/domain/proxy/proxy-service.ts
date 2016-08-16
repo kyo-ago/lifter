@@ -1,10 +1,9 @@
-import {ServerResponse} from "http";
+import {ServerResponse, IncomingMessage} from "http";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
-import {Url} from "url";
-import {IncomingMessage} from "http";
+import {ClientRequestUrl} from "../client-request/client-request-url";
+import {ClientRequestRepository} from "../client-request/client-request-repository";
 
 const http = require('http');
-const NodeUrl = require('url');
 const net = require('net');
 
 const Proxy = require('http-mitm-proxy');
@@ -16,7 +15,10 @@ declare class Buffer {
 export class ProxyService {
     private HTTP_PORT = 8080;
 
-    constructor(private autoResponderEntryRepository: AutoResponderEntryRepository) {
+    constructor(
+        private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private clientRequestRepository: ClientRequestRepository,
+    ) {
     }
 
     createServer() {
@@ -29,9 +31,10 @@ export class ProxyService {
             let host = ctx.clientToProxyRequest.headers.host;
             let url = ctx.clientToProxyRequest.url;
             let href = `http${encrypted ? `s` : ``}://${host}${url}`;
-            let reqestUrl = NodeUrl.parse(href);
 
-            this.autoResponderEntryRepository.findMatchEntry(reqestUrl.pathname).then((result) => {
+            let clientRequestUrl = new ClientRequestUrl(href);
+            this.clientRequestRepository.storeRequest(clientRequestUrl);
+            this.autoResponderEntryRepository.findMatchEntry(clientRequestUrl).then((result) => {
                 if (!result) {
                     return callback();
                 }
