@@ -1,6 +1,3 @@
 node_modules/
-build/
-domain/
-ui/
-*.js
 .http-mitm-proxy/
+*.js
