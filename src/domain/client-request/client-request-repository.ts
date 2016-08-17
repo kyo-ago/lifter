@@ -11,7 +11,7 @@ export class ClientRequestRepository extends OnMemoryRepository<ClientRequestIde
 
     constructor() {
         super();
-        this.subject = new Rx.Subject();
+        this.subject = new Rx.Subject<ClientRequestEntity>();
         this.observer = this.subject.asObservable();
     }
 

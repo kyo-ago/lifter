@@ -15,7 +15,7 @@ window.addEventListener("dragleave", (e) => e.preventDefault());
 window.addEventListener("drop", (e) => e.preventDefault());
 document.body.addEventListener("dragend", (e) => e.preventDefault());
 
-let subject = new Rx.Subject();
+let subject = new Rx.Subject<DragEvent>();
 window.addEventListener("drop", (e) => subject.next(e));
 subject.asObservable().subscribe((e) => {
     autoResponderEntryRepository.storeFilesList(Array.from(e.dataTransfer.files));

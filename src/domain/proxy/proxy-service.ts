@@ -33,7 +33,7 @@ export class ProxyService {
             let href = `http${encrypted ? `s` : ``}://${host}${url}`;
 
             let clientRequestUrl = new ClientRequestUrl(href);
-            this.clientRequestRepository.storeRequest(clientRequestUrl);
+            this.clientRequestRepository.storeRequest
             this.autoResponderEntryRepository.findMatchEntry(clientRequestUrl).then((result) => {
                 if (!result) {
                     return callback();
