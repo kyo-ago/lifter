@@ -2,7 +2,8 @@ import * as Rx from "@reactivex/rxjs/dist/es6/Rx"
 import {AutoResponderEntryRepository} from "./domain/auto-responder-entry/auto-responder-entry-repository";
 import {ProxyService} from "./domain/proxy/proxy-service";
 
-import {Render} from "./ui/render";
+import "./ui/render";
+
 import {ClientRequestRepository} from "./domain/client-request/client-request-repository";
 import {ClientRequestEntity} from "./domain/client-request/client-request-entity";
 

@@ -4,7 +4,7 @@ import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../client-request/client-request-url";
-import {AutoResponderBoxEntry} from "../../ui/auto-responder-box";
+import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";
 
 export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
     storeFilesList(files: File[]) {

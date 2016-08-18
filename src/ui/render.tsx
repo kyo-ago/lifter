@@ -1,11 +1,14 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import {Provider} from 'react-redux';
+import {configureStore} from './store/index';
+import App from './containers/index';
 
-import {AutoResponderBox} from "./auto-responder-box";
+const store = configureStore();
 
-export function Render(files: any) {
-    ReactDOM.render(
-        <AutoResponderBox entries={files} />,
-        document.getElementById('main')
-    );
-}
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('main')
+);
