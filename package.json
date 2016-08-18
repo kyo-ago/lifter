@@ -2,6 +2,8 @@
   "name": "lifter",
   "description": "Electron Local Proxy for Fiddler users",
   "version": "0.0.1",
+  "author": "@kyo_ago",
+  "bugs": "https://github.com/kyo-ago/lifter/issues",
   "dependencies": {
     "@reactivex/rxjs": "^5.0.0-beta.11",
     "http-mitm-proxy": "^0.5.1",
@@ -17,11 +19,17 @@
     "@types/node": "^4.0.30",
     "@types/react": "^0.14.28",
     "@types/react-dom": "^0.14.14",
-    "electron-prebuilt": "^1.2.8",
+    "electron": "^1.3.3",
     "fixpack": "^2.3.1",
     "mocha": "^3.0.0",
     "typescript": "^2.0.0"
   },
+  "homepage": "https://github.com/kyo-ago/lifter/",
+  "keywords": [
+    "electron",
+    "local proxy",
+    "proxy"
+  ],
   "license": "GPL-3.0",
   "main": "build/index.js",
   "repository": "kyo-ago/lifter",
