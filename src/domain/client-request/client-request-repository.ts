@@ -1,4 +1,4 @@
-import * as Rx from "@reactivex/rxjs/dist/es6/Rx"
+import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 import {OnMemoryRepository} from "typescript-dddbase";
 import {ClientRequestIdentity} from "./client-request-identity";
 import {ClientRequestEntity} from "./client-request-entity";

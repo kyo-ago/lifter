@@ -11,7 +11,7 @@ let initialState: AppState = {
     clientRequestEntries: <ClientRequestEntity[]>[],
 };
 
-export function reducer(state = initialState, action): AppState {
+export function reducer(state = initialState, action: any): AppState {
     switch(action.type) {
         case 'INCREMENT': {
             return initialState;

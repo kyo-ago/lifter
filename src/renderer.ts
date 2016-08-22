@@ -1,4 +1,4 @@
-import * as Rx from "@reactivex/rxjs/dist/es6/Rx"
+import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 import {AutoResponderEntryRepository} from "./domain/auto-responder-entry/auto-responder-entry-repository";
 import {ProxyService} from "./domain/proxy/proxy-service";
 
@@ -21,7 +21,7 @@ window.addEventListener("drop", (e) => subject.next(e));
 subject.asObservable().subscribe((e) => {
     autoResponderEntryRepository.storeFilesList(Array.from(e.dataTransfer.files));
     autoResponderEntryRepository.getFilesList().then((files) => {
-        Render(files);
+//        Render(files);
     });
 });
 clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestEntity) => {

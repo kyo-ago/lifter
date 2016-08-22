@@ -11,7 +11,7 @@ export class AutoResponderBox extends React.Component<{
     entries: AutoResponderBoxEntry[]
 }, {}> {
     render() {
-        let entries = this.props.entries.map((entry: AutoResponderBoxEntry) => {
+        let entries = (this.props.entries || []).map((entry: AutoResponderBoxEntry) => {
             return (
                 <div key={entry.id}>
                     <span>{entry.pattern}</span>
