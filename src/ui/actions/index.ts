@@ -1,5 +1,8 @@
+export const INIT_LOAD = 'INIT_LOAD';
 export default {
-    increment: () => {
-        return { type: 'INCREMENT' }
+    initLoad: () => {
+        return {
+            type: INIT_LOAD
+        };
     }
 }
