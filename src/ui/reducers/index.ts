@@ -1,5 +1,6 @@
 import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
+import {INIT_LOAD} from "../actions/index";
 
 interface AppState {
     autoResponderEntries: AutoResponderEntryEntity[];
@@ -13,7 +14,7 @@ let initialState: AppState = {
 
 export function reducer(state = initialState, action: any): AppState {
     switch(action.type) {
-        case 'INCREMENT': {
+        case INIT_LOAD: {
             return initialState;
         }
         default:
