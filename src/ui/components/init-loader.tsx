@@ -8,11 +8,13 @@ import {ProxyService} from "../../domain/proxy/proxy-service";
 
 export class InitLoader extends React.Component<any, any> {
     static propTypes = {
-        onLoad: React.PropTypes.func.isRequired
+        onLoad: React.PropTypes.func.isRequired,
+        onFileDrop: React.PropTypes.func.isRequired,
+        onClientRequest: React.PropTypes.func.isRequired
     };
 
     componentWillMount() {
-        const { onLoad } = this.props;
+        const { onLoad, onFileDrop, onClientRequest } = this.props;
 
         let autoResponderEntryRepository = new AutoResponderEntryRepository();
         let clientRequestRepository      = new ClientRequestRepository();
@@ -28,11 +30,11 @@ export class InitLoader extends React.Component<any, any> {
         subject.asObservable().subscribe((e) => {
             autoResponderEntryRepository.storeFilesList(Array.from(e.dataTransfer.files));
             autoResponderEntryRepository.getFilesList().then((files) => {
-                // file list render
+                onFileDrop(files);
             });
         });
         clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestEntity) => {
-            // connection list render
+            onClientRequest(clientRequestEntity);
         });
 
         proxyService.createServer();
