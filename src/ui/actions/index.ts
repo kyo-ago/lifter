@@ -11,7 +11,7 @@ export default {
             type: INIT_LOAD
         };
     },
-    fileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry[]) => {
+    fileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry) => {
         return {
             type: FILE_DROP,
             autoResponderBoxEntry

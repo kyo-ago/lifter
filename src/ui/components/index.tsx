@@ -1,13 +1,20 @@
 import * as React from "react";
 import {connect} from 'react-redux'
-import {AutoResponderBox, AutoResponderBoxEntry} from './auto-responder-box'
+import {AutoResponderBoxEntry, AutoResponderBox} from './auto-responder-box'
 import {InitLoader} from './init-loader'
 import AppActions from '../actions/index'
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 
-class App extends React.Component<any, any> {
+interface AppProps {
+    onLoad: Function;
+    onFileDrop: Function;
+    onClientRequest: Function;
+}
+
+class App extends React.Component<AppProps, any> {
     render() {
         return <div>
+            <AutoResponderBox />
             <InitLoader
                 onLoad={this.props.onLoad.bind(this)}
                 onFileDrop={this.props.onFileDrop.bind(this)}
@@ -26,7 +33,7 @@ function mapDispatchToProps(dispatch: any) {
         onLoad: () => {
             dispatch(AppActions.initLoad());
         },
-        onFileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry[]) => {
+        onFileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry) => {
             dispatch(AppActions.fileDrop(autoResponderBoxEntry));
         },
         onClientRequest: (clientRequestEntity: ClientRequestEntity) => {

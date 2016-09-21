@@ -18,7 +18,9 @@ export function reducer(state = initialState, action: any): AppState {
             return Object.assign({}, state, {});
         }
         case AppActions.FILE_DROP: {
-            return Object.assign({}, state, {});
+            return Object.assign({}, state, {
+                autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderBoxEntry)
+            });
         }
         case AppActions.CLIENT_REQUEST: {
             return Object.assign({}, state, {});

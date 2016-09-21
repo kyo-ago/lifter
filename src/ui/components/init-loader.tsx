@@ -5,6 +5,7 @@ import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/au
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import {ProxyService} from "../../domain/proxy/proxy-service";
+import {AutoResponderBoxEntry} from "./auto-responder-box";
 
 export class InitLoader extends React.Component<any, any> {
     static propTypes = {
@@ -29,9 +30,9 @@ export class InitLoader extends React.Component<any, any> {
         window.addEventListener("drop", (e) => subject.next(e));
         subject.asObservable().subscribe((e) => {
             autoResponderEntryRepository.storeFilesList(Array.from(e.dataTransfer.files));
-            autoResponderEntryRepository.getFilesList().then((files) => {
-                onFileDrop(files);
-            });
+        });
+        autoResponderEntryRepository.observer.subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
+            onFileDrop(autoResponderBoxEntry);
         });
         clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestEntity) => {
             onClientRequest(clientRequestEntity);

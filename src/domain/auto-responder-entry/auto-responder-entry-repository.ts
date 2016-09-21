@@ -1,3 +1,4 @@
+import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 import {OnMemoryRepository} from "typescript-dddbase";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
@@ -7,8 +8,28 @@ import {ClientRequestUrl} from "../client-request/client-request-url";
 import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";
 
 export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
+    public observer: Rx.Observable<AutoResponderBoxEntry>;
+    private subject: Rx.Subject<AutoResponderBoxEntry>;
+
+    constructor() {
+        super();
+        this.subject = new Rx.Subject<AutoResponderBoxEntry>();
+        this.observer = this.subject.asObservable();
+    }
+
     storeFilesList(files: File[]) {
-        files.map((file) => this.store(AutoResponderEntryFactory.createFromFile(file)));
+        files
+            .map((file) => this.store(AutoResponderEntryFactory.createFromFile(file)))
+            .forEach((entity) => {
+                let entry = {
+                    id: entity.id,
+                    pattern: entity.pattern,
+                    path: entity.path,
+                    type: entity.type,
+                };
+                this.subject.next(entry);
+            })
+        ;
     }
     findMatchEntry(clientRequestPathname: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return Object.keys(this.entities).reduce((promise, key) => {
@@ -17,24 +38,5 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
                 return result || entity.getMatchResponder(clientRequestPathname);
             });
         }, Promise.resolve(null));
-    }
-    getFilesList(): Promise<AutoResponderBoxEntry[]> {
-        return new Promise((resolve) => {
-            let sortedValues = Object.keys(this.entities)
-                .map(_ => Number(_))
-                .sort()
-                .map(_ => this.entities[_])
-            ;
-            let entries = sortedValues.reduce((base: AutoResponderBoxEntry[], entity: AutoResponderEntryEntity) => {
-                base.push({
-                    id: entity.id,
-                    pattern: entity.pattern,
-                    path: entity.path,
-                    type: entity.type,
-                });
-                return base;
-            }, <AutoResponderBoxEntry[]>[]);
-            resolve(entries);
-        });
     }
 }
