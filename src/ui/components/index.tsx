@@ -4,8 +4,9 @@ import {AutoResponderBoxEntry, AutoResponderBox} from './auto-responder-box'
 import {InitLoader} from './init-loader'
 import AppActions from '../actions/index'
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
+import {AppState} from "../reducers/index";
 
-interface AppProps {
+interface AppProps extends AppState {
     onLoad: Function;
     onFileDrop: Function;
     onClientRequest: Function;
@@ -14,7 +15,7 @@ interface AppProps {
 class App extends React.Component<AppProps, any> {
     render() {
         return <div>
-            <AutoResponderBox />
+            <AutoResponderBox entries={this.props.autoResponderEntries} />
             <InitLoader
                 onLoad={this.props.onLoad.bind(this)}
                 onFileDrop={this.props.onFileDrop.bind(this)}

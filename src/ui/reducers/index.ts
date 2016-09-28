@@ -2,7 +2,7 @@ import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-r
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import * as AppActions from "../actions/index";
 
-interface AppState {
+export interface AppState {
     autoResponderEntries: AutoResponderEntryEntity[];
     clientRequestEntries: ClientRequestEntity[];
 }
