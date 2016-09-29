@@ -1,9 +1,3 @@
-export class AutoResponderEntryType {
-    constructor(
-        private _value: string
-    ) {}
-
-    get value() {
-        return this._value;
-    }
+import {BaseValueObject} from "../base/value-object";
+export class AutoResponderEntryType extends BaseValueObject<string> {
 }

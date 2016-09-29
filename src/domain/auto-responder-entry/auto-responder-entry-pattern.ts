@@ -1,18 +1,16 @@
 import {ClientRequestUrl} from "../client-request/client-request-url";
-export class AutoResponderEntryPattern {
+import {BaseValueObject} from "../base/value-object";
+export class AutoResponderEntryPattern extends BaseValueObject<string> {
     private regExp: RegExp;
 
     constructor(
-        private _value: string
+        _value: string
     ) {
+        super(_value);
         this.regExp = new RegExp(`/${this._value}(/|$)`);
     }
 
     isMatch(path: ClientRequestUrl) {
         return this.regExp.test(path.getPathname());
-    }
-
-    get value() {
-        return this._value;
     }
 }

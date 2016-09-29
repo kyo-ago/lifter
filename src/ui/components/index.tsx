@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {AutoResponderBoxEntry, AutoResponderBox} from './auto-responder-box'
 import {InitLoader} from './init-loader'
 import AppActions from '../actions/index'
-import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import {AppState} from "../reducers/index";
+import {ClientRequestBox, ClientRequestBoxEntry} from "./client-request-box";
 
 interface AppProps extends AppState {
     onLoad: Function;
@@ -16,6 +16,7 @@ class App extends React.Component<AppProps, any> {
     render() {
         return <div>
             <AutoResponderBox entries={this.props.autoResponderEntries} />
+            <ClientRequestBox entries={this.props.clientRequestEntries} />
             <InitLoader
                 onLoad={this.props.onLoad.bind(this)}
                 onFileDrop={this.props.onFileDrop.bind(this)}
@@ -37,7 +38,7 @@ function mapDispatchToProps(dispatch: any) {
         onFileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry) => {
             dispatch(AppActions.fileDrop(autoResponderBoxEntry));
         },
-        onClientRequest: (clientRequestEntity: ClientRequestEntity) => {
+        onClientRequest: (clientRequestEntity: ClientRequestBoxEntry) => {
             dispatch(AppActions.clientRequest(clientRequestEntity));
         }
     }

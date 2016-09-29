@@ -5,12 +5,16 @@ import {ClientRequestUrl} from "./client-request-url";
 export class ClientRequestEntity extends Entity<ClientRequestIdentity> {
     constructor(
         identity: ClientRequestIdentity,
-        url: ClientRequestUrl,
+        private _url: ClientRequestUrl,
     ) {
         super(identity);
     }
 
     get id() {
         return this.getIdentity().getValue();
+    }
+
+    get url() {
+        return this._url.value;
     }
 }

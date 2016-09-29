@@ -1,15 +1,15 @@
 import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
-import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import * as AppActions from "../actions/index";
+import {ClientRequestBoxEntry} from "../components/client-request-box";
 
 export interface AppState {
     autoResponderEntries: AutoResponderEntryEntity[];
-    clientRequestEntries: ClientRequestEntity[];
+    clientRequestEntries: ClientRequestBoxEntry[];
 }
 
 let initialState: AppState = {
     autoResponderEntries: <AutoResponderEntryEntity[]>[],
-    clientRequestEntries: <ClientRequestEntity[]>[],
+    clientRequestEntries: <ClientRequestBoxEntry[]>[],
 };
 
 export function reducer(state = initialState, action: any): AppState {
@@ -23,7 +23,9 @@ export function reducer(state = initialState, action: any): AppState {
             });
         }
         case AppActions.CLIENT_REQUEST: {
-            return Object.assign({}, state, {});
+            return Object.assign({}, state, {
+                clientRequestEntries: state.clientRequestEntries.concat(action.clientRequestEntity)
+            });
         }
         default:
             return state;

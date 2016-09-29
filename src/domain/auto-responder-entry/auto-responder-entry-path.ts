@@ -1,17 +1,10 @@
 import {Stats} from "fs";
 import {ClientRequestUrl} from "../client-request/client-request-url";
+import {BaseValueObject} from "../base/value-object";
 const Path = require('path');
 const fs = require('fs');
 
-export class AutoResponderEntryPath {
-    constructor(
-        private _value: string
-    ) {}
-
-    get value() {
-        return this._value;
-    }
-
+export class AutoResponderEntryPath extends BaseValueObject<string> {
     getState(): Promise<Stats> {
         return new Promise((resolve, reject) => {
             fs.stat(this._value, (err: any, stats: Stats) => {

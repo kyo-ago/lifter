@@ -1,16 +1,14 @@
 import {Url} from "url";
+import {BaseValueObject} from "../base/value-object";
 const NodeUrl = require('url');
 
-export class ClientRequestUrl {
+export class ClientRequestUrl extends BaseValueObject<string> {
     private reqestUrl: Url
     constructor(
-        private value: string,
+        _value: string,
     ) {
-        this.reqestUrl = NodeUrl.parse(value);
-    }
-
-    getValue() {
-        return this.value;
+        super(_value);
+        this.reqestUrl = NodeUrl.parse(_value);
     }
 
     getPathname() {

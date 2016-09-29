@@ -4,20 +4,24 @@ import {ClientRequestIdentity} from "./client-request-identity";
 import {ClientRequestEntity} from "./client-request-entity";
 import {ClientRequestUrl} from "./client-request-url";
 import {ClientRequestFactory} from "./client-request-factory";
+import {ClientRequestBoxEntry} from "../../ui/components/client-request-box";
 
 export class ClientRequestRepository extends OnMemoryRepository<ClientRequestIdentity, ClientRequestEntity> {
-    public observer: Rx.Observable<ClientRequestEntity>;
-    private subject: Rx.Subject<ClientRequestEntity>;
+    public observer: Rx.Observable<ClientRequestBoxEntry>;
+    private subject: Rx.Subject<ClientRequestBoxEntry>;
 
     constructor() {
         super();
-        this.subject = new Rx.Subject<ClientRequestEntity>();
+        this.subject = new Rx.Subject<ClientRequestBoxEntry>();
         this.observer = this.subject.asObservable();
     }
 
     storeRequest(clientRequestUrl: ClientRequestUrl) {
-        let clientRequestEntity = ClientRequestFactory.create(clientRequestUrl);
-        this.store(clientRequestEntity);
-        this.subject.next(clientRequestEntity);
+        let entity = ClientRequestFactory.create(clientRequestUrl);
+        this.store(entity);
+        this.subject.next({
+            id: entity.id,
+            url: entity.url
+        });
     }
 }

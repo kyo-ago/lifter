@@ -1,5 +1,5 @@
 import {AutoResponderBoxEntry} from "../components/auto-responder-box";
-import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
+import {ClientRequestBoxEntry} from "../components/client-request-box";
 
 export const INIT_LOAD      = 'INIT_LOAD';
 export const FILE_DROP      = 'FILE_DROP';
@@ -17,7 +17,7 @@ export default {
             autoResponderBoxEntry
         };
     },
-    clientRequest: (clientRequestEntity: ClientRequestEntity) => {
+    clientRequest: (clientRequestEntity: ClientRequestBoxEntry) => {
         return {
             type: CLIENT_REQUEST,
             clientRequestEntity

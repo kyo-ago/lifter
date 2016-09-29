@@ -3,9 +3,9 @@ import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 
 import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/auto-responder-entry-repository";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
-import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import {ProxyService} from "../../domain/proxy/proxy-service";
 import {AutoResponderBoxEntry} from "./auto-responder-box";
+import {ClientRequestBoxEntry} from "./client-request-box";
 
 export class InitLoader extends React.Component<any, any> {
     static propTypes = {
@@ -34,7 +34,7 @@ export class InitLoader extends React.Component<any, any> {
         autoResponderEntryRepository.observer.subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
             onFileDrop(autoResponderBoxEntry);
         });
-        clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestEntity) => {
+        clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
             onClientRequest(clientRequestEntity);
         });
 
