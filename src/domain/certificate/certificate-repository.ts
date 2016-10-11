@@ -38,10 +38,6 @@ export class CertificateRepository extends OnMemoryRepository<CertificateIdentit
         let name = keychainEntity.name;
         let path = this.certificatePath;
         return execCommand(`add-trusted-cert -k ${name} ${path}`, (resolve, reject, { error, stdout, stderr }) => {
-            if (stderr && stderr.match(/Unable to delete certificate matching/)) {
-                // missing Certificate
-                resolve(stderr);
-            }
             if (error !== null || stderr) {
                 reject(`${error}, ${stderr}`);
             }
