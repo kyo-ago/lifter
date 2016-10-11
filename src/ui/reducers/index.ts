@@ -1,15 +1,18 @@
 import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
 import * as AppActions from "../actions/index";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
+import {CertificateBoxStatus} from "../components/cetificate-box";
 
 export interface AppState {
     autoResponderEntries: AutoResponderEntryEntity[];
     clientRequestEntries: ClientRequestBoxEntry[];
+    certificateBoxStatus: CertificateBoxStatus;
 }
 
 let initialState: AppState = {
     autoResponderEntries: <AutoResponderEntryEntity[]>[],
     clientRequestEntries: <ClientRequestBoxEntry[]>[],
+    certificateBoxStatus: "missing",
 };
 
 export function reducer(state = initialState, action: any): AppState {
@@ -25,6 +28,11 @@ export function reducer(state = initialState, action: any): AppState {
         case AppActions.CLIENT_REQUEST: {
             return Object.assign({}, state, {
                 clientRequestEntries: state.clientRequestEntries.concat(action.clientRequestEntity)
+            });
+        }
+        case AppActions.CHANGE_CERTIFICATE_STATUS: {
+            return Object.assign({}, state, {
+                certificateBoxStatus: action.certificateBoxStatus
             });
         }
         default:

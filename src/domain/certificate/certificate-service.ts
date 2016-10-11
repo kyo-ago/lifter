@@ -13,7 +13,7 @@ export class CertificateService {
     installCertificate() {
         return this.keychainRepository.getKeychain().then((keychainEntity: KeychainEntity) => {
             return this.certificateRepository.registerCertificate(keychainEntity);
-        });
+        }).then((result: string) => !!result);
     }
 
     deleteCertificate() {

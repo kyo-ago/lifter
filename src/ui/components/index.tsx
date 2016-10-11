@@ -5,11 +5,13 @@ import {InitLoader} from './init-loader'
 import AppActions from '../actions/index'
 import {AppState} from "../reducers/index";
 import {ClientRequestBox, ClientRequestBoxEntry} from "./client-request-box";
+import {CertificateBox, CertificateBoxStatus} from "./cetificate-box";
 
 interface AppProps extends AppState {
     onLoad: Function;
     onFileDrop: Function;
     onClientRequest: Function;
+    onChangeCertificateStatus: Function;
 }
 
 class App extends React.Component<AppProps, any> {
@@ -17,6 +19,10 @@ class App extends React.Component<AppProps, any> {
         return <div>
             <AutoResponderBox entries={this.props.autoResponderEntries} />
             <ClientRequestBox entries={this.props.clientRequestEntries} />
+            <CertificateBox
+                status={this.props.certificateBoxStatus}
+                onChangeStatus={this.props.onChangeCertificateStatus.bind(this)}
+            />
             <InitLoader
                 onLoad={this.props.onLoad.bind(this)}
                 onFileDrop={this.props.onFileDrop.bind(this)}
@@ -40,11 +46,14 @@ function mapDispatchToProps(dispatch: any) {
         },
         onClientRequest: (clientRequestEntity: ClientRequestBoxEntry) => {
             dispatch(AppActions.clientRequest(clientRequestEntity));
-        }
+        },
+        onChangeCertificateStatus: (certificateBoxStatus: CertificateBoxStatus) => {
+            dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+        },
     }
 }
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
 )(App);

@@ -1,47 +1,47 @@
 import {OnMemoryRepository} from "typescript-dddbase";
-import {CertificateIdentity, CertificateIdentity} from "./certificate-identity";
+import {CertificateIdentity} from "./certificate-identity";
 import {CertificateEntity} from "./certificate-entity";
 import {KeychainEntity} from "../keychain/keychain-entity";
-import {execCommand} from "../../libs/execCommand";
+import {execCommand, IOResult} from "../../libs/execCommand";
 
 export class CertificateRepository extends OnMemoryRepository<CertificateIdentity, CertificateEntity> {
     private certificateName = 'NodeMITMProxyCA';
     private certificatePath = '.http-mitm-proxy/certs/ca.pem';
 
-    findCertificate() {
-        return execCommand(`find-certificate -c ${this.certificateName}`, (resolve, reject, { error, stdout, stderr }) => {
+    findCertificate(): Promise<string> {
+        return execCommand([`find-certificate -c ${this.certificateName}`]).then(({stdout, stderr}: IOResult) => {
             if (stderr && stderr.match(/SecKeychainSearchCopyNext/)) {
                 // missing Certificate
-                resolve();
+                return Promise.resolve();
             }
-            if (error !== null || stderr) {
-                reject(`${error}, ${stderr}`);
+            if (stderr) {
+                return Promise.reject(stderr);
             }
-            resolve(stdout);
+            return Promise.resolve(stdout);
         });
     }
 
-    deleteCertificate() {
-        return execCommand(`delete-certificate -c ${this.certificateName}`, (resolve, reject, { error, stdout, stderr }) => {
+    deleteCertificate(): Promise<string> {
+        return execCommand([`delete-certificate -c ${this.certificateName}`]).then(({stdout, stderr}: IOResult) => {
             if (stderr && stderr.match(/Unable to delete certificate matching/)) {
                 // missing Certificate
-                resolve(stderr);
+                return Promise.resolve();
             }
-            if (error !== null || stderr) {
-                reject(`${error}, ${stderr}`);
+            if (stderr) {
+                return Promise.reject(stderr);
             }
-            resolve(stdout);
+            return Promise.resolve(stdout);
         });
     }
 
-    registerCertificate(keychainEntity: KeychainEntity) {
+    registerCertificate(keychainEntity: KeychainEntity): Promise<string> {
         let name = keychainEntity.name;
         let path = this.certificatePath;
-        return execCommand(`add-trusted-cert -k ${name} ${path}`, (resolve, reject, { error, stdout, stderr }) => {
-            if (error !== null || stderr) {
-                reject(`${error}, ${stderr}`);
+        return execCommand([`add-trusted-cert -k ${name} ${path}`]).then(({stdout, stderr}: IOResult) => {
+            if (stderr) {
+                return Promise.reject(stderr);
             }
-            resolve(stdout);
+            return Promise.resolve(stdout);
         });
     }
 }

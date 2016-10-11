@@ -8,7 +8,7 @@ export interface AutoResponderBoxEntry {
 }
 
 export class AutoResponderBox extends React.Component<{
-    entries: AutoResponderBoxEntry[]
+    entries: AutoResponderBoxEntry[];
 }, {}> {
     render() {
         let entries = (this.props.entries || []).map((entry: AutoResponderBoxEntry) => {

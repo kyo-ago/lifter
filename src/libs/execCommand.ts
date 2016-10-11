@@ -1,16 +1,17 @@
-const execFile = require('child_process').execFile;
+const exec = require('child_process').exec;
 
-export function execCommand (
-    param: string,
-    callback: (
-        resolve: Function,
-        reject: Function,
-        result: {error: string, stdout: string, stderr: string}
-    ) => void
-) {
+export interface IOResult {
+    stdout: string;
+    stderr: string;
+}
+
+export function execCommand(param: string[]) {
     return new Promise((resolve, reject) => {
-        (<any>execFile)('/usr/bin/security', param, (error, stdout, stderr) => {
-            callback(resolve, reject, { error, stdout, stderr });
+        (<any>exec)('/usr/bin/security ' + param.join(''), (error: string, stdout: string, stderr: string) => {
+            if (error && !stderr) {
+                return reject(error);
+            }
+            resolve({stdout, stderr});
         });
     });
 }

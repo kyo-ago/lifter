@@ -6,7 +6,7 @@ export interface ClientRequestBoxEntry {
 }
 
 export class ClientRequestBox extends React.Component<{
-    entries: ClientRequestBoxEntry[]
+    entries: ClientRequestBoxEntry[];
 }, {}> {
     render() {
         let entries = (this.props.entries || []).map((entry: ClientRequestBoxEntry) => {

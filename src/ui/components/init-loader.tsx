@@ -7,7 +7,11 @@ import {ProxyService} from "../../domain/proxy/proxy-service";
 import {AutoResponderBoxEntry} from "./auto-responder-box";
 import {ClientRequestBoxEntry} from "./client-request-box";
 
-export class InitLoader extends React.Component<any, any> {
+export class InitLoader extends React.Component<{
+    onLoad: () => void;
+    onFileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry) => void;
+    onClientRequest: (clientRequestEntity: ClientRequestBoxEntry) => void;
+}, any> {
     static propTypes = {
         onLoad: React.PropTypes.func.isRequired,
         onFileDrop: React.PropTypes.func.isRequired,
