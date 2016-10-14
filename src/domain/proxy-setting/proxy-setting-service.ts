@@ -1,4 +1,4 @@
-import {execNetworkCommand, IOResult} from "../../libs/execCommand";
+import {execNetworkCommand, IOResult, execSuNetworkCommand} from "../../libs/execCommand";
 
 export class ProxySettingService {
     enableProxy() {
@@ -6,11 +6,11 @@ export class ProxySettingService {
             if (stderr) {
                 return Promise.reject(stderr);
             }
-            let devics = stderr.split(/\r?\n/);
-            devics.shift();
-            return Promise.resolve(devics);
-        }).then((devics) => {
-            
+            let devices = stderr.split(/\r?\n/);
+            devices.shift();
+            return Promise.resolve(devices);
+        }).then((devices) => {
+            return Promise.all(devices.map((device) => execSuNetworkCommand([`-setwebproxy ${device} localhost 8000`])));
         });
     }
     disableProxy() {

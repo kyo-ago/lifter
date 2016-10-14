@@ -1,4 +1,7 @@
 const exec = require('child_process').exec;
+import Sudoer from 'electron-sudo';
+
+const sudoer = new Sudoer({name: 'electron sudo application'});
 
 export interface IOResult {
     stdout: string;
@@ -22,4 +25,10 @@ export function execSecurityCommand(param: string[]) {
 
 export function execNetworkCommand(param: string[]) {
     return execCommand('/usr/sbin/networksetup', param);
+}
+
+export function execSuNetworkCommand(param: string[]) {
+    return sudoer.exec(
+        `/usr/sbin/networksetup ${param.join(' ')}`
+    ).then(({stdout, stderr}) => ({stdout, stderr}));
 }
