@@ -2,6 +2,7 @@ import {ServerResponse, IncomingMessage} from "http";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
 import {ClientRequestUrl} from "../client-request/client-request-url";
 import {ClientRequestRepository} from "../client-request/client-request-repository";
+import {PROXY_PORT} from "../settings";
 
 const http = require('http');
 const net = require('net');
@@ -13,8 +14,6 @@ declare class Buffer {
 }
 
 export class ProxyService {
-    private HTTP_PORT = 8080;
-
     constructor(
         private autoResponderEntryRepository: AutoResponderEntryRepository,
         private clientRequestRepository: ClientRequestRepository,
@@ -46,7 +45,7 @@ export class ProxyService {
         });
 
         proxy.listen({
-            port: this.HTTP_PORT,
+            port: PROXY_PORT,
             silent: true
         }, (err: any) => {
             if (err) {
