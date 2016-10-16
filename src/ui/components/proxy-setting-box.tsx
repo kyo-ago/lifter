@@ -10,19 +10,19 @@ export class ProxySettingBox extends React.Component<{
     private ProxySettingService = new ProxySettingService();
 
     componentWillMount() {
-        this.ProxySettingService.hasProxySetting().then((result) => {
-            this.props.onChangeStatus(result ? "installed" : "missing");
+        this.ProxySettingService.hasProxy().then((result) => {
+            this.props.onChangeStatus(result ? "On" : "Off");
         });
     }
 
     onClick() {
-        if (this.props.status === "missing") {
-            this.ProxySettingService.installProxySetting().then(() => {
-                this.props.onChangeStatus("installed");
+        if (this.props.status === "Off") {
+            this.ProxySettingService.enableProxy().then(() => {
+                this.props.onChangeStatus("On");
             });
         } else {
-            this.ProxySettingService.deleteProxySetting().then(() => {
-                this.props.onChangeStatus("missing");
+            this.ProxySettingService.disableProxy().then(() => {
+                this.props.onChangeStatus("Off");
             });
         }
     }
@@ -30,8 +30,8 @@ export class ProxySettingBox extends React.Component<{
     render() {
         return (
             <div className="status" onClick={this.onClick.bind(this)}>
-        {this.props.status}
-        </div>
-    );
+                {this.props.status}
+            </div>
+        );
     }
 }

@@ -6,12 +6,14 @@ import AppActions from '../actions/index'
 import {AppState} from "../reducers/index";
 import {ClientRequestBox, ClientRequestBoxEntry} from "./client-request-box";
 import {CertificateBox, CertificateBoxStatus} from "./cetificate-box";
+import {ProxySettingBox, ProxySettingBoxStatus} from "./proxy-setting-box";
 
 interface AppProps extends AppState {
     onLoad: Function;
     onFileDrop: Function;
     onClientRequest: Function;
     onChangeCertificateStatus: Function;
+    onChangeProxySettingStatus: Function;
 }
 
 class App extends React.Component<AppProps, any> {
@@ -22,6 +24,10 @@ class App extends React.Component<AppProps, any> {
             <CertificateBox
                 status={this.props.certificateBoxStatus}
                 onChangeStatus={this.props.onChangeCertificateStatus.bind(this)}
+            />
+            <ProxySettingBox
+                status={this.props.proxySettingBoxStatus}
+                onChangeStatus={this.props.onChangeProxySettingStatus.bind(this)}
             />
             <InitLoader
                 onLoad={this.props.onLoad.bind(this)}
@@ -49,6 +55,9 @@ function mapDispatchToProps(dispatch: any) {
         },
         onChangeCertificateStatus: (certificateBoxStatus: CertificateBoxStatus) => {
             dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+        },
+        onChangeProxySettingStatus: (proxySettingBoxStatus: ProxySettingBoxStatus) => {
+            dispatch(AppActions.changeProxySettingStatus(proxySettingBoxStatus));
         },
     }
 }

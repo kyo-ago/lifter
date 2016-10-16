@@ -2,17 +2,20 @@ import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-r
 import * as AppActions from "../actions/index";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
 import {CertificateBoxStatus} from "../components/cetificate-box";
+import {ProxySettingBoxStatus} from "../components/proxy-setting-box";
 
 export interface AppState {
     autoResponderEntries: AutoResponderEntryEntity[];
     clientRequestEntries: ClientRequestBoxEntry[];
     certificateBoxStatus: CertificateBoxStatus;
+    proxySettingBoxStatus: ProxySettingBoxStatus;
 }
 
 let initialState: AppState = {
     autoResponderEntries: <AutoResponderEntryEntity[]>[],
     clientRequestEntries: <ClientRequestBoxEntry[]>[],
     certificateBoxStatus: "missing",
+    proxySettingBoxStatus: "Off",
 };
 
 export function reducer(state = initialState, action: any): AppState {
@@ -33,6 +36,11 @@ export function reducer(state = initialState, action: any): AppState {
         case AppActions.CHANGE_CERTIFICATE_STATUS: {
             return Object.assign({}, state, {
                 certificateBoxStatus: action.certificateBoxStatus
+            });
+        }
+        case AppActions.CHANGE_PROXY_SETTING_STATUS: {
+            return Object.assign({}, state, {
+                proxySettingBoxStatus: action.proxySettingBoxStatus
             });
         }
         default:

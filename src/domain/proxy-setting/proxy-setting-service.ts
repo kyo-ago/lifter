@@ -6,7 +6,7 @@ export class ProxySettingService {
         return this.getNetworkDevices().then((devices) => {
             return Promise.all(devices.map((device) => {
                 return execNetworkCommand([`-getwebproxy ${device}`]).then(({stdout, stderr}: IOResult) => {
-                    let result = stdout.split(/\r?\n/).reduce((base, cur) => {
+                    let result: any = stdout.split(/\r?\n/).reduce((base: any, cur: string) => {
                         let [key, val] = cur.split(/\s*:\s*/);
                         base[key.toLowerCase()] = val;
                         return base;
@@ -44,7 +44,7 @@ export class ProxySettingService {
         });
     }
 
-    private getNetworkDevices() {
+    private getNetworkDevices(): Promise<string[]> {
         return execNetworkCommand([`-listallnetworkservices`]).then(({stdout, stderr}: IOResult) => {
             if (stderr) {
                 return Promise.reject(stderr);
