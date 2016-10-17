@@ -5,7 +5,7 @@ export class ProxySettingService {
     hasProxy() {
         return this.getNetworkDevices().then((devices) => {
             return Promise.all(devices.map((device) => {
-                return execNetworkCommand([`-getwebproxy ${device}`]).then(({stdout, stderr}: IOResult) => {
+                return execNetworkCommand([`-getwebproxy "${device}"`]).then(({stdout, stderr}: IOResult) => {
                     let result: any = stdout.split(/\r?\n/).reduce((base: any, cur: string) => {
                         let [key, val] = cur.split(/\s*:\s*/);
                         base[key.toLowerCase()] = val;
@@ -31,7 +31,7 @@ export class ProxySettingService {
     enableProxy() {
         return this.getNetworkDevices().then((devices) => {
             return Promise.all(devices.map((device) => {
-                return execSuNetworkCommand([`-setwebproxy ${device} localhost ${PROXY_PORT}`]);
+                return execSuNetworkCommand([`-setwebproxy "${device}" localhost ${PROXY_PORT}`]);
             }));
         });
     }
@@ -39,7 +39,7 @@ export class ProxySettingService {
     disableProxy() {
         return this.getNetworkDevices().then((devices) => {
             return Promise.all(devices.map((device) => {
-                return execSuNetworkCommand([`-setwebproxystate ${device} off`]);
+                return execSuNetworkCommand([`-setwebproxystate "${device}" off`]);
             }));
         });
     }
@@ -51,7 +51,7 @@ export class ProxySettingService {
             }
             let devices = stdout.split(/\r?\n/);
             devices.shift();
-            return Promise.resolve(devices);
+            return Promise.resolve(devices.filter(_ => _));
         });
     }
 }
