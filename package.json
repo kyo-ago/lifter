@@ -44,8 +44,10 @@
     "fix": "fixpack",
     "postbuild": "cp -a build/* . && rm -fr build",
     "pretest": "tsc -p ./tsconfig_test.json",
+    "preinstall": " curl -sSf https://static.rust-lang.org/rustup.sh | sh",
     "start": "electron .",
     "test": "mocha build/test/**/*.js",
+    "rust": "rustc proxy-setting.rs && ./proxy-setting aaa bbb",
     "watch": "tsc -p ./tsconfig.json --watch"
   }
 }
