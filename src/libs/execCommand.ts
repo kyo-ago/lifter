@@ -1,3 +1,6 @@
+import {PROXY_SETTING_COMMAND} from "../domain/settings";
+
+const fs = require('fs');
 const exec = require('child_process').exec;
 const Sudoer = require('electron-sudo');
 
@@ -28,7 +31,18 @@ export function execNetworkCommand(param: string[]) {
 }
 
 export function execSuNetworkCommand(param: string[]) {
-    return sudoer.exec(
-        `/usr/sbin/networksetup ${param.join(' ')}`
-    ).then(({stdout, stderr}: IOResult) => ({stdout, stderr}));
+    return sudoer.exec(`${PROXY_SETTING_COMMAND} ${param.join(' ')}`);
+}
+
+export function execGrantNetworkCommand() {
+    return new Promise((resolve, reject) => {
+        fs.chmod(PROXY_SETTING_COMMAND, `4755`, (err: any) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve();
+        });
+    }).then(() => {
+        return sudoer.exec(`chown 0:0 ${PROXY_SETTING_COMMAND}`);
+    });
 }
