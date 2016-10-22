@@ -38,7 +38,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
     getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return this.getMatchStats(path).then((stats: Stats | null) => {
             if (!stats) {
-                return null;
+                return Promise.resolve(null);
             }
             if (stats.isFile()) {
                 return this.getFileResponder(stats);
@@ -55,7 +55,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
             if (!this._pattern.isMatch(path)) {
                 return resolve(null);
             }
-            this._path.getState().then(resolve);
+            return this._path.getState();
         });
     }
 
