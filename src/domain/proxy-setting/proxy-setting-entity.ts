@@ -1,7 +1,7 @@
 import {Entity} from "typescript-dddbase";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./proxy-setting-devices";
-import {execGrantNetworkCommand, IOResult, execSuNetworkCommand} from "../../libs/execCommand";
+import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/execCommand";
 import {PROXY_PORT} from "../settings";
 
 export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
@@ -34,6 +34,30 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         return Promise.all(this.devices.map((device) => {
             return execSuNetworkCommand([`-setwebproxy "${device}" localhost ${PROXY_PORT}`]);
         }));
+    }
+
+    hasProxy() {
+        return Promise.all(this.devices.map((device) => {
+            return execNetworkCommand([`-getwebproxy "${device}"`]).then(({stdout, stderr}: IOResult) => {
+                let result: any = stdout.split(/\r?\n/).reduce((base: any, cur: string) => {
+                    let [key, val] = cur.split(/\s*:\s*/);
+                    base[key.toLowerCase()] = val;
+                    return base;
+                }, {});
+                if (result['enabled'] !== 'Yes') {
+                    return false;
+                }
+                if (result['server'] !== 'localhost') {
+                    return false;
+                }
+                if (result['port'] !== String(PROXY_PORT)) {
+                    return false;
+                }
+                return true;
+            });
+        })).then((results) => {
+            return results.find((result) => !result) === undefined;
+        });
     }
 
     disableProxy() {

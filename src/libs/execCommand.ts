@@ -31,7 +31,7 @@ export function execNetworkCommand(param: string[]) {
 }
 
 export function execSuNetworkCommand(param: string[]) {
-    return sudoer.exec(`${PROXY_SETTING_COMMAND} ${param.join(' ')}`);
+    return execCommand(PROXY_SETTING_COMMAND, param);
 }
 
 export function execGrantNetworkCommand() {
