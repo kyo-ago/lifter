@@ -1,5 +1,4 @@
 import * as React from "react";
-import {ProxySettingService} from "../../domain/proxy-setting/proxy-setting-service";
 import {ProxySettingRepository} from "../../domain/proxy-setting/proxy-setting-repository";
 import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entity";
 
@@ -13,9 +12,15 @@ export class ProxySettingBox extends React.Component<{
     private proxySettingEntity: ProxySettingEntity;
 
     componentWillMount() {
+        debugger;
         this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
             this.proxySettingEntity = proxySettingEntity;
-            this.props.onChangeStatus(this.proxySettingEntity.isGranted ? "Off" : "NoPermission");
+            if (!this.proxySettingEntity.isGranted) {
+                return this.props.onChangeStatus("NoPermission");
+            }
+            this.proxySettingEntity.hasProxy().then((result: boolean) => {
+                this.props.onChangeStatus(result ? "On" : "Off");
+            });
         });
     }
 
@@ -26,7 +31,9 @@ export class ProxySettingBox extends React.Component<{
             });
         } else if (this.props.status === "NoPermission") {
             this.proxySettingEntity.grantProxy().then(() => {
-                this.props.onChangeStatus("Off");
+                this.proxySettingEntity.hasProxy().then((result: boolean) => {
+                    this.props.onChangeStatus(result ? "On" : "Off");
+                });
             });
         } else {
             this.proxySettingEntity.disableProxy().then(() => {
