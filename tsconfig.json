@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "outDir": "./template-app/src/",
+    "outDir": "./template-app/",
     "module": "commonjs",
     "target": "es6",
     "rootDir": "./src/",

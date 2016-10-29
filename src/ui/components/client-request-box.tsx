@@ -11,14 +11,23 @@ export class ClientRequestBox extends React.Component<{
     render() {
         let entries = (this.props.entries || []).map((entry: ClientRequestBoxEntry) => {
             return (
-                <div key={entry.id}>
-                    <span>{entry.url}</span>
-                </div>
+                <tr key={entry.id}>
+                    <td>{entry.url}</td>
+                </tr>
             );
         });
         return (
-            <div className="entries">
-                {entries}
+            <div className="pane">
+                <table className="table-striped">
+                    <thead>
+                    <tr>
+                        <th>URL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {entries}
+                    </tbody>
+                </table>
             </div>
         );
     }

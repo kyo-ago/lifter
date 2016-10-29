@@ -13,16 +13,18 @@ export class AutoResponderBox extends React.Component<{
     render() {
         let entries = (this.props.entries || []).map((entry: AutoResponderBoxEntry) => {
             return (
-                <div key={entry.id}>
-                    <span>{entry.pattern}</span>
-                    <span>{entry.path}</span>
-                    <span>{entry.type}</span>
-                </div>
+                <span className="nav-group-item" key={entry.id}>
+                    <span className="icon icon-home"></span>
+                    connors
+                </span>
             );
         });
         return (
-            <div className="entries">
-                {entries}
+            <div className="pane pane-sm sidebar">
+                <nav className="nav-group">
+                    <h5 className="nav-group-title">Auto responder</h5>
+                    {entries}
+                </nav>
             </div>
         );
     }

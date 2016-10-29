@@ -6,9 +6,11 @@ import App from './components/index';
 
 const store = configureStore();
 
-ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('main')
-);
+document.addEventListener('DOMContentLoaded', () => {
+    ReactDOM.render(
+        <Provider store={store}>
+            <App />
+        </Provider>,
+        document.body
+    );
+});

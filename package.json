@@ -46,9 +46,7 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "fix": "fixpack",
-    "clean": "rm -fr template-app/src && template-app/index.js",
     "ncu": "ncu",
-    "postbuild": "mv template-app/src/index.js template-app/index.js",
     "pretest": "tsc -p ./tsconfig_test.json",
     "rust": "cd ./rust/ && rustc proxy-setting.rs",
     "rustinstall": "curl -sSf https://static.rust-lang.org/rustup.sh | sh",

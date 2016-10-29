@@ -7,6 +7,8 @@ import {AppState} from "../reducers/index";
 import {ClientRequestBox, ClientRequestBoxEntry} from "./client-request-box";
 import {CertificateBox, CertificateBoxStatus} from "./cetificate-box";
 import {ProxySettingBox, ProxySettingBoxStatus} from "./proxy-setting-box";
+import {WindowContent} from "./window-content";
+import {ToolbarHeader} from "./toolbar-header";
 
 interface AppProps extends AppState {
     onLoad: Function;
@@ -18,23 +20,27 @@ interface AppProps extends AppState {
 
 class App extends React.Component<AppProps, any> {
     render() {
-        return <div>
-            <AutoResponderBox entries={this.props.autoResponderEntries} />
-            <ClientRequestBox entries={this.props.clientRequestEntries} />
-            <CertificateBox
-                status={this.props.certificateBoxStatus}
-                onChangeStatus={this.props.onChangeCertificateStatus.bind(this)}
-            />
-            <ProxySettingBox
-                status={this.props.proxySettingBoxStatus}
-                onChangeStatus={this.props.onChangeProxySettingStatus.bind(this)}
-            />
-            <InitLoader
-                onLoad={this.props.onLoad.bind(this)}
-                onFileDrop={this.props.onFileDrop.bind(this)}
-                onClientRequest={this.props.onClientRequest.bind(this)}
-            />
+        return <div className="window">
+            <ToolbarHeader />
+            <WindowContent />
         </div>;
+        // return <div>
+        //     <AutoResponderBox entries={this.props.autoResponderEntries} />
+        //     <ClientRequestBox entries={this.props.clientRequestEntries} />
+        //     <CertificateBox
+        //         status={this.props.certificateBoxStatus}
+        //         onChangeStatus={this.props.onChangeCertificateStatus.bind(this)}
+        //     />
+        //     <ProxySettingBox
+        //         status={this.props.proxySettingBoxStatus}
+        //         onChangeStatus={this.props.onChangeProxySettingStatus.bind(this)}
+        //     />
+        //     <InitLoader
+        //         onLoad={this.props.onLoad.bind(this)}
+        //         onFileDrop={this.props.onFileDrop.bind(this)}
+        //         onClientRequest={this.props.onClientRequest.bind(this)}
+        //     />
+        // </div>;
     }
 }
 
