@@ -25,16 +25,6 @@ class App extends React.Component<AppProps, any> {
             <WindowContent />
         </div>;
         // return <div>
-        //     <AutoResponderBox entries={this.props.autoResponderEntries} />
-        //     <ClientRequestBox entries={this.props.clientRequestEntries} />
-        //     <CertificateBox
-        //         status={this.props.certificateBoxStatus}
-        //         onChangeStatus={this.props.onChangeCertificateStatus.bind(this)}
-        //     />
-        //     <ProxySettingBox
-        //         status={this.props.proxySettingBoxStatus}
-        //         onChangeStatus={this.props.onChangeProxySettingStatus.bind(this)}
-        //     />
         //     <InitLoader
         //         onLoad={this.props.onLoad.bind(this)}
         //         onFileDrop={this.props.onFileDrop.bind(this)}

@@ -29,9 +29,10 @@ export class CertificateBox extends React.Component<{
 
     render() {
         return (
-            <div className="status" onClick={this.onClick.bind(this)}>
+            <button className="btn btn-default" onClick={this.onClick.bind(this)}>
+                <span className="icon icon-home"></span>
                 {this.props.status}
-            </div>
+            </button>
         );
     }
 }

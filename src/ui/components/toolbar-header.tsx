@@ -1,4 +1,6 @@
 import * as React from "react";
+import {CertificateBox} from "./cetificate-box";
+import {ProxySettingBox} from "./proxy-setting-box";
 
 export class ToolbarHeader extends React.Component<{}, {}> {
     render() {
@@ -6,21 +8,14 @@ export class ToolbarHeader extends React.Component<{}, {}> {
             <header className="toolbar toolbar-header">
                 <div className="toolbar-actions">
                     <div className="btn-group">
-                        <button className="btn btn-default">
-                            <span className="icon icon-home"></span>
-                        </button>
-                        <button className="btn btn-default">
-                            <span className="icon icon-folder"></span>
-                        </button>
-                        <button className="btn btn-default active">
-                            <span className="icon icon-cloud"></span>
-                        </button>
-                        <button className="btn btn-default">
-                            <span className="icon icon-popup"></span>
-                        </button>
-                        <button className="btn btn-default">
-                            <span className="icon icon-shuffle"></span>
-                        </button>
+                        <CertificateBox
+                            status={"missing"}
+                            onChangeStatus={() => {}}
+                        />
+                        <ProxySettingBox
+                            status={"NoPermission"}
+                            onChangeStatus={() => {}}
+                        />
                     </div>
                 </div>
             </header>
