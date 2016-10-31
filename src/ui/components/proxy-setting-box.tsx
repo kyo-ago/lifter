@@ -1,12 +1,12 @@
 import * as React from "react";
 import {ProxySettingRepository} from "../../domain/proxy-setting/proxy-setting-repository";
 import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entity";
+import {eventEmitter} from "../../libs/eventEmitter";
 
 export type ProxySettingBoxStatus = "NoPermission" | "On" | "Off";
 
 export class ProxySettingBox extends React.Component<{
     status: ProxySettingBoxStatus;
-    onChangeStatus: (newStatus: ProxySettingBoxStatus) => void;
 }, {}> {
     private proxySettingRepository = new ProxySettingRepository();
     private proxySettingEntity: ProxySettingEntity;
@@ -16,10 +16,10 @@ export class ProxySettingBox extends React.Component<{
         this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
             this.proxySettingEntity = proxySettingEntity;
             if (!this.proxySettingEntity.isGranted) {
-                return this.props.onChangeStatus("NoPermission");
+                return eventEmitter.emit("changeProxySettingStatus", "NoPermission");
             }
             this.proxySettingEntity.hasProxy().then((result: boolean) => {
-                this.props.onChangeStatus(result ? "On" : "Off");
+                eventEmitter.emit("changeProxySettingStatus", result ? "On" : "Off");
             });
         });
     }
@@ -27,17 +27,17 @@ export class ProxySettingBox extends React.Component<{
     onClick() {
         if (this.props.status === "Off") {
             this.proxySettingEntity.enableProxy().then(() => {
-                this.props.onChangeStatus("On");
+                eventEmitter.emit("changeProxySettingStatus", "On");
             });
         } else if (this.props.status === "NoPermission") {
             this.proxySettingEntity.grantProxy().then(() => {
                 this.proxySettingEntity.hasProxy().then((result: boolean) => {
-                    this.props.onChangeStatus(result ? "On" : "Off");
+                    eventEmitter.emit("changeProxySettingStatus", result ? "On" : "Off");
                 });
             });
         } else {
             this.proxySettingEntity.disableProxy().then(() => {
-                this.props.onChangeStatus("Off");
+                eventEmitter.emit("changeProxySettingStatus", "Off");
             });
         }
     }

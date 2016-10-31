@@ -1,28 +1,21 @@
 import * as React from "react";
 import {connect} from 'react-redux'
-import {AutoResponderBoxEntry, AutoResponderBox} from './auto-responder-box'
+import {AutoResponderBoxEntry} from './auto-responder-box'
 import {InitLoader} from './init-loader'
 import AppActions from '../actions/index'
 import {AppState} from "../reducers/index";
-import {ClientRequestBox, ClientRequestBoxEntry} from "./client-request-box";
-import {CertificateBox, CertificateBoxStatus} from "./cetificate-box";
-import {ProxySettingBox, ProxySettingBoxStatus} from "./proxy-setting-box";
+import {ClientRequestBoxEntry} from "./client-request-box";
+import {CertificateBoxStatus} from "./cetificate-box";
+import {ProxySettingBoxStatus} from "./proxy-setting-box";
 import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
+import {eventEmitter} from "../../libs/eventEmitter";
 
-interface AppProps extends AppState {
-    onLoad: Function;
-    onFileDrop: Function;
-    onClientRequest: Function;
-    onChangeCertificateStatus: Function;
-    onChangeProxySettingStatus: Function;
-}
-
-class App extends React.Component<AppProps, any> {
+class App extends React.Component<AppState, any> {
     render() {
         return <div className="window">
-            <ToolbarHeader />
-            <WindowContent />
+            <ToolbarHeader {...this.props} />
+            <WindowContent {...this.props} />
         </div>;
         // return <div>
         //     <InitLoader
@@ -39,23 +32,22 @@ function mapStateToProps(state: any) {
 }
 
 function mapDispatchToProps(dispatch: any) {
-    return {
-        onLoad: () => {
-            dispatch(AppActions.initLoad());
-        },
-        onFileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry) => {
-            dispatch(AppActions.fileDrop(autoResponderBoxEntry));
-        },
-        onClientRequest: (clientRequestEntity: ClientRequestBoxEntry) => {
-            dispatch(AppActions.clientRequest(clientRequestEntity));
-        },
-        onChangeCertificateStatus: (certificateBoxStatus: CertificateBoxStatus) => {
-            dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
-        },
-        onChangeProxySettingStatus: (proxySettingBoxStatus: ProxySettingBoxStatus) => {
-            dispatch(AppActions.changeProxySettingStatus(proxySettingBoxStatus));
-        },
-    }
+    eventEmitter.addListener("load", () => {
+        dispatch(AppActions.initLoad());
+    });
+    eventEmitter.addListener("fileDrop", (autoResponderBoxEntry: AutoResponderBoxEntry) => {
+        dispatch(AppActions.fileDrop(autoResponderBoxEntry));
+    });
+    eventEmitter.addListener("clientRequest", (clientRequestEntity: ClientRequestBoxEntry) => {
+        dispatch(AppActions.clientRequest(clientRequestEntity));
+    });
+    eventEmitter.addListener("changeCertificateStatus", (certificateBoxStatus: CertificateBoxStatus) => {
+        dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+    });
+    eventEmitter.addListener("changeProxySettingStatus", (proxySettingBoxStatus: ProxySettingBoxStatus) => {
+        dispatch(AppActions.changeProxySettingStatus(proxySettingBoxStatus));
+    });
+    return {};
 }
 
 export default connect(
