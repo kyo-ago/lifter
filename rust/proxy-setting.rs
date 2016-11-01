@@ -9,17 +9,12 @@ fn main() {
     args.next();
 
     let param = args.next().unwrap();
-    if param == "-setwebproxy" {
-    } else if param == "-setsecurewebproxy" {
-    } else if param == "-setwebproxystate" {
-    } else if param == "-setsecurewebproxystate" {
-    } else {
-        panic!("Unknown parameter: {}", param);
+
+    match param.as_ref() {
+        "-setwebproxy" | "-setsecurewebproxy" | "-setwebproxystate" | "-setsecurewebproxystate" => (),
+        _ => panic!("Unknown parameter: {}", param),
     }
-//    match param {
-//        "-setwebproxy" | "-setsecurewebproxy" | "-setwebproxystate" | "-setsecurewebproxystate" => "",
-//        _ => panic!("Unknown parameter: {}", param),
-//    }
+
     command.arg(param);
     for arg in args {
         command.arg(arg);
