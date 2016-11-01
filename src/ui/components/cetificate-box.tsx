@@ -9,7 +9,7 @@ export class CertificateBox extends React.Component<{
 }, {}> {
     private certificateService = new CertificateService();
 
-    componentWillMount() {
+    componentDidMount() {
         this.certificateService.hasCertificate().then((result) => {
             eventEmitter.emit("changeCertificateStatus", result ? "installed" : "missing");
         });

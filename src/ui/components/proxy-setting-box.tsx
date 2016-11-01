@@ -11,8 +11,7 @@ export class ProxySettingBox extends React.Component<{
     private proxySettingRepository = new ProxySettingRepository();
     private proxySettingEntity: ProxySettingEntity;
 
-    componentWillMount() {
-        debugger;
+    componentDidMount() {
         this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
             this.proxySettingEntity = proxySettingEntity;
             if (!this.proxySettingEntity.isGranted) {

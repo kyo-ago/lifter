@@ -3,18 +3,12 @@ import {ClientRequestBoxEntry} from "../components/client-request-box";
 import {CertificateBoxStatus} from "../components/cetificate-box";
 import {ProxySettingBoxStatus} from "../components/proxy-setting-box";
 
-export const INIT_LOAD                   = 'INIT_LOAD';
 export const FILE_DROP                   = 'FILE_DROP';
 export const CLIENT_REQUEST              = 'CLIENT_REQUEST';
 export const CHANGE_CERTIFICATE_STATUS   = 'CHANGE_CERTIFICATE_STATUS';
 export const CHANGE_PROXY_SETTING_STATUS = 'CHANGE_PROXY_SETTING_STATUS';
 
 export default {
-    initLoad: () => {
-        return {
-            type: INIT_LOAD
-        };
-    },
     fileDrop: (autoResponderBoxEntry: AutoResponderBoxEntry) => {
         return {
             type: FILE_DROP,

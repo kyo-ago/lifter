@@ -1,7 +1,6 @@
 import * as React from "react";
 import {connect} from 'react-redux'
 import {AutoResponderBoxEntry} from './auto-responder-box'
-import {InitLoader} from './init-loader'
 import AppActions from '../actions/index'
 import {AppState} from "../reducers/index";
 import {ClientRequestBoxEntry} from "./client-request-box";
@@ -10,20 +9,18 @@ import {ProxySettingBoxStatus} from "./proxy-setting-box";
 import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/eventEmitter";
+import {InitializeService} from "../../domain/initialize/initialize-service";
 
 class App extends React.Component<AppState, any> {
+    componentDidMount() {
+        let initializeService = new InitializeService();
+        initializeService.init(window);
+    }
     render() {
         return <div className="window">
             <ToolbarHeader {...this.props} />
             <WindowContent {...this.props} />
         </div>;
-        // return <div>
-        //     <InitLoader
-        //         onLoad={this.props.onLoad.bind(this)}
-        //         onFileDrop={this.props.onFileDrop.bind(this)}
-        //         onClientRequest={this.props.onClientRequest.bind(this)}
-        //     />
-        // </div>;
     }
 }
 
@@ -32,9 +29,6 @@ function mapStateToProps(state: any) {
 }
 
 function mapDispatchToProps(dispatch: any) {
-    eventEmitter.addListener("load", () => {
-        dispatch(AppActions.initLoad());
-    });
     eventEmitter.addListener("fileDrop", (autoResponderBoxEntry: AutoResponderBoxEntry) => {
         dispatch(AppActions.fileDrop(autoResponderBoxEntry));
     });

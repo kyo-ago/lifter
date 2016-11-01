@@ -20,9 +20,6 @@ let initialState: AppState = {
 
 export function reducer(state = initialState, action: any): AppState {
     switch (action.type) {
-        case AppActions.INIT_LOAD: {
-            return Object.assign({}, state, {});
-        }
         case AppActions.FILE_DROP: {
             return Object.assign({}, state, {
                 autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderBoxEntry)
