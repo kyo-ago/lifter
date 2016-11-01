@@ -51,11 +51,11 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
     }
 
     private getMatchStats(path: ClientRequestUrl) {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             if (!this._pattern.isMatch(path)) {
                 return resolve(null);
             }
-            return this._path.getState();
+            this._path.getState().then(resolve, reject);
         });
     }
 
