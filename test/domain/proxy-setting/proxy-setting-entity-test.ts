@@ -1,7 +1,13 @@
 import 'mocha';
 import {} from 'node';
 
-import "../../mock/exec";
+import {MockProxySettingCommand} from "../../mock/exec";
+var mock = require('mock-require');
+mock('electron-sudo', class Sudoer {
+    exec() {
+        return new Promise.resolve({stdout: '', stderr: ''});
+    }
+});
 
 import {ProxySettingEntity} from "../../../src/domain/proxy-setting/proxy-setting-entity";
 import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setting-factory";
@@ -15,9 +21,9 @@ describe('ProxySettingEntity', () => {
         mockFs.restore();
     });
     it('grantProxy', () => {
-        let proxySettingEntity = ProxySettingFactory.create('', {uid: 0});
-        return proxySettingEntity.grantProxy().then((entity) => {
-            assert(entity.isGranted);
+        MockProxySettingCommand(500);
+        return ProxySettingFactory.create('', <any>{uid: 0}).grantProxy().then((result: boolean) => {
+            assert(result);
         });
     });
 });

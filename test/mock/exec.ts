@@ -15,7 +15,7 @@ ${NetworkServicesDevices}
 export function MockProxySettingCommand(uidgid: number) {
     mockFs({
         [PROXY_SETTING_COMMAND]: mockFs.file({
-            mode: parseInt('0755', 8),
+            mode: parseInt('0666', 8),
             uid: uidgid,
             gid: uidgid,
         }),
