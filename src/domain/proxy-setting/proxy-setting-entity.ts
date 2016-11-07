@@ -2,7 +2,7 @@ import {Entity} from "typescript-dddbase";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./proxy-setting-devices";
 import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
-import {PROXY_PORT} from "../settings";
+import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
 
 export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     constructor(
@@ -32,7 +32,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
 
     enableProxy() {
         return Promise.all(this.devices.map((device) => {
-            return execSuNetworkCommand([`-setwebproxy "${device}" localhost ${PROXY_PORT}`]);
+            return execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`]);
         })).then((results: IOResult[]) => {
             return !results.filter((result) => result.stdout || result.stderr).length;
         });
@@ -49,7 +49,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
                 if (result['enabled'] !== 'Yes') {
                     return false;
                 }
-                if (result['server'] !== 'localhost') {
+                if (result['server'] !== NETWORK_HOST_NAME) {
                     return false;
                 }
                 if (result['port'] !== String(PROXY_PORT)) {

@@ -1,7 +1,7 @@
 import 'mocha';
 import {} from 'node';
 
-import {MockProxySettingFile, RestoreProxySettingFile} from "../../mock/exec";
+import {MockProxySettingFile, RestoreProxySettingFile, LIST_NETWORK_SERVICE_RESULT} from "../../mock/exec";
 
 import {ProxySettingEntity} from "../../../src/domain/proxy-setting/proxy-setting-entity";
 import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setting-factory";
@@ -9,17 +9,21 @@ import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setti
 const assert = require('assert');
 
 describe('ProxySettingEntity', () => {
+    let proxySettingEntity: ProxySettingEntity;
+    beforeEach(() => {
+        proxySettingEntity = ProxySettingFactory.create(LIST_NETWORK_SERVICE_RESULT, <any>{uid: 0});
+    });
     afterEach(() => {
         RestoreProxySettingFile();
     });
     it('grantProxy', () => {
         MockProxySettingFile(500);
-        return ProxySettingFactory.create('', <any>{uid: 0}).grantProxy().then((result: boolean) => {
+        return proxySettingEntity.grantProxy().then((result: boolean) => {
             assert(result);
         });
     });
     it('enableProxy', () => {
-        return ProxySettingFactory.create('a\nb\n', <any>{uid: 0}).enableProxy().then(function () {
+        return proxySettingEntity.enableProxy().then(function () {
             console.log(arguments)
         });
     });

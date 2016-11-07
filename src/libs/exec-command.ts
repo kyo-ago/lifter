@@ -1,13 +1,10 @@
-import {PROXY_SETTING_COMMAND} from "../domain/settings";
+import {PROXY_SETTING_COMMAND, SECURITY_COMMAND, NETWORK_SETUP_COMMAND} from "../domain/settings";
 
 const fs = require('fs');
 const exec = require('child_process').exec;
 const Sudoer = require('electron-sudo');
 
 const sudoer = new (Sudoer.default ? Sudoer.default : Sudoer)({name: 'electron sudo application'});
-
-export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
-export const SECURITY_COMMAND = '/usr/bin/security';
 
 export interface IOResult {
     stdout: string;

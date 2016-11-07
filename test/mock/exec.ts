@@ -1,24 +1,30 @@
-import {PROXY_SETTING_COMMAND} from "../../src/domain/settings";
-import {NETWORK_SETUP_COMMAND} from "../../src/libs/exec-command";
-const fakeExec = require('fake-exec');
+import {PROXY_SETTING_COMMAND, NETWORK_SETUP_COMMAND} from "../../src/domain/settings";
+
 const mockFs = require('mock-fs');
 const mockRequire = require('mock-require');
 
-export const NetworkServicesDevices = `Thunderbolt Ethernet
+export const NETWORK_SERVICE_DEVICES = `Thunderbolt Ethernet
 Apple USB Ethernet Adapter
 Wi-Fi
 Bluetooth PAN
 Thunderbolt Bridge`;
+export const LIST_NETWORK_SERVICE_RESULT = `An asterisk (*) denotes that a network service is disabled.
+${NETWORK_SERVICE_DEVICES}
+`;
 
-fakeExec(`${NETWORK_SETUP_COMMAND} -listallnetworkservices`, `An asterisk (*) denotes that a network service is disabled.
-${NetworkServicesDevices}
-`);
+mockRequire('child_process', {
+    exec: (command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+        if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -listallnetworkservices`))) {
+            return callback(undefined, LIST_NETWORK_SERVICE_RESULT, '')
+        }
+        if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxy`))) {
+            return callback(undefined, '', '')
+        }
+        console.error(`Mock require unsupported command. command = "${command}"`);
+    }
+});
 
-fakeExec('/usr/sbin/networksetup -listallnetworkservices', `An asterisk (*) denotes that a network service is disabled.
-${NetworkServicesDevices}
-`);
-
-mockRequire('electron-sudo', class Sudoer {
+mockRequire('electron-sudo', class {
     exec() {
         return Promise.resolve({stdout: '', stderr: ''});
     }

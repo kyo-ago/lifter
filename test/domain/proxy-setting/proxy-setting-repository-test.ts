@@ -1,7 +1,7 @@
 import 'mocha';
 import {} from 'node';
 
-import {NetworkServicesDevices, MockProxySettingFile, RestoreProxySettingFile} from '../../mock/exec';
+import {NETWORK_SERVICE_DEVICES, MockProxySettingFile, RestoreProxySettingFile} from '../../mock/exec';
 
 import {ProxySettingRepository} from "../../../src/domain/proxy-setting/proxy-setting-repository";
 
@@ -26,7 +26,7 @@ describe('ProxySettingRepository', () => {
     it('proxySettingRepository.getProxySetting devices', () => {
         MockProxySettingFile(500);
         return new ProxySettingRepository().getProxySetting().then((entity) => {
-            assert(entity.devices.join("\n") === NetworkServicesDevices);
+            assert(entity.devices.join("\n") === NETWORK_SERVICE_DEVICES);
         });
     });
 });
