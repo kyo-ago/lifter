@@ -52,16 +52,29 @@ describe('ProxySettingEntity', () => {
             assert(!result);
         });
     });
-    it.skip('hasProxy', () => {
+    it('hasProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
             if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -getwebproxy`))) {
-                callback(undefined, '', '');
+                callback(undefined, 'Enabled: Yes\nServer: localhost\nPort: 8888\nAuthenticated Proxy Enabled: 0\n', '');
                 return true;
             }
             return false;
         });
         return proxySettingEntity.hasProxy().then((result: boolean) => {
             assert(result);
+        });
+    });
+    it('hasProxy failed', () => {
+        let count = 0;
+        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -getwebproxy`))) {
+                callback(undefined, `Enabled: ${count++ ? 'Yes' : 'No'}\nServer: localhost\nPort: 8888\nAuthenticated Proxy Enabled: 0\n`, '');
+                return true;
+            }
+            return false;
+        });
+        return proxySettingEntity.hasProxy().then((result: boolean) => {
+            assert(!result);
         });
     });
     it('disableProxy', () => {
