@@ -1,7 +1,7 @@
 import * as React from "react";
 import {ProxySettingRepository} from "../../domain/proxy-setting/proxy-setting-repository";
 import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entity";
-import {eventEmitter} from "../../libs/eventEmitter";
+import {eventEmitter} from "../../libs/event-emitter";
 
 export type ProxySettingBoxStatus = "NoPermission" | "On" | "Off";
 

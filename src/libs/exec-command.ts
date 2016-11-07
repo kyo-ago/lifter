@@ -6,6 +6,9 @@ const Sudoer = require('electron-sudo');
 
 const sudoer = new (Sudoer.default ? Sudoer.default : Sudoer)({name: 'electron sudo application'});
 
+export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
+export const SECURITY_COMMAND = '/usr/bin/security';
+
 export interface IOResult {
     stdout: string;
     stderr: string;
@@ -23,11 +26,11 @@ let execCommand = (command: string, param: string[]) => {
 };
 
 export function execSecurityCommand(param: string[]) {
-    return execCommand('/usr/bin/security', param);
+    return execCommand(SECURITY_COMMAND, param);
 }
 
 export function execNetworkCommand(param: string[]) {
-    return execCommand('/usr/sbin/networksetup', param);
+    return execCommand(NETWORK_SETUP_COMMAND, param);
 }
 
 export function execSuNetworkCommand(param: string[]) {

@@ -1,7 +1,7 @@
 import {Entity} from "typescript-dddbase";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./proxy-setting-devices";
-import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/execCommand";
+import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT} from "../settings";
 
 export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
@@ -33,7 +33,9 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     enableProxy() {
         return Promise.all(this.devices.map((device) => {
             return execSuNetworkCommand([`-setwebproxy "${device}" localhost ${PROXY_PORT}`]);
-        }));
+        })).then((results: IOResult[]) => {
+            return !results.filter((result) => result.stdout || result.stderr).length;
+        });
     }
 
     hasProxy() {

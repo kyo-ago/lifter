@@ -1,6 +1,6 @@
 import * as React from "react";
 import {CertificateService} from "../../domain/certificate/certificate-service";
-import {eventEmitter} from "../../libs/eventEmitter";
+import {eventEmitter} from "../../libs/event-emitter";
 
 export type CertificateBoxStatus = "missing" | "installed";
 

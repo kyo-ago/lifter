@@ -8,7 +8,7 @@ import {CertificateBoxStatus} from "./cetificate-box";
 import {ProxySettingBoxStatus} from "./proxy-setting-box";
 import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
-import {eventEmitter} from "../../libs/eventEmitter";
+import {eventEmitter} from "../../libs/event-emitter";
 import {InitializeService} from "../../domain/initialize/initialize-service";
 
 class App extends React.Component<AppState, any> {

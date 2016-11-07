@@ -2,7 +2,7 @@ import {OnMemoryRepository} from "typescript-dddbase";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingEntity} from "./proxy-setting-entity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
-import {execNetworkCommand, IOResult} from "../../libs/execCommand";
+import {execNetworkCommand, IOResult} from "../../libs/exec-command";
 import {PROXY_SETTING_COMMAND} from "../settings";
 
 import {Stats} from "fs";

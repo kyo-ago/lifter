@@ -2,7 +2,7 @@ import {OnMemoryRepository} from "typescript-dddbase";
 import {CertificateIdentity} from "./certificate-identity";
 import {CertificateEntity} from "./certificate-entity";
 import {KeychainEntity} from "../keychain/keychain-entity";
-import {execSecurityCommand, IOResult} from "../../libs/execCommand";
+import {execSecurityCommand, IOResult} from "../../libs/exec-command";
 
 export class CertificateRepository extends OnMemoryRepository<CertificateIdentity, CertificateEntity> {
     private certificateName = 'NodeMITMProxyCA';

@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 
-import {eventEmitter} from "../../libs/eventEmitter";
+import {eventEmitter} from "../../libs/event-emitter";
 import {ProxyService} from "../proxy/proxy-service";
 import {ClientRequestRepository} from "../client-request/client-request-repository";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
