@@ -1,10 +1,14 @@
-import 'mocha';
-import {} from 'node';
-
-import {MockProxySettingFile, RestoreProxySettingFile, LIST_NETWORK_SERVICE_RESULT} from "../../mock/exec";
-
+import "mocha";
+import {
+    MockingProxySettingFile,
+    RestoreProxySettingFile,
+    LIST_NETWORK_SERVICE_RESULT,
+    RestoreChildProcess,
+    MockingChildProcess
+} from "../../mock/exec";
 import {ProxySettingEntity} from "../../../src/domain/proxy-setting/proxy-setting-entity";
 import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setting-factory";
+import {PROXY_SETTING_COMMAND, NETWORK_SETUP_COMMAND} from "../../../src/domain/settings";
 
 const assert = require('assert');
 
@@ -15,16 +19,61 @@ describe('ProxySettingEntity', () => {
     });
     afterEach(() => {
         RestoreProxySettingFile();
+        RestoreChildProcess();
     });
     it('grantProxy', () => {
-        MockProxySettingFile(500);
+        MockingProxySettingFile(500);
         return proxySettingEntity.grantProxy().then((result: boolean) => {
             assert(result);
         });
     });
     it('enableProxy', () => {
-        return proxySettingEntity.enableProxy().then(function () {
-            console.log(arguments)
+        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxy`))) {
+                callback(undefined, '', '');
+                return true;
+            }
+            return false;
+        });
+        return proxySettingEntity.enableProxy().then((result: boolean) => {
+            assert(result);
+        });
+    });
+    it('enableProxy failed', () => {
+        let count = 0;
+        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxy`))) {
+                callback(undefined, '', count++ ? '' : 'error');
+                return true;
+            }
+            return false;
+        });
+        return proxySettingEntity.enableProxy().then((result: boolean) => {
+            assert(!result);
+        });
+    });
+    it.skip('hasProxy', () => {
+        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -getwebproxy`))) {
+                callback(undefined, '', '');
+                return true;
+            }
+            return false;
+        });
+        return proxySettingEntity.hasProxy().then((result: boolean) => {
+            assert(result);
+        });
+    });
+    it('disableProxy', () => {
+        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxystate`))) {
+                callback(undefined, '', '');
+                return true;
+            }
+            return false;
+        });
+        return proxySettingEntity.disableProxy().then((result: boolean) => {
+            assert(result);
         });
     });
 });

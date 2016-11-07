@@ -1,30 +1,47 @@
-import 'mocha';
-import {} from 'node';
-
-import {NETWORK_SERVICE_DEVICES, MockProxySettingFile, RestoreProxySettingFile} from '../../mock/exec';
-
+import "mocha";
+import {
+    NETWORK_SERVICE_DEVICES,
+    MockingProxySettingFile,
+    RestoreProxySettingFile,
+    MockingChildProcess,
+    RestoreChildProcess,
+    LIST_NETWORK_SERVICE_RESULT
+} from "../../mock/exec";
 import {ProxySettingRepository} from "../../../src/domain/proxy-setting/proxy-setting-repository";
+import {NETWORK_SETUP_COMMAND} from "../../../src/domain/settings";
 
 const assert = require('assert');
 
 describe('ProxySettingRepository', () => {
+    before(() => {
+        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -listallnetworkservices`))) {
+                callback(undefined, LIST_NETWORK_SERVICE_RESULT, '');
+                return true;
+            }
+            return false;
+        });
+    });
+    after(() => {
+        RestoreChildProcess();
+    });
     afterEach(() => {
         RestoreProxySettingFile();
     });
     it('proxySettingRepository.getProxySetting isGranted', () => {
-        MockProxySettingFile(0);
+        MockingProxySettingFile(0);
         return new ProxySettingRepository().getProxySetting().then((entity) => {
             assert(entity.isGranted);
         });
     });
     it('proxySettingRepository.getProxySetting !isGranted', () => {
-        MockProxySettingFile(500);
+        MockingProxySettingFile(500);
         return new ProxySettingRepository().getProxySetting().then((entity) => {
             assert(!entity.isGranted);
         });
     });
     it('proxySettingRepository.getProxySetting devices', () => {
-        MockProxySettingFile(500);
+        MockingProxySettingFile(500);
         return new ProxySettingRepository().getProxySetting().then((entity) => {
             assert(entity.devices.join("\n") === NETWORK_SERVICE_DEVICES);
         });

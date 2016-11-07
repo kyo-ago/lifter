@@ -31,11 +31,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     }
 
     enableProxy() {
-        return Promise.all(this.devices.map((device) => {
-            return execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`]);
-        })).then((results: IOResult[]) => {
-            return !results.filter((result) => result.stdout || result.stderr).length;
-        });
+        return this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`]));
     }
 
     hasProxy() {
@@ -63,8 +59,12 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     }
 
     disableProxy() {
-        return Promise.all(this.devices.map((device) => {
-            return execSuNetworkCommand([`-setwebproxystate "${device}" off`]);
-        }));
+        return this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxystate "${device}" off`]));
+    }
+
+    private execAllDevices(exec: (device: string) => Promise<IOResult>) {
+        return Promise.all(this.devices.map(exec)).then((results: IOResult[]) => {
+            return !results.filter((result) => result.stdout || result.stderr).length;
+        });
     }
 }

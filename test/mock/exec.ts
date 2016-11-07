@@ -1,4 +1,4 @@
-import {PROXY_SETTING_COMMAND, NETWORK_SETUP_COMMAND} from "../../src/domain/settings";
+import {PROXY_SETTING_COMMAND} from "../../src/domain/settings";
 
 const mockFs = require('mock-fs');
 const mockRequire = require('mock-require');
@@ -12,13 +12,23 @@ export const LIST_NETWORK_SERVICE_RESULT = `An asterisk (*) denotes that a netwo
 ${NETWORK_SERVICE_DEVICES}
 `;
 
+let childProcessMock: (command: string, callback: (error: string, stdout: string, stderr: string) => void) => boolean;
+let defaultChildProcessMock = () => {
+    console.error('Default child_process mock error! require call MockingChildProcess');
+    return false;
+};
+childProcessMock = defaultChildProcessMock;
+export function MockingChildProcess(func: (command: string, callback: (error: string, stdout: string, stderr: string) => void) => boolean) {
+    childProcessMock = func;
+}
+export function RestoreChildProcess() {
+    childProcessMock = defaultChildProcessMock;
+}
 mockRequire('child_process', {
     exec: (command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-        if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -listallnetworkservices`))) {
-            return callback(undefined, LIST_NETWORK_SERVICE_RESULT, '')
-        }
-        if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxy`))) {
-            return callback(undefined, '', '')
+        let result = childProcessMock(command, callback);
+        if (result) {
+            return;
         }
         console.error(`Mock require unsupported command. command = "${command}"`);
     }
@@ -30,7 +40,7 @@ mockRequire('electron-sudo', class {
     }
 });
 
-export function MockProxySettingFile(uidgid: number) {
+export function MockingProxySettingFile(uidgid: number) {
     mockFs({
         [PROXY_SETTING_COMMAND]: mockFs.file({
             mode: parseInt('0666', 8),
