@@ -42,10 +42,23 @@ export class ProxySettingBox extends React.Component<{
     }
 
     render() {
+        let ui = ({
+            'NoPermission' : {
+                'className' : 'icon-cancel-circled',
+                'title' : 'Require permission',
+            },
+            'On' : {
+                'className' : 'icon-shuffle',
+                'title' : 'Proxy off',
+            },
+            'Off' : {
+                'className' : 'icon-switch',
+                'title' : 'Proxy on',
+            },
+        } as any)[this.props.status];
         return (
-            <button className="btn btn-default" onClick={this.onClick.bind(this)}>
-                <span className="icon icon-folder"></span>
-                {this.props.status}
+            <button className="btn btn-default" title={ui.title} onClick={this.onClick.bind(this)}>
+                <span className={`icon ${ui.className}`}></span>
             </button>
         );
     }

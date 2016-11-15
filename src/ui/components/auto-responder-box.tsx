@@ -12,10 +12,11 @@ export class AutoResponderBox extends React.Component<{
 }, {}> {
     render() {
         let entries = (this.props.entries || []).map((entry: AutoResponderBoxEntry) => {
+            let className = entry.type === '' ? 'icon-folder' : 'icon-doc';
             return (
-                <span className="nav-group-item" key={entry.id}>
-                    <span className="icon icon-home"></span>
-                    connors
+                <span className="nav-group-item" title={entry.path} key={entry.id}>
+                    <span className={`icon ${className}`}></span>
+                    {entry.pattern}
                 </span>
             );
         });

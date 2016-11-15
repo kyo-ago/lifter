@@ -28,10 +28,20 @@ export class CertificateBox extends React.Component<{
     }
 
     render() {
+        let ui = ({
+            'missing' : {
+                'className' : 'icon-install',
+                'title' : 'Install SSL/TLS certification',
+            },
+            'installed' : {
+                'className' : 'icon-key',
+                'title' : 'Delete SSL/TLS certification',
+            },
+        } as any)[this.props.status];
+
         return (
-            <button className="btn btn-default" onClick={this.onClick.bind(this)}>
-                <span className="icon icon-home"></span>
-                {this.props.status}
+            <button className="btn btn-default" title={ui.title} onClick={this.onClick.bind(this)}>
+                <span className={`icon ${ui.className}`}></span>
             </button>
         );
     }
