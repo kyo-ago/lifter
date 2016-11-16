@@ -29,7 +29,7 @@ describe('ProxySettingEntity', () => {
     });
     it('enableProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxy`))) {
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy`))) {
                 callback(undefined, '', '');
                 return true;
             }
@@ -42,7 +42,7 @@ describe('ProxySettingEntity', () => {
     it('enableProxy failed', () => {
         let count = 0;
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxy`))) {
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy`))) {
                 callback(undefined, '', count++ ? '' : 'error');
                 return true;
             }
@@ -54,7 +54,7 @@ describe('ProxySettingEntity', () => {
     });
     it('hasProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -getwebproxy`))) {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy`))) {
                 callback(undefined, 'Enabled: Yes\nServer: localhost\nPort: 8888\nAuthenticated Proxy Enabled: 0\n', '');
                 return true;
             }
@@ -67,7 +67,7 @@ describe('ProxySettingEntity', () => {
     it('hasProxy failed', () => {
         let count = 0;
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -getwebproxy`))) {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy`))) {
                 callback(undefined, `Enabled: ${count++ ? 'Yes' : 'No'}\nServer: localhost\nPort: 8888\nAuthenticated Proxy Enabled: 0\n`, '');
                 return true;
             }
@@ -79,7 +79,7 @@ describe('ProxySettingEntity', () => {
     });
     it('disableProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -setwebproxystate`))) {
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxystate`))) {
                 callback(undefined, '', '');
                 return true;
             }

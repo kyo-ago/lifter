@@ -31,27 +31,37 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     }
 
     enableProxy() {
-        return this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`]));
+        return Promise.all([
+            this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
+            this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
+        ]).then((results: boolean[]) => {
+            return results.find((result) => !result) === false;
+        });
     }
 
     hasProxy() {
         return Promise.all(this.devices.map((device) => {
-            return execNetworkCommand([`-getwebproxy "${device}"`]).then(({stdout, stderr}: IOResult) => {
-                let result: any = stdout.split(/\r?\n/).reduce((base: any, cur: string) => {
-                    let [key, val] = cur.split(/\s*:\s*/);
-                    base[key.toLowerCase()] = val;
-                    return base;
-                }, {});
-                if (result['enabled'] !== 'Yes') {
+            return Promise.all([
+                execNetworkCommand([`-getwebproxy "${device}"`]),
+                execNetworkCommand([`-getsecurewebproxy "${device}"`]),
+            ]).then((results: IOResult[]) => {
+                return undefined === results.find(({stdout, stderr}: IOResult) => {
+                    let result: any = stdout.split(/\r?\n/).reduce((base: any, cur: string) => {
+                        let [key, val] = cur.split(/\s*:\s*/);
+                        base[key.toLowerCase()] = val;
+                        return base;
+                    }, {});
+                    if (result['enabled'] !== 'Yes') {
+                        return true;
+                    }
+                    if (result['server'] !== NETWORK_HOST_NAME) {
+                        return true;
+                    }
+                    if (result['port'] !== String(PROXY_PORT)) {
+                        return true;
+                    }
                     return false;
-                }
-                if (result['server'] !== NETWORK_HOST_NAME) {
-                    return false;
-                }
-                if (result['port'] !== String(PROXY_PORT)) {
-                    return false;
-                }
-                return true;
+                });
             });
         })).then((results) => {
             return results.find((result) => !result) === undefined;
@@ -59,7 +69,12 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     }
 
     disableProxy() {
-        return this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxystate "${device}" off`]));
+        return Promise.all([
+            this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxystate "${device}" off`])),
+            this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxystate "${device}" off`])),
+        ]).then((results: boolean[]) => {
+            return results.find((result) => !result) === undefined;
+        });
     }
 
     private execAllDevices(exec: (device: string) => Promise<IOResult>) {
