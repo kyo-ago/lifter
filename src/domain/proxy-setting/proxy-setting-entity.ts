@@ -35,7 +35,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
             this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
             this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
         ]).then((results: boolean[]) => {
-            return results.find((result) => !result) === false;
+            return results.find((result) => !result) === undefined;
         });
     }
 
