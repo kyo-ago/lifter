@@ -1,4 +1,6 @@
 node_modules/
 .http-mitm-proxy/
 *.js
-app/
+build/
+dist/
+npm-debug.log

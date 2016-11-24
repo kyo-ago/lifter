@@ -4,6 +4,13 @@
   "version": "0.0.1",
   "author": "@kyo_ago",
   "bugs": "https://github.com/kyo-ago/lifter/issues",
+  "build": {
+    "productName": "Lifter Proxy",
+    "appId": "com.electron.lifter",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    }
+  },
   "dependencies": {
     "@reactivex/rxjs": "^5.0.0-rc.4",
     "browserify": "^13.1.1",
@@ -32,7 +39,6 @@
     "@types/redux": "^3.6.31",
     "electron": "^1.4.7",
     "electron-builder": "^8.6.0",
-    "electron-packager": "^8.3.0",
     "fixpack": "^2.3.1",
     "mocha": "^3.1.2",
     "mock-fs": "^3.12.1",
@@ -50,32 +56,19 @@
   "main": "build/index.js",
   "repository": "kyo-ago/lifter",
   "scripts": {
+    "postinstall": "install-app-deps",
     "build": "tsc -p ./tsconfig.json",
+    "clean": "rm -rf ./dist ./build",
+    "dist": "build",
     "fix": "fixpack",
     "ncu": "ncu",
-    "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
+    "pack": "build --dir",
+    "prebuild": "rm -fr ./build && cp -a ./template-app ./build",
     "pretest": "tsc -p ./tsconfig_test.json",
     "rust": "cd ./rust/ && rm -f proxy-setting && rustc proxy-setting.rs",
     "rustinstall": "curl -sSf https://static.rust-lang.org/rustup.sh | sh",
-    "start": "electron app",
+    "start": "electron build",
     "test": "mocha build/test/**/*-test.js",
-    "watch": "tsc -p ./tsconfig.json --watch",
-
-    "clean": "rm -rf ./app",
-    "clean:osx": "rm -rf ./app/osx",
-    "clean:win": "rm -rf ./app/win",
-
-    "pack": "npm run build && npm run pack:osx && npm run build:win",
-    "pack:osx": "npm run clean:osx && electron-packager app \"Lifter Proxy\" --out=dist/osx --platform=darwin --arch=x64 --version=0.0.1 --icon=assets/osx/icon.icns",
-    "pack:win": "npm run clean:win && electron-packager app \"Lifter Proxy\" --out=dist/win --platform=win32 --arch=ia32 --version=0.0.1 --icon=assets/win/icon.ico",
-
-    "dist": "npm run dist:osx && npm run dist:win",
-    "dist:osx": "npm run pack:osx && electron-builder \"dist/osx/Lifter Proxy-darwin-x64/Lifter Proxy.app\" --platform=osx --out=\"dist/osx\" --config=builder.json",
-    "dist:win": "npm run pack:win && electron-builder \"dist/win/Lifter Proxy-win32-ia32\" --platform=win --out=\"dist/win\" --config=builder.json",
-
-    "archive": "npm run archive:osx && npm run archive:win",
-    "archive:osx": "npm run dist:osx && zip -j \"dist/osx/Lifter-Proxy-osx.zip\" \"dist/osx/Lifter Proxy.dmg\"",
-    "archive:win": "npm run dist:win && zip -j \"dist/win/Lifter-Proxy-win.zip\" \"dist/win/Lifter Proxy Setup.exe\""
-
+    "watch": "tsc -p ./tsconfig.json --watch"
   }
 }
