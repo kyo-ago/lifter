@@ -67,7 +67,7 @@
     "pretest": "tsc -p ./tsconfig_test.json",
     "rust": "cd ./rust/ && rm -f proxy-setting && rustc proxy-setting.rs",
     "rustinstall": "curl -sSf https://static.rust-lang.org/rustup.sh | sh",
-    "start": "electron build",
+    "start": "electron .",
     "test": "mocha build/test/**/*-test.js",
     "watch": "tsc -p ./tsconfig.json --watch"
   }
