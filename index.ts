@@ -11,13 +11,9 @@ let createWindow = () => {
         defaultHeight: 800
     });
 
-    mainWindow = new BrowserWindow({
-        'x': mainWindowState.x,
-        'y': mainWindowState.y,
-        'width': mainWindowState.width,
-        'height': mainWindowState.height
-    });
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
+    mainWindow = new BrowserWindow(mainWindowState);
+    mainWindow.openDevTools();
+    mainWindow.loadURL(`file://${__dirname}/build/index.html`);
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
