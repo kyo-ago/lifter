@@ -11,7 +11,7 @@ import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
 import {InitializeService} from "../../domain/initialize/initialize-service";
 
-class App extends React.Component<AppState, any> {
+class App extends React.Component<any, any> {
     componentDidMount() {
         let initializeService = new InitializeService();
         initializeService.init(window);
