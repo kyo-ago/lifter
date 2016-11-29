@@ -4,36 +4,17 @@ let pjson = require('../package.json');
 
 const template: any = [
     {
-        label: 'Edit',
+        label: 'Proxy',
         submenu: [
             {
-                role: 'undo'
+                label: 'Enable Proxy',
+                click () {  }
             },
             {
-                role: 'redo'
+                label: 'Install Certificate',
+                click () {  }
             },
-            {
-                type: 'separator'
-            },
-            {
-                role: 'cut'
-            },
-            {
-                role: 'copy'
-            },
-            {
-                role: 'paste'
-            },
-            {
-                role: 'pasteandmatchstyle'
-            },
-            {
-                role: 'delete'
-            },
-            {
-                role: 'selectall'
-            }
-        ]
+        ],
     },
     {
         label: 'View',
@@ -121,8 +102,7 @@ if (process.platform === 'darwin') {
         ]
     });
     // Window menu.
-    template.find((tmpl) => tmpl);
-    template[3].submenu = [
+    template.find((tmpl: any) => tmpl.role === 'window').submenu = [
         {
             label: 'Close',
             accelerator: 'CmdOrCtrl+W',
