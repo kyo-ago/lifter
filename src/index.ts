@@ -1,6 +1,4 @@
-import * as electron from "electron";
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+import {app, BrowserWindow} from "electron";
 const windowStateKeeper = require('electron-window-state');
 
 let mainWindow: any = null;
