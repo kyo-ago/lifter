@@ -14,7 +14,9 @@ import {InitializeService} from "../../domain/initialize/initialize-service";
 class App extends React.Component<any, any> {
     componentDidMount() {
         let initializeService = new InitializeService();
-        initializeService.init(window);
+        initializeService.init(window).then(({proxySettingEntity}) => {
+            this.props.proxySettingEntity = proxySettingEntity;
+        });
     }
     render() {
         return <div className="window">
