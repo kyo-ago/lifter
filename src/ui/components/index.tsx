@@ -2,7 +2,6 @@ import * as React from "react";
 import {connect} from 'react-redux'
 import {AutoResponderBoxEntry} from './auto-responder-box'
 import AppActions from '../actions/index'
-import {AppState} from "../reducers/index";
 import {ClientRequestBoxEntry} from "./client-request-box";
 import {CertificateBoxStatus} from "./cetificate-box";
 import {ProxySettingBoxStatus} from "./proxy-setting-box";
@@ -12,15 +11,26 @@ import {eventEmitter} from "../../libs/event-emitter";
 import {InitializeService} from "../../domain/initialize/initialize-service";
 
 class App extends React.Component<any, any> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            proxySettingEntity: undefined
+        };
+    }
     componentDidMount() {
         let initializeService = new InitializeService();
         initializeService.init(window).then(({proxySettingEntity}) => {
-            this.props.proxySettingEntity = proxySettingEntity;
+            this.setState({
+                proxySettingEntity: proxySettingEntity
+            });
         });
     }
     render() {
+        if (!this.state.proxySettingEntity) {
+            return <div></div>;
+        }
         return <div className="window">
-            <ToolbarHeader {...this.props} />
+            <ToolbarHeader {...this.props} proxySettingEntity={this.state.proxySettingEntity} />
             <WindowContent {...this.props} />
         </div>;
     }
