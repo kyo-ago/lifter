@@ -1,7 +1,7 @@
 import {AutoResponderBoxEntry} from "../components/auto-responder-box";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
-import {CertificateBoxStatus} from "../components/cetificate-box";
-import {ProxySettingBoxStatus} from "../components/proxy-setting-box";
+import {CertificateStatus} from "../../domain/certificate/certificate-service";
+import {ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
 
 export const FILE_DROP                   = 'FILE_DROP';
 export const CLIENT_REQUEST              = 'CLIENT_REQUEST';
@@ -21,13 +21,13 @@ export default {
             clientRequestEntity
         };
     },
-    changeCirtificateStatus: (certificateBoxStatus: CertificateBoxStatus) => {
+    changeCirtificateStatus: (certificateBoxStatus: CertificateStatus) => {
         return {
             type: CHANGE_CERTIFICATE_STATUS,
             certificateBoxStatus
         };
     },
-    changeProxySettingStatus: (proxySettingBoxStatus: ProxySettingBoxStatus) => {
+    changeProxySettingStatus: (proxySettingBoxStatus: ProxySettingStatus) => {
         return {
             type: CHANGE_PROXY_SETTING_STATUS,
             proxySettingBoxStatus

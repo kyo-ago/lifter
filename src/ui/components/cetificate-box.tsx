@@ -1,30 +1,12 @@
 import * as React from "react";
-import {CertificateService} from "../../domain/certificate/certificate-service";
 import {eventEmitter} from "../../libs/event-emitter";
-
-export type CertificateBoxStatus = "missing" | "installed";
+import {CertificateStatus} from "../../domain/certificate/certificate-service";
 
 export class CertificateBox extends React.Component<{
-    status: CertificateBoxStatus;
+    status: CertificateStatus;
 }, {}> {
-    private certificateService = new CertificateService();
-
-    componentDidMount() {
-        this.certificateService.hasCertificate().then((result) => {
-            eventEmitter.emit("changeCertificateStatus", result ? "installed" : "missing");
-        });
-    }
-
     onClick() {
-        if (this.props.status === "missing") {
-            this.certificateService.installCertificate().then(() => {
-                eventEmitter.emit("changeCertificateStatus", "installed");
-            });
-        } else {
-            this.certificateService.deleteCertificate().then(() => {
-                eventEmitter.emit("changeCertificateStatus", "missing");
-            });
-        }
+        eventEmitter.emit("clickCertificateStatus");
     }
 
     render() {

@@ -3,6 +3,7 @@ import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./proxy-setting-devices";
 import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
+import {ProxySettingStatus} from "./proxy-setting-service";
 
 export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     constructor(
@@ -21,7 +22,42 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         return this._devices.value;
     }
 
-    grantProxy() {
+    getCurrentStatus() {
+        return new Promise<ProxySettingStatus>((resolve, reject) => {
+            if (!this.isGranted) {
+                return resolve("NoPermission");
+            }
+            this.hasProxy().then((result: boolean) => {
+                resolve(result ? "On" : "Off");
+            });
+        });
+    }
+
+    getNewStatus() {
+        return new Promise<ProxySettingStatus>((resolve, reject) => {
+            if (!this.isGranted) {
+                this.grantProxy().then(() => {
+                    this.hasProxy().then((result: boolean) => {
+                        resolve(result ? "On" : "Off");
+                    });
+                });
+                return;
+            }
+            this.hasProxy().then((result: boolean) => {
+                if (result) {
+                    this.disableProxy().then(() => {
+                        resolve("Off");
+                    });
+                } else {
+                    this.enableProxy().then(() => {
+                        resolve("On");
+                    });
+                }
+            });
+        });
+    }
+
+    private grantProxy() {
         return execGrantNetworkCommand().then(({stdout, stderr}: IOResult) => {
             if (stderr) {
                 throw new Error(stderr);
@@ -30,7 +66,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         })
     }
 
-    enableProxy() {
+    private enableProxy() {
         return Promise.all([
             this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
             this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
@@ -39,7 +75,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         });
     }
 
-    hasProxy() {
+    private hasProxy() {
         return Promise.all(this.devices.map((device) => {
             return Promise.all([
                 execNetworkCommand([`-getwebproxy "${device}"`]),
@@ -68,7 +104,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         });
     }
 
-    disableProxy() {
+    private disableProxy() {
         return Promise.all([
             this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxystate "${device}" off`])),
             this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxystate "${device}" off`])),

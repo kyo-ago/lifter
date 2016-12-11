@@ -3,34 +3,17 @@ import {connect} from 'react-redux'
 import {AutoResponderBoxEntry} from './auto-responder-box'
 import AppActions from '../actions/index'
 import {ClientRequestBoxEntry} from "./client-request-box";
-import {CertificateBoxStatus} from "./cetificate-box";
-import {ProxySettingBoxStatus} from "./proxy-setting-box";
 import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
-import {InitializeService} from "../../domain/initialize/initialize-service";
+import {Controller} from "../../application/controller";
+import {CertificateService, CertificateStatus} from "../../domain/certificate/certificate-service";
+import {ProxySettingService, ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
 
 class App extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            proxySettingEntity: undefined
-        };
-    }
-    componentDidMount() {
-        let initializeService = new InitializeService();
-        initializeService.init(window).then(({proxySettingEntity}) => {
-            this.setState({
-                proxySettingEntity: proxySettingEntity
-            });
-        });
-    }
     render() {
-        if (!this.state.proxySettingEntity) {
-            return <div></div>;
-        }
         return <div className="window">
-            <ToolbarHeader {...this.props} proxySettingEntity={this.state.proxySettingEntity} />
+            <ToolbarHeader {...this.props} />
             <WindowContent {...this.props} />
         </div>;
     }
@@ -41,17 +24,40 @@ function mapStateToProps(state: any) {
 }
 
 function mapDispatchToProps(dispatch: any) {
+    let controller = new Controller();
+    controller.initialize(window);
+
     eventEmitter.addListener("fileDrop", (autoResponderBoxEntry: AutoResponderBoxEntry) => {
         dispatch(AppActions.fileDrop(autoResponderBoxEntry));
     });
     eventEmitter.addListener("clientRequest", (clientRequestEntity: ClientRequestBoxEntry) => {
         dispatch(AppActions.clientRequest(clientRequestEntity));
     });
-    eventEmitter.addListener("changeCertificateStatus", (certificateBoxStatus: CertificateBoxStatus) => {
+
+    /**
+     * CertificateService
+     */
+    let certificateService = new CertificateService();
+    certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
         dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
     });
-    eventEmitter.addListener("changeProxySettingStatus", (proxySettingBoxStatus: ProxySettingBoxStatus) => {
-        dispatch(AppActions.changeProxySettingStatus(proxySettingBoxStatus));
+    eventEmitter.addListener("clickCertificateStatus", () => {
+        certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
+            dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+        });
+    });
+
+    /**
+     * ProxySettingService
+     */
+    let proxySettingService = new ProxySettingService();
+    proxySettingService.initialize().then((proxySettingStatus: ProxySettingStatus) => {
+        dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
+    });
+    eventEmitter.addListener("clickProxySettingStatus", () => {
+        proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
+            dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
+        });
     });
     return {};
 }

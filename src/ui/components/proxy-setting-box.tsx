@@ -1,38 +1,12 @@
 import * as React from "react";
-import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entity";
 import {eventEmitter} from "../../libs/event-emitter";
-
-export type ProxySettingBoxStatus = "NoPermission" | "On" | "Off";
+import {ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
 
 export class ProxySettingBox extends React.Component<{
-    status: ProxySettingBoxStatus;
-    proxySettingEntity: ProxySettingEntity;
+    status: ProxySettingStatus;
 }, {}> {
-    componentDidMount() {
-        if (!this.props.proxySettingEntity.isGranted) {
-            return eventEmitter.emit("changeProxySettingStatus", "NoPermission");
-        }
-        this.props.proxySettingEntity.hasProxy().then((result: boolean) => {
-            eventEmitter.emit("changeProxySettingStatus", result ? "On" : "Off");
-        });
-    }
-
     onClick() {
-        if (this.props.status === "Off") {
-            this.props.proxySettingEntity.enableProxy().then(() => {
-                eventEmitter.emit("changeProxySettingStatus", "On");
-            });
-        } else if (this.props.status === "NoPermission") {
-            this.props.proxySettingEntity.grantProxy().then(() => {
-                this.props.proxySettingEntity.hasProxy().then((result: boolean) => {
-                    eventEmitter.emit("changeProxySettingStatus", result ? "On" : "Off");
-                });
-            });
-        } else {
-            this.props.proxySettingEntity.disableProxy().then(() => {
-                eventEmitter.emit("changeProxySettingStatus", "Off");
-            });
-        }
+        eventEmitter.emit("clickProxySettingStatus");
     }
 
     render() {

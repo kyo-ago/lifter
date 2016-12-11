@@ -14,7 +14,6 @@ export class ToolbarHeader extends React.Component<AppState, {}> {
                         />
                         <ProxySettingBox
                             status={this.props.proxySettingBoxStatus}
-                            proxySettingEntity={this.props.proxySettingEntity}
                         />
                     </div>
                 </div>
