@@ -6,9 +6,11 @@ import {ClientRequestBoxEntry} from "./client-request-box";
 import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
-import {Controller} from "../../application/controller";
 import {CertificateService, CertificateStatus} from "../../domain/certificate/certificate-service";
 import {ProxySettingService, ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
+import {AutoResponderEntryService} from "../../domain/auto-responder-entry/auto-responder-entry-service";
+import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
+import {ProxyService} from "../../domain/proxy/proxy-service";
 
 class App extends React.Component<any, any> {
     render() {
@@ -24,15 +26,32 @@ function mapStateToProps(state: any) {
 }
 
 function mapDispatchToProps(dispatch: any) {
-    let controller = new Controller();
-    controller.initialize(window);
+    window.addEventListener("dragover", (e) => e.preventDefault());
+    window.addEventListener("dragleave", (e) => e.preventDefault());
+    window.addEventListener("drop", (e) => e.preventDefault());
+    window.document.body.addEventListener("dragend", (e) => e.preventDefault());
 
-    eventEmitter.addListener("fileDrop", (autoResponderBoxEntry: AutoResponderBoxEntry) => {
+    /**
+     * AutoResponderEntryService
+     */
+    let autoResponderEntryService = new AutoResponderEntryService();
+    autoResponderEntryService.initialize(window).subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
         dispatch(AppActions.fileDrop(autoResponderBoxEntry));
     });
-    eventEmitter.addListener("clientRequest", (clientRequestEntity: ClientRequestBoxEntry) => {
+
+    /**
+     * ClientRequestRepository
+     */
+    let clientRequestRepository = new ClientRequestRepository();
+    clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
         dispatch(AppActions.clientRequest(clientRequestEntity));
     });
+
+    /**
+     * ProxyService
+     */
+    let proxyService = new ProxyService(autoResponderEntryService.repository, clientRequestRepository);
+    proxyService.createServer();
 
     /**
      * CertificateService
