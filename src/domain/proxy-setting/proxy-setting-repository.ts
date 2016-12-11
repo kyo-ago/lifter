@@ -7,15 +7,36 @@ import {PROXY_SETTING_COMMAND} from "../settings";
 
 import {Stats} from "fs";
 const fs = require('fs');
+const ifconfig = require('ifconfig');
+
+export interface Ifconfig {
+    [name: string]: {
+        flags: string;
+        ether?: string;
+        options?: string;
+        media?: string;
+        status?: "inactive" | "active";
+        inet6?: string;
+        inet?: string;
+    }
+}
 
 export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdentity, ProxySettingEntity> {
     getProxySetting() {
         return Promise.all([
-            execNetworkCommand([`-listallnetworkservices`]).then(({stdout, stderr}: IOResult) => {
+            execNetworkCommand([`-listnetworkserviceorder`]).then(({stdout, stderr}: IOResult) => {
                 if (stderr) {
-                    throw new Error(stderr);
+                   throw new Error(stderr);
                 }
                 return stdout;
+            }),
+            new Promise((resolve, reject) => {
+                ifconfig(function(err: any, configs: Ifconfig) {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(configs);
+                });
             }),
             new Promise((resolve, reject) => {
                 fs.stat(PROXY_SETTING_COMMAND, (err: any, stats: Stats) => {
@@ -25,8 +46,8 @@ export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdent
                     resolve(stats);
                 });
             }),
-        ]).then((results: any[]) => {
-            return ProxySettingFactory.create(results[0], results[1]);
+        ]).then(([serviceorder, ifconfig, stats]: [string, Ifconfig, Stats]) => {
+            return ProxySettingFactory.create(serviceorder, ifconfig, stats);
         });
     }
 }

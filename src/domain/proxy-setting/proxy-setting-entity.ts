@@ -67,12 +67,34 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
     }
 
     private enableProxy() {
+        let param = `${NETWORK_HOST_NAME} ${PROXY_PORT}`;
+        let _enableProxy = (setCommand: string, getCommand: string) => {
+            return this.execAllDevices((device) => {
+                return new Promise((resolve, reject) => {
+                    let exec = (count: number) => {
+                        if (!count) {
+                            reject();
+                        }
+                        execSuNetworkCommand([`-${setCommand} "${device}" ${param}`]).then(() => {
+                            execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
+                                let result = this.isProxing(stdout);
+                                if (result) {
+                                    return resolve();
+                                }
+                                setTimeout(() => {
+                                    exec(count--)
+                                }, 100);
+                            });
+                        });
+                    };
+                    exec(3);
+                });
+            });
+        };
         return Promise.all([
-            this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
-            this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxy "${device}" ${NETWORK_HOST_NAME} ${PROXY_PORT}`])),
-        ]).then((results: boolean[]) => {
-            return results.find((result) => !result) === undefined;
-        });
+            _enableProxy('setwebproxy', 'getwebproxy'),
+            _enableProxy('setsecurewebproxy', 'getsecurewebproxy'),
+        ]);
     }
 
     private hasProxy() {
@@ -81,41 +103,73 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
                 execNetworkCommand([`-getwebproxy "${device}"`]),
                 execNetworkCommand([`-getsecurewebproxy "${device}"`]),
             ]).then((results: IOResult[]) => {
-                return undefined === results.find(({stdout, stderr}: IOResult) => {
-                    let result: any = stdout.split(/\r?\n/).reduce((base: any, cur: string) => {
-                        let [key, val] = cur.split(/\s*:\s*/);
-                        base[key.toLowerCase()] = val;
-                        return base;
-                    }, {});
-                    if (result['enabled'] !== 'Yes') {
-                        return true;
-                    }
-                    if (result['server'] !== NETWORK_HOST_NAME) {
-                        return true;
-                    }
-                    if (result['port'] !== String(PROXY_PORT)) {
-                        return true;
-                    }
-                    return false;
+                return results.find(({stdout, stderr}: IOResult) => {
+                    return this.isProxing(stdout);
                 });
             });
         })).then((results) => {
-            return results.find((result) => !result) === undefined;
+            return !!results.find((result) => !!result);
         });
+    }
+
+    private isProxing(stdout: string): boolean {
+        let result = stdout.trim().split(/\r?\n/).reduce((base: any, cur: string) => {
+            let [key, val] = cur.split(/:/);
+            base[key.trim()] = val.trim();
+            return base;
+        }, <{
+            Enabled: "Yes" | "No";
+            Server: string;
+            Port: string;
+            "Authenticated Proxy Enabled": string;
+        }>{});
+
+        if (result.Enabled !== 'Yes') {
+            return false;
+        }
+        if (result.Server !== NETWORK_HOST_NAME) {
+            return false;
+        }
+        if (result.Port !== String(PROXY_PORT)) {
+            return false;
+        }
+        return true;
     }
 
     private disableProxy() {
+        let _disableProxy = (setCommand: string, getCommand: string) => {
+            return this.execAllDevices((device) => {
+                return new Promise((resolve, reject) => {
+                    let exec = (count: number) => {
+                        if (!count) {
+                            reject();
+                        }
+                        execSuNetworkCommand([`-${setCommand} "${device}" off`]).then(() => {
+                            execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
+                                let result = this.isProxing(stdout);
+                                if (!result) {
+                                    return resolve();
+                                }
+                                setTimeout(() => {
+                                    exec(count--)
+                                }, 100);
+                            });
+                        });
+                    };
+                    exec(3);
+                });
+            });
+        };
         return Promise.all([
-            this.execAllDevices((device) => execSuNetworkCommand([`-setwebproxystate "${device}" off`])),
-            this.execAllDevices((device) => execSuNetworkCommand([`-setsecurewebproxystate "${device}" off`])),
-        ]).then((results: boolean[]) => {
-            return results.find((result) => !result) === undefined;
-        });
+            _disableProxy('setwebproxystate', 'getwebproxy'),
+            _disableProxy('setsecurewebproxystate', 'getsecurewebproxy'),
+        ]);
     }
 
-    private execAllDevices(exec: (device: string) => Promise<IOResult>) {
-        return Promise.all(this.devices.map(exec)).then((results: IOResult[]) => {
-            return !results.filter((result) => result.stdout || result.stderr).length;
-        });
+    private execAllDevices(exec: (device: string) => any) {
+        let promises = this.devices.map((device: string) => exec(device));
+        return promises.reduce((base, cur) => {
+            return base.then(cur);
+        }, Promise.resolve());
     }
 }

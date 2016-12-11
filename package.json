@@ -18,6 +18,7 @@
     "electron-window-state": "^4.0.0",
     "eventemitter2": "^2.2.1",
     "http-mitm-proxy": "^0.5.1",
+    "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
     "mime": "^1.3.4",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",

@@ -3,14 +3,32 @@ import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./proxy-setting-devices";
 
 import {Stats} from "fs";
+import {Ifconfig} from "./proxy-setting-repository";
+
+interface Device {
+    "Hardware Port": string
+    "Device": string
+}
 
 export class ProxySettingFactory {
     private static identity = 0;
 
-    static create(device: string, stats: Stats): ProxySettingEntity {
-        let devices = device.split(/\r?\n/).filter(_ => _);
-        // Ignore "An asterisk (*) denotes that a network service is disabled." line
-        devices.shift();
+    static create(
+        serviceorder: string,
+        ifconfig: Ifconfig,
+        stats: Stats,
+    ): ProxySettingEntity {
+        let deviceOrder = serviceorder.trim().match(/\(Hardware Port.+?\)/gi).map((line) => {
+            return line.replace(/[\(\)]/g, '').split(/,/).reduce((base: any, cur: string) => {
+                let [key, val] = cur.split(/:/);
+                base[key.trim()] = val.trim();
+                return base;
+            }, <Device>{});
+        });
+        let devices = deviceOrder.filter((device) => {
+            let conf = ifconfig[device.Device];
+            return conf && conf.status == 'active' && 'ether' in conf;
+        }).map(device => device['Hardware Port']);
 
         return new ProxySettingEntity(
             new ProxySettingIdentity(this.identity++),
