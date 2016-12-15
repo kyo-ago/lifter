@@ -57,7 +57,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         });
     }
 
-    private grantProxy() {
+    grantProxy() {
         return execGrantNetworkCommand().then(({stdout, stderr}: IOResult) => {
             if (stderr) {
                 throw new Error(stderr);
@@ -66,7 +66,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         })
     }
 
-    private enableProxy() {
+    enableProxy() {
         let param = `${NETWORK_HOST_NAME} ${PROXY_PORT}`;
         let _enableProxy = (setCommand: string, getCommand: string) => {
             return this.execAllDevices((device) => {
@@ -97,7 +97,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         ]);
     }
 
-    private hasProxy() {
+    hasProxy() {
         return Promise.all(this.devices.map((device) => {
             return Promise.all([
                 execNetworkCommand([`-getwebproxy "${device}"`]),
@@ -112,7 +112,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         });
     }
 
-    private isProxing(stdout: string): boolean {
+    isProxing(stdout: string): boolean {
         let result = stdout.trim().split(/\r?\n/).reduce((base: any, cur: string) => {
             let [key, val] = cur.split(/:/);
             base[key.trim()] = val.trim();
@@ -136,7 +136,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         return true;
     }
 
-    private disableProxy() {
+    disableProxy() {
         let _disableProxy = (setCommand: string, getCommand: string) => {
             return this.execAllDevices((device) => {
                 return new Promise((resolve, reject) => {
@@ -166,7 +166,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         ]);
     }
 
-    private execAllDevices(exec: (device: string) => any) {
+    execAllDevices(exec: (device: string) => any) {
         let promises = this.devices.map((device: string) => exec(device));
         return promises.reduce((base, cur) => {
             return base.then(cur);
