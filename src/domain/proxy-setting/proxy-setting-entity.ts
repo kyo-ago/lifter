@@ -66,37 +66,6 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         })
     }
 
-    enableProxy() {
-        let param = `${NETWORK_HOST_NAME} ${PROXY_PORT}`;
-        let _enableProxy = (setCommand: string, getCommand: string) => {
-            return this.execAllDevices((device) => {
-                return new Promise((resolve, reject) => {
-                    let exec = (count: number) => {
-                        if (!count) {
-                            reject();
-                        }
-                        execSuNetworkCommand([`-${setCommand} "${device}" ${param}`]).then(() => {
-                            execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
-                                let result = this.isProxing(stdout);
-                                if (result) {
-                                    return resolve();
-                                }
-                                setTimeout(() => {
-                                    exec(count--)
-                                }, 100);
-                            });
-                        });
-                    };
-                    exec(3);
-                });
-            });
-        };
-        return Promise.all([
-            _enableProxy('setwebproxy', 'getwebproxy'),
-            _enableProxy('setsecurewebproxy', 'getsecurewebproxy'),
-        ]);
-    }
-
     hasProxy() {
         return Promise.all(this.devices.map((device) => {
             return Promise.all([
@@ -136,37 +105,44 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
         return true;
     }
 
-    disableProxy() {
-        let _disableProxy = (setCommand: string, getCommand: string) => {
-            return this.execAllDevices((device) => {
-                return new Promise((resolve, reject) => {
-                    let exec = (count: number) => {
-                        if (!count) {
-                            reject();
-                        }
-                        execSuNetworkCommand([`-${setCommand} "${device}" off`]).then(() => {
-                            execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
-                                let result = this.isProxing(stdout);
-                                if (!result) {
-                                    return resolve();
-                                }
-                                setTimeout(() => {
-                                    exec(count--)
-                                }, 100);
-                            });
-                        });
-                    };
-                    exec(3);
-                });
-            });
-        };
+    enableProxy() {
         return Promise.all([
-            _disableProxy('setwebproxystate', 'getwebproxy'),
-            _disableProxy('setsecurewebproxystate', 'getsecurewebproxy'),
+            this.changeProxy('setwebproxy', `${NETWORK_HOST_NAME} ${PROXY_PORT}`, 'getwebproxy', true),
+            this.changeProxy('setsecurewebproxy', `${NETWORK_HOST_NAME} ${PROXY_PORT}`, 'getsecurewebproxy', true),
         ]);
     }
 
-    execAllDevices(exec: (device: string) => any) {
+    disableProxy() {
+        return Promise.all([
+            this.changeProxy('setwebproxystate', 'off', 'getwebproxy', false),
+            this.changeProxy('setsecurewebproxystate', 'off', 'getsecurewebproxy', false),
+        ]);
+    }
+
+    private changeProxy(setCommand: string, setParam: string, getCommand: string, result: boolean) {
+        return this.execAllDevices((device) => {
+            return new Promise((resolve, reject) => {
+                let exec = (count: number) => {
+                    if (!count) {
+                        reject();
+                    }
+                    execSuNetworkCommand([`-${setCommand} "${device}" ${setParam}`]).then(() => {
+                        execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
+                            if (this.isProxing(stdout) === result) {
+                                return resolve();
+                            }
+                            setTimeout(() => {
+                                exec(count--)
+                            }, 100);
+                        });
+                    });
+                };
+                exec(3);
+            });
+        });
+    }
+
+    private execAllDevices(exec: (device: string) => any) {
         let promises = this.devices.map((device: string) => exec(device));
         return promises.reduce((base, cur) => {
             return base.then(cur);

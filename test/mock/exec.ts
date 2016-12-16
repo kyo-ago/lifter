@@ -99,8 +99,8 @@ export function MockingProxySettingFile(uidgid: number) {
             gid: uidgid,
         }),
     });
-};
+}
 
 export function RestoreProxySettingFile() {
     mockFs.restore();
-};
+}

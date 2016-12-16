@@ -8,7 +8,10 @@ import {
 } from "../../mock/exec";
 import {ProxySettingEntity} from "../../../src/domain/proxy-setting/proxy-setting-entity";
 import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setting-factory";
-import {PROXY_SETTING_COMMAND, NETWORK_SETUP_COMMAND} from "../../../src/domain/settings";
+import {
+    PROXY_SETTING_COMMAND, NETWORK_SETUP_COMMAND, NETWORK_HOST_NAME,
+    PROXY_PORT
+} from "../../../src/domain/settings";
 
 const assert = require('assert');
 
@@ -33,8 +36,12 @@ describe('ProxySettingEntity', () => {
     });
     it('enableProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy`))) {
-                callback(undefined, '', '');
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
+                callback(undefined, 'stdout', 'stderr');
+                return true;
+            }
+            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy ".+?" ${NETWORK_HOST_NAME} ${PROXY_PORT}$`))) {
+                callback(undefined, 'stdout', 'stderr');
                 return true;
             }
             return false;
@@ -46,6 +53,10 @@ describe('ProxySettingEntity', () => {
     it('enableProxy failed', () => {
         let count = 0;
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy`))) {
+                callback(undefined, '', count++ ? '' : 'error');
+                return true;
+            }
             if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy`))) {
                 callback(undefined, '', count++ ? '' : 'error');
                 return true;
