@@ -1,13 +1,15 @@
 import {Stats} from "fs";
 import {Entity} from "typescript-dddbase";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {AutoResponderEntryPattern} from "./auto-responder-entry-pattern";
-import {AutoResponderEntryPath} from "./auto-responder-entry-path";
-import {AutoResponderEntryType} from "./auto-responder-entry-type";
+import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
+import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
+import {AutoResponderEntryType} from "./value-objects/auto-responder-entry-type";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {LocalFileResponderFactory} from "../local-file-responder/local-file-responder-factory";
-import {ClientRequestUrl} from "../client-request/client-request-url";
-import {LocalFileResponderSize} from "../local-file-responder/local-file-responder-size";
+import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
+import {LocalFileResponderSize} from "../local-file-responder/value-objects/local-file-responder-size";
+import {LocalFileResponderPath} from "../local-file-responder/value-objects/local-file-responder-path";
+import {LocalFileResponderType} from "../local-file-responder/value-objects/local-file-responder-type";
 
 export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity> {
     constructor(
@@ -61,8 +63,8 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
 
     private getFileResponder(stats: Stats) {
         return LocalFileResponderFactory.createResponder(
-            this._path,
-            this._type,
+            new LocalFileResponderPath(this._path.value),
+            new LocalFileResponderType(this._type.value),
             new LocalFileResponderSize(stats.size),
         );
     }

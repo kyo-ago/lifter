@@ -1,15 +1,15 @@
 import {Entity} from "typescript-dddbase";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
-import {AutoResponderEntryType} from "../auto-responder-entry/auto-responder-entry-type";
-import {AutoResponderEntryPath} from "../auto-responder-entry/auto-responder-entry-path";
-import {LocalFileResponderSize} from "./local-file-responder-size";
+import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
+import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
+import {LocalFileResponderType} from "./value-objects/local-file-responder-type";
 const mime = require('mime');
 
 export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity> {
     constructor(
         identity: LocalFileResponderIdentity,
-        private path: AutoResponderEntryPath,
-        private type: AutoResponderEntryType,
+        private path: LocalFileResponderPath,
+        private type: LocalFileResponderType,
         private size: LocalFileResponderSize,
     ) {
         super(identity);

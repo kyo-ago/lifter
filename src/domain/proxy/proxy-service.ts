@@ -1,6 +1,6 @@
 import {ServerResponse, IncomingMessage} from "http";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
-import {ClientRequestUrl} from "../client-request/client-request-url";
+import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 import {ClientRequestRepository} from "../client-request/client-request-repository";
 import {PROXY_PORT} from "../settings";
 

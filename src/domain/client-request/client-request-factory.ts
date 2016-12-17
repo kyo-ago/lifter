@@ -1,6 +1,6 @@
 import {ClientRequestIdentity} from "./client-request-identity";
 import {ClientRequestEntity} from "./client-request-entity";
-import {ClientRequestUrl} from "./client-request-url";
+import {ClientRequestUrl} from "./value-objects/client-request-url";
 
 export class ClientRequestFactory {
     private static identity = 0;

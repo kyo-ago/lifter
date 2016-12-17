@@ -1,6 +1,6 @@
 import {Entity} from "typescript-dddbase";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
-import {ProxySettingDevices} from "./proxy-setting-devices";
+import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
 import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
 import {ProxySettingStatus} from "./proxy-setting-service";

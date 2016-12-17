@@ -1,10 +1,10 @@
 import {Stats} from "fs";
-import {ClientRequestUrl} from "../client-request/client-request-url";
-import {BaseValueObject} from "../base/value-object";
+import {ClientRequestUrl} from "../../client-request/value-objects/client-request-url";
+import {BaseValueObject} from "../../base/value-object";
 const Path = require('path');
 const fs = require('fs');
 
-export class AutoResponderEntryPath extends BaseValueObject<string> {
+export class FilePath extends BaseValueObject<string> {
     getState(): Promise<Stats> {
         return new Promise((resolve, reject) => {
             fs.stat(this._value, (err: any, stats: Stats) => {
@@ -13,7 +13,7 @@ export class AutoResponderEntryPath extends BaseValueObject<string> {
         });
     }
 
-    getMathFile(requestPath: ClientRequestUrl): Promise<AutoResponderEntryPath | null> {
+    getMathFile(requestPath: ClientRequestUrl): Promise<FilePath | null> {
         return new Promise((resolve, reject) => {
             let basename = Path.basename(this._value);
             let paths = requestPath.getPathname().split(`${Path.sep}${basename}${Path.sep}`);
@@ -21,7 +21,7 @@ export class AutoResponderEntryPath extends BaseValueObject<string> {
             let localPath = paths.join(Path.sep);
             let absolutePath = `${this._value}${Path.sep}${localPath}`;
             fs.access(absolutePath, fs.R_OK, (err: any) => {
-                resolve(err ? null : new AutoResponderEntryPath(absolutePath));
+                resolve(err ? null : new FilePath(absolutePath));
             });
         });
     }

@@ -1,6 +1,6 @@
 import {Entity} from "typescript-dddbase";
 import {ClientRequestIdentity} from "./client-request-identity";
-import {ClientRequestUrl} from "./client-request-url";
+import {ClientRequestUrl} from "./value-objects/client-request-url";
 
 export class ClientRequestEntity extends Entity<ClientRequestIdentity> {
     constructor(

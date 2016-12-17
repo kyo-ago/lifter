@@ -1,6 +1,6 @@
 import {KeychainEntity} from "./keychain-entity";
 import {KeychainIdentity} from "./keychain-identity";
-import {KeychainName} from "./keychain-name";
+import {KeychainName} from "./value-objects/keychain-name";
 
 export class KeychainFactory {
     private static identity = 0;

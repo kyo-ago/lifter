@@ -2,7 +2,7 @@ import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 import {OnMemoryRepository} from "typescript-dddbase";
 import {ClientRequestIdentity} from "./client-request-identity";
 import {ClientRequestEntity} from "./client-request-entity";
-import {ClientRequestUrl} from "./client-request-url";
+import {ClientRequestUrl} from "./value-objects/client-request-url";
 import {ClientRequestFactory} from "./client-request-factory";
 import {ClientRequestBoxEntry} from "../../ui/components/client-request-box";
 

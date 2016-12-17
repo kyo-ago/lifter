@@ -1,6 +1,6 @@
 import {ProxySettingEntity} from "./proxy-setting-entity";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
-import {ProxySettingDevices} from "./proxy-setting-devices";
+import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
 
 import {Stats} from "fs";
 import {Ifconfig} from "./proxy-setting-repository";

@@ -1,8 +1,8 @@
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
-import {AutoResponderEntryPattern} from "./auto-responder-entry-pattern";
-import {AutoResponderEntryPath} from "./auto-responder-entry-path";
-import {AutoResponderEntryType} from "./auto-responder-entry-type";
+import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
+import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
+import {AutoResponderEntryType} from "./value-objects/auto-responder-entry-type";
 
 interface InFile extends File {
     path: string;

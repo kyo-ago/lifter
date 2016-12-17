@@ -1,8 +1,8 @@
 import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 import {OnMemoryRepository} from "typescript-dddbase";
-import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
-import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
+import {AutoResponderEntryIdentity} from "./auto-responder-setting-file-identity";
+import {AutoResponderEntryEntity} from "./auto-responder-setting-file-entity";
+import {AutoResponderEntryFactory} from "./auto-responder-setting-file-factory";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";

@@ -1,15 +1,15 @@
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {LocalFileResponderEntity} from "./local-file-responder-entity";
-import {AutoResponderEntryType} from "../auto-responder-entry/auto-responder-entry-type";
-import {AutoResponderEntryPath} from "../auto-responder-entry/auto-responder-entry-path";
-import {LocalFileResponderSize} from "./local-file-responder-size";
+import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
+import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
+import {LocalFileResponderType} from "./value-objects/local-file-responder-type";
 
 export class LocalFileResponderFactory {
     private static identity = 0;
 
     static createResponder(
-        path: AutoResponderEntryPath,
-        type: AutoResponderEntryType,
+        path: LocalFileResponderPath,
+        type: LocalFileResponderType,
         size: LocalFileResponderSize,
     ): LocalFileResponderEntity {
         return new LocalFileResponderEntity(

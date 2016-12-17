@@ -1,6 +1,6 @@
 import {Entity} from "typescript-dddbase";
 import {KeychainIdentity} from "./keychain-identity";
-import {KeychainName} from "./keychain-name";
+import {KeychainName} from "./value-objects/keychain-name";
 
 export class KeychainEntity extends Entity<KeychainIdentity> {
     constructor(

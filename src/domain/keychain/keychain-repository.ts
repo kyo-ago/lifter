@@ -11,6 +11,6 @@ export class KeychainRepository extends OnMemoryRepository<KeychainIdentity, Key
                 return Promise.reject(stderr);
             }
             return Promise.resolve(stdout.split(/\r?\n/g).shift());
-        }).then((name) => KeychainFactory.create(name));
+        }).then((name: string) => KeychainFactory.create(name));
     }
 }
