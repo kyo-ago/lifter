@@ -5,3 +5,4 @@ build/
 dist/
 npm-debug.log
 app/
+.idea

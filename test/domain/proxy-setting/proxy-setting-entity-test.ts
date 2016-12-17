@@ -4,7 +4,7 @@ import {
     RestoreProxySettingFile,
     RestoreChildProcess,
     MockingChildProcess,
-    LIST_NETWORK_SERVICE_ORDER_RESULT, IFCONFIG_RESULT
+    LIST_NETWORK_SERVICE_ORDER_RESULT, IFCONFIG_RESULT, ENABLE_GET_WEB_PROXY_RESULT, DISABLE_GET_WEB_PROXY_RESULT
 } from "../../mock/exec";
 import {ProxySettingEntity} from "../../../src/domain/proxy-setting/proxy-setting-entity";
 import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setting-factory";
@@ -37,11 +37,11 @@ describe('ProxySettingEntity', () => {
     it('enableProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
             if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
-                callback(undefined, 'stdout', 'stderr');
+                callback(undefined, DISABLE_GET_WEB_PROXY_RESULT, '');
                 return true;
             }
             if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy ".+?" ${NETWORK_HOST_NAME} ${PROXY_PORT}$`))) {
-                callback(undefined, 'stdout', 'stderr');
+                callback(undefined, '', '');
                 return true;
             }
             return false;
@@ -50,27 +50,10 @@ describe('ProxySettingEntity', () => {
             assert(true);
         });
     });
-    it('enableProxy failed', () => {
-        let count = 0;
+    it('hasProxy enable', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy`))) {
-                callback(undefined, '', count++ ? '' : 'error');
-                return true;
-            }
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy`))) {
-                callback(undefined, '', count++ ? '' : 'error');
-                return true;
-            }
-            return false;
-        });
-        return proxySettingEntity.enableProxy().then(() => {
-            assert(true);
-        });
-    });
-    it('hasProxy', () => {
-        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy`))) {
-                callback(undefined, 'Enabled: Yes\nServer: localhost\nPort: 8888\nAuthenticated Proxy Enabled: 0\n', '');
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
+                callback(undefined, ENABLE_GET_WEB_PROXY_RESULT, '');
                 return true;
             }
             return false;
@@ -79,11 +62,10 @@ describe('ProxySettingEntity', () => {
             assert(result);
         });
     });
-    it('hasProxy failed', () => {
-        let count = 0;
+    it('hasProxy disable', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy`))) {
-                callback(undefined, `Enabled: ${count++ ? 'Yes' : 'No'}\nServer: localhost\nPort: 8888\nAuthenticated Proxy Enabled: 0\n`, '');
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
+                callback(undefined, DISABLE_GET_WEB_PROXY_RESULT, '');
                 return true;
             }
             return false;
@@ -94,6 +76,10 @@ describe('ProxySettingEntity', () => {
     });
     it('disableProxy', () => {
         MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
+            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
+                callback(undefined, ENABLE_GET_WEB_PROXY_RESULT, '');
+                return true;
+            }
             if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxystate`))) {
                 callback(undefined, '', '');
                 return true;

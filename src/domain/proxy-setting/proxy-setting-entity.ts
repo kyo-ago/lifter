@@ -127,7 +127,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
                         reject();
                     }
                     execSuNetworkCommand([`-${setCommand} "${device}" ${setParam}`]).then(() => {
-                        execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
+                        return execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
                             if (this.isProxing(stdout) === result) {
                                 return resolve();
                             }
@@ -135,7 +135,7 @@ export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
                                 exec(count--)
                             }, 100);
                         });
-                    });
+                    }).catch(reject);
                 };
                 exec(3);
             });

@@ -63,6 +63,18 @@ export const IFCONFIG_RESULT: Ifconfig = {
     },
 };
 
+export const ENABLE_GET_WEB_PROXY_RESULT = `Enabled: Yes
+Server: localhost
+Port: 8888
+Authenticated Proxy Enabled: 0
+`;
+
+export const DISABLE_GET_WEB_PROXY_RESULT = `Enabled: No
+Server: 
+Port: 0
+Authenticated Proxy Enabled: 0
+`;
+
 let childProcessMock: (command: string, callback: (error: string, stdout: string, stderr: string) => void) => boolean;
 let defaultChildProcessMock = () => {
     console.error('Default child_process mock error! require call MockingChildProcess');
@@ -89,6 +101,10 @@ mockRequire('electron-sudo', class {
     exec() {
         return Promise.resolve({stdout: '', stderr: ''});
     }
+});
+
+mockRequire('ifconfig', (callback: (err: any, configs: Ifconfig) => any) => {
+    callback(undefined, IFCONFIG_RESULT);
 });
 
 export function MockingProxySettingFile(uidgid: number) {
