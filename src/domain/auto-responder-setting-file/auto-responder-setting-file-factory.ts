@@ -1,12 +1,12 @@
-import {AutoResponderEntryIdentity} from "./auto-responder-setting-file-identity";
-import {AutoResponderEntryEntity} from "./auto-responder-setting-file-entity";
+import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
+import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-entity";
 
-export class AutoResponderEntryFactory {
+export class AutoResponderSettingFileFactory {
     private static identity = 0;
 
-    static createFromFile(): AutoResponderEntryEntity {
-        return new AutoResponderEntryEntity(
-            new AutoResponderEntryIdentity(this.identity++),
+    static createFromFile(): AutoResponderSettingFileEntity {
+        return new AutoResponderSettingFileEntity(
+            new AutoResponderSettingFileIdentity(this.identity++),
         );
     }
 }
