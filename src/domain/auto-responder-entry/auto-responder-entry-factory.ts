@@ -8,7 +8,7 @@ export class AutoResponderEntryFactory {
     private static identity = 0;
 
     static createFromFile(file: File): AutoResponderEntryEntity {
-        let path = (<InFile>file).path;
+        let path = file.path;
         return new AutoResponderEntryEntity(
             new AutoResponderEntryIdentity(this.identity++),
             new AutoResponderEntryPattern(file.name),
