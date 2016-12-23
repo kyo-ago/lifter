@@ -8,13 +8,16 @@ export class AutoResponderSettingFileEntity extends Entity<AutoResponderSettingF
         identity: AutoResponderSettingFileIdentity,
         private _path: AutoResponderSettingFilePath,
         private autoResponderEntries: AutoResponderEntryEntity[],
-        
     ) {
         super(identity);
     }
 
     get id() {
         return this.getIdentity().getValue();
+    }
+
+    get path() {
+        return this._path.value;
     }
 
 }

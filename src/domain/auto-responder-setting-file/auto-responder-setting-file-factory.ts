@@ -4,7 +4,8 @@ import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-enti
 export class AutoResponderSettingFileFactory {
     private static identity = 0;
 
-    static createFromFile(): AutoResponderSettingFileEntity {
+    static createFromFile(file: File): AutoResponderSettingFileEntity {
+        let path = (<InFile>file).path;
         return new AutoResponderSettingFileEntity(
             new AutoResponderSettingFileIdentity(this.identity++),
         );

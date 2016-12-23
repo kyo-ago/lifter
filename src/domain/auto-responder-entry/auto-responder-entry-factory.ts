@@ -4,10 +4,6 @@ import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pa
 import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
 import {AutoResponderEntryType} from "./value-objects/auto-responder-entry-type";
 
-interface InFile extends File {
-    path: string;
-}
-
 export class AutoResponderEntryFactory {
     private static identity = 0;
 
