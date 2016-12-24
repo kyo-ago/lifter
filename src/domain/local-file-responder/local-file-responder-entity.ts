@@ -1,9 +1,9 @@
+import * as mime from "mime";
 import {Entity} from "typescript-dddbase";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
 import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
 import {LocalFileResponderType} from "./value-objects/local-file-responder-type";
-const mime = require('mime');
 
 export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity> {
     constructor(
