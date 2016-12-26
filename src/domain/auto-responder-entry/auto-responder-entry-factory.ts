@@ -20,7 +20,7 @@ export class AutoResponderEntryFactory {
             new AutoResponderEntryIdentity(this.identity++),
             new AutoResponderEntryPattern(param.pattern),
             new AutoResponderEntryPath(param.path),
-            new AutoResponderEntryType("Glob"),
+            new AutoResponderEntryType(param.type),
         );
     }
 

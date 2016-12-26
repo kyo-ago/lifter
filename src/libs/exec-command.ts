@@ -1,10 +1,8 @@
+import * as fs from "fs";
+import {exec} from "child_process";
+import Sudoer from 'electron-sudo';
+
 import {PROXY_SETTING_COMMAND, SECURITY_COMMAND, NETWORK_SETUP_COMMAND} from "../domain/settings";
-
-const fs = require('fs');
-const exec = require('child_process').exec;
-const Sudoer = require('electron-sudo');
-
-const sudoer = new (Sudoer.default ? Sudoer.default : Sudoer)({name: 'electron sudo application'});
 
 export interface IOResult {
     stdout: string;
@@ -13,7 +11,7 @@ export interface IOResult {
 
 let execCommand = (command: string, param: string[]) => {
     return new Promise((resolve, reject) => {
-        (<any>exec)(`${command} ${param.join(' ')}`, (error: string, stdout: string, stderr: string) => {
+        exec(`${command} ${param.join(' ')}`, (error: string, stdout: string, stderr: string) => {
             if (error && !stderr) {
                 return reject(error);
             }
@@ -43,6 +41,7 @@ export function execGrantNetworkCommand() {
             resolve();
         });
     }).then(() => {
+        const sudoer = new Sudoer({name: 'electron sudo application'});
         return sudoer.exec(`chown 0:0 ${PROXY_SETTING_COMMAND}`);
     });
 }

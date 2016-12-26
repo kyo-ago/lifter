@@ -12,6 +12,7 @@ export class AutoResponderSettingFileFactory {
             return AutoResponderEntryFactory.create({
                 pattern: file,
                 path: file.path,
+                type: "Glob",
             });
         });
         return new AutoResponderSettingFileEntity(

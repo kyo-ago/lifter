@@ -1,7 +1,8 @@
 import * as fs from "fs";
+import * as Path from "path";
+
 import {ClientRequestUrl} from "../../client-request/value-objects/client-request-url";
 import {BaseValueObject} from "../../base/value-object";
-const Path = require('path');
 
 export class FilePath extends BaseValueObject<string> {
     getState(): Promise<fs.Stats> {

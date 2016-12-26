@@ -1,13 +1,14 @@
 import 'mocha';
-import {} from 'node';
-const Path = require('path');
-const assert = require('assert');
+import * as Path from "path";
+import * as assert from "assert";
+
 import {AutoResponderEntryEntity} from "../../../src/domain/auto-responder-entry/auto-responder-entry-entity";
 import {AutoResponderEntryIdentity} from "../../../src/domain/auto-responder-entry/auto-responder-entry-identity";
 import {AutoResponderEntryPattern} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-pattern";
 import {AutoResponderEntryPath} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-path";
 import {ClientRequestUrl} from "../../../src/domain/client-request/value-objects/client-request-url";
 import {LocalFileResponderEntity} from "../../../src/domain/local-file-responder/local-file-responder-entity";
+import {AutoResponderEntryType} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-type";
 
 describe('AutoResponderEntryEntity', () => {
     let absoluteDirectoryPath = Path.resolve(__dirname);
@@ -15,6 +16,7 @@ describe('AutoResponderEntryEntity', () => {
         new AutoResponderEntryIdentity(1),
         new AutoResponderEntryPattern(Path.basename(absoluteDirectoryPath)),
         new AutoResponderEntryPath(absoluteDirectoryPath),
+        new AutoResponderEntryType("Directory"),
     );
     it('match directoryAutoResponderEntryEntity.getMatchResponder', () => {
         let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));
@@ -39,6 +41,7 @@ describe('AutoResponderEntryEntity', () => {
         new AutoResponderEntryIdentity(1),
         new AutoResponderEntryPattern(Path.basename(absoluteFilePath)),
         new AutoResponderEntryPath(absoluteFilePath),
+        new AutoResponderEntryType("File"),
     );
     it('match fileAutoResponderEntryEntity.getMatchResponder', () => {
         let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));
