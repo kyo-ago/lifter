@@ -1,13 +1,12 @@
-import {Stats} from "fs";
+import * as fs from "fs";
 import {ClientRequestUrl} from "../../client-request/value-objects/client-request-url";
 import {BaseValueObject} from "../../base/value-object";
 const Path = require('path');
-const fs = require('fs');
 
 export class FilePath extends BaseValueObject<string> {
-    getState(): Promise<Stats> {
+    getState(): Promise<fs.Stats> {
         return new Promise((resolve, reject) => {
-            fs.stat(this._value, (err: any, stats: Stats) => {
+            fs.stat(this._value, (err: any, stats: fs.Stats) => {
                 err ? reject(err) : resolve(stats);
             });
         });
@@ -20,15 +19,15 @@ export class FilePath extends BaseValueObject<string> {
             paths.shift();
             let localPath = paths.join(Path.sep);
             let absolutePath = `${this._value}${Path.sep}${localPath}`;
-            fs.access(absolutePath, fs.R_OK, (err: any) => {
+            fs.access(absolutePath, fs.constants.R_OK, (err: any) => {
                 resolve(err ? null : new FilePath(absolutePath));
             });
         });
     }
 
-    getBody(): Promise<string> {
+    getBody(): Promise<Buffer> {
         return new Promise((resolve, reject) => {
-            fs.readFile(this._value, (err: any, data: string) => {
+            fs.readFile(this._value, (err: any, data: Buffer) => {
                 if (err) {
                     return reject(err);
                 }

@@ -1,3 +1,6 @@
 import {BaseValueObject} from "../../base/value-object";
-export class AutoResponderEntryType extends BaseValueObject<string> {
+
+export type AutoResponderEntryTypeName = "File" | "Directory" | "Glob" | "RegExp";
+
+export class AutoResponderEntryType extends BaseValueObject<AutoResponderEntryTypeName> {
 }

@@ -6,7 +6,6 @@ import {AutoResponderEntryEntity} from "../../../src/domain/auto-responder-entry
 import {AutoResponderEntryIdentity} from "../../../src/domain/auto-responder-entry/auto-responder-entry-identity";
 import {AutoResponderEntryPattern} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-pattern";
 import {AutoResponderEntryPath} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-path";
-import {AutoResponderEntryType} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-type";
 import {ClientRequestUrl} from "../../../src/domain/client-request/value-objects/client-request-url";
 import {LocalFileResponderEntity} from "../../../src/domain/local-file-responder/local-file-responder-entity";
 
@@ -16,7 +15,6 @@ describe('AutoResponderEntryEntity', () => {
         new AutoResponderEntryIdentity(1),
         new AutoResponderEntryPattern(Path.basename(absoluteDirectoryPath)),
         new AutoResponderEntryPath(absoluteDirectoryPath),
-        new AutoResponderEntryType(''),
     );
     it('match directoryAutoResponderEntryEntity.getMatchResponder', () => {
         let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));
@@ -41,7 +39,6 @@ describe('AutoResponderEntryEntity', () => {
         new AutoResponderEntryIdentity(1),
         new AutoResponderEntryPattern(Path.basename(absoluteFilePath)),
         new AutoResponderEntryPath(absoluteFilePath),
-        new AutoResponderEntryType('application/javascript'),
     );
     it('match fileAutoResponderEntryEntity.getMatchResponder', () => {
         let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));

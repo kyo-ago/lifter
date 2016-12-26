@@ -1,5 +1,7 @@
+import * as mime from "mime";
 import {Stats} from "fs";
 import {Entity} from "typescript-dddbase";
+
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
 import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
@@ -64,7 +66,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
     private getFileResponder(stats: Stats) {
         return LocalFileResponderFactory.createResponder(
             new LocalFileResponderPath(this._path.value),
-            new LocalFileResponderType(this._type.value),
+            new LocalFileResponderType(mime.lookup(this._path.value)),
             new LocalFileResponderSize(stats.size),
         );
     }
@@ -77,7 +79,7 @@ export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity>
             return path.getState().then((stats: Stats) => {
                 return LocalFileResponderFactory.createResponder(
                     path,
-                    this._type,
+                    new LocalFileResponderType(mime.lookup(path.value)),
                     new LocalFileResponderSize(stats.size),
                 );
             });

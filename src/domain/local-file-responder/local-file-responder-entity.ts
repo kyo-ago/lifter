@@ -1,5 +1,6 @@
 import * as mime from "mime";
 import {Entity} from "typescript-dddbase";
+
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
 import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
