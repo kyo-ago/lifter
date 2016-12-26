@@ -1,4 +1,5 @@
 import * as fs from "fs";
+
 import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-entity";
 import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
 import {AutoResponderSettingFilePath} from "./value-objects/auto-responder-setting-file-path";
@@ -32,11 +33,11 @@ export class AutoResponderSettingFileFactory {
                         type: "Glob",
                     });
                 });
-                return new AutoResponderSettingFileEntity(
+                resolve(new AutoResponderSettingFileEntity(
                     new AutoResponderSettingFileIdentity(this.identity++),
                     new AutoResponderSettingFilePath(file.path),
                     autoResponderEntryEntities,
-                );
+                ));
             });
         });
     }

@@ -1,17 +1,10 @@
-import {ServerResponse, IncomingMessage} from "http";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 import {ClientRequestRepository} from "../client-request/client-request-repository";
 import {PROXY_PORT} from "../settings";
 
-const http = require('http');
-const net = require('net');
-
 const Proxy = require('http-mitm-proxy');
 const proxy = Proxy();
-declare class Buffer {
-    constructor(...args: any[]);
-}
 
 export class ProxyService {
     constructor(

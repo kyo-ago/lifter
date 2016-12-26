@@ -1,4 +1,5 @@
-import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
+import * as Rx from "@reactivex/rxjs/dist/cjs/Rx";
+
 import {OnMemoryRepository} from "typescript-dddbase";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
@@ -17,20 +18,26 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
         this.observer = this.subject.asObservable();
     }
 
+    store(entity: AutoResponderEntryEntity) {
+        super.store(entity);
+        let entry = {
+            id: entity.id,
+            pattern: entity.pattern,
+            path: entity.path,
+            type: entity.type,
+        };
+        this.subject.next(entry);
+        return entity;
+    }
+
     storeFilesList(files: File[]) {
         files.forEach((file) => {
             AutoResponderEntryFactory.createFromFile(file).then((entity) => {
                 this.store(entity);
-                let entry = {
-                    id: entity.id,
-                    pattern: entity.pattern,
-                    path: entity.path,
-                    type: entity.type,
-                };
-                this.subject.next(entry);
             });
         });
     }
+
     findMatchEntry(clientRequestPathname: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return Object.keys(this.entities).reduce((promise, key) => {
             let entity = this.entities[key];

@@ -4,12 +4,16 @@ import {AutoResponderSettingFilePath} from "./value-objects/auto-responder-setti
 import {AutoResponderEntryEntity} from "../auto-responder-entry/auto-responder-entry-entity";
 
 export class AutoResponderSettingFileEntity extends Entity<AutoResponderSettingFileIdentity> {
+    autoResponderEntries: AutoResponderEntryEntity[];
+
     constructor(
         identity: AutoResponderSettingFileIdentity,
         private _path: AutoResponderSettingFilePath,
-        private autoResponderEntries: AutoResponderEntryEntity[],
+        autoResponderEntries: AutoResponderEntryEntity[],
     ) {
         super(identity);
+
+        this.autoResponderEntries = autoResponderEntries;
     }
 
     get id() {
@@ -19,5 +23,4 @@ export class AutoResponderSettingFileEntity extends Entity<AutoResponderSettingF
     get path() {
         return this._path.value;
     }
-
 }

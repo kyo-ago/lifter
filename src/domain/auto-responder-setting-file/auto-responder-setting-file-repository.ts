@@ -1,4 +1,5 @@
-import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
+import * as Rx from "@reactivex/rxjs/dist/cjs/Rx";
+
 import {OnMemoryRepository} from "typescript-dddbase";
 import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
 import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-entity";
@@ -15,11 +16,10 @@ export class AutoResponderSettingFileRepository extends OnMemoryRepository<AutoR
         this.observer = this.subject.asObservable();
     }
 
-    storeFilesList(files: File[]) {
-        files.forEach((file) => {
-            AutoResponderSettingFileFactory.createFromFile(file).then((entity) => {
-                this.store(entity);
-            });
+    storeFile(file: File): Promise<AutoResponderSettingFileEntity> {
+        return AutoResponderSettingFileFactory.createFromFile(file).then((entity) => {
+            this.store(entity);
+            return entity;
         });
     }
 }
