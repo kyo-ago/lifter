@@ -16,17 +16,10 @@ export class AutoResponderSettingFileRepository extends OnMemoryRepository<AutoR
     }
 
     storeFilesList(files: File[]) {
-        files
-            .map((file) => this.store(AutoResponderSettingFileFactory.createFromFile(file)))
-            .forEach((entity) => {
-                let entry = {
-                    id: entity.id,
-                    pattern: entity.pattern,
-                    path: entity.path,
-                    type: entity.type,
-                };
-                this.subject.next(entry);
-            })
-        ;
+        files.forEach((file) => {
+            AutoResponderSettingFileFactory.createFromFile(file).then((entity) => {
+                this.store(entity);
+            });
+        });
     }
 }

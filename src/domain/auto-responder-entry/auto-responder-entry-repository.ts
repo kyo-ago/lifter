@@ -18,20 +18,18 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
     }
 
     storeFilesList(files: File[]) {
-        files
-            .forEach((file) => {
-                AutoResponderEntryFactory.createFromFile(file).then((entity) => {
-                    this.store(entity);
-                    let entry = {
-                        id: entity.id,
-                        pattern: entity.pattern,
-                        path: entity.path,
-                        type: entity.type,
-                    };
-                    this.subject.next(entry);
-                });
-            })
-        ;
+        files.forEach((file) => {
+            AutoResponderEntryFactory.createFromFile(file).then((entity) => {
+                this.store(entity);
+                let entry = {
+                    id: entity.id,
+                    pattern: entity.pattern,
+                    path: entity.path,
+                    type: entity.type,
+                };
+                this.subject.next(entry);
+            });
+        });
     }
     findMatchEntry(clientRequestPathname: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return Object.keys(this.entities).reduce((promise, key) => {

@@ -8,7 +8,7 @@ import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
 import {CertificateService, CertificateStatus} from "../../domain/certificate/certificate-service";
 import {ProxySettingService, ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
-import {AutoResponderEntryService} from "../../domain/auto-responder-entry/auto-responder-entry-service";
+import {AutoResponderService} from "../../domain/auto-responder/auto-responder-service";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {ProxyService} from "../../domain/proxy/proxy-service";
 
@@ -32,10 +32,10 @@ function mapDispatchToProps(dispatch: any) {
     window.document.body.addEventListener("dragend", (e) => e.preventDefault());
 
     /**
-     * AutoResponderEntryService
+     * AutoResponderService
      */
-    let autoResponderEntryService = new AutoResponderEntryService();
-    autoResponderEntryService.initialize(window).subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
+    let autoResponderService = new AutoResponderService();
+    autoResponderService.bind(window).subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
         dispatch(AppActions.fileDrop(autoResponderBoxEntry));
     });
 
@@ -50,7 +50,7 @@ function mapDispatchToProps(dispatch: any) {
     /**
      * ProxyService
      */
-    let proxyService = new ProxyService(autoResponderEntryService.repository, clientRequestRepository);
+    let proxyService = new ProxyService(autoResponderService.repository, clientRequestRepository);
     proxyService.createServer();
 
     /**
