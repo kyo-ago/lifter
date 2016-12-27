@@ -1,7 +1,9 @@
+import * as Datastore from "nedb";
 import * as React from "react";
-import {connect} from 'react-redux'
-import {AutoResponderBoxEntry} from './auto-responder-box'
-import AppActions from '../actions/index'
+import {connect} from "react-redux";
+
+import {AutoResponderBoxEntry} from "./auto-responder-box";
+import AppActions from "../actions/index";
 import {ClientRequestBoxEntry} from "./client-request-box";
 import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
@@ -11,6 +13,7 @@ import {ProxySettingService, ProxySettingStatus} from "../../domain/proxy-settin
 import {AutoResponderService} from "../../domain/auto-responder/auto-responder-service";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {ProxyService} from "../../domain/proxy/proxy-service";
+import {DATA_STORE_FILENAME} from "../../domain/settings";
 
 class App extends React.Component<any, any> {
     render() {
@@ -31,53 +34,71 @@ function mapDispatchToProps(dispatch: any) {
     window.addEventListener("drop", (e) => e.preventDefault());
     window.document.body.addEventListener("dragend", (e) => e.preventDefault());
 
-    /**
-     * AutoResponderService
-     */
-    let autoResponderService = new AutoResponderService();
-    autoResponderService.bind(window).subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
-        dispatch(AppActions.fileDrop(autoResponderBoxEntry));
+    let datastore = new Datastore({
+        filename: DATA_STORE_FILENAME
     });
+    datastore.loadDatabase((err) => {
+        if (err) {
+            throw err;
+        }
 
-    /**
-     * ClientRequestRepository
-     */
-    let clientRequestRepository = new ClientRequestRepository();
-    clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
-        dispatch(AppActions.clientRequest(clientRequestEntity));
-    });
+        /**
+         * AutoResponderService
+         */
+        let autoResponderService = new AutoResponderService(datastore);
+        let subject = autoResponderService.createSubject();
+        window.addEventListener("drop", (e) => {
+            if (!e.dataTransfer || !e.dataTransfer.files.length) {
+                return;
+            }
+            subject.next(Array.from(e.dataTransfer.files));
+        });
+        autoResponderService.getObserver().subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
+            dispatch(AppActions.fileDrop(autoResponderBoxEntry));
+        });
+        autoResponderService.loadFile();
 
-    /**
-     * ProxyService
-     */
-    let proxyService = new ProxyService(autoResponderService, clientRequestRepository);
-    proxyService.createServer();
+        /**
+         * ClientRequestRepository
+         */
+        let clientRequestRepository = new ClientRequestRepository();
+        clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
+            dispatch(AppActions.clientRequest(clientRequestEntity));
+        });
 
-    /**
-     * CertificateService
-     */
-    let certificateService = new CertificateService();
-    certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
-        dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
-    });
-    eventEmitter.addListener("clickCertificateStatus", () => {
-        certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
+        /**
+         * ProxyService
+         */
+        let proxyService = new ProxyService(autoResponderService, clientRequestRepository);
+        proxyService.createServer();
+
+        /**
+         * CertificateService
+         */
+        let certificateService = new CertificateService();
+        certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
             dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
         });
-    });
+        eventEmitter.addListener("clickCertificateStatus", () => {
+            certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
+                dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+            });
+        });
 
-    /**
-     * ProxySettingService
-     */
-    let proxySettingService = new ProxySettingService();
-    proxySettingService.initialize().then((proxySettingStatus: ProxySettingStatus) => {
-        dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
-    });
-    eventEmitter.addListener("clickProxySettingStatus", () => {
-        proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
+        /**
+         * ProxySettingService
+         */
+        let proxySettingService = new ProxySettingService();
+        proxySettingService.initialize().then((proxySettingStatus: ProxySettingStatus) => {
             dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
         });
+        eventEmitter.addListener("clickProxySettingStatus", () => {
+            proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
+                dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
+            });
+        });
     });
+
     return {};
 }
 
