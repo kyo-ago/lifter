@@ -1,19 +1,23 @@
-import * as Rx from "@reactivex/rxjs/dist/cjs/Rx";
+import * as Datastore from "nedb";
 
-import {OnMemoryRepository} from "typescript-dddbase";
+import {AsyncOnNedbRepository} from "../base/async-on-nedb-repository";
 import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
 import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-entity";
 import {AutoResponderSettingFileFactory} from "./auto-responder-setting-file-factory";
-import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";
 
-export class AutoResponderSettingFileRepository extends OnMemoryRepository<AutoResponderSettingFileIdentity, AutoResponderSettingFileEntity> {
-    public observer: Rx.Observable<AutoResponderBoxEntry>;
-    private subject: Rx.Subject<AutoResponderBoxEntry>;
-
-    constructor() {
-        super();
-        this.subject = new Rx.Subject<AutoResponderBoxEntry>();
-        this.observer = this.subject.asObservable();
+export class AutoResponderSettingFileRepository extends AsyncOnNedbRepository<AutoResponderSettingFileIdentity, AutoResponderSettingFileEntity> {
+    constructor(datastore: Datastore) {
+        super(datastore, {
+            toEntity(json: any): AutoResponderSettingFileEntity {
+                return this.createFromPath(json['path'], parseInt(json['id'], 10));
+            },
+            toJSON(entity: AutoResponderSettingFileEntity): Object {
+                return {
+                    id: entity.id,
+                    path: entity.path,
+                };
+            },
+        });
     }
 
     storeFile(file: File): AutoResponderSettingFileEntity {

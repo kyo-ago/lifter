@@ -35,67 +35,63 @@ function mapDispatchToProps(dispatch: any) {
     window.document.body.addEventListener("dragend", (e) => e.preventDefault());
 
     let datastore = new Datastore({
-        filename: DATA_STORE_FILENAME
+        filename: DATA_STORE_FILENAME,
+        autoload: true,
     });
-    datastore.loadDatabase((err) => {
-        if (err) {
-            throw err;
+
+    /**
+     * AutoResponderService
+     */
+    let autoResponderService = new AutoResponderService(datastore);
+    let subject = autoResponderService.createSubject();
+    window.addEventListener("drop", (e) => {
+        if (!e.dataTransfer || !e.dataTransfer.files.length) {
+            return;
         }
+        subject.next(Array.from(e.dataTransfer.files));
+    });
+    autoResponderService.getObserver().subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
+        dispatch(AppActions.fileDrop(autoResponderBoxEntry));
+    });
+    autoResponderService.loadFile();
 
-        /**
-         * AutoResponderService
-         */
-        let autoResponderService = new AutoResponderService(datastore);
-        let subject = autoResponderService.createSubject();
-        window.addEventListener("drop", (e) => {
-            if (!e.dataTransfer || !e.dataTransfer.files.length) {
-                return;
-            }
-            subject.next(Array.from(e.dataTransfer.files));
-        });
-        autoResponderService.getObserver().subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
-            dispatch(AppActions.fileDrop(autoResponderBoxEntry));
-        });
-        autoResponderService.loadFile();
+    /**
+     * ClientRequestRepository
+     */
+    let clientRequestRepository = new ClientRequestRepository();
+    clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
+        dispatch(AppActions.clientRequest(clientRequestEntity));
+    });
 
-        /**
-         * ClientRequestRepository
-         */
-        let clientRequestRepository = new ClientRequestRepository();
-        clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
-            dispatch(AppActions.clientRequest(clientRequestEntity));
-        });
+    /**
+     * ProxyService
+     */
+    let proxyService = new ProxyService(autoResponderService, clientRequestRepository);
+    proxyService.createServer();
 
-        /**
-         * ProxyService
-         */
-        let proxyService = new ProxyService(autoResponderService, clientRequestRepository);
-        proxyService.createServer();
-
-        /**
-         * CertificateService
-         */
-        let certificateService = new CertificateService();
-        certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
+    /**
+     * CertificateService
+     */
+    let certificateService = new CertificateService();
+    certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
+        dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+    });
+    eventEmitter.addListener("clickCertificateStatus", () => {
+        certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
             dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
         });
-        eventEmitter.addListener("clickCertificateStatus", () => {
-            certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
-                dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
-            });
-        });
+    });
 
-        /**
-         * ProxySettingService
-         */
-        let proxySettingService = new ProxySettingService();
-        proxySettingService.initialize().then((proxySettingStatus: ProxySettingStatus) => {
+    /**
+     * ProxySettingService
+     */
+    let proxySettingService = new ProxySettingService();
+    proxySettingService.initialize().then((proxySettingStatus: ProxySettingStatus) => {
+        dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
+    });
+    eventEmitter.addListener("clickProxySettingStatus", () => {
+        proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
             dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
-        });
-        eventEmitter.addListener("clickProxySettingStatus", () => {
-            proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
-                dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
-            });
         });
     });
 

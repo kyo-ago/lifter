@@ -12,7 +12,7 @@ export class AutoResponderService {
 
     constructor(private datastore: Datastore) {
         this.autoResponderEntryRepository = new AutoResponderEntryRepository();
-        this.autoResponderSettingFileRepository = new AutoResponderSettingFileRepository();
+        this.autoResponderSettingFileRepository = new AutoResponderSettingFileRepository(this.datastore);
     }
 
     createSubject() {

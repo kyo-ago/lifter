@@ -13,8 +13,8 @@ interface SettingFileFormat {
 export class AutoResponderSettingFileFactory {
     private static identity = 0;
 
-    static createFromFile(file: File): AutoResponderSettingFileEntity {
-        let settings: SettingFileFormat = require(file.path);
+    static createFromPath(path: string, identity: number = this.identity++): AutoResponderSettingFileEntity {
+        let settings: SettingFileFormat = require(path);
         let autoResponderEntryEntities = settings.responder.map((res) => {
             return AutoResponderEntryFactory.create({
                 pattern: res.pattern,
@@ -23,9 +23,13 @@ export class AutoResponderSettingFileFactory {
             });
         });
         return new AutoResponderSettingFileEntity(
-            new AutoResponderSettingFileIdentity(this.identity++),
-            new AutoResponderSettingFilePath(file.path),
+            new AutoResponderSettingFileIdentity(identity),
+            new AutoResponderSettingFilePath(path),
             autoResponderEntryEntities,
         );
+    }
+
+    static createFromFile(file: File): AutoResponderSettingFileEntity {
+        return this.createFromPath(file.path);
     }
 }
