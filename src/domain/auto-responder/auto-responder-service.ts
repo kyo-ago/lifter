@@ -11,7 +11,7 @@ export class AutoResponderService {
     private autoResponderSettingFileRepository: AutoResponderSettingFileRepository;
 
     constructor(private datastore: Datastore) {
-        this.autoResponderEntryRepository = new AutoResponderEntryRepository();
+        this.autoResponderEntryRepository = new AutoResponderEntryRepository(this.datastore);
         this.autoResponderSettingFileRepository = new AutoResponderSettingFileRepository(this.datastore);
     }
 
@@ -34,6 +34,7 @@ export class AutoResponderService {
     }
 
     loadFile() {
+        this.autoResponderSettingFileRepository.loadFile();
     }
 
     private storeFile(file: File) {

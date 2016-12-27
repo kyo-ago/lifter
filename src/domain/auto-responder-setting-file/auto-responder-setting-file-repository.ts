@@ -9,7 +9,7 @@ export class AutoResponderSettingFileRepository extends AsyncOnNedbRepository<Au
     constructor(datastore: Datastore) {
         super(datastore, {
             toEntity(json: any): AutoResponderSettingFileEntity {
-                return this.createFromPath(json['path'], parseInt(json['id'], 10));
+                return AutoResponderSettingFileFactory.createFromPath(json['path'], parseInt(json['id'], 10));
             },
             toJSON(entity: AutoResponderSettingFileEntity): Object {
                 return {
@@ -24,5 +24,9 @@ export class AutoResponderSettingFileRepository extends AsyncOnNedbRepository<Au
         let entity = AutoResponderSettingFileFactory.createFromFile(file);
         this.store(entity);
         return entity;
+    }
+
+    loadFile() {
+
     }
 }

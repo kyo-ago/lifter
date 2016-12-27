@@ -7,6 +7,7 @@ import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path"
 import {AutoResponderEntryType, AutoResponderEntryTypeName} from "./value-objects/auto-responder-entry-type";
 
 export interface AutoResponderEntryParam {
+    id?: number;
     pattern: string;
     path: string;
     type: AutoResponderEntryTypeName;
@@ -17,7 +18,7 @@ export class AutoResponderEntryFactory {
 
     static create(param: AutoResponderEntryParam): AutoResponderEntryEntity {
         return new AutoResponderEntryEntity(
-            new AutoResponderEntryIdentity(this.identity++),
+            new AutoResponderEntryIdentity(param.id || this.identity++),
             new AutoResponderEntryPattern(param.pattern),
             new AutoResponderEntryPath(param.path),
             new AutoResponderEntryType(param.type),
@@ -30,12 +31,11 @@ export class AutoResponderEntryFactory {
                 if (err) {
                     return reject(err);
                 }
-                resolve(new AutoResponderEntryEntity(
-                    new AutoResponderEntryIdentity(this.identity++),
-                    new AutoResponderEntryPattern(file.name),
-                    new AutoResponderEntryPath(file.path),
-                    new AutoResponderEntryType(stat.isFile() ? "File" : "Directory"),
-                ));
+                resolve(this.create({
+                    pattern: file.name,
+                    path: file.path,
+                    type: stat.isFile() ? "File" : "Directory",
+                }));
             });
         });
     }
