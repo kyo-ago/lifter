@@ -50,7 +50,7 @@ function mapDispatchToProps(dispatch: any) {
     /**
      * ProxyService
      */
-    let proxyService = new ProxyService(autoResponderService.repository, clientRequestRepository);
+    let proxyService = new ProxyService(autoResponderService, clientRequestRepository);
     proxyService.createServer();
 
     /**

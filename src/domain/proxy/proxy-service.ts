@@ -1,14 +1,14 @@
-import {AutoResponderEntryRepository} from "../auto-responder-entry/auto-responder-entry-repository";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 import {ClientRequestRepository} from "../client-request/client-request-repository";
 import {PROXY_PORT} from "../settings";
+import {AutoResponderService} from "../auto-responder/auto-responder-service";
 
 const Proxy = require('http-mitm-proxy');
 const proxy = Proxy();
 
 export class ProxyService {
     constructor(
-        private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private autoResponderService: AutoResponderService,
         private clientRequestRepository: ClientRequestRepository,
     ) {
     }
@@ -26,7 +26,7 @@ export class ProxyService {
 
             let clientRequestUrl = new ClientRequestUrl(href);
             this.clientRequestRepository.storeRequest(clientRequestUrl);
-            this.autoResponderEntryRepository.findMatchEntry(clientRequestUrl).then((result) => {
+            this.autoResponderService.findMatchEntry(clientRequestUrl).then((result) => {
                 if (!result) {
                     return callback();
                 }

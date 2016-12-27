@@ -16,10 +16,9 @@ export class AutoResponderSettingFileRepository extends OnMemoryRepository<AutoR
         this.observer = this.subject.asObservable();
     }
 
-    storeFile(file: File): Promise<AutoResponderSettingFileEntity> {
-        return AutoResponderSettingFileFactory.createFromFile(file).then((entity) => {
-            this.store(entity);
-            return entity;
-        });
+    storeFile(file: File): AutoResponderSettingFileEntity {
+        let entity = AutoResponderSettingFileFactory.createFromFile(file);
+        this.store(entity);
+        return entity;
     }
 }

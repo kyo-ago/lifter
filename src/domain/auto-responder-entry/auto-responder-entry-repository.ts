@@ -4,9 +4,9 @@ import {OnMemoryRepository} from "typescript-dddbase";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
+import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
-import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";
 
 export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
     public observer: Rx.Observable<AutoResponderBoxEntry>;
@@ -30,11 +30,9 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
         return entity;
     }
 
-    storeFilesList(files: File[]) {
-        files.forEach((file) => {
-            AutoResponderEntryFactory.createFromFile(file).then((entity) => {
-                this.store(entity);
-            });
+    storeFile(file: File) {
+        AutoResponderEntryFactory.createFromFile(file).then((entity) => {
+            this.store(entity);
         });
     }
 
