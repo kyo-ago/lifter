@@ -4,6 +4,7 @@ import {RewriteRuleResponseIdentity} from "./rewrite-rule-response-identity";
 export class RewriteRuleResponseEntity extends Entity<RewriteRuleResponseIdentity> {
     constructor(
         identity: RewriteRuleResponseIdentity,
+
     ) {
         super(identity);
     }
