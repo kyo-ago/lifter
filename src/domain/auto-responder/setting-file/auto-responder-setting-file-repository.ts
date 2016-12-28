@@ -1,6 +1,6 @@
 import * as Datastore from "nedb";
 
-import {AsyncOnNedbRepository} from "../base/async-on-nedb-repository";
+import {AsyncOnNedbRepository} from "../../base/async-on-nedb-repository";
 import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
 import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-entity";
 import {AutoResponderSettingFileFactory} from "./auto-responder-setting-file-factory";

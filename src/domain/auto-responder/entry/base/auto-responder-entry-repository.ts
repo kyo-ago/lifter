@@ -1,13 +1,13 @@
 import * as Rx from "@reactivex/rxjs/dist/cjs/Rx";
 import * as Datastore from "nedb";
 
-import {AsyncOnNedbRepository} from "../base/async-on-nedb-repository";
+import {AsyncOnNedbRepository} from "../../../base/async-on-nedb-repository";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
-import {AutoResponderBoxEntry} from "../../ui/components/auto-responder-box";
-import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
-import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
+import {AutoResponderBoxEntry} from "../../../../ui/components/auto-responder-box";
+import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
+import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
 
 export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
     public observer: Rx.Observable<AutoResponderBoxEntry>;

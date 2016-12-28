@@ -1,7 +1,7 @@
 import {AutoResponderSettingFileEntity} from "./auto-responder-setting-file-entity";
 import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
 import {AutoResponderSettingFilePath} from "./value-objects/auto-responder-setting-file-path";
-import {AutoResponderEntryFactory} from "../auto-responder-entry/auto-responder-entry-factory";
+import {AutoResponderEntryFactory} from "../entry/base/auto-responder-entry-factory";
 
 interface SettingFileFormat {
     responder: {

@@ -1,4 +1,4 @@
-import {BaseValueObject} from "../../base/value-object";
+import {BaseValueObject} from "../../../../base/value-object";
 
 export type AutoResponderEntryTypeName = "File" | "Directory" | "Glob" | "RegExp";
 

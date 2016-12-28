@@ -6,12 +6,12 @@ import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
 import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
 import {AutoResponderEntryType} from "./value-objects/auto-responder-entry-type";
-import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
-import {LocalFileResponderFactory} from "../local-file-responder/local-file-responder-factory";
-import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
-import {LocalFileResponderSize} from "../local-file-responder/value-objects/local-file-responder-size";
-import {LocalFileResponderPath} from "../local-file-responder/value-objects/local-file-responder-path";
-import {LocalFileResponderType} from "../local-file-responder/value-objects/local-file-responder-type";
+import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
+import {LocalFileResponderFactory} from "../../../local-file-responder/local-file-responder-factory";
+import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
+import {LocalFileResponderSize} from "../../../local-file-responder/value-objects/local-file-responder-size";
+import {LocalFileResponderPath} from "../../../local-file-responder/value-objects/local-file-responder-path";
+import {LocalFileResponderType} from "../../../local-file-responder/value-objects/local-file-responder-type";
 
 export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity> {
     constructor(

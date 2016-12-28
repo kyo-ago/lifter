@@ -2,13 +2,13 @@ import 'mocha';
 import * as Path from "path";
 import * as assert from "assert";
 
-import {AutoResponderEntryEntity} from "../../../src/domain/auto-responder-entry/auto-responder-entry-entity";
-import {AutoResponderEntryIdentity} from "../../../src/domain/auto-responder-entry/auto-responder-entry-identity";
-import {AutoResponderEntryPattern} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-pattern";
-import {AutoResponderEntryPath} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-path";
+import {AutoResponderEntryEntity} from "../../../src/domain/auto-responder/entry/base/auto-responder-entry-entity";
+import {AutoResponderEntryIdentity} from "../../../src/domain/auto-responder/entry/base/auto-responder-entry-identity";
+import {AutoResponderEntryPattern} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-pattern";
+import {AutoResponderEntryPath} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-path";
 import {ClientRequestUrl} from "../../../src/domain/client-request/value-objects/client-request-url";
 import {LocalFileResponderEntity} from "../../../src/domain/local-file-responder/local-file-responder-entity";
-import {AutoResponderEntryType} from "../../../src/domain/auto-responder-entry/value-objects/auto-responder-entry-type";
+import {AutoResponderEntryType} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-type";
 
 describe('AutoResponderEntryEntity', () => {
     let absoluteDirectoryPath = Path.resolve(__dirname);

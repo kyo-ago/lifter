@@ -1,4 +1,4 @@
-import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
+import {AutoResponderEntryEntity} from "../../domain/auto-responder/entry/base/auto-responder-entry-entity";
 import * as AppActions from "../actions/index";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
 import {CertificateStatus} from "../../domain/certificate/certificate-service";
