@@ -1,4 +1,4 @@
 import {FilePath} from "../../../../base/value-objects/file-path";
 
-export class AutoResponderEntryPath extends FilePath {
+export class AutoResponderEntryBasePath extends FilePath {
 }

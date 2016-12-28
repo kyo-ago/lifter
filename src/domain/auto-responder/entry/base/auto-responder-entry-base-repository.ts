@@ -2,28 +2,28 @@ import * as Rx from "@reactivex/rxjs/dist/cjs/Rx";
 import * as Datastore from "nedb";
 
 import {AsyncOnNedbRepository} from "../../../base/async-on-nedb-repository";
-import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
-import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
+import {AutoResponderEntryBaseIdentity} from "./auto-responder-entry-base-identity";
+import {AutoResponderEntryBaseEntity} from "./auto-responder-entry-base-entity";
+import {AutoResponderEntryBaseFactory} from "./auto-responder-entry-base-factory";
 import {AutoResponderBoxEntry} from "../../../../ui/components/auto-responder-box";
 import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
 
-export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
+export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<AutoResponderEntryBaseIdentity, AutoResponderEntryBaseEntity> {
     public observer: Rx.Observable<AutoResponderBoxEntry>;
     private subject: Rx.Subject<AutoResponderBoxEntry>;
 
     constructor(datastore: Datastore) {
         super(datastore, {
-            toEntity(json: any): AutoResponderEntryEntity {
-                return AutoResponderEntryFactory.create({
+            toEntity(json: any): AutoResponderEntryBaseEntity {
+                return AutoResponderEntryBaseFactory.create({
                     id: parseInt(json['id'], 10),
                     pattern: json['pattern'],
                     path: json['path'],
                     type: json['type'],
                 });
             },
-            toJSON(entity: AutoResponderEntryEntity): Object {
+            toJSON(entity: AutoResponderEntryBaseEntity): Object {
                 return {
                     id: entity.id,
                     pattern: entity.pattern,
@@ -36,7 +36,7 @@ export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResp
         this.observer = this.subject.asObservable();
     }
 
-    store(entity: AutoResponderEntryEntity): Promise<AutoResponderEntryEntity> {
+    store(entity: AutoResponderEntryBaseEntity): Promise<AutoResponderEntryBaseEntity> {
         return super.store(entity).then(() => {
             let entry = {
                 id: entity.id,
@@ -49,7 +49,7 @@ export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResp
     }
 
     storeFile(file: File) {
-        AutoResponderEntryFactory.createFromFile(file).then((entity) => {
+        AutoResponderEntryBaseFactory.createFromFile(file).then((entity) => {
             this.store(entity);
         });
     }

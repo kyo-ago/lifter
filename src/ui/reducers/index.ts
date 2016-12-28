@@ -1,18 +1,18 @@
-import {AutoResponderEntryEntity} from "../../domain/auto-responder/entry/base/auto-responder-entry-entity";
+import {AutoResponderEntryBaseEntity} from "../../domain/auto-responder/entry/base/auto-responder-entry-base-entity";
 import * as AppActions from "../actions/index";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
 import {CertificateStatus} from "../../domain/certificate/certificate-service";
 import {ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
 
 export interface AppState {
-    autoResponderEntries: AutoResponderEntryEntity[];
+    autoResponderEntries: AutoResponderEntryBaseEntity[];
     clientRequestEntries: ClientRequestBoxEntry[];
     certificateBoxStatus: CertificateStatus;
     proxySettingBoxStatus: ProxySettingStatus;
 }
 
 let initialState: AppState = {
-    autoResponderEntries: <AutoResponderEntryEntity[]>[],
+    autoResponderEntries: <AutoResponderEntryBaseEntity[]>[],
     clientRequestEntries: <ClientRequestBoxEntry[]>[],
     certificateBoxStatus: "missing",
     proxySettingBoxStatus: "Off",

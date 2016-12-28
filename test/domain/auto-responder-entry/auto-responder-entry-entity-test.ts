@@ -2,21 +2,21 @@ import 'mocha';
 import * as Path from "path";
 import * as assert from "assert";
 
-import {AutoResponderEntryEntity} from "../../../src/domain/auto-responder/entry/base/auto-responder-entry-entity";
-import {AutoResponderEntryIdentity} from "../../../src/domain/auto-responder/entry/base/auto-responder-entry-identity";
-import {AutoResponderEntryPattern} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-pattern";
-import {AutoResponderEntryPath} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-path";
+import {AutoResponderEntryBaseEntity} from "../../../src/domain/auto-responder/entry/base/auto-responder-entry-base-entity";
+import {AutoResponderEntryBaseIdentity} from "../../../src/domain/auto-responder/entry/base/auto-responder-entry-base-identity";
+import {AutoResponderEntryBasePattern} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-base-pattern";
+import {AutoResponderEntryBasePath} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-base-path";
 import {ClientRequestUrl} from "../../../src/domain/client-request/value-objects/client-request-url";
 import {LocalFileResponderEntity} from "../../../src/domain/local-file-responder/local-file-responder-entity";
-import {AutoResponderEntryType} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-type";
+import {AutoResponderEntryBaseType} from "../../../src/domain/auto-responder/entry/base/value-objects/auto-responder-entry-base-type";
 
-describe('AutoResponderEntryEntity', () => {
+describe('AutoResponderEntryBaseEntity', () => {
     let absoluteDirectoryPath = Path.resolve(__dirname);
-    let directoryAutoResponderEntryEntity = new AutoResponderEntryEntity(
-        new AutoResponderEntryIdentity(1),
-        new AutoResponderEntryPattern(Path.basename(absoluteDirectoryPath)),
-        new AutoResponderEntryPath(absoluteDirectoryPath),
-        new AutoResponderEntryType("Directory"),
+    let directoryAutoResponderEntryEntity = new AutoResponderEntryBaseEntity(
+        new AutoResponderEntryBaseIdentity(1),
+        new AutoResponderEntryBasePattern(Path.basename(absoluteDirectoryPath)),
+        new AutoResponderEntryBasePath(absoluteDirectoryPath),
+        new AutoResponderEntryBaseType("Directory"),
     );
     it('match directoryAutoResponderEntryEntity.getMatchResponder', () => {
         let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));
@@ -37,11 +37,11 @@ describe('AutoResponderEntryEntity', () => {
     });
 
     let absoluteFilePath = Path.resolve(__filename);
-    let fileAutoResponderEntryEntity = new AutoResponderEntryEntity(
-        new AutoResponderEntryIdentity(1),
-        new AutoResponderEntryPattern(Path.basename(absoluteFilePath)),
-        new AutoResponderEntryPath(absoluteFilePath),
-        new AutoResponderEntryType("File"),
+    let fileAutoResponderEntryEntity = new AutoResponderEntryBaseEntity(
+        new AutoResponderEntryBaseIdentity(1),
+        new AutoResponderEntryBasePattern(Path.basename(absoluteFilePath)),
+        new AutoResponderEntryBasePath(absoluteFilePath),
+        new AutoResponderEntryBaseType("File"),
     );
     it('match fileAutoResponderEntryEntity.getMatchResponder', () => {
         let clientRequestPathname = new ClientRequestUrl(Path.resolve(__filename));

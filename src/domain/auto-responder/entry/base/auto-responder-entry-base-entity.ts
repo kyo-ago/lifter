@@ -2,10 +2,10 @@ import * as mime from "mime";
 import {Stats} from "fs";
 import {Entity} from "typescript-dddbase";
 
-import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
-import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
-import {AutoResponderEntryType} from "./value-objects/auto-responder-entry-type";
+import {AutoResponderEntryBaseIdentity} from "./auto-responder-entry-base-identity";
+import {AutoResponderEntryBasePattern} from "./value-objects/auto-responder-entry-base-pattern";
+import {AutoResponderEntryBasePath} from "./value-objects/auto-responder-entry-base-path";
+import {AutoResponderEntryBaseType} from "./value-objects/auto-responder-entry-base-type";
 import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
 import {LocalFileResponderFactory} from "../../../local-file-responder/local-file-responder-factory";
 import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
@@ -13,12 +13,12 @@ import {LocalFileResponderSize} from "../../../local-file-responder/value-object
 import {LocalFileResponderPath} from "../../../local-file-responder/value-objects/local-file-responder-path";
 import {LocalFileResponderType} from "../../../local-file-responder/value-objects/local-file-responder-type";
 
-export class AutoResponderEntryEntity extends Entity<AutoResponderEntryIdentity> {
+export class AutoResponderEntryBaseEntity extends Entity<AutoResponderEntryBaseIdentity> {
     constructor(
-        identity: AutoResponderEntryIdentity,
-        private _pattern: AutoResponderEntryPattern,
-        private _path: AutoResponderEntryPath,
-        private _type: AutoResponderEntryType,
+        identity: AutoResponderEntryBaseIdentity,
+        private _pattern: AutoResponderEntryBasePattern,
+        private _path: AutoResponderEntryBasePath,
+        private _type: AutoResponderEntryBaseType,
     ) {
         super(identity);
     }

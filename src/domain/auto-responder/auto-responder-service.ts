@@ -1,17 +1,17 @@
 import * as Rx from "@reactivex/rxjs/dist/cjs/Rx"
 import * as Datastore from "nedb";
 
-import {AutoResponderEntryRepository} from "./entry/base/auto-responder-entry-repository";
+import {AutoResponderEntryBaseRepository} from "./entry/base/auto-responder-entry-base-repository";
 import {AutoResponderSettingFileRepository} from "./setting-file/auto-responder-setting-file-repository";
 import {SETTING_FILE_NAME} from "../settings";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 
 export class AutoResponderService {
-    private autoResponderEntryRepository: AutoResponderEntryRepository;
+    private autoResponderEntryRepository: AutoResponderEntryBaseRepository;
     private autoResponderSettingFileRepository: AutoResponderSettingFileRepository;
 
     constructor(private datastore: Datastore) {
-        this.autoResponderEntryRepository = new AutoResponderEntryRepository(this.datastore);
+        this.autoResponderEntryRepository = new AutoResponderEntryBaseRepository(this.datastore);
         this.autoResponderSettingFileRepository = new AutoResponderSettingFileRepository(this.datastore);
     }
 
