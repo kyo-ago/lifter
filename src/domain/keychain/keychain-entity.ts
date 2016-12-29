@@ -1,17 +1,13 @@
-import {Entity} from "typescript-dddbase";
+import {BaseEntity} from "../base/base-entity";
 import {KeychainIdentity} from "./keychain-identity";
 import {KeychainName} from "./value-objects/keychain-name";
 
-export class KeychainEntity extends Entity<KeychainIdentity> {
+export class KeychainEntity extends BaseEntity<KeychainIdentity> {
     constructor(
         identity: KeychainIdentity,
         private _name: KeychainName,
     ) {
         super(identity);
-    }
-
-    get id() {
-        return this.getIdentity().getValue();
     }
 
     get name() {

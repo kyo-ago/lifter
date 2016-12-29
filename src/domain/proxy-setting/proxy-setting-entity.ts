@@ -1,21 +1,17 @@
-import {Entity} from "typescript-dddbase";
+import {BaseEntity} from "../base/base-entity";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
 import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
 import {ProxySettingStatus} from "./proxy-setting-service";
 
-export class ProxySettingEntity extends Entity<ProxySettingIdentity> {
+export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     constructor(
         identity: ProxySettingIdentity,
         private _devices: ProxySettingDevices,
         public isGranted: boolean,
     ) {
         super(identity);
-    }
-
-    get id() {
-        return this.getIdentity().getValue();
     }
 
     get devices() {

@@ -1,15 +1,5 @@
-import {Entity} from "typescript-dddbase";
+import {BaseEntity} from "../base/base-entity";
 import {RewriteRuleResponseIdentity} from "./rewrite-rule-response-identity";
 
-export class RewriteRuleResponseEntity extends Entity<RewriteRuleResponseIdentity> {
-    constructor(
-        identity: RewriteRuleResponseIdentity,
-
-    ) {
-        super(identity);
-    }
-
-    get id() {
-        return this.getIdentity().getValue();
-    }
+export class RewriteRuleResponseEntity extends BaseEntity<RewriteRuleResponseIdentity> {
 }

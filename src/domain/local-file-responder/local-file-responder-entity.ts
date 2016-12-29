@@ -1,12 +1,12 @@
 import * as mime from "mime";
-import {Entity} from "typescript-dddbase";
 
+import {BaseEntity} from "../base/base-entity";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
 import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
 import {LocalFileResponderType} from "./value-objects/local-file-responder-type";
 
-export class LocalFileResponderEntity extends Entity<LocalFileResponderIdentity> {
+export class LocalFileResponderEntity extends BaseEntity<LocalFileResponderIdentity> {
     constructor(
         identity: LocalFileResponderIdentity,
         private path: LocalFileResponderPath,

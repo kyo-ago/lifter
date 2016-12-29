@@ -1,6 +1,6 @@
 import * as mime from "mime";
 import {Stats} from "fs";
-import {Entity} from "typescript-dddbase";
+import {BaseEntity} from "../../../base/base-entity";
 
 import {AutoResponderEntryBaseIdentity} from "./auto-responder-entry-base-identity";
 import {AutoResponderEntryBasePattern} from "./value-objects/auto-responder-entry-base-pattern";
@@ -8,23 +8,19 @@ import {AutoResponderEntryBasePath} from "./value-objects/auto-responder-entry-b
 import {AutoResponderEntryBaseType} from "./value-objects/auto-responder-entry-base-type";
 import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
 import {LocalFileResponderFactory} from "../../../local-file-responder/local-file-responder-factory";
-import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
 import {LocalFileResponderSize} from "../../../local-file-responder/value-objects/local-file-responder-size";
 import {LocalFileResponderPath} from "../../../local-file-responder/value-objects/local-file-responder-path";
 import {LocalFileResponderType} from "../../../local-file-responder/value-objects/local-file-responder-type";
+import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
 
-export class AutoResponderEntryBaseEntity extends Entity<AutoResponderEntryBaseIdentity> {
+export class AutoResponderEntryBaseEntity<ID extends AutoResponderEntryBaseIdentity> extends BaseEntity<ID> {
     constructor(
-        identity: AutoResponderEntryBaseIdentity,
-        private _pattern: AutoResponderEntryBasePattern,
-        private _path: AutoResponderEntryBasePath,
-        private _type: AutoResponderEntryBaseType,
+        identity: ID,
+        protected _pattern: AutoResponderEntryBasePattern,
+        protected _path: AutoResponderEntryBasePath,
+        protected _type: AutoResponderEntryBaseType,
     ) {
         super(identity);
-    }
-
-    get id() {
-        return this.getIdentity().getValue();
     }
 
     get pattern() {
@@ -54,7 +50,7 @@ export class AutoResponderEntryBaseEntity extends Entity<AutoResponderEntryBaseI
         });
     }
 
-    private getMatchStats(path: ClientRequestUrl) {
+    protected getMatchStats(path: ClientRequestUrl) {
         return new Promise((resolve, reject) => {
             if (!this._pattern.isMatch(path)) {
                 return resolve(null);
@@ -78,7 +74,7 @@ export class AutoResponderEntryBaseEntity extends Entity<AutoResponderEntryBaseI
             }
             return path.getState().then((stats: Stats) => {
                 return LocalFileResponderFactory.createResponder(
-                    path,
+                    new LocalFileResponderPath(path.value),
                     new LocalFileResponderType(mime.lookup(path.value)),
                     new LocalFileResponderSize(stats.size),
                 );

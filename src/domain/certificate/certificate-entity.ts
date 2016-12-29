@@ -1,15 +1,5 @@
-import {Entity} from "typescript-dddbase";
+import {BaseEntity} from "../base/base-entity";
 import {CertificateIdentity} from "./certificate-identity";
 
-export class CertificateEntity extends Entity<CertificateIdentity> {
-    constructor(
-        identity: CertificateIdentity,
-    ) {
-        super(identity);
-    }
-
-    get id() {
-        return this.getIdentity().getValue();
-    }
-
+export class CertificateEntity extends BaseEntity<CertificateIdentity> {
 }
