@@ -1,5 +1,3 @@
-import * as mime from "mime";
-import {Stats} from "fs";
 import {BaseEntity} from "../../../base/base-entity";
 
 import {AutoResponderEntryBaseIdentity} from "./auto-responder-entry-base-identity";
@@ -7,11 +5,9 @@ import {AutoResponderEntryBasePattern} from "./value-objects/auto-responder-entr
 import {AutoResponderEntryBasePath} from "./value-objects/auto-responder-entry-base-path";
 import {AutoResponderEntryBaseType} from "./value-objects/auto-responder-entry-base-type";
 import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
-import {LocalFileResponderFactory} from "../../../local-file-responder/local-file-responder-factory";
-import {LocalFileResponderSize} from "../../../local-file-responder/value-objects/local-file-responder-size";
-import {LocalFileResponderPath} from "../../../local-file-responder/value-objects/local-file-responder-path";
-import {LocalFileResponderType} from "../../../local-file-responder/value-objects/local-file-responder-type";
 import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
+
+export type AutoResponderEntryEntity = AutoResponderEntryBaseEntity<AutoResponderEntryBaseIdentity>;
 
 export class AutoResponderEntryBaseEntity<ID extends AutoResponderEntryBaseIdentity> extends BaseEntity<ID> {
     constructor(
@@ -36,18 +32,7 @@ export class AutoResponderEntryBaseEntity<ID extends AutoResponderEntryBaseIdent
     }
 
     getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
-        return this.getMatchStats(path).then((stats: Stats | null) => {
-            if (!stats) {
-                return Promise.resolve(null);
-            }
-            if (stats.isFile()) {
-                return this.getFileResponder(stats);
-            }
-            if (stats.isDirectory()) {
-                return this.getDirectoryResponder(path);
-            }
-            return Promise.reject(`Invalid type error`);
-        });
+        throw new Error("Invalid call");
     }
 
     protected getMatchStats(path: ClientRequestUrl) {
@@ -56,29 +41,6 @@ export class AutoResponderEntryBaseEntity<ID extends AutoResponderEntryBaseIdent
                 return resolve(null);
             }
             this._path.getState().then(resolve, reject);
-        });
-    }
-
-    private getFileResponder(stats: Stats) {
-        return LocalFileResponderFactory.createResponder(
-            new LocalFileResponderPath(this._path.value),
-            new LocalFileResponderType(mime.lookup(this._path.value)),
-            new LocalFileResponderSize(stats.size),
-        );
-    }
-
-    private getDirectoryResponder(path: ClientRequestUrl) {
-        return this._path.getMathFile(path).then((path) => {
-            if (!path) {
-                return null;
-            }
-            return path.getState().then((stats: Stats) => {
-                return LocalFileResponderFactory.createResponder(
-                    new LocalFileResponderPath(path.value),
-                    new LocalFileResponderType(mime.lookup(path.value)),
-                    new LocalFileResponderSize(stats.size),
-                );
-            });
         });
     }
 }

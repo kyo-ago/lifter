@@ -1,10 +1,10 @@
 import * as fs from "fs";
 
-import {AutoResponderEntryBaseIdentity} from "./auto-responder-entry-base-identity";
-import {AutoResponderEntryBaseEntity} from "./auto-responder-entry-base-entity";
-import {AutoResponderEntryBasePattern} from "./value-objects/auto-responder-entry-base-pattern";
-import {AutoResponderEntryBasePath} from "./value-objects/auto-responder-entry-base-path";
-import {AutoResponderEntryBaseType, AutoResponderEntryBaseTypeName} from "./value-objects/auto-responder-entry-base-type";
+import {AutoResponderEntryEntity} from "./auto-responder-entry-base-entity";
+import {AutoResponderEntryBaseTypeName} from "./value-objects/auto-responder-entry-base-type";
+import {AutoResponderEntryDirectoryFactory} from "../directory/auto-responder-entry-directory-factory";
+import {AutoResponderEntryFileFactory} from "../file/auto-responder-entry-file-factory";
+import {AutoResponderEntryGlobFactory} from "../glob/auto-responder-entry-glob-factory";
 
 export interface AutoResponderEntryBaseParam {
     id?: number;
@@ -14,18 +14,19 @@ export interface AutoResponderEntryBaseParam {
 }
 
 export class AutoResponderEntryBaseFactory {
-    private static identity = 0;
+    static create(param: AutoResponderEntryBaseParam): AutoResponderEntryEntity {
+        if (param.type === "Directory") {
+            return AutoResponderEntryDirectoryFactory.create(param);
+        } else if (param.type === "File") {
+            return AutoResponderEntryFileFactory.create(param);
+        } else if (param.type === "Glob") {
+            return AutoResponderEntryGlobFactory.create(param);
+        } else {
 
-    static create(param: AutoResponderEntryBaseParam): AutoResponderEntryBaseEntity {
-        return new AutoResponderEntryBaseEntity(
-            new AutoResponderEntryBaseIdentity(param.id || this.identity++),
-            new AutoResponderEntryBasePattern(param.pattern),
-            new AutoResponderEntryBasePath(param.path),
-            new AutoResponderEntryBaseType(param.type),
-        );
+        }
     }
 
-    static createFromFile(file: File): Promise<AutoResponderEntryBaseEntity> {
+    static createFromFile(file: File): Promise<AutoResponderEntryEntity> {
         return new Promise((resolve, reject) => {
             fs.stat(file.path, (err, stat) => {
                 if (err) {

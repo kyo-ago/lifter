@@ -3,19 +3,19 @@ import * as Datastore from "nedb";
 
 import {AsyncOnNedbRepository} from "../../../base/async-on-nedb-repository";
 import {AutoResponderEntryBaseIdentity} from "./auto-responder-entry-base-identity";
-import {AutoResponderEntryBaseEntity} from "./auto-responder-entry-base-entity";
+import {AutoResponderEntryEntity} from "./auto-responder-entry-base-entity";
 import {AutoResponderEntryBaseFactory} from "./auto-responder-entry-base-factory";
 import {AutoResponderBoxEntry} from "../../../../ui/components/auto-responder-box";
 import {LocalFileResponderEntity} from "../../../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
 
-export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<AutoResponderEntryBaseIdentity, AutoResponderEntryBaseEntity> {
+export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<AutoResponderEntryBaseIdentity, AutoResponderEntryEntity> {
     public observer: Rx.Observable<AutoResponderBoxEntry>;
     private subject: Rx.Subject<AutoResponderBoxEntry>;
 
     constructor(datastore: Datastore) {
         super(datastore, {
-            toEntity(json: any): AutoResponderEntryBaseEntity {
+            toEntity(json: any): AutoResponderEntryEntity {
                 return AutoResponderEntryBaseFactory.create({
                     id: json['id'],
                     pattern: json['pattern'],
@@ -23,7 +23,7 @@ export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<Auto
                     type: json['type'],
                 });
             },
-            toJSON(entity: AutoResponderEntryBaseEntity): Object {
+            toJSON(entity: AutoResponderEntryEntity): Object {
                 return {
                     id: entity.id,
                     pattern: entity.pattern,
@@ -36,7 +36,7 @@ export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<Auto
         this.observer = this.subject.asObservable();
     }
 
-    store(entity: AutoResponderEntryBaseEntity): Promise<AutoResponderEntryBaseEntity> {
+    store(entity: AutoResponderEntryEntity): Promise<AutoResponderEntryEntity> {
         return super.store(entity).then(() => {
             let entry = {
                 id: entity.id,
@@ -45,6 +45,7 @@ export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<Auto
                 type: entity.type,
             };
             this.subject.next(entry);
+            return entity;
         });
     }
 
@@ -60,7 +61,7 @@ export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<Auto
                 return promise.then((result) => {
                     return result || entity.getMatchResponder(clientRequestPathname);
                 });
-            }, Promise.resolve(null));
+            }, <Promise<LocalFileResponderEntity | null>>Promise.resolve(null));
         });
     }
 }
