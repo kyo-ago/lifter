@@ -7,11 +7,11 @@ import {SETTING_FILE_NAME} from "../settings";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 
 export class AutoResponderService {
-    private autoResponderEntryRepository: AutoResponderEntryBaseRepository;
+    private autoResponderEntryBaseRepository: AutoResponderEntryBaseRepository;
     private autoResponderSettingFileRepository: AutoResponderSettingFileRepository;
 
     constructor(private datastore: Datastore) {
-        this.autoResponderEntryRepository = new AutoResponderEntryBaseRepository(this.datastore);
+        this.autoResponderEntryBaseRepository = new AutoResponderEntryBaseRepository(this.datastore);
         this.autoResponderSettingFileRepository = new AutoResponderSettingFileRepository(this.datastore);
     }
 
@@ -26,11 +26,11 @@ export class AutoResponderService {
     }
 
     getObserver() {
-        return this.autoResponderEntryRepository.observer;
+        return this.autoResponderEntryBaseRepository.observer;
     }
 
     findMatchEntry(clientRequestPathname: ClientRequestUrl) {
-        return this.autoResponderEntryRepository.findMatchEntry(clientRequestPathname);
+        return this.autoResponderEntryBaseRepository.findMatchEntry(clientRequestPathname);
     }
 
     loadFile() {
@@ -39,12 +39,9 @@ export class AutoResponderService {
 
     private storeFile(file: File) {
         if (file.name !== SETTING_FILE_NAME) {
-            this.autoResponderEntryRepository.storeFile(file);
+            this.autoResponderEntryBaseRepository.storeFile(file);
             return;
         }
-        let entity = this.autoResponderSettingFileRepository.storeFile(file);
-        entity.autoResponderEntries.forEach((entrie) => {
-            this.autoResponderEntryRepository.store(entrie);
-        });
+        let entity = this.autoResponderSettingFileRepository.storeFile(file, this.autoResponderEntryBaseRepository);
     }
 }

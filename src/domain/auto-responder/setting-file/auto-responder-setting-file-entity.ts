@@ -2,18 +2,19 @@ import {Entity} from "typescript-dddbase";
 import {AutoResponderSettingFileIdentity} from "./auto-responder-setting-file-identity";
 import {AutoResponderSettingFilePath} from "./value-objects/auto-responder-setting-file-path";
 import {AutoResponderEntryEntity} from "../entry/base/auto-responder-entry-base-entity";
+import {AutoResponderEntryGlobIdentity} from "../entry/glob/auto-responder-entry-glob-identity";
 
 export class AutoResponderSettingFileEntity extends Entity<AutoResponderSettingFileIdentity> {
-    autoResponderEntries: AutoResponderEntryEntity[];
+    autoResponderEntryGlobIdentity: AutoResponderEntryGlobIdentity[];
 
     constructor(
         identity: AutoResponderSettingFileIdentity,
         private _path: AutoResponderSettingFilePath,
-        autoResponderEntries: AutoResponderEntryEntity[],
+        autoResponderEntryGlobIdentity: AutoResponderEntryGlobIdentity[],
     ) {
         super(identity);
 
-        this.autoResponderEntries = autoResponderEntries;
+        this.autoResponderEntryGlobIdentity = autoResponderEntryGlobIdentity;
     }
 
     get id() {
