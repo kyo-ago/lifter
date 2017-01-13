@@ -18,8 +18,12 @@ export class AutoResponderService {
     createSubject() {
         let subject = new Rx.Subject<File[]>();
         subject.asObservable().subscribe((files) => {
+            if (files.length === 1 && files[0].name === SETTING_FILE_NAME) {
+                this.autoResponderEntryBaseRepository.storeFile(files[0]);
+                return;
+            }
             files.forEach((file) => {
-                this.storeFile(file);
+                this.autoResponderSettingFileRepository.storeFile(file, this.autoResponderEntryBaseRepository);
             });
         });
         return subject;
@@ -35,13 +39,5 @@ export class AutoResponderService {
 
     loadFile() {
         this.autoResponderSettingFileRepository.loadFile();
-    }
-
-    private storeFile(file: File) {
-        if (file.name !== SETTING_FILE_NAME) {
-            this.autoResponderEntryBaseRepository.storeFile(file);
-            return;
-        }
-        let entity = this.autoResponderSettingFileRepository.storeFile(file, this.autoResponderEntryBaseRepository);
     }
 }
