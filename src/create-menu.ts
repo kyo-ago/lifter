@@ -120,5 +120,7 @@ if (process.platform === 'darwin') {
     ]
 }
 
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+export function createMenu () {
+    const menu = Menu.buildFromTemplate(template)
+    Menu.setApplicationMenu(menu)
+}

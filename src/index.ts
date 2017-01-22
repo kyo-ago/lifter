@@ -1,5 +1,6 @@
 import {app, BrowserWindow} from "electron";
-import "./menu";
+import "./create-menu";
+import {createMenu} from "./create-menu";
 
 const windowStateKeeper = require('electron-window-state');
 
@@ -17,8 +18,10 @@ let createWindow = () => {
         mainWindow = null;
     });
     mainWindowState.manage(mainWindow);
+    createMenu();
 };
 app.on('ready', createWindow);
+
 if (process.platform !== 'darwin') {
     app.on('window-all-closed', () => app.quit());
 }
