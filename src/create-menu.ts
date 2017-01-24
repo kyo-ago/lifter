@@ -5,7 +5,12 @@ const template: any = [
         label: 'Proxy',
         submenu: [
             {
-                role: 'undo'
+                label: 'Proxy on',
+                click () { console.log(111) }
+            },
+            {
+                label: 'SSL certificate install',
+                click () { console.log(222) }
             },
         ]
     },
