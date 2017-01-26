@@ -1,6 +1,7 @@
 import * as Datastore from "nedb";
 import * as React from "react";
 import {connect} from "react-redux";
+import {ipcRenderer} from "electron";
 
 import {AutoResponderBoxEntry} from "./auto-responder-box";
 import AppActions from "../actions/index";
@@ -78,6 +79,7 @@ function mapDispatchToProps(dispatch: any) {
     });
     eventEmitter.addListener("clickCertificateStatus", () => {
         certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
+            ipcRenderer.send("clickCertificateStatus", certificateBoxStatus);
             dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
         });
     });

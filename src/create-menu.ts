@@ -1,4 +1,9 @@
-import {app, Menu} from "electron";
+import {app, Menu, shell, ipcMain} from "electron";
+import {CertificateStatus} from "./domain/certificate/certificate-service";
+
+ipcMain.on('clickCertificateStatus', (status: CertificateStatus) => {
+    console.log(status);
+});
 
 const template: any = [
     {
@@ -6,6 +11,10 @@ const template: any = [
         submenu: [
             {
                 label: 'Proxy on',
+                click () { console.log(111) }
+            },
+            {
+                label: 'add Replace entry',
                 click () { console.log(111) }
             },
             {
@@ -59,7 +68,7 @@ const template: any = [
         submenu: [
             {
                 label: 'Learn More',
-                click () { require('electron').shell.openExternal('http://electron.atom.io') }
+                click () { shell.openExternal('http://electron.atom.io') }
             },
         ],
     },
@@ -122,10 +131,10 @@ if (process.platform === 'darwin') {
             label: 'Bring All to Front',
             role: 'front'
         }
-    ]
+    ];
 }
 
 export function createMenu () {
-    const menu = Menu.buildFromTemplate(template)
-    Menu.setApplicationMenu(menu)
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
 }
