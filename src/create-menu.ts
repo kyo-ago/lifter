@@ -1,80 +1,104 @@
 import {app, Menu, shell, ipcMain} from "electron";
 import {CertificateStatus} from "./domain/certificate/certificate-service";
+import {ProxySettingStatus} from "./domain/proxy-setting/proxy-setting-service";
 
-ipcMain.on('clickCertificateStatus', (status: CertificateStatus) => {
-    console.log(status);
+let baseCertificateStatus: CertificateStatus = "missing";
+let baseProxySettingStatus: ProxySettingStatus = "NoPermission";
+
+ipcMain.on('clickCertificateStatus', (certificateStatus: any) => {
+    baseCertificateStatus = certificateStatus;
+    createMenu();
+});
+ipcMain.on('clickProxySettingStatus', (proxySettingStatus: any) => {
+    baseProxySettingStatus = proxySettingStatus;
+    createMenu();
 });
 
-const template: any = [
-    {
-        label: 'Proxy',
-        submenu: [
-            {
-                label: 'Proxy on',
-                click () { console.log(111) }
-            },
-            {
-                label: 'add Replace entry',
-                click () { console.log(111) }
-            },
-            {
-                label: 'SSL certificate install',
-                click () { console.log(222) }
-            },
-        ]
-    },
-    {
-        label: 'View',
-        submenu: [
-            {
-                role: 'reload'
-            },
-            {
-                role: 'toggledevtools'
-            },
-            {
-                type: 'separator'
-            },
-            {
-                role: 'resetzoom'
-            },
-            {
-                role: 'zoomin'
-            },
-            {
-                role: 'zoomout'
-            },
-            {
-                type: 'separator'
-            },
-            {
-                role: 'togglefullscreen'
-            },
-        ],
-    },
-    {
-        role: 'window',
-        submenu: [
-            {
-                role: 'minimize'
-            },
-            {
-                role: 'close'
-            },
-        ],
-    },
-    {
-        role: 'help',
-        submenu: [
-            {
-                label: 'Learn More',
-                click () { shell.openExternal('http://electron.atom.io') }
-            },
-        ],
-    },
-];
+function getTemplate() {
+    let proxySettingStatusMessage = ({
+        'NoPermission': 'Proxy NoPermission',
+        'On': 'Proxy on',
+        'Off': 'Proxy off',
+    })[baseProxySettingStatus];
 
-if (process.platform === 'darwin') {
+    let certificateStatusMessage = ({
+        'missing': 'SSL certificate missing',
+        'installed': 'SSL certificate install',
+    })[baseCertificateStatus];
+
+    const template: any = [
+        {
+            label: 'Proxy',
+            submenu: [
+                {
+                    label: proxySettingStatusMessage,
+                    click () { console.log(111) }
+                },
+                {
+                    label: 'add Replace entry',
+                    click () { console.log(111) }
+                },
+                {
+                    label: certificateStatusMessage,
+                    click () { console.log(222) }
+                },
+            ]
+        },
+        {
+            label: 'View',
+            submenu: [
+                {
+                    role: 'reload'
+                },
+                {
+                    role: 'toggledevtools'
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    role: 'resetzoom'
+                },
+                {
+                    role: 'zoomin'
+                },
+                {
+                    role: 'zoomout'
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    role: 'togglefullscreen'
+                },
+            ],
+        },
+        {
+            role: 'window',
+            submenu: [
+                {
+                    role: 'minimize'
+                },
+                {
+                    role: 'close'
+                },
+            ],
+        },
+        {
+            role: 'help',
+            submenu: [
+                {
+                    label: 'Learn More',
+                    click () { shell.openExternal('http://electron.atom.io') }
+                },
+            ],
+        },
+    ];
+
+    if (process.platform !== 'darwin') {
+        return template;
+    }
+
     template.unshift({
                          label  : app.getName(),
                          submenu: [
@@ -132,9 +156,12 @@ if (process.platform === 'darwin') {
             role: 'front'
         }
     ];
+
+    return template;
 }
 
 export function createMenu () {
+    let template = getTemplate();
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
 }
