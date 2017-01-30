@@ -93,6 +93,7 @@ function mapDispatchToProps(dispatch: any) {
     });
     eventEmitter.addListener("clickProxySettingStatus", () => {
         proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
+            ipcRenderer.send("clickProxySettingStatus", proxySettingStatus);
             dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
         });
     });

@@ -18,7 +18,7 @@ let createWindow = () => {
         mainWindow = null;
     });
     mainWindowState.manage(mainWindow);
-    createMenu();
+    createMenu(mainWindow);
 };
 app.on('ready', createWindow);
 

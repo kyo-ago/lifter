@@ -5,16 +5,16 @@ import {ProxySettingStatus} from "./domain/proxy-setting/proxy-setting-service";
 let baseCertificateStatus: CertificateStatus = "missing";
 let baseProxySettingStatus: ProxySettingStatus = "NoPermission";
 
-ipcMain.on('clickCertificateStatus', (certificateStatus: any) => {
+ipcMain.on('clickCertificateStatus', (event: any, certificateStatus: CertificateStatus) => {
     baseCertificateStatus = certificateStatus;
-    createMenu();
+    setApplicationMenu();
 });
-ipcMain.on('clickProxySettingStatus', (proxySettingStatus: any) => {
+ipcMain.on('clickProxySettingStatus', (event: any, proxySettingStatus: ProxySettingStatus) => {
     baseProxySettingStatus = proxySettingStatus;
-    createMenu();
+    setApplicationMenu();
 });
 
-function getTemplate() {
+function setApplicationMenu() {
     let proxySettingStatusMessage = ({
         'NoPermission': 'Proxy NoPermission',
         'On': 'Proxy on',
@@ -157,11 +157,10 @@ function getTemplate() {
         }
     ];
 
-    return template;
-}
-
-export function createMenu () {
-    let template = getTemplate();
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
+}
+
+export function createMenu(mainWindow: any) {
+    setApplicationMenu();
 }
