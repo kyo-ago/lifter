@@ -4,17 +4,22 @@ import {ProxySettingStatus} from "./domain/proxy-setting/proxy-setting-service";
 
 let baseCertificateStatus: CertificateStatus = "missing";
 let baseProxySettingStatus: ProxySettingStatus = "NoPermission";
+let targetWindow: any;
 
-ipcMain.on('clickCertificateStatus', (event: any, certificateStatus: CertificateStatus) => {
+ipcMain.on("clickCertificateStatus", (event: any, certificateStatus: CertificateStatus) => {
     baseCertificateStatus = certificateStatus;
     setApplicationMenu();
 });
-ipcMain.on('clickProxySettingStatus', (event: any, proxySettingStatus: ProxySettingStatus) => {
+ipcMain.on("clickProxySettingStatus", (event: any, proxySettingStatus: ProxySettingStatus) => {
     baseProxySettingStatus = proxySettingStatus;
     setApplicationMenu();
 });
 
 function setApplicationMenu() {
+    if (!targetWindow) {
+        return;
+    }
+
     let proxySettingStatusMessage = ({
         'NoPermission': 'Proxy NoPermission',
         'On': 'Proxy on',
@@ -32,15 +37,21 @@ function setApplicationMenu() {
             submenu: [
                 {
                     label: proxySettingStatusMessage,
-                    click () { console.log(111) }
+                    click () {
+                        targetWindow.webContents.send("clickProxySettingStatus");
+                    }
                 },
                 {
                     label: 'add Replace entry',
-                    click () { console.log(111) }
+                    click () {
+                        targetWindow.webContents.send("addAutoResponderEntry");
+                    }
                 },
                 {
                     label: certificateStatusMessage,
-                    click () { console.log(222) }
+                    click () {
+                        targetWindow.webContents.send("clickCertificateStatus");
+                    }
                 },
             ]
         },
@@ -162,5 +173,6 @@ function setApplicationMenu() {
 }
 
 export function createMenu(mainWindow: any) {
+    targetWindow = mainWindow;
     setApplicationMenu();
 }

@@ -83,6 +83,9 @@ function mapDispatchToProps(dispatch: any) {
             dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
         });
     });
+    ipcRenderer.on("clickCertificateStatus", () => {
+        eventEmitter.emit("clickCertificateStatus");
+    });
 
     /**
      * ProxySettingService
@@ -96,6 +99,9 @@ function mapDispatchToProps(dispatch: any) {
             ipcRenderer.send("clickProxySettingStatus", proxySettingStatus);
             dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
         });
+    });
+    ipcRenderer.on("clickProxySettingStatus", () => {
+        eventEmitter.emit("clickProxySettingStatus");
     });
 
     return {};
