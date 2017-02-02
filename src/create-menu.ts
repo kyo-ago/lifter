@@ -42,7 +42,7 @@ function setApplicationMenu() {
                     }
                 },
                 {
-                    label: 'add Replace entry',
+                    label: 'Add replace entry',
                     click () {
                         targetWindow.webContents.send("addAutoResponderEntry");
                     }
@@ -115,6 +115,14 @@ function setApplicationMenu() {
                          submenu: [
                              {
                                  role: 'about'
+                             },
+                             {
+                                 type: 'separator'
+                             },
+                             {
+                                 label: 'Preferences',
+                                 accelerator: 'CmdOrCtrl+,',
+                                 click: () => targetWindow.webContents.send("openPreferencesWindow")
                              },
                              {
                                  type: 'separator'
