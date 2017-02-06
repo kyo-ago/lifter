@@ -1,7 +1,7 @@
 import * as Datastore from "nedb";
 import * as React from "react";
 import {connect} from "react-redux";
-import {ipcRenderer} from "electron";
+import {ipcRenderer, remote} from "electron";
 
 import {AutoResponderBoxEntry} from "./auto-responder-box";
 import AppActions from "../actions/index";
@@ -50,6 +50,13 @@ function mapDispatchToProps(dispatch: any) {
             return;
         }
         subject.next(Array.from(e.dataTransfer.files));
+    });
+    ipcRenderer.on("addAutoResponderEntry", () => {
+        remote.dialog.showOpenDialog(null, {
+            properties: ['openDirectory', 'openFile', 'createDirectory'],
+        }, (filePaths) => {
+            autoResponderService.addAutoResponderEntryRepositoryPath(filePaths);
+        });
     });
     autoResponderService.getObserver().subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
         dispatch(AppActions.fileDrop(autoResponderBoxEntry));

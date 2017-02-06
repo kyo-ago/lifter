@@ -55,6 +55,12 @@ export class AutoResponderEntryBaseRepository extends AsyncOnNedbRepository<Auto
         });
     }
 
+    storePath(path: string) {
+        AutoResponderEntryBaseFactory.createFromPath(path).then((entity) => {
+            this.store(entity);
+        });
+    }
+
     findMatchEntry(clientRequestPathname: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return this.findAll().then((entities) => {
             return entities.reduce((promise, entity) => {

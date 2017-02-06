@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as Path from "path";
 
 import {AutoResponderEntryEntity} from "./auto-responder-entry-base-entity";
 import {AutoResponderEntryBaseTypeName} from "./value-objects/auto-responder-entry-base-type";
@@ -35,6 +36,21 @@ export class AutoResponderEntryBaseFactory {
                 resolve(this.create({
                     pattern: file.name,
                     path: file.path,
+                    type: stat.isFile() ? "File" : "Directory",
+                }));
+            });
+        });
+    }
+
+    static createFromPath(path: string): Promise<AutoResponderEntryEntity> {
+        return new Promise((resolve, reject) => {
+            fs.stat(path, (err, stat) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(this.create({
+                    pattern: Path.basename(path),
+                    path: path,
                     type: stat.isFile() ? "File" : "Directory",
                 }));
             });

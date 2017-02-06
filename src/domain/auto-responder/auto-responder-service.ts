@@ -19,14 +19,20 @@ export class AutoResponderService {
         let subject = new Rx.Subject<File[]>();
         subject.asObservable().subscribe((files) => {
             if (files.length === 1 && files[0].name === SETTING_FILE_NAME) {
-                this.autoResponderEntryBaseRepository.storeFile(files[0]);
+                this.autoResponderSettingFileRepository.storeFile(files[0], this.autoResponderEntryBaseRepository);
                 return;
             }
             files.forEach((file) => {
-                this.autoResponderSettingFileRepository.storeFile(file, this.autoResponderEntryBaseRepository);
+                this.autoResponderEntryBaseRepository.storeFile(file);
             });
         });
         return subject;
+    }
+
+    addAutoResponderEntryRepositoryPath(paths: string[]) {
+        paths.forEach((path) => {
+            this.autoResponderEntryBaseRepository.storePath(path);
+        });
     }
 
     getObserver() {
