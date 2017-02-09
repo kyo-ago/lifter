@@ -30,6 +30,9 @@ export class AutoResponderService {
     }
 
     addAutoResponderEntryRepositoryPath(paths: string[]) {
+        if (!paths) {
+            return;
+        }
         paths.forEach((path) => {
             this.autoResponderEntryBaseRepository.storePath(path);
         });

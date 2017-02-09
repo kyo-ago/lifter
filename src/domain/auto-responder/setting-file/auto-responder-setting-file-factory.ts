@@ -26,7 +26,7 @@ export class AutoResponderSettingFileFactory {
         return new AutoResponderSettingFileEntity(
             new AutoResponderSettingFileIdentity(param.id || ++this.identity),
             new AutoResponderSettingFilePath(param.path),
-            param.autoResponderEntyIds.map((id) => new AutoResponderEntryGlobIdentity(id)),
+            (param.autoResponderEntyIds || []).map((id) => new AutoResponderEntryGlobIdentity(id)),
         );
     }
 
