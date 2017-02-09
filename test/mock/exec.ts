@@ -97,9 +97,11 @@ mockRequire('child_process', {
     }
 });
 
-mockRequire('electron-sudo', class {
-    exec() {
-        return Promise.resolve({stdout: '', stderr: ''});
+mockRequire('electron-sudo', {
+    default: class {
+        exec() {
+            return Promise.resolve({stdout: '', stderr: ''});
+        }
     }
 });
 

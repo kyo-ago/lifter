@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import {exec} from "child_process";
-import Sudoer from 'electron-sudo';
+import Sudoer from "electron-sudo";
 
 import {PROXY_SETTING_COMMAND, SECURITY_COMMAND, NETWORK_SETUP_COMMAND} from "../domain/settings";
 
