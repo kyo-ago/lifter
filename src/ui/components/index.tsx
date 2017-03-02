@@ -15,6 +15,7 @@ import {AutoResponderService} from "../../domain/auto-responder/auto-responder-s
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {ProxyService} from "../../domain/proxy/proxy-service";
 import {DATA_STORE_FILENAME} from "../../domain/settings";
+import {ContextMenuService} from "../../domain/context-menu/context-menu-service";
 
 class App extends React.Component<any, any> {
     render() {
@@ -109,6 +110,15 @@ function mapDispatchToProps(dispatch: any) {
     });
     ipcRenderer.on("clickProxySettingStatus", () => {
         eventEmitter.emit("clickProxySettingStatus");
+    });
+
+    /**
+     * ContextMenuService
+     */
+    let contextMenuService = new ContextMenuService();
+    contextMenuService.setEvent(window);
+    eventEmitter.addListener("contextmenuClientRequest", () => {
+        contextMenuService.setEvent(window);
     });
 
     return {};

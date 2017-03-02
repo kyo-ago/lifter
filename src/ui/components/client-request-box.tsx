@@ -1,4 +1,5 @@
 import * as React from "react";
+import {eventEmitter} from "../../libs/event-emitter";
 
 export interface ClientRequestBoxEntry {
     id: number;
@@ -8,6 +9,10 @@ export interface ClientRequestBoxEntry {
 export class ClientRequestBox extends React.Component<{
     entries: ClientRequestBoxEntry[];
 }, {}> {
+    onContextmenu() {
+        eventEmitter.emit("contextmenuClientRequest");
+    }
+
     render() {
         let entries = (this.props.entries || []).map((entry: ClientRequestBoxEntry) => {
             return (
