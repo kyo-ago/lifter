@@ -4,6 +4,8 @@ import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
 import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
 import {ProxySettingStatus} from "./proxy-setting-service";
+import {NetworksetupProxy} from "networksetup-proxy";
+let networksetupProxy = new NetworksetupProxy();
 
 export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     constructor(
@@ -102,6 +104,7 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     }
 
     enableProxy() {
+        networksetupProxy.setwebproxy();
         return Promise.all([
             this.changeProxy('setwebproxy', `${NETWORK_HOST_NAME} ${PROXY_PORT}`, 'getwebproxy', true),
             this.changeProxy('setsecurewebproxy', `${NETWORK_HOST_NAME} ${PROXY_PORT}`, 'getsecurewebproxy', true),
