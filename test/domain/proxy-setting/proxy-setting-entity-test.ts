@@ -9,8 +9,7 @@ import {
 import {ProxySettingEntity} from "../../../src/domain/proxy-setting/proxy-setting-entity";
 import {ProxySettingFactory} from "../../../src/domain/proxy-setting/proxy-setting-factory";
 import {
-    PROXY_SETTING_COMMAND, NETWORK_SETUP_COMMAND, NETWORK_HOST_NAME,
-    PROXY_PORT
+    NETWORK_SETUP_COMMAND
 } from "../../../src/domain/settings";
 
 const assert = require('assert');
@@ -32,22 +31,6 @@ describe('ProxySettingEntity', () => {
         MockingProxySettingFile(500);
         return proxySettingEntity.grantProxy().then((result: boolean) => {
             assert(result);
-        });
-    });
-    it('enableProxy', () => {
-        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
-                callback(undefined, DISABLE_GET_WEB_PROXY_RESULT, '');
-                return true;
-            }
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxy ".+?" ${NETWORK_HOST_NAME} ${PROXY_PORT}$`))) {
-                callback(undefined, '', '');
-                return true;
-            }
-            return false;
-        });
-        return proxySettingEntity.enableProxy().then(() => {
-            assert(true);
         });
     });
     it('hasProxy enable', () => {
@@ -72,22 +55,6 @@ describe('ProxySettingEntity', () => {
         });
         return proxySettingEntity.hasProxy().then((result: boolean) => {
             assert(!result);
-        });
-    });
-    it('disableProxy', () => {
-        MockingChildProcess((command: string, callback: (error: string, stdout: string, stderr: string) => void) => {
-            if (command.match(new RegExp(`^${NETWORK_SETUP_COMMAND} -get(secure)?webproxy ".+?"$`))) {
-                callback(undefined, ENABLE_GET_WEB_PROXY_RESULT, '');
-                return true;
-            }
-            if (command.match(new RegExp(`^${PROXY_SETTING_COMMAND} -set(secure)?webproxystate`))) {
-                callback(undefined, '', '');
-                return true;
-            }
-            return false;
-        });
-        return proxySettingEntity.disableProxy().then(() => {
-            assert(true);
         });
     });
 });

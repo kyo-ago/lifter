@@ -1,7 +1,7 @@
 import {BaseEntity} from "../base/base-entity";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
-import {execGrantNetworkCommand, IOResult, execSuNetworkCommand, execNetworkCommand} from "../../libs/exec-command";
+import {IOResult, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
 import {ProxySettingStatus} from "./proxy-setting-service";
 import {NetworksetupProxy} from "networksetup-proxy";
@@ -56,7 +56,7 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     }
 
     grantProxy() {
-        return execGrantNetworkCommand().then(({stdout, stderr}: IOResult) => {
+        return networksetupProxy.grant().then(({stdout, stderr}: IOResult) => {
             if (stderr) {
                 throw new Error(stderr);
             }
@@ -104,28 +104,35 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     }
 
     enableProxy() {
-        networksetupProxy.setwebproxy();
         return Promise.all([
-            this.changeProxy('setwebproxy', `${NETWORK_HOST_NAME} ${PROXY_PORT}`, 'getwebproxy', true),
-            this.changeProxy('setsecurewebproxy', `${NETWORK_HOST_NAME} ${PROXY_PORT}`, 'getsecurewebproxy', true),
+            this.changeProxy((device: string) => {
+                return networksetupProxy.setwebproxy(device, NETWORK_HOST_NAME, String(PROXY_PORT));
+            }, 'getwebproxy', true),
+            this.changeProxy((device: string) => {
+                return networksetupProxy.setsecurewebproxy(device, NETWORK_HOST_NAME, String(PROXY_PORT));
+            }, 'getsecurewebproxy', true),
         ]);
     }
 
     disableProxy() {
         return Promise.all([
-            this.changeProxy('setwebproxystate', 'off', 'getwebproxy', false),
-            this.changeProxy('setsecurewebproxystate', 'off', 'getsecurewebproxy', false),
+            this.changeProxy((device: string) => {
+                return networksetupProxy.setwebproxystate(device, 'off');
+            }, 'getwebproxy', false),
+            this.changeProxy((device: string) => {
+                return networksetupProxy.setsecurewebproxystate(device, 'off');
+            }, 'getsecurewebproxy', false),
         ]);
     }
 
-    private changeProxy(setCommand: string, setParam: string, getCommand: string, result: boolean) {
+    private changeProxy(setCommand: (device: string) => Promise, getCommand: string, result: boolean) {
         return this.execAllDevices((device) => {
             return new Promise((resolve, reject) => {
                 let exec = (count: number) => {
                     if (!count) {
                         reject();
                     }
-                    execSuNetworkCommand([`-${setCommand} "${device}" ${setParam}`]).then(() => {
+                    setCommand(device).then(() => {
                         return execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
                             if (this.isProxing(stdout) === result) {
                                 return resolve();

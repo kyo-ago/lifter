@@ -15,7 +15,6 @@
   "dependencies": {
     "@reactivex/rxjs": "^5.0.3",
     "browserify": "^13.3.0",
-    "electron-sudo": "^4.0.12",
     "electron-window-state": "^4.0.1",
     "eventemitter2": "^2.2.1",
     "http-mitm-proxy": "^0.5.1",

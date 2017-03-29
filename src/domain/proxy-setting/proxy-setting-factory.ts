@@ -16,7 +16,7 @@ export class ProxySettingFactory {
     static create(
         serviceorder: string,
         ifconfig: Ifconfig,
-        stats: Stats,
+        hasGrant: boolean,
     ): ProxySettingEntity {
         let deviceOrder = serviceorder.trim().match(/\(Hardware Port.+?\)/gi).map((line) => {
             return line.replace(/[\(\)]/g, '').split(/,/).reduce((base: any, cur: string) => {
@@ -33,7 +33,7 @@ export class ProxySettingFactory {
         return new ProxySettingEntity(
             new ProxySettingIdentity(this.identity++),
             new ProxySettingDevices(devices),
-            stats.uid === 0,
+            hasGrant,
         );
     }
 }

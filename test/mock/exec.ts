@@ -1,4 +1,3 @@
-import {PROXY_SETTING_COMMAND} from "../../src/domain/settings";
 import {Ifconfig} from "../../src/domain/proxy-setting/proxy-setting-repository";
 
 const mockFs = require('mock-fs');
@@ -108,16 +107,6 @@ mockRequire('electron-sudo', {
 mockRequire('ifconfig', (callback: (err: any, configs: Ifconfig) => any) => {
     callback(undefined, IFCONFIG_RESULT);
 });
-
-export function MockingProxySettingFile(uidgid: number) {
-    mockFs({
-        [PROXY_SETTING_COMMAND]: mockFs.file({
-            mode: parseInt('0666', 8),
-            uid: uidgid,
-            gid: uidgid,
-        }),
-    });
-}
 
 export function RestoreProxySettingFile() {
     mockFs.restore();
