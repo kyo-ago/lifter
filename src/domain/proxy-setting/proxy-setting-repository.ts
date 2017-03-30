@@ -38,7 +38,7 @@ export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdent
                 });
             }),
             networksetupProxy.hasGrant(),
-        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, boolean]) => {
+        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, any]) => {
             return ProxySettingFactory.create(serviceorder, ifconfig, hasGrant);
         });
     }

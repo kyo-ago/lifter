@@ -125,7 +125,7 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
         ]);
     }
 
-    private changeProxy(setCommand: (device: string) => Promise, getCommand: string, result: boolean) {
+    private changeProxy(setCommand: (device: string) => Promise<any>, getCommand: string, result: boolean) {
         return this.execAllDevices((device) => {
             return new Promise((resolve, reject) => {
                 let exec = (count: number) => {

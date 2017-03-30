@@ -8,7 +8,7 @@
     "declaration": false,
     "noEmitOnError": true,
     "jsx": "React",
-    "lib": ["es5", "dom", "es2015"]
+    "lib": ["dom", "es2015"]
   },
   "include": [
     "./src/global.d.ts",
