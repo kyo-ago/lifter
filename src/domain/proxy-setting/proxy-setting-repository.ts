@@ -3,11 +3,10 @@ import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingEntity} from "./proxy-setting-entity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
 import {execNetworkCommand, IOResult} from "../../libs/exec-command";
-import {PROXY_SETTING_COMMAND} from "../settings";
-
-import {Stats} from "fs";
-const fs = require('fs');
 const ifconfig = require('ifconfig');
+
+import {NetworksetupProxy} from "networksetup-proxy";
+let networksetupProxy = new NetworksetupProxy();
 
 export interface Ifconfig {
     [name: string]: {
@@ -38,16 +37,9 @@ export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdent
                     resolve(configs);
                 });
             }),
-            new Promise((resolve, reject) => {
-                fs.stat(PROXY_SETTING_COMMAND, (err: any, stats: Stats) => {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(stats);
-                });
-            }),
-        ]).then(([serviceorder, ifconfig, stats]: [string, Ifconfig, Stats]) => {
-            return ProxySettingFactory.create(serviceorder, ifconfig, stats);
+            networksetupProxy.hasGrant(),
+        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, any]) => {
+            return ProxySettingFactory.create(serviceorder, ifconfig, hasGrant);
         });
     }
 }
