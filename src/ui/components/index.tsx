@@ -16,6 +16,7 @@ import {ClientRequestRepository} from "../../domain/client-request/client-reques
 import {ProxyService} from "../../domain/proxy/proxy-service";
 import {DATA_STORE_FILENAME} from "../../domain/settings";
 import {ContextMenuService} from "../../domain/context-menu/context-menu-service";
+import {AutoResponderSettingFileEntity} from "../../domain/auto-responder/setting-file/auto-responder-setting-file-entity";
 
 class App extends React.Component<any, any> {
     render() {
@@ -62,7 +63,9 @@ function mapDispatchToProps(dispatch: any) {
     autoResponderService.getObserver().subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
         dispatch(AppActions.fileDrop(autoResponderBoxEntry));
     });
-    autoResponderService.loadFile();
+    autoResponderService.loadFile().then((autoResponderSettingFileEntities: AutoResponderSettingFileEntity[]) => {
+        return autoResponderSettingFileEntities
+    });
 
     /**
      * ClientRequestRepository

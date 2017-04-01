@@ -33,8 +33,6 @@ export class AutoResponderSettingFileRepository extends AsyncOnNedbRepository<Au
     }
 
     loadFile() {
-        this.findAll().then((autoResponderSettingFileEntities: AutoResponderSettingFileEntity[]) => {
-            autoResponderSettingFileEntities
-        });
+        return this.findAll();
     }
 }
