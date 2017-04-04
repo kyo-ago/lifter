@@ -2,7 +2,7 @@ import {OnMemoryRepository} from "typescript-dddbase";
 import {KeychainIdentity} from "./keychain-identity";
 import {KeychainEntity} from "./keychain-entity";
 import {KeychainFactory} from "./keychain-factory";
-import {execSecurityCommand, IOResult} from "../../libs/exec-command";
+import {execSecurityCommand, IOResult} from "../../../libs/exec-command";
 
 export class KeychainRepository extends OnMemoryRepository<KeychainIdentity, KeychainEntity> {
     getKeychain() {
