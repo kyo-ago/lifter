@@ -1,6 +1,6 @@
 import {CertificateRepository} from "./certificate-repository";
-import {KeychainRepository} from "../keychain/keychain-repository";
-import {KeychainEntity} from "../keychain/keychain-entity";
+import {KeychainRepository} from "./keychain/keychain-repository";
+import {KeychainEntity} from "./keychain/keychain-entity";
 
 export type CertificateStatus = "missing" | "installed";
 

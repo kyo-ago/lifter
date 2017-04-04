@@ -72,7 +72,6 @@
     "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
     "pretest": "tsc -p ./tsconfig_test.json",
     "start": "NODE_ENV='development' && electron ./app --enable-logging",
-    "test": "mocha app/test/**/*-test.js",
     "watch": "tsc -p ./tsconfig.json --watch"
   }
 }
