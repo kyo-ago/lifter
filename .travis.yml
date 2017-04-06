@@ -33,4 +33,3 @@ deploy:
   on:
     repo: kyo-ago/lifter
     tags: true
-    all_branches: true
