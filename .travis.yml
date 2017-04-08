@@ -3,7 +3,7 @@ cache:
   directories:
     - node_modules
 env:
-  - NODE_VERSION="6.9"
+  - NODE_VERSION="7.8"
 notifications:
   email: false
 before_install:
@@ -11,6 +11,7 @@ before_install:
   - source /tmp/.nvm/nvm.sh
   - nvm install $NODE_VERSION
   - nvm use --delete-prefix $NODE_VERSION
+  - rvm get stable
   - node --version
 install:
   - npm install
@@ -33,4 +34,3 @@ deploy:
   on:
     repo: kyo-ago/lifter
     tags: true
-    all_branches: true
