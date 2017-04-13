@@ -5,8 +5,12 @@ import {KeychainEntity} from "./keychain/keychain-entity";
 export type CertificateStatus = "missing" | "installed";
 
 export class CertificateService {
-    private certificateRepository = new CertificateRepository();
+    private certificateRepository: CertificateRepository;
     private keychainRepository = new KeychainRepository();
+
+    constructor(userDataPath: string) {
+        this.certificateRepository = new CertificateRepository(userDataPath);
+    }
 
     getCurrentStatus() {
         return new Promise<CertificateStatus>((resolve, reject) => {
