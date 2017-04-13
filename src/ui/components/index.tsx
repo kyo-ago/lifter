@@ -1,4 +1,3 @@
-import * as Datastore from "nedb";
 import * as React from "react";
 import {connect} from "react-redux";
 import {app, remote, ipcRenderer} from "electron";
@@ -38,16 +37,6 @@ function mapDispatchToProps(dispatch: any) {
     window.addEventListener("drop", (e) => e.preventDefault());
     window.document.body.addEventListener("dragend", (e) => e.preventDefault());
 
-    let datastore = new Datastore({
-        filename: Path.join(app.getPath('userData'), DATA_STORE_FILENAME),
-        autoload: true,
-    });
-
-    /**
-     * AutoResponderService
-     */
-    let autoResponderService = new AutoResponderService(datastore);
-    let subject = autoResponderService.createSubject();
     window.addEventListener("drop", (e) => {
         if (!e.dataTransfer || !e.dataTransfer.files.length) {
             return;
