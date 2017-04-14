@@ -1,7 +1,8 @@
 import * as Datastore from "nedb";
 import * as React from "react";
 import {connect} from "react-redux";
-import {ipcRenderer, remote} from "electron";
+import {app, remote, ipcRenderer} from "electron";
+import * as Path from "path";
 
 import {AutoResponderBoxEntry} from "./auto-responder-box";
 import AppActions from "../actions/index";
@@ -14,7 +15,7 @@ import {ProxySettingService, ProxySettingStatus} from "../../domain/proxy-settin
 import {AutoResponderService} from "../../domain/auto-responder/auto-responder-service";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {ProxyService} from "../../domain/proxy/proxy-service";
-import {DATA_STORE_FILENAME} from "../../domain/settings";
+import {DATA_STORE_FILENAME, HTTP_SSL_CA_DIR_PATH} from "../../domain/settings";
 import {ContextMenuService} from "../../domain/context-menu/context-menu-service";
 import {AutoResponderSettingFileEntity} from "../../domain/auto-responder/setting-file/auto-responder-setting-file-entity";
 
@@ -36,9 +37,10 @@ function mapDispatchToProps(dispatch: any) {
     window.addEventListener("dragleave", (e) => e.preventDefault());
     window.addEventListener("drop", (e) => e.preventDefault());
     window.document.body.addEventListener("dragend", (e) => e.preventDefault());
+    let userDataPath = ipcRenderer.sendSync('getUserDataPath');
 
     let datastore = new Datastore({
-        filename: DATA_STORE_FILENAME,
+        filename: Path.join(userDataPath, DATA_STORE_FILENAME),
         autoload: true,
     });
 
@@ -78,13 +80,17 @@ function mapDispatchToProps(dispatch: any) {
     /**
      * ProxyService
      */
-    let proxyService = new ProxyService(autoResponderService, clientRequestRepository);
+    let proxyService = new ProxyService(
+        autoResponderService,
+        clientRequestRepository,
+        Path.join(userDataPath, HTTP_SSL_CA_DIR_PATH)
+    );
     proxyService.createServer();
 
     /**
      * CertificateService
      */
-    let certificateService = new CertificateService();
+    let certificateService = new CertificateService(userDataPath);
     certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
         dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
     });

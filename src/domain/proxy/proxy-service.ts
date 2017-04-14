@@ -10,6 +10,7 @@ export class ProxyService {
     constructor(
         private autoResponderService: AutoResponderService,
         private clientRequestRepository: ClientRequestRepository,
+        private appDataPath: string,
     ) {
     }
 
@@ -39,7 +40,8 @@ export class ProxyService {
 
         proxy.listen({
             port: PROXY_PORT,
-            silent: true
+            silent: true,
+            sslCaDir: this.appDataPath
         }, (err: any) => {
             if (err) {
                 console.error(err);

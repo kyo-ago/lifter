@@ -1,4 +1,4 @@
-import {app, BrowserWindow} from "electron";
+import {app, BrowserWindow, ipcMain} from "electron";
 import "./create-menu";
 import {createMenu} from "./create-menu";
 
@@ -22,7 +22,10 @@ let createWindow = () => {
 };
 app.on('ready', createWindow);
 
-if (process.platform !== 'darwin') {
-    app.on('window-all-closed', () => app.quit());
-}
+app.on('window-all-closed', () => app.quit());
+
 app.on('activate', () => mainWindow || createWindow());
+
+ipcMain.on('getUserDataPath', (event) => {
+    event.returnValue = app.getPath('userData');
+});
