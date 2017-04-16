@@ -2,10 +2,10 @@ import {BaseEntity} from "../base/base-entity";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
 import {IOResult, execNetworkCommand} from "../../libs/exec-command";
-import {PROXY_PORT, NETWORK_HOST_NAME} from "../settings";
+import {PROXY_PORT, NETWORK_HOST_NAME, NETWORK_SETUP_PROXY_COMMAND} from "../settings";
 import {ProxySettingStatus} from "./proxy-setting-service";
 import {NetworksetupProxy} from "networksetup-proxy";
-let networksetupProxy = new NetworksetupProxy();
+let networksetupProxy = new NetworksetupProxy(NETWORK_SETUP_PROXY_COMMAND);
 
 export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     constructor(

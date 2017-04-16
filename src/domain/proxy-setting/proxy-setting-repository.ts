@@ -3,10 +3,11 @@ import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingEntity} from "./proxy-setting-entity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
 import {execNetworkCommand, IOResult} from "../../libs/exec-command";
+import {NETWORK_SETUP_PROXY_COMMAND} from "../settings";
 const ifconfig = require('ifconfig');
 
 import {NetworksetupProxy} from "networksetup-proxy";
-let networksetupProxy = new NetworksetupProxy();
+let networksetupProxy = new NetworksetupProxy(NETWORK_SETUP_PROXY_COMMAND);
 
 export interface Ifconfig {
     [name: string]: {
