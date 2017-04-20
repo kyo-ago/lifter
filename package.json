@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@reactivex/rxjs": "^5.3.0",
-    "browserify": "^14.3.0",
     "electron-window-state": "^4.1.0",
     "eventemitter2": "^4.1.0",
     "http-mitm-proxy": "^0.5.2",
