@@ -670,33 +670,21 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@*, debug@^2.1.3, debug@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
-  dependencies:
-    ms "0.7.1"
-
-debug@0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
-
-debug@2.6.0:
+debug@*, debug@2.6.0, debug@^2.2.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
     ms "0.7.2"
 
-debug@2.6.4:
+debug@0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
+
+debug@2.6.4, debug@^2.1.3, debug@^2.6.1, debug@^2.6.3:
   version "2.6.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.4.tgz#7586a9b3c39741c0282ae33445c4e8ac74734fe0"
   dependencies:
     ms "0.7.3"
-
-debug@^2.6.1, debug@^2.6.3:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.3.tgz#0f7eb8c30965ec08c72accfa0130c8b79984141d"
-  dependencies:
-    ms "0.7.2"
 
 debuglog@^1.0.1:
   version "1.0.1"
@@ -1385,13 +1373,13 @@ home-path@^1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/home-path/-/home-path-1.0.5.tgz#788b29815b12d53bacf575648476e6f9041d133f"
 
-hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@~2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.1.5.tgz#0ba81d90da2e25ab34a332e6ec77936e1598118b"
-
-hosted-git-info@^2.4.2:
+hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.4.2.tgz#0076b9f46a270506ddbaaea56496897460612a67"
+
+hosted-git-info@~2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.1.5.tgz#0ba81d90da2e25ab34a332e6ec77936e1598118b"
 
 http-mitm-proxy@^0.5.2:
   version "0.5.2"
@@ -2016,10 +2004,6 @@ mock-require@^2.0.2:
   dependencies:
     caller-id "^0.1.0"
 
-ms@0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.1.tgz#9cd13c03adbff25b65effde7ce864ee952017098"
-
 ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
@@ -2064,9 +2048,9 @@ nested-error-stacks@^1.0.0:
   dependencies:
     inherits "~2.0.1"
 
-networksetup-proxy@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/networksetup-proxy/-/networksetup-proxy-0.0.10.tgz#3b0f211c3fa4684c3527a1059b2af3525ea555f0"
+networksetup-proxy@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/networksetup-proxy/-/networksetup-proxy-0.0.11.tgz#f6a5192601c548494144e7591878af9fff10beec"
   dependencies:
     execa "^0.6.3"
     sudo-prompt "^7.0.0"
@@ -2132,16 +2116,7 @@ normalize-git-url@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/normalize-git-url/-/normalize-git-url-3.0.2.tgz#8e5f14be0bdaedb73e07200310aa416c27350fc4"
 
-normalize-package-data@^2.0.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, "normalize-package-data@~1.0.1 || ^2.0.0", normalize-package-data@~2.3.5:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.3.6.tgz#498fa420c96401f787402ba21e600def9f981fff"
-  dependencies:
-    hosted-git-info "^2.1.4"
-    is-builtin-module "^1.0.0"
-    semver "2 || 3 || 4 || 5"
-    validate-npm-package-license "^3.0.1"
-
-normalize-package-data@^2.3.8:
+normalize-package-data@^2.0.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.3.8, "normalize-package-data@~1.0.1 || ^2.0.0", normalize-package-data@~2.3.5:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.3.8.tgz#d819eda2a9dedbd1ffa563ea4071d936782295bb"
   dependencies:

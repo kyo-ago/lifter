@@ -20,7 +20,7 @@
     "mime": "^1.3.4",
     "minimatch": "^3.0.3",
     "nedb": "^1.8.0",
-    "networksetup-proxy": "^0.0.10",
+    "networksetup-proxy": "^0.0.11",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
