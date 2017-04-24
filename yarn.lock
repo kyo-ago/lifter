@@ -54,11 +54,7 @@
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@types/nedb/-/nedb-1.8.2.tgz#670227a73fee487dfee00e5444d7df1b038da056"
 
-"@types/node@*":
-  version "7.0.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.12.tgz#ae5f67a19c15f752148004db07cbbb372e69efc9"
-
-"@types/node@^7.0.13":
+"@types/node@*", "@types/node@^7.0.13":
   version "7.0.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.13.tgz#1b0a53fe9ef9c3a5d061b126cc9b915bca43a3f5"
 
@@ -75,11 +71,7 @@
     "@types/react" "*"
     redux "^3.6.0"
 
-"@types/react@*":
-  version "15.0.21"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.21.tgz#29d849427237c1463abfb7b370755ee3e5b5b375"
-
-"@types/react@^15.0.22":
+"@types/react@*", "@types/react@^15.0.22":
   version "15.0.22"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.22.tgz#50803cde8d89f60a9b034f2dd0d619bc5f0273b5"
 
@@ -678,7 +670,7 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-debug@*, debug@2.2.0, debug@^2.1.3, debug@^2.2.0:
+debug@*, debug@^2.1.3, debug@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
   dependencies:
@@ -688,7 +680,19 @@ debug@0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
 
-debug@2.6.3, debug@^2.6.1, debug@^2.6.3:
+debug@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
+  dependencies:
+    ms "0.7.2"
+
+debug@2.6.4:
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.4.tgz#7586a9b3c39741c0282ae33445c4e8ac74734fe0"
+  dependencies:
+    ms "0.7.3"
+
+debug@^2.6.1, debug@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.3.tgz#0f7eb8c30965ec08c72accfa0130c8b79984141d"
   dependencies:
@@ -735,9 +739,9 @@ dezalgo@^1.0.0, dezalgo@^1.0.1, dezalgo@~1.0.3:
     asap "^2.0.0"
     wrappy "1"
 
-diff@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/diff/-/diff-1.4.0.tgz#7f28d2eb9ee7b15a97efd89ce63dcfdaa3ccbabf"
+diff@3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
 dot-prop@^3.0.0:
   version "3.0.0"
@@ -784,29 +788,22 @@ electron-builder-core@17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/electron-builder-core/-/electron-builder-core-17.0.1.tgz#0d1fc68f43dff29d3bc4d703eccc126dc75a99eb"
 
-electron-builder-http@17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-17.0.1.tgz#45c78fdf4ad94f80676ea7a7c685b426309d47a5"
+electron-builder-http@17.0.3, electron-builder-http@~17.0.3:
+  version "17.0.3"
+  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-17.0.3.tgz#fb350112ead7ebc9d744eda4134cc4492a9afd02"
   dependencies:
-    debug "2.6.3"
+    debug "2.6.4"
     fs-extra-p "^4.1.0"
 
-electron-builder-http@~16.6.0:
-  version "16.6.0"
-  resolved "https://registry.yarnpkg.com/electron-builder-http/-/electron-builder-http-16.6.0.tgz#60676caf0f1d9daf385ce070b07eec49efb29f0f"
-  dependencies:
-    debug "2.6.3"
-    fs-extra-p "^4.1.0"
-
-electron-builder-util@17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-17.0.1.tgz#f58afb4d031cde9ba09efc64a6b53b1a29ce63ed"
+electron-builder-util@17.0.3, electron-builder-util@~17.0.3:
+  version "17.0.3"
+  resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-17.0.3.tgz#e29eda2f3d907629288dfddc77f288d91f17fb9d"
   dependencies:
     "7zip-bin" "^2.0.4"
     bluebird-lst "^1.0.2"
     chalk "^1.1.3"
-    debug "2.6.3"
-    electron-builder-http "~16.6.0"
+    debug "2.6.4"
+    electron-builder-http "~17.0.3"
     fs-extra-p "^4.1.0"
     ini "^1.3.4"
     is-ci "^1.0.10"
@@ -815,26 +812,9 @@ electron-builder-util@17.0.1:
     stat-mode "^0.2.2"
     tunnel-agent "^0.6.0"
 
-electron-builder-util@~16.8.3:
-  version "16.8.3"
-  resolved "https://registry.yarnpkg.com/electron-builder-util/-/electron-builder-util-16.8.3.tgz#31a7fdb2f80c255f8f572af8ed9f1c6b033a47ce"
-  dependencies:
-    "7zip-bin" "^2.0.4"
-    bluebird-lst "^1.0.2"
-    chalk "^1.1.3"
-    debug "2.6.3"
-    electron-builder-http "~16.6.0"
-    fs-extra-p "^4.1.0"
-    ini "^1.3.4"
-    is-ci "^1.0.10"
-    node-emoji "^1.5.1"
-    source-map-support "^0.4.14"
-    stat-mode "^0.2.2"
-    tunnel-agent "^0.6.0"
-
-electron-builder@^17.0.1:
-  version "17.0.2"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-17.0.2.tgz#77d8a0ea3c14cf45177260fb5454a94bf1964c24"
+electron-builder@^17.0.3:
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-17.1.0.tgz#8b5a123f863847f10114ed2390b29fa82b69b483"
   dependencies:
     "7zip-bin" "^2.0.4"
     ajv "^5.0.4-beta.2"
@@ -844,11 +824,11 @@ electron-builder@^17.0.1:
     chromium-pickle-js "^0.2.0"
     cuint "^0.2.2"
     electron-builder-core "17.0.1"
-    electron-builder-http "17.0.1"
-    electron-builder-util "17.0.1"
+    electron-builder-http "17.0.3"
+    electron-builder-util "17.0.3"
     electron-download-tf "4.2.1"
     electron-osx-sign "0.4.4"
-    electron-publish "17.0.1"
+    electron-publish "17.0.3"
     fs-extra-p "^4.1.0"
     hosted-git-info "^2.4.2"
     is-ci "^1.0.10"
@@ -856,7 +836,7 @@ electron-builder@^17.0.1:
     js-yaml "^3.8.3"
     minimatch "^3.0.3"
     node-forge "^0.7.1"
-    normalize-package-data "^2.3.6"
+    normalize-package-data "^2.3.8"
     parse-color "^1.0.0"
     plist "^2.0.1"
     sanitize-filename "^1.6.1"
@@ -905,14 +885,14 @@ electron-osx-sign@0.4.4:
     plist "^2.0.1"
     tempfile "^1.1.1"
 
-electron-publish@17.0.1:
-  version "17.0.1"
-  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-17.0.1.tgz#924cc89d1456efbcfe1320c4aa7eb57c34686451"
+electron-publish@17.0.3:
+  version "17.0.3"
+  resolved "https://registry.yarnpkg.com/electron-publish/-/electron-publish-17.0.3.tgz#acbd214145a709ddd9a842849f3e1d9d2563746e"
   dependencies:
     bluebird-lst "^1.0.2"
     chalk "^1.1.3"
-    electron-builder-http "~16.6.0"
-    electron-builder-util "~16.8.3"
+    electron-builder-http "~17.0.3"
+    electron-builder-util "~17.0.3"
     fs-extra-p "^4.1.0"
     mime "^1.3.4"
 
@@ -1277,18 +1257,7 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-glob@7.0.5, glob@^7.0.5:
-  version "7.0.5"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.0.5.tgz#b4202a69099bbb4d292a7c1b95b6682b67ebdc95"
-  dependencies:
-    fs.realpath "^1.0.0"
-    inflight "^1.0.4"
-    inherits "2"
-    minimatch "^3.0.2"
-    once "^1.3.0"
-    path-is-absolute "^1.0.0"
-
-glob@^7.0.3, glob@^7.1.1, glob@~7.1.0:
+glob@7.1.1, glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@~7.1.0:
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
   dependencies:
@@ -1416,17 +1385,13 @@ home-path@^1.0.1:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/home-path/-/home-path-1.0.5.tgz#788b29815b12d53bacf575648476e6f9041d133f"
 
-hosted-git-info@^2.1.4, hosted-git-info@^2.1.5:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.4.1.tgz#4b0445e41c004a8bd1337773a4ff790ca40318c8"
+hosted-git-info@^2.1.4, hosted-git-info@^2.1.5, hosted-git-info@~2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.1.5.tgz#0ba81d90da2e25ab34a332e6ec77936e1598118b"
 
 hosted-git-info@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.4.2.tgz#0076b9f46a270506ddbaaea56496897460612a67"
-
-hosted-git-info@~2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.1.5.tgz#0ba81d90da2e25ab34a332e6ec77936e1598118b"
 
 http-mitm-proxy@^0.5.2:
   version "0.5.2"
@@ -2025,16 +1990,16 @@ mkdirp@0.5.1, mkdirp@0.x.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
-mocha@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-3.2.0.tgz#7dc4f45e5088075171a68896814e6ae9eb7a85e3"
+mocha@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-3.3.0.tgz#d29b7428d3f52c82e2e65df1ecb7064e1aabbfb5"
   dependencies:
     browser-stdout "1.3.0"
     commander "2.9.0"
-    debug "2.2.0"
-    diff "1.4.0"
+    debug "2.6.0"
+    diff "3.2.0"
     escape-string-regexp "1.0.5"
-    glob "7.0.5"
+    glob "7.1.1"
     growl "1.9.2"
     json3 "3.3.2"
     lodash.create "3.1.1"
@@ -2058,6 +2023,10 @@ ms@0.7.1:
 ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
+
+ms@0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.3.tgz#708155a5e44e33f5fd0fc53e81d0d40a91be1fff"
 
 mute-stream@0.0.6:
   version "0.0.6"
@@ -2095,9 +2064,9 @@ nested-error-stacks@^1.0.0:
   dependencies:
     inherits "~2.0.1"
 
-networksetup-proxy@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/networksetup-proxy/-/networksetup-proxy-0.0.9.tgz#8d191a15911f157588e89227df7302f88b4b8682"
+networksetup-proxy@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/networksetup-proxy/-/networksetup-proxy-0.0.10.tgz#3b0f211c3fa4684c3527a1059b2af3525ea555f0"
   dependencies:
     execa "^0.6.3"
     sudo-prompt "^7.0.0"
@@ -2163,9 +2132,18 @@ normalize-git-url@~3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/normalize-git-url/-/normalize-git-url-3.0.2.tgz#8e5f14be0bdaedb73e07200310aa416c27350fc4"
 
-normalize-package-data@^2.0.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.3.6, "normalize-package-data@~1.0.1 || ^2.0.0", normalize-package-data@~2.3.5:
+normalize-package-data@^2.0.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, "normalize-package-data@~1.0.1 || ^2.0.0", normalize-package-data@~2.3.5:
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.3.6.tgz#498fa420c96401f787402ba21e600def9f981fff"
+  dependencies:
+    hosted-git-info "^2.1.4"
+    is-builtin-module "^1.0.0"
+    semver "2 || 3 || 4 || 5"
+    validate-npm-package-license "^3.0.1"
+
+normalize-package-data@^2.3.8:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.3.8.tgz#d819eda2a9dedbd1ffa563ea4071d936782295bb"
   dependencies:
     hosted-git-info "^2.1.4"
     is-builtin-module "^1.0.0"
@@ -2934,13 +2912,7 @@ rimraf@1.x.x:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-1.0.9.tgz#be4801ff76c2ba6f1c50c78e9700eb1d21f239f1"
 
-rimraf@2, rimraf@^2.2.8, rimraf@^2.5.2:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.1.tgz#c2338ec643df7a1b7fe5c54fa86f57428a55f33d"
-  dependencies:
-    glob "^7.0.5"
-
-rimraf@~2.5.4:
+rimraf@2, rimraf@^2.2.8, rimraf@^2.5.2, rimraf@~2.5.4:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.5.4.tgz#96800093cbf1a0c86bd95b4625467535c29dfa04"
   dependencies:
