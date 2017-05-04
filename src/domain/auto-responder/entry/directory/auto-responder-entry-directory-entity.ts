@@ -21,7 +21,7 @@ export class AutoResponderEntryDirectoryEntity extends AutoResponderEntryBaseEnt
                     return null;
                 }
                 return path.getState().then((stats: Stats) => {
-                    return LocalFileResponderFactory.createResponder(
+                    return LocalFileResponderFactory.create(
                         new LocalFileResponderPath(path.value),
                         new LocalFileResponderType(mime.lookup(path.value)),
                         new LocalFileResponderSize(stats.size),

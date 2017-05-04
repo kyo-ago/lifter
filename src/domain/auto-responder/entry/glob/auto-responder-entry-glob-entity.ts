@@ -16,7 +16,7 @@ export class AutoResponderEntryGlobEntity extends AutoResponderEntryBaseEntity<A
             if (!stats) {
                 return Promise.resolve(null);
             }
-            return LocalFileResponderFactory.createResponder(
+            return LocalFileResponderFactory.create(
                 new LocalFileResponderPath(this._path.value),
                 new LocalFileResponderType(mime.lookup(this._path.value)),
                 new LocalFileResponderSize(stats.size),

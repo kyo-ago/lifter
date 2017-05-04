@@ -7,7 +7,7 @@ import {LocalFileResponderType} from "./value-objects/local-file-responder-type"
 export class LocalFileResponderFactory {
     private static identity = 0;
 
-    static createResponder(
+    static create(
         path: LocalFileResponderPath,
         type: LocalFileResponderType,
         size: LocalFileResponderSize,
