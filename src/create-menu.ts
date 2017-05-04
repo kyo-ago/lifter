@@ -22,13 +22,13 @@ function setApplicationMenu() {
 
     let proxySettingStatusMessage = ({
         'NoPermission': 'Proxy NoPermission',
-        'On': 'Proxy on',
-        'Off': 'Proxy off',
+        'On': 'Proxy off',
+        'Off': 'Proxy on',
     })[baseProxySettingStatus];
 
     let certificateStatusMessage = ({
-        'missing': 'SSL certificate missing',
-        'installed': 'SSL certificate install',
+        'missing': 'SSL certificate installed',
+        'installed': 'SSL certificate missing',
     })[baseCertificateStatus];
 
     const template: any = [
