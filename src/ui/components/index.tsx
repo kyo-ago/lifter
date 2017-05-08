@@ -12,12 +12,12 @@ import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
 import {CertificateService, CertificateStatus} from "../../domain/certificate/certificate-service";
 import {ProxySettingService, ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
-import {AutoResponderService} from "../../domain/auto-responder/auto-responder-service";
+import {AutoResponderService} from "../../domain/project/auto-responder-entry/auto-responder-entry-service";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {ProxyService} from "../../domain/proxy/proxy-service";
 import {DATA_STORE_FILENAME, HTTP_SSL_CA_DIR_PATH} from "../../domain/settings";
 import {ContextMenuService} from "../../domain/context-menu/context-menu-service";
-import {AutoResponderSettingFileEntity} from "../../domain/auto-responder/setting-file/auto-responder-setting-file-entity";
+import {AutoResponderSettingFileEntity} from "../../domain/project/auto-responder-entry/setting-file/auto-responder-entry-setting-file-entity";
 
 class App extends React.Component<any, any> {
     render() {
