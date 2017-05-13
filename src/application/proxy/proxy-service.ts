@@ -1,6 +1,6 @@
-import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
-import {ClientRequestRepository} from "../client-request/client-request-repository";
-import {PROXY_PORT} from "../settings";
+import {ClientRequestUrl} from "../../domain/client-request/value-objects/client-request-url";
+import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
+import {PROXY_PORT} from "../../domain/settings";
 import {AutoResponderService} from "../project/auto-responder-entry/auto-responder-entry-service";
 
 const Proxy = require('http-mitm-proxy');

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {eventEmitter} from "../../libs/event-emitter";
-import {CertificateStatus} from "../../domain/certificate/certificate-service";
+import {CertificateStatus} from "../../application/certificate/certificate-service";
 
 export class CertificateBox extends React.Component<{
     status: CertificateStatus;

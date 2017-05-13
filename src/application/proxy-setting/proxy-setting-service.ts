@@ -1,5 +1,5 @@
-import {ProxySettingRepository} from "./proxy-setting-repository";
-import {ProxySettingEntity} from "./proxy-setting-entity";
+import {ProxySettingRepository} from "../../domain/proxy-setting/proxy-setting-repository";
+import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entity";
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 

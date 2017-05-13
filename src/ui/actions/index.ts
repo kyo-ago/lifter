@@ -1,7 +1,7 @@
 import {AutoResponderBoxEntry} from "../components/auto-responder-box";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
-import {CertificateStatus} from "../../domain/certificate/certificate-service";
-import {ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
+import {CertificateStatus} from "../../application/certificate/certificate-service";
+import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
 
 export const FILE_DROP                   = 'FILE_DROP';
 export const CLIENT_REQUEST              = 'CLIENT_REQUEST';
