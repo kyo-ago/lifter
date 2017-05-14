@@ -1,5 +1,5 @@
-import {BaseValueObject} from "../../../base/value-object";
-import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
+import {BaseValueObject} from "../../base/value-object";
+import {ClientRequestUrl} from "../../client-request/value-objects/client-request-url";
 
 export class AutoResponderEntryPattern extends BaseValueObject<string> {
     private regExp: RegExp;

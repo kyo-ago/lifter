@@ -5,28 +5,33 @@ import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pa
 import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
 import {AutoResponderEntryDirectoryEntity} from "./auto-responder-entry-directory-entity";
 import {AutoResponderEntryGlobEntity} from "./auto-responder-entry-glob-entity";
+import {ProjectIdentity} from "../project/project-identity";
 
 export class AutoResponderEntryFactory {
-    private static identity = 0;
+    private identity = 0;
+    constructor(private projectIdentity: ProjectIdentity) {}
 
-    static create(type: AutoResponderEntryType, pattern: string, path: string): AutoResponderEntryInterface {
+    create(type: AutoResponderEntryType, pattern: string, path: string): AutoResponderEntryInterface {
         if (type === "File") {
             return new AutoResponderEntryFileEntity(
                 new AutoResponderEntryIdentity(this.identity++),
                 new AutoResponderEntryPattern(pattern),
                 new AutoResponderEntryPath(path),
+                this.projectIdentity,
             );
         } else if (type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
                 new AutoResponderEntryIdentity(this.identity++),
                 new AutoResponderEntryPattern(pattern),
                 new AutoResponderEntryPath(path),
+                this.projectIdentity,
             );
         } else if (type === "Glob") {
             return new AutoResponderEntryGlobEntity(
                 new AutoResponderEntryIdentity(this.identity++),
                 new AutoResponderEntryPattern(pattern),
                 new AutoResponderEntryPath(path),
+                this.projectIdentity,
             );
         } else {
             throw new Error(`Invalid type, type = "${type}"`);
