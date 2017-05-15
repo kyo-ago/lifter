@@ -3,7 +3,7 @@ import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entit
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 
-export class ProxySettingService {
+export class ProxySetting {
     private proxySettingRepository = new ProxySettingRepository();
 
     initialize() {

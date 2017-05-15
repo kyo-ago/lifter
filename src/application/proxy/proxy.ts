@@ -1,25 +1,26 @@
 import {ClientRequestUrl} from "../../domain/client-request/value-objects/client-request-url";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {PROXY_PORT} from "../../domain/settings";
-import {AutoResponderRepository} from "../../domain/auto-responder-entry/auto-responder-repositoty";
+import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/auto-responder-entry-repositoty";
 
-const Proxy = require('http-mitm-proxy');
-const proxy = Proxy();
+const MitmProxy = require('http-mitm-proxy');
 
-export class ProxyService {
+export class Proxy {
+    private mitmProxy = MitmProxy();
+
     constructor(
-        private autoResponderRepository: AutoResponderRepository,
+        private autoResponderRepository: AutoResponderEntryRepository,
         private clientRequestRepository: ClientRequestRepository,
         private appDataPath: string,
     ) {
     }
 
     createServer() {
-        proxy.onError((ctx: any, err: any) => {
+        this.mitmProxy.onError((ctx: any, err: any) => {
             console.error('proxy error:', err);
         });
 
-        proxy.onRequest((ctx: any, callback: any) => {
+        this.mitmProxy.onRequest((ctx: any, callback: any) => {
             let encrypted = ctx.clientToProxyRequest.client.encrypted;
             let host = ctx.clientToProxyRequest.headers.host;
             let url = ctx.clientToProxyRequest.url;
@@ -38,7 +39,7 @@ export class ProxyService {
             });
         });
 
-        proxy.listen({
+        this.mitmProxy.listen({
             port: PROXY_PORT,
             silent: true,
             sslCaDir: this.appDataPath

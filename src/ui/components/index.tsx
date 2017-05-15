@@ -1,7 +1,7 @@
 import * as Datastore from "nedb";
 import * as React from "react";
 import {connect} from "react-redux";
-import {app, remote, ipcRenderer} from "electron";
+import {ipcRenderer, remote} from "electron";
 import * as Path from "path";
 
 import {AutoResponderBoxEntry} from "./auto-responder-box";
@@ -11,13 +11,14 @@ import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
 import {CertificateService, CertificateStatus} from "../../application/certificate/certificate-service";
-import {ProxySettingService, ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
+import {ProxySetting, ProxySettingStatus} from "../../application/proxy-setting/proxy-setting";
 import {AutoResponderService} from "../../domain/auto-responder-entry/auto-responder-entry-service";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
-import {ProxyService} from "../../application/proxy/proxy-service";
+import {Proxy} from "../../application/proxy/proxy";
 import {DATA_STORE_FILENAME, HTTP_SSL_CA_DIR_PATH} from "../../domain/settings";
 import {ContextMenuService} from "../../domain/context-menu/context-menu-service";
 import {AutoResponderSettingFileEntity} from "../../domain/auto-responder-entry/setting-file/auto-responder-entry-setting-file-entity";
+import {Application} from "../../application/application";
 
 class App extends React.Component<any, any> {
     render() {
@@ -33,6 +34,10 @@ function mapStateToProps(state: any) {
 }
 
 function mapDispatchToProps(dispatch: any) {
+    let application = new Application(window);
+    application.createProject();
+    application.bindEvents(dispatch);
+
     window.addEventListener("dragover", (e) => e.preventDefault());
     window.addEventListener("dragleave", (e) => e.preventDefault());
     window.addEventListener("drop", (e) => e.preventDefault());
@@ -78,14 +83,14 @@ function mapDispatchToProps(dispatch: any) {
     });
 
     /**
-     * ProxyService
+     * Proxy
      */
-    let proxyService = new ProxyService(
+    let proxy = new Proxy(
         autoResponderService,
         clientRequestRepository,
         Path.join(userDataPath, HTTP_SSL_CA_DIR_PATH)
     );
-    proxyService.createServer();
+    proxy.createServer();
 
     /**
      * CertificateService
@@ -105,14 +110,14 @@ function mapDispatchToProps(dispatch: any) {
     });
 
     /**
-     * ProxySettingService
+     * ProxySetting
      */
-    let proxySettingService = new ProxySettingService();
-    proxySettingService.initialize().then((proxySettingStatus: ProxySettingStatus) => {
+    let proxySetting = new ProxySetting();
+    proxySetting.initialize().then((proxySettingStatus: ProxySettingStatus) => {
         dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
     });
     eventEmitter.addListener("clickProxySettingStatus", () => {
-        proxySettingService.click().then((proxySettingStatus: ProxySettingStatus) => {
+        proxySetting.click().then((proxySettingStatus: ProxySettingStatus) => {
             ipcRenderer.send("clickProxySettingStatus", proxySettingStatus);
             dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
         });

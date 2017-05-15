@@ -11,7 +11,7 @@ export class ProjectFactory {
         );
     }
 
-    static createAutoResponderFactory() {
+    static createAutoResponderEntryFactory() {
         return new AutoResponderEntryFactory(
             new ProjectIdentity(this.identity++),
         );

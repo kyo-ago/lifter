@@ -1,6 +1,6 @@
 import {app, Menu, shell, ipcMain} from "electron";
 import {CertificateStatus} from "./application/certificate/certificate-service";
-import {ProxySettingStatus} from "./application/proxy-setting/proxy-setting-service";
+import {ProxySettingStatus} from "./application/proxy-setting/proxy-setting";
 
 let baseCertificateStatus: CertificateStatus = "missing";
 let baseProxySettingStatus: ProxySettingStatus = "NoPermission";
