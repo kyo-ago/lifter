@@ -4,10 +4,11 @@ import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pa
 import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 import {ProjectIdentity} from "../project/project-identity";
+import {AutoResponderEntryBaseEntity} from "./auto-responder-entry-base-entity";
 
 export type AutoResponderEntryType = "File" | "Directory" | "Glob";
 
-export interface AutoResponderEntryInterface {
+export interface AutoResponderEntryInterface extends AutoResponderEntryBaseEntity {
     type: AutoResponderEntryType;
     pattern: AutoResponderEntryPattern;
     path: AutoResponderEntryPath;

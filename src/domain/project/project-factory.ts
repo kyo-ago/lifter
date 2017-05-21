@@ -3,17 +3,17 @@ import {ProjectEntity} from "./project-entity";
 import {AutoResponderEntryFactory} from "../auto-responder-entry/auto-responder-entry-factory";
 
 export class ProjectFactory {
-    private static identity = 0;
+    private identity = 0;
 
-    static create(): ProjectEntity {
+    create(): ProjectEntity {
         return new ProjectEntity(
             new ProjectIdentity(this.identity++),
         );
     }
 
-    static createAutoResponderEntryFactory() {
+    createAutoResponderEntryFactory(projectIdentity: ProjectIdentity) {
         return new AutoResponderEntryFactory(
-            new ProjectIdentity(this.identity++),
+            projectIdentity,
         );
     }
 }

@@ -35,7 +35,6 @@ function mapStateToProps(state: any) {
 
 function mapDispatchToProps(dispatch: any) {
     let application = new Application(window);
-    application.createProject();
     application.bindEvents(dispatch);
 
     window.addEventListener("dragover", (e) => e.preventDefault());

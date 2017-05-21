@@ -5,16 +5,31 @@ import {DATA_STORE_FILENAME} from "../domain/settings";
 import {ProjectEntity} from "../domain/project/project-entity";
 import {ProjectFactory} from "../domain/project/project-factory";
 import {AutoResponderEntryFactory} from "../domain/auto-responder-entry/auto-responder-entry-factory";
+import {AutoResponderBoxEntry} from "../ui/components/auto-responder-box";
+import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
+import {AutoResponderEntryRepository} from "../domain/auto-responder-entry/auto-responder-entry-repositoty";
+import {ClientRequestBoxEntry} from "../ui/components/client-request-box";
+import AppActions from "../ui/actions/index";
+import {AutoResponder} from "./auto-responder/auto-responder";
 
 export class Application {
-    private projectEntity: ProjectEntity | null;
-    private autoResponderEntryFactory: AutoResponderEntryFactory | null;
+    private projectEntity: ProjectEntity;
+    private autoResponderEntryFactory: AutoResponderEntryFactory;
+    private autoResponderEntryRepository: AutoResponderEntryRepository;
+    private autoResponder: AutoResponder;
 
-    constructor(private global: Window) {}
+    constructor(
+        private global: Window,
+        private projectFactory = new ProjectFactory(),
+    ) {
+        this.projectEntity = this.projectFactory.create();
+        this.autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(this.projectEntity.getIdentity());
+        this.autoResponderEntryRepository = new AutoResponderEntryRepository();
 
-    createProject() {
-        this.projectEntity = ProjectFactory.create();
-        this.autoResponderEntryFactory = ProjectFactory.createAutoResponderEntryFactory();
+        this.autoResponder = new AutoResponder(
+            this.autoResponderEntryFactory,
+            this.autoResponderEntryRepository,
+        );
     }
 
     bindEvents(dispatch: any) {
@@ -36,27 +51,18 @@ export class Application {
         /**
          * AutoResponderService
          */
-        let autoResponderService = new AutoResponderService(datastore);
-        let subject = autoResponderService.createSubject();
         this.global.addEventListener("drop", (e) => {
             if (!e.dataTransfer || !e.dataTransfer.files.length) {
                 return;
             }
-            this.autoResponderEntryFactory
-            subject.next(Array.from(e.dataTransfer.files));
+            this.autoResponder.addFiles(Array.from(e.dataTransfer.files));
         });
         ipcRenderer.on("addAutoResponderEntry", () => {
             remote.dialog.showOpenDialog(null, {
                 properties: ['openDirectory', 'openFile', 'createDirectory'],
             }, (filePaths) => {
-                autoResponderService.addAutoResponderEntryRepositoryPath(filePaths);
+                this.autoResponder.addPaths(filePaths);
             });
-        });
-        autoResponderService.getObserver().subscribe((autoResponderBoxEntry: AutoResponderBoxEntry) => {
-            dispatch(AppActions.fileDrop(autoResponderBoxEntry));
-        });
-        autoResponderService.loadFile().then((autoResponderSettingFileEntities: AutoResponderSettingFileEntity[]) => {
-            return autoResponderSettingFileEntities
         });
 
         /**

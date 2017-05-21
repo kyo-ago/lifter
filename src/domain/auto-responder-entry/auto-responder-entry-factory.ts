@@ -1,3 +1,6 @@
+import * as fs from "fs";
+import * as Path from "path";
+
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryInterface, AutoResponderEntryType} from "./auto-responder-entry-interface";
 import {AutoResponderEntryFileEntity} from "./auto-responder-entry-file-entity";
@@ -36,5 +39,29 @@ export class AutoResponderEntryFactory {
         } else {
             throw new Error(`Invalid type, type = "${type}"`);
         }
+    }
+
+    createFromFile(file: File): Promise<AutoResponderEntryInterface> {
+        return this.createFrom(file.name, file.path);
+    }
+
+    createFromPath(path: string): Promise<AutoResponderEntryInterface> {
+        return this.createFrom(Path.basename(path), path);
+    }
+
+    private createFrom(pattern: string, path: string): Promise<AutoResponderEntryInterface> {
+        return new Promise((resolve, reject) => {
+            fs.stat(path, (err, stat) => {
+                if (err) {
+                    return reject(err);
+                }
+                let autoResponderEntry = this.create(
+                    stat.isFile() ? "File" : "Directory",
+                    pattern,
+                    path
+                );
+                resolve(autoResponderEntry);
+            });
+        });
     }
 }
