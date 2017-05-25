@@ -1,10 +1,10 @@
-import {OnMemoryRepository} from "typescript-dddbase";
-import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
-import {LocalFileResponderEntity} from "../local-file-responder/local-file-responder-entity";
-import {AutoResponderEntryInterface} from "./auto-responder-entry-interface";
+import {OnMemoryRepository} from 'typescript-dddbase';
+import {ClientRequestUrl} from '../client-request/value-objects/client-request-url';
+import {LocalFileResponderEntity} from '../local-file-responder/local-file-responder-entity';
+import {AutoResponderEntryEntity} from './auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from './auto-responder-entry-identity';
 
-export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryInterface> {
+export class AutoResponderEntryRepository extends OnMemoryRepository<AutoResponderEntryIdentity, AutoResponderEntryEntity> {
     findMatchEntry(clientRequestPathname: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return new Promise((resolve, reject) => {
             return Object.keys(this.entities).reduce((promise, key) => {
@@ -16,7 +16,7 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
         });
     }
 
-    getEntities(): AutoResponderEntryInterface[] {
+    getEntities(): AutoResponderEntryEntity[] {
         return Object.keys(this.entities)
             .map((key) => Number(key))
             .sort((a, b) => a - b)

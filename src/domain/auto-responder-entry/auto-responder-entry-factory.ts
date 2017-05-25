@@ -1,20 +1,19 @@
-import * as fs from "fs";
-import * as Path from "path";
-
-import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {AutoResponderEntryInterface, AutoResponderEntryType} from "./auto-responder-entry-interface";
-import {AutoResponderEntryFileEntity} from "./auto-responder-entry-file-entity";
-import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
-import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
-import {AutoResponderEntryDirectoryEntity} from "./auto-responder-entry-directory-entity";
-import {AutoResponderEntryGlobEntity} from "./auto-responder-entry-glob-entity";
-import {ProjectIdentity} from "../project/project-identity";
+import * as fs from 'fs';
+import * as Path from 'path';
+import {ProjectIdentity} from '../project/project-identity';
+import {AutoResponderEntryDirectoryEntity} from './auto-responder-entry-directory-entity';
+import {AutoResponderEntryEntity, AutoResponderEntryType} from './auto-responder-entry-entity';
+import {AutoResponderEntryFileEntity} from './auto-responder-entry-file-entity';
+import {AutoResponderEntryGlobEntity} from './auto-responder-entry-glob-entity';
+import {AutoResponderEntryIdentity} from './auto-responder-entry-identity';
+import {AutoResponderEntryPath} from './value-objects/auto-responder-entry-path';
+import {AutoResponderEntryPattern} from './value-objects/auto-responder-entry-pattern';
 
 export class AutoResponderEntryFactory {
     private identity = 0;
     constructor(private projectIdentity: ProjectIdentity) {}
 
-    create(type: AutoResponderEntryType, pattern: string, path: string): AutoResponderEntryInterface {
+    create(type: AutoResponderEntryType, pattern: string, path: string): AutoResponderEntryEntity {
         if (type === "File") {
             return new AutoResponderEntryFileEntity(
                 new AutoResponderEntryIdentity(this.identity++),
@@ -41,15 +40,15 @@ export class AutoResponderEntryFactory {
         }
     }
 
-    createFromFile(file: File): Promise<AutoResponderEntryInterface> {
+    createFromFile(file: File): Promise<AutoResponderEntryEntity> {
         return this.createFrom(file.name, file.path);
     }
 
-    createFromPath(path: string): Promise<AutoResponderEntryInterface> {
+    createFromPath(path: string): Promise<AutoResponderEntryEntity> {
         return this.createFrom(Path.basename(path), path);
     }
 
-    private createFrom(pattern: string, path: string): Promise<AutoResponderEntryInterface> {
+    private createFrom(pattern: string, path: string): Promise<AutoResponderEntryEntity> {
         return new Promise((resolve, reject) => {
             fs.stat(path, (err, stat) => {
                 if (err) {

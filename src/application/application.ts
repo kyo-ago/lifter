@@ -1,16 +1,15 @@
-import * as Path from "path";
-import * as Datastore from "nedb";
-import {ipcRenderer, remote} from "electron";
-import {DATA_STORE_FILENAME} from "../domain/settings";
-import {ProjectEntity} from "../domain/project/project-entity";
-import {ProjectFactory} from "../domain/project/project-factory";
-import {AutoResponderEntryFactory} from "../domain/auto-responder-entry/auto-responder-entry-factory";
-import {AutoResponderBoxEntry} from "../ui/components/auto-responder-box";
-import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
-import {AutoResponderEntryRepository} from "../domain/auto-responder-entry/auto-responder-entry-repositoty";
-import {ClientRequestBoxEntry} from "../ui/components/client-request-box";
-import AppActions from "../ui/actions/index";
-import {AutoResponder} from "./auto-responder/auto-responder";
+import {ipcRenderer, remote} from 'electron';
+import * as Datastore from 'nedb';
+import * as Path from 'path';
+import {AutoResponderEntryFactory} from '../domain/auto-responder-entry/auto-responder-entry-factory';
+import {AutoResponderEntryRepository} from '../domain/auto-responder-entry/auto-responder-entry-repositoty';
+import {ClientRequestRepository} from '../domain/client-request/client-request-repository';
+import {ProjectEntity} from '../domain/project/project-entity';
+import {ProjectFactory} from '../domain/project/project-factory';
+import {DATA_STORE_FILENAME} from '../domain/settings';
+import AppActions from '../ui/actions/index';
+import {ClientRequestBoxEntry} from '../ui/components/client-request-box';
+import {AutoResponder} from './auto-responder/auto-responder';
 
 export class Application {
     private projectEntity: ProjectEntity;
@@ -49,20 +48,11 @@ export class Application {
         });
 
         /**
-         * AutoResponderService
+         * AutoResponder
          */
-        this.global.addEventListener("drop", (e) => {
-            if (!e.dataTransfer || !e.dataTransfer.files.length) {
-                return;
-            }
-            this.autoResponder.addFiles(Array.from(e.dataTransfer.files));
-        });
-        ipcRenderer.on("addAutoResponderEntry", () => {
-            remote.dialog.showOpenDialog(null, {
-                properties: ['openDirectory', 'openFile', 'createDirectory'],
-            }, (filePaths) => {
-                this.autoResponder.addPaths(filePaths);
-            });
+        this.autoResponder.bind(this.global, () => {
+            this.autoResponder.getAutoResponderBoxEntries();
+            ///
         });
 
         /**

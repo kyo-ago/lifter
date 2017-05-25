@@ -1,7 +1,6 @@
-import * as Rx from "@reactivex/rxjs/dist/cjs/Rx";
-
-import {AutoResponderEntryFactory} from "../../domain/auto-responder-entry/auto-responder-entry-factory";
-import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/auto-responder-entry-repositoty";
+import {ipcRenderer, remote} from 'electron';
+import {AutoResponderEntryFactory} from '../../domain/auto-responder-entry/auto-responder-entry-factory';
+import {AutoResponderEntryRepository} from '../../domain/auto-responder-entry/auto-responder-entry-repositoty';
 
 export interface AutoResponderBoxEntry {
     id: number;
@@ -10,27 +9,30 @@ export interface AutoResponderBoxEntry {
     type: string;
 }
 
-export class AutoResponder extends Rx.Subject<null> {
+export class AutoResponder {
     constructor(
         private autoResponderEntryFactory: AutoResponderEntryFactory,
         private autoResponderEntryRepository: AutoResponderEntryRepository,
+    ) {}
+
+    bind(
+        global: Window,
+        updater: () => void,
     ) {
-        super();
-    }
-
-    addFiles(files: File[]) {
-        let filePromises = files.map((file) => this.autoResponderEntryFactory.createFromFile(file));
-        return Promise.all(filePromises).then((autoResponderEntryEntities) => {
-            this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
-            this.next();
+        global.addEventListener("drop", (e) => {
+            if (!e.dataTransfer || !e.dataTransfer.files.length) {
+                return;
+            }
+            this.addFiles(Array.from(e.dataTransfer.files));
+            updater();
         });
-    }
-
-    addPaths(paths: string[]) {
-        let filePromises = paths.map((path) => this.autoResponderEntryFactory.createFromPath(path));
-        return Promise.all(filePromises).then((autoResponderEntryEntities) => {
-            this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
-            this.next();
+        ipcRenderer.on("addAutoResponderEntry", () => {
+            remote.dialog.showOpenDialog(null, {
+                properties: ['openDirectory', 'openFile', 'createDirectory'],
+            }, (filePaths) => {
+                this.addPaths(filePaths);
+                updater();
+            });
         });
     }
 
@@ -42,6 +44,20 @@ export class AutoResponder extends Rx.Subject<null> {
                 path: entity.path.value,
                 type: entity.type,
             };
+        });
+    }
+
+    private addFiles(files: File[]) {
+        let filePromises = files.map((file) => this.autoResponderEntryFactory.createFromFile(file));
+        return Promise.all(filePromises).then((autoResponderEntryEntities) => {
+            this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+        });
+    }
+
+    private addPaths(paths: string[]) {
+        let filePromises = paths.map((path) => this.autoResponderEntryFactory.createFromPath(path));
+        return Promise.all(filePromises).then((autoResponderEntryEntities) => {
+            this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
         });
     }
 }
