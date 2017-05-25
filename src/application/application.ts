@@ -13,8 +13,6 @@ import {AutoResponder} from './auto-responder/auto-responder';
 
 export class Application {
     private projectEntity: ProjectEntity;
-    private autoResponderEntryFactory: AutoResponderEntryFactory;
-    private autoResponderEntryRepository: AutoResponderEntryRepository;
     private autoResponder: AutoResponder;
 
     constructor(
@@ -22,12 +20,11 @@ export class Application {
         private projectFactory = new ProjectFactory(),
     ) {
         this.projectEntity = this.projectFactory.create();
-        this.autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(this.projectEntity.getIdentity());
-        this.autoResponderEntryRepository = new AutoResponderEntryRepository();
+        let autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(this.projectEntity.getIdentity());
 
         this.autoResponder = new AutoResponder(
-            this.autoResponderEntryFactory,
-            this.autoResponderEntryRepository,
+            autoResponderEntryFactory,
+            new AutoResponderEntryRepository(),
         );
     }
 
@@ -53,14 +50,6 @@ export class Application {
         this.autoResponder.bind(this.global, () => {
             this.autoResponder.getAutoResponderBoxEntries();
             ///
-        });
-
-        /**
-         * ClientRequestRepository
-         */
-        let clientRequestRepository = new ClientRequestRepository();
-        clientRequestRepository.observer.subscribe((clientRequestEntity: ClientRequestBoxEntry) => {
-            dispatch(AppActions.clientRequest(clientRequestEntity));
         });
 
         /**
