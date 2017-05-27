@@ -10,6 +10,8 @@ import {AutoResponderService} from "./auto-responder/auto-responder-service";
 import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
 import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
 import {ContextMenuService} from "./context-menu/context-menu-service";
+import {ProxyService} from "./proxy/proxy-service";
+import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
 
 export class Application {
     private projectEntity: ProjectEntity;
@@ -53,14 +55,14 @@ export class Application {
         });
 
         /**
-         * Proxy
+         * ProxyService
          */
-        let proxy = new Proxy(
-            autoResponderService,
-            clientRequestRepository,
+        let proxyService = new ProxyService(
+            new AutoResponderEntryRepository(),
+            new ClientRequestRepository(),
             Path.join(userDataPath, HTTP_SSL_CA_DIR_PATH)
         );
-        proxy.createServer();
+        proxyService.createServer();
 
         /**
          * CertificateService

@@ -21,9 +21,9 @@ function setApplicationMenu() {
     }
 
     let proxySettingStatusMessage = ({
-        'NoPermission': 'Proxy NoPermission',
-        'On': 'Proxy off',
-        'Off': 'Proxy on',
+        'NoPermission': 'ProxyService NoPermission',
+        'On': 'ProxyService off',
+        'Off': 'ProxyService on',
     })[baseProxySettingStatus];
 
     let certificateStatusMessage = ({

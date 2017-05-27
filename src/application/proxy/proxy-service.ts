@@ -5,7 +5,7 @@ import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/au
 
 const MitmProxy = require('http-mitm-proxy');
 
-export class Proxy {
+export class ProxyService {
     private mitmProxy = MitmProxy();
 
     constructor(

@@ -17,11 +17,11 @@ export class ProxySettingBox extends React.Component<{
             },
             'On' : {
                 'className' : 'icon-shuffle',
-                'title' : 'Proxy off',
+                'title' : 'ProxyService off',
             },
             'Off' : {
                 'className' : 'icon-switch',
-                'title' : 'Proxy on',
+                'title' : 'ProxyService on',
             },
         } as any)[this.props.status];
         return (
