@@ -6,14 +6,14 @@ import {ProjectEntity} from "../domain/project/project-entity";
 import {ProjectFactory} from "../domain/project/project-factory";
 import {DATA_STORE_FILENAME, HTTP_SSL_CA_DIR_PATH} from "../domain/settings";
 import AppActions from "../ui/actions/index";
-import {AutoResponder} from "./auto-responder/auto-responder";
+import {AutoResponderService} from "./auto-responder/auto-responder-service";
 import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
-import {eventEmitter} from "../libs/event-emitter";
-import {ProxySetting, ProxySettingStatus} from "./proxy-setting/proxy-setting";
+import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
+import {ContextMenuService} from "./context-menu/context-menu-service";
 
 export class Application {
     private projectEntity: ProjectEntity;
-    private autoResponder: AutoResponder;
+    private autoResponderService: AutoResponderService;
 
     constructor(
         private global: Window,
@@ -22,7 +22,7 @@ export class Application {
         this.projectEntity = this.projectFactory.create();
         let autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(this.projectEntity.getIdentity());
 
-        this.autoResponder = new AutoResponder(
+        this.autoResponderService = new AutoResponderService(
             autoResponderEntryFactory,
             new AutoResponderEntryRepository(),
         );
@@ -45,10 +45,10 @@ export class Application {
         });
 
         /**
-         * AutoResponder
+         * AutoResponderService
          */
-        this.autoResponder.bind(this.global, () => {
-            this.autoResponder.getAutoResponderBoxEntries();
+        this.autoResponderService.bind(this.global, () => {
+            this.autoResponderService.getAutoResponderBoxEntries();
             ///
         });
 
@@ -66,40 +66,30 @@ export class Application {
          * CertificateService
          */
         let certificateService = new CertificateService(userDataPath);
-        certificateService.bind(() => {
+        let getCurrentCertificateStatus = () => {
             certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
                 dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
-                ipcRenderer.send("clickCertificateStatus", certificateBoxStatus);
             });
-        });
-        certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
-            dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
-        });
+        };
+        certificateService.bind(getCurrentCertificateStatus);
+        getCurrentCertificateStatus();
 
         /**
-         * ProxySetting
+         * ProxySettingService
          */
-        let proxySetting = new ProxySetting();
-        proxySetting.initialize().then((proxySettingStatus: ProxySettingStatus) => {
-            dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
-        });
-        eventEmitter.addListener("clickProxySettingStatus", () => {
-            proxySetting.click().then((proxySettingStatus: ProxySettingStatus) => {
-                ipcRenderer.send("clickProxySettingStatus", proxySettingStatus);
+        let proxySettingService = new ProxySettingService();
+        let getCurrentProxySettingStatus = () => {
+            proxySettingService.getCurrentStatus().then((proxySettingStatus: ProxySettingStatus) => {
                 dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
             });
-        });
-        ipcRenderer.on("clickProxySettingStatus", () => {
-            eventEmitter.emit("clickProxySettingStatus");
-        });
+        };
+        proxySettingService.bind(getCurrentProxySettingStatus);
+        getCurrentProxySettingStatus();
 
         /**
          * ContextMenuService
          */
         let contextMenuService = new ContextMenuService();
-        contextMenuService.setEvent(window);
-        eventEmitter.addListener("contextmenuClientRequest", () => {
-            contextMenuService.setEvent(window);
-        });
+        contextMenuService.bind(this.global);
     }
 }

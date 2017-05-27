@@ -1,6 +1,7 @@
-import {ipcRenderer, remote} from 'electron';
-import {AutoResponderEntryFactory} from '../../domain/auto-responder-entry/auto-responder-entry-factory';
-import {AutoResponderEntryRepository} from '../../domain/auto-responder-entry/auto-responder-entry-repositoty';
+import {remote} from "electron";
+import {AutoResponderEntryFactory} from "../../domain/auto-responder-entry/auto-responder-entry-factory";
+import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/auto-responder-entry-repositoty";
+import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
 
 export interface AutoResponderBoxEntry {
     id: number;
@@ -9,7 +10,7 @@ export interface AutoResponderBoxEntry {
     type: string;
 }
 
-export class AutoResponder {
+export class AutoResponderService {
     constructor(
         private autoResponderEntryFactory: AutoResponderEntryFactory,
         private autoResponderEntryRepository: AutoResponderEntryRepository,
@@ -26,7 +27,7 @@ export class AutoResponder {
             this.addFiles(Array.from(e.dataTransfer.files));
             updater();
         });
-        ipcRenderer.on("addAutoResponderEntry", () => {
+        ipcRendererHandler.on("addAutoResponderEntry", () => {
             remote.dialog.showOpenDialog(null, {
                 properties: ['openDirectory', 'openFile', 'createDirectory'],
             }, (filePaths) => {

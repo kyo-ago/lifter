@@ -1,8 +1,8 @@
-import {ipcRenderer} from "electron";
 import {CertificateRepository} from "./certificate-repository";
 import {KeychainRepository} from "./keychain/keychain-repository";
 import {KeychainEntity} from "./keychain/keychain-entity";
 import {eventEmitter} from "../../libs/event-emitter";
+import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
 
 export type CertificateStatus = "missing" | "installed";
 
@@ -20,11 +20,12 @@ export class CertificateService {
         updater: () => void,
     ) {
         eventEmitter.addListener("clickCertificateStatus", () => {
-            this.getNewStatus().then(() => {
+            this.getNewStatus().then((status: CertificateStatus) => {
+                ipcRendererHandler.send("clickCertificateStatus", status);
                 updater();
             });
         });
-        ipcRenderer.on("clickCertificateStatus", () => {
+        ipcRendererHandler.on("clickCertificateStatus", () => {
             eventEmitter.emit("clickCertificateStatus");
         });
     }

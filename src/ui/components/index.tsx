@@ -11,12 +11,12 @@ import {WindowContent} from "./window-content";
 import {ToolbarHeader} from "./toolbar-header";
 import {eventEmitter} from "../../libs/event-emitter";
 import {CertificateService, CertificateStatus} from "../../application/certificate/certificate-service";
-import {ProxySetting, ProxySettingStatus} from "../../application/proxy-setting/proxy-setting";
+import {ProxySettingService, ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
 import {AutoResponderService} from "../../domain/auto-responder-entry/auto-responder-entry-service";
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {Proxy} from "../../application/proxy/proxy";
 import {DATA_STORE_FILENAME, HTTP_SSL_CA_DIR_PATH} from "../../domain/settings";
-import {ContextMenuService} from "../../domain/context-menu/context-menu-service";
+import {ContextMenuService} from "../../application/context-menu/context-menu-service";
 import {AutoResponderSettingFileEntity} from "../../domain/auto-responder-entry/setting-file/auto-responder-entry-setting-file-entity";
 import {Application} from "../../application/application";
 
@@ -109,14 +109,14 @@ function mapDispatchToProps(dispatch: any) {
     });
 
     /**
-     * ProxySetting
+     * ProxySettingService
      */
-    let proxySetting = new ProxySetting();
-    proxySetting.initialize().then((proxySettingStatus: ProxySettingStatus) => {
+    let proxySetting = new ProxySettingService();
+    proxySetting.bind().then((proxySettingStatus: ProxySettingStatus) => {
         dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
     });
     eventEmitter.addListener("clickProxySettingStatus", () => {
-        proxySetting.click().then((proxySettingStatus: ProxySettingStatus) => {
+        proxySetting.getNewStatus().then((proxySettingStatus: ProxySettingStatus) => {
             ipcRenderer.send("clickProxySettingStatus", proxySettingStatus);
             dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
         });
@@ -129,9 +129,9 @@ function mapDispatchToProps(dispatch: any) {
      * ContextMenuService
      */
     let contextMenuService = new ContextMenuService();
-    contextMenuService.setEvent(window);
+    contextMenuService.bind(window);
     eventEmitter.addListener("contextmenuClientRequest", () => {
-        contextMenuService.setEvent(window);
+        contextMenuService.bind(window);
     });
 
     return {};
