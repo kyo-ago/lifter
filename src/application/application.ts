@@ -1,15 +1,15 @@
-import {ipcRenderer, remote} from 'electron';
-import * as Datastore from 'nedb';
-import * as Path from 'path';
-import {AutoResponderEntryFactory} from '../domain/auto-responder-entry/auto-responder-entry-factory';
-import {AutoResponderEntryRepository} from '../domain/auto-responder-entry/auto-responder-entry-repositoty';
-import {ClientRequestRepository} from '../domain/client-request/client-request-repository';
-import {ProjectEntity} from '../domain/project/project-entity';
-import {ProjectFactory} from '../domain/project/project-factory';
-import {DATA_STORE_FILENAME} from '../domain/settings';
-import AppActions from '../ui/actions/index';
-import {ClientRequestBoxEntry} from '../ui/components/client-request-box';
-import {AutoResponder} from './auto-responder/auto-responder';
+import {ipcRenderer} from "electron";
+import * as Datastore from "nedb";
+import * as Path from "path";
+import {AutoResponderEntryRepository} from "../domain/auto-responder-entry/auto-responder-entry-repositoty";
+import {ProjectEntity} from "../domain/project/project-entity";
+import {ProjectFactory} from "../domain/project/project-factory";
+import {DATA_STORE_FILENAME, HTTP_SSL_CA_DIR_PATH} from "../domain/settings";
+import AppActions from "../ui/actions/index";
+import {AutoResponder} from "./auto-responder/auto-responder";
+import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
+import {eventEmitter} from "../libs/event-emitter";
+import {ProxySetting, ProxySettingStatus} from "./proxy-setting/proxy-setting";
 
 export class Application {
     private projectEntity: ProjectEntity;
@@ -66,17 +66,14 @@ export class Application {
          * CertificateService
          */
         let certificateService = new CertificateService(userDataPath);
-        certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
-            dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
-        });
-        eventEmitter.addListener("clickCertificateStatus", () => {
-            certificateService.getNewStatus().then((certificateBoxStatus: CertificateStatus) => {
-                ipcRenderer.send("clickCertificateStatus", certificateBoxStatus);
+        certificateService.bind(() => {
+            certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
                 dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+                ipcRenderer.send("clickCertificateStatus", certificateBoxStatus);
             });
         });
-        ipcRenderer.on("clickCertificateStatus", () => {
-            eventEmitter.emit("clickCertificateStatus");
+        certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
+            dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
         });
 
         /**

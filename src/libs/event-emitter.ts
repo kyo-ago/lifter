@@ -1,5 +1,10 @@
 import {EventEmitter2 as EventEmitter} from "eventemitter2";
 
+interface EventMap {
+    "clickCertificateStatus": void;
+    "clickProxySettingStatus": void;
+}
+
 export class eventEmitter {
     private static _instance:eventEmitter = null;
     event: any;
@@ -17,14 +22,13 @@ export class eventEmitter {
         return eventEmitter._instance;
     }
 
-    static addListener(...args: any[]) {
+    static addListener<K extends keyof EventMap>(type: K, listener: (ev?: EventMap[K]) => void): void {
         let instance = eventEmitter.getInstance();
-        instance.event.addListener.apply(instance.event, args);
+        instance.event.addListener(type, listener);
     }
 
-    static emit(...args: any[]) {
+    static emit<K extends keyof EventMap>(type: K, ev?: EventMap[K]): void {
         let instance = eventEmitter.getInstance();
-        instance.event.emit.apply(instance.event, args);
+        ev ? instance.event.emit(type, ev) : instance.event.emit(type);
     }
 }
-
