@@ -1,6 +1,6 @@
 import {app, Menu, shell, ipcMain} from "electron";
-import {CertificateStatus} from "./domain/certificate/certificate-service";
-import {ProxySettingStatus} from "./domain/proxy-setting/proxy-setting-service";
+import {CertificateStatus} from "./application/certificate/certificate-service";
+import {ProxySettingStatus} from "./application/proxy-setting/proxy-setting-service";
 
 let baseCertificateStatus: CertificateStatus = "missing";
 let baseProxySettingStatus: ProxySettingStatus = "NoPermission";
@@ -21,9 +21,9 @@ function setApplicationMenu() {
     }
 
     let proxySettingStatusMessage = ({
-        'NoPermission': 'Proxy NoPermission',
-        'On': 'Proxy off',
-        'Off': 'Proxy on',
+        'NoPermission': 'ProxyService NoPermission',
+        'On': 'ProxyService off',
+        'Off': 'ProxyService on',
     })[baseProxySettingStatus];
 
     let certificateStatusMessage = ({

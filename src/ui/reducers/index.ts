@@ -1,8 +1,8 @@
-import {AutoResponderEntryEntity} from "../../domain/auto-responder/entry/base/auto-responder-entry-base-entity";
 import * as AppActions from "../actions/index";
 import {ClientRequestBoxEntry} from "../components/client-request-box";
-import {CertificateStatus} from "../../domain/certificate/certificate-service";
-import {ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
+import {CertificateStatus} from "../../application/certificate/certificate-service";
+import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
+import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
 
 export interface AppState {
     autoResponderEntries: AutoResponderEntryEntity[];

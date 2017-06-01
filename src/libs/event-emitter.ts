@@ -1,30 +1,25 @@
-import {EventEmitter2 as EventEmitter} from "eventemitter2";
+import {EventEmitter2} from "eventemitter2";
 
-export class eventEmitter {
-    private static _instance:eventEmitter = null;
-    event: any;
+interface EventEmitterMap {
+    "clickCertificateStatus": void;
+    "clickProxySettingStatus": void;
+    "contextmenuClientRequest": void;
+}
+
+export var eventEmitter = new class EventEmitter {
+    private event: EventEmitter2;
 
     constructor() {
-        this.event = new EventEmitter({
+        this.event = new EventEmitter2({
             wildcard: true,
         });
     }
 
-    static getInstance() {
-        if(eventEmitter._instance === null) {
-            eventEmitter._instance = new eventEmitter();
-        }
-        return eventEmitter._instance;
+    addListener<K extends keyof EventEmitterMap>(type: K, listener: (ev?: EventEmitterMap[K]) => void): void {
+        this.event.addListener(type, listener);
     }
 
-    static addListener(...args: any[]) {
-        let instance = eventEmitter.getInstance();
-        instance.event.addListener.apply(instance.event, args);
+    emit<K extends keyof EventEmitterMap>(type: K, ev?: EventEmitterMap[K]): void {
+        ev ? this.event.emit(type, ev) : this.event.emit(type);
     }
-
-    static emit(...args: any[]) {
-        let instance = eventEmitter.getInstance();
-        instance.event.emit.apply(instance.event, args);
-    }
-}
-
+};

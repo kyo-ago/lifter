@@ -1,6 +1,6 @@
 import * as React from "react";
 import {eventEmitter} from "../../libs/event-emitter";
-import {ProxySettingStatus} from "../../domain/proxy-setting/proxy-setting-service";
+import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
 
 export class ProxySettingBox extends React.Component<{
     status: ProxySettingStatus;
@@ -17,11 +17,11 @@ export class ProxySettingBox extends React.Component<{
             },
             'On' : {
                 'className' : 'icon-shuffle',
-                'title' : 'Proxy off',
+                'title' : 'ProxyService off',
             },
             'Off' : {
                 'className' : 'icon-switch',
-                'title' : 'Proxy on',
+                'title' : 'ProxyService on',
             },
         } as any)[this.props.status];
         return (

@@ -1,20 +1,14 @@
 import * as React from "react";
-
-export interface AutoResponderBoxEntry {
-    id: number;
-    pattern: string;
-    path: string;
-    type: string;
-}
+import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
 
 export class AutoResponderBox extends React.Component<{
-    entries: AutoResponderBoxEntry[];
+    entries: AutoResponderEntryEntity[];
 }, {}> {
     render() {
-        let entries = (this.props.entries || []).map((entry: AutoResponderBoxEntry) => {
-            let className = entry.type === '' ? 'icon-folder' : 'icon-doc';
+        let entries = (this.props.entries || []).map((entry: AutoResponderEntryEntity) => {
+            let className = entry.type === 'Directory' ? 'icon-folder' : 'icon-doc';
             return (
-                <span className="nav-group-item" title={entry.path} key={entry.id}>
+                <span className="nav-group-item" title={entry.path.value} key={entry.id}>
                     <span className={`icon ${className}`}></span>
                     {entry.pattern}
                 </span>
