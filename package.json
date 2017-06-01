@@ -1,7 +1,7 @@
 {
   "name": "lifter",
   "description": "Electron Local Proxy for Fiddler users",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "@kyo_ago",
   "bugs": "https://github.com/kyo-ago/lifter/issues",
   "build": {
@@ -42,6 +42,7 @@
     "@types/react-dom": "^15.5.0",
     "@types/react-redux": "^4.4.39",
     "@types/redux": "^3.6.31",
+    "devtron": "^1.4.0",
     "electron": "^1.6.5",
     "electron-builder": "^17.0.3",
     "fixpack": "^2.3.1",
