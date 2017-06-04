@@ -7,10 +7,12 @@ import {LocalFileResponderPath} from '../local-file-responder/value-objects/loca
 import {LocalFileResponderSize} from '../local-file-responder/value-objects/local-file-responder-size';
 import {LocalFileResponderType} from '../local-file-responder/value-objects/local-file-responder-type';
 import {AutoResponderEntryEntity} from './auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
+import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
+import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
+import {ProjectIdentity} from "../project/project-identity";
 
 export class AutoResponderEntryFileEntity extends AutoResponderEntryEntity {
-    type: "File";
-
     getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return this.getMatchStats(path).then((stats: fs.Stats | null) => {
             if (!stats) {

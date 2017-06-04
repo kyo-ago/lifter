@@ -16,7 +16,7 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
         });
     }
 
-    getEntities(): AutoResponderEntryEntity[] {
+    resolveAll(): AutoResponderEntryEntity[] {
         return Object.keys(this.entities)
             .map((key) => Number(key))
             .sort((a, b) => a - b)

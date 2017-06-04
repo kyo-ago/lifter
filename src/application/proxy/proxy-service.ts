@@ -2,35 +2,46 @@ import {ClientRequestUrl} from "../../domain/client-request/value-objects/client
 import {ClientRequestRepository} from "../../domain/client-request/client-request-repository";
 import {PROXY_PORT} from "../../domain/settings";
 import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/auto-responder-entry-repositoty";
-
-const MitmProxy = require('http-mitm-proxy');
+import {ClientRequestFactory} from "../../domain/client-request/client-request-factory";
+import {EventEmitter2} from "eventemitter2";
+const HttpMitmProxy = require('http-mitm-proxy');
 
 export class ProxyService {
-    private mitmProxy = MitmProxy();
+    private mitmProxy: HttpMitmProxy.IProxy;
+    private eventEmitter = new EventEmitter2();
 
     constructor(
         private autoResponderRepository: AutoResponderEntryRepository,
         private clientRequestRepository: ClientRequestRepository,
         private appDataPath: string,
     ) {
+        this.mitmProxy = HttpMitmProxy();
+        this.eventEmitter = new EventEmitter2();
+    }
+
+    onRequest(callback: Function) {
+        this.eventEmitter.addListener("onRequest", callback);
     }
 
     createServer() {
-        this.mitmProxy.onError((ctx: any, err: any) => {
-            console.error('proxy error:', err);
+        this.mitmProxy.onError((context: HttpMitmProxy.IContext, err?: Error, errorKind?: string) => {
+            // context may be null
+            let url = (context && context.clientToProxyRequest) ? context.clientToProxyRequest.url : "";
+            console.error(`${errorKind} on ${url}:${err}`);
         });
 
-        this.mitmProxy.onRequest((ctx: any, callback: any) => {
-            let encrypted = ctx.clientToProxyRequest.client.encrypted;
+        this.mitmProxy.onRequest((ctx: HttpMitmProxy.IContext, callback: (error: Error | undefined) => void) => {
+            let encrypted = (<any>ctx.clientToProxyRequest).client.encrypted;
             let host = ctx.clientToProxyRequest.headers.host;
             let url = ctx.clientToProxyRequest.url;
             let href = `http${encrypted ? `s` : ``}://${host}${url}`;
 
             let clientRequestUrl = new ClientRequestUrl(href);
-            this.clientRequestRepository.storeRequest(clientRequestUrl);
+            this.clientRequestRepository.store(ClientRequestFactory.create(clientRequestUrl));
+            this.eventEmitter.emit("onRequest");
             this.autoResponderRepository.findMatchEntry(clientRequestUrl).then((result) => {
                 if (!result) {
-                    return callback();
+                    return callback(undefined);
                 }
                 ctx.proxyToClientResponse.writeHead(200, result.getHeader());
                 result.getBody().then((body) => {
@@ -43,10 +54,6 @@ export class ProxyService {
             port: PROXY_PORT,
             silent: true,
             sslCaDir: this.appDataPath
-        }, (err: any) => {
-            if (err) {
-                console.error(err);
-            }
         });
     }
 }

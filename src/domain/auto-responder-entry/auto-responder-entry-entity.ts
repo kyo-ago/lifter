@@ -9,10 +9,9 @@ import {LocalFileResponderEntity} from '../local-file-responder/local-file-respo
 export type AutoResponderEntryType = "File" | "Directory" | "Glob";
 
 export abstract class AutoResponderEntryEntity extends BaseEntity<AutoResponderEntryIdentity> {
-    public type: AutoResponderEntryType;
-
     constructor(
         identity: AutoResponderEntryIdentity,
+        public type: AutoResponderEntryType,
         public pattern: AutoResponderEntryPattern,
         public path: AutoResponderEntryPath,
         public projectIdentity: ProjectIdentity,

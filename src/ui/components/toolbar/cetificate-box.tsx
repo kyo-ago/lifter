@@ -1,12 +1,9 @@
 import * as React from "react";
-import {eventEmitter} from "../../libs/event-emitter";
-import {CertificateStatus} from "../../application/certificate/certificate-service";
+import {GlobalProps} from "../index";
 
-export class CertificateBox extends React.Component<{
-    status: CertificateStatus;
-}, {}> {
+export class CertificateBox extends React.Component<GlobalProps, {}> {
     onClick() {
-        eventEmitter.emit("clickCertificateStatus");
+        this.props.clickCertificateStatus();
     }
 
     render() {
@@ -19,7 +16,7 @@ export class CertificateBox extends React.Component<{
                 'className' : 'icon-key',
                 'title' : 'Delete SSL/TLS certification',
             },
-        } as any)[this.props.status];
+        } as any)[this.props.certificateState];
 
         return (
             <button className="btn btn-default" title={ui.title} onClick={this.onClick.bind(this)}>

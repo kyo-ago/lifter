@@ -9,8 +9,6 @@ import {LocalFileResponderType} from '../local-file-responder/value-objects/loca
 import {AutoResponderEntryEntity} from './auto-responder-entry-entity';
 
 export class AutoResponderEntryDirectoryEntity extends AutoResponderEntryEntity {
-    type: "Directory";
-
     getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         return this.getMatchStats(path).then((stats: fs.Stats | null) => {
             if (!stats) {

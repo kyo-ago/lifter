@@ -1,8 +1,6 @@
 import {CertificateRepository} from "./certificate-repository";
 import {KeychainRepository} from "./keychain/keychain-repository";
 import {KeychainEntity} from "./keychain/keychain-entity";
-import {eventEmitter} from "../../libs/event-emitter";
-import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
 
 export type CertificateStatus = "missing" | "installed";
 
@@ -16,20 +14,6 @@ export class CertificateService {
         this.certificateRepository = new CertificateRepository(userDataPath);
     }
 
-    bind(
-        updater: () => void,
-    ) {
-        eventEmitter.addListener("clickCertificateStatus", () => {
-            this.getNewStatus().then((status: CertificateStatus) => {
-                ipcRendererHandler.send("clickCertificateStatus", status);
-                updater();
-            });
-        });
-        ipcRendererHandler.on("clickCertificateStatus", () => {
-            eventEmitter.emit("clickCertificateStatus");
-        });
-    }
-
     getCurrentStatus() {
         return new Promise<CertificateStatus>((resolve, reject) => {
             this.hasCertificate().then((result) => {
@@ -38,7 +22,7 @@ export class CertificateService {
         });
     }
 
-    private getNewStatus() {
+    getNewStatus() {
         return new Promise<CertificateStatus>((resolve, reject) => {
             this.hasCertificate().then((result) => {
                 if (result) {

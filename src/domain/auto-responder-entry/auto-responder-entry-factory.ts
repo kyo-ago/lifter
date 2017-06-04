@@ -17,6 +17,7 @@ export class AutoResponderEntryFactory {
         if (type === "File") {
             return new AutoResponderEntryFileEntity(
                 new AutoResponderEntryIdentity(this.identity++),
+                "File",
                 new AutoResponderEntryPattern(pattern),
                 new AutoResponderEntryPath(path),
                 this.projectIdentity,
@@ -24,6 +25,7 @@ export class AutoResponderEntryFactory {
         } else if (type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
                 new AutoResponderEntryIdentity(this.identity++),
+                "Directory",
                 new AutoResponderEntryPattern(pattern),
                 new AutoResponderEntryPath(path),
                 this.projectIdentity,
@@ -31,6 +33,7 @@ export class AutoResponderEntryFactory {
         } else if (type === "Glob") {
             return new AutoResponderEntryGlobEntity(
                 new AutoResponderEntryIdentity(this.identity++),
+                "Glob",
                 new AutoResponderEntryPattern(pattern),
                 new AutoResponderEntryPath(path),
                 this.projectIdentity,

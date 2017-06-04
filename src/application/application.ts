@@ -3,7 +3,6 @@ import {AutoResponderEntryRepository} from "../domain/auto-responder-entry/auto-
 import {ProjectEntity} from "../domain/project/project-entity";
 import {ProjectFactory} from "../domain/project/project-factory";
 import {HTTP_SSL_CA_DIR_PATH} from "../domain/settings";
-import AppActions from "../ui/actions/index";
 import {AutoResponderService} from "./auto-responder/auto-responder-service";
 import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
 import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
@@ -11,77 +10,101 @@ import {ContextMenuService} from "./context-menu/context-menu-service";
 import {ProxyService} from "./proxy/proxy-service";
 import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
+import {StateToProps} from "../ui/components/index";
 
 export class Application {
     private projectEntity: ProjectEntity;
     private autoResponderService: AutoResponderService;
+    private autoResponderEntryRepository: AutoResponderEntryRepository;
+    private certificateService: CertificateService;
+    private clientRequestRepository: ClientRequestRepository;
+    private proxyService: ProxyService;
+    private proxySettingService: ProxySettingService;
+    private contextMenuService: ContextMenuService;
 
     constructor(
-        private global: Window,
+        private userDataPath: string,
         private projectFactory = new ProjectFactory(),
     ) {
         this.projectEntity = this.projectFactory.create();
-        let autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(this.projectEntity.getIdentity());
+        let autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(
+            this.projectEntity.getIdentity()
+        );
+
+        this.autoResponderEntryRepository = new AutoResponderEntryRepository();
 
         this.autoResponderService = new AutoResponderService(
             autoResponderEntryFactory,
-            new AutoResponderEntryRepository(),
+            this.autoResponderEntryRepository,
         );
+
+        this.certificateService = new CertificateService(this.userDataPath);
+
+        this.clientRequestRepository = new ClientRequestRepository();
+
+        this.proxyService = new ProxyService(
+            new AutoResponderEntryRepository(),
+            this.clientRequestRepository,
+            Path.join(this.userDataPath, HTTP_SSL_CA_DIR_PATH)
+        );
+
+        this.proxySettingService = new ProxySettingService();
+
+        this.contextMenuService = new ContextMenuService();
     }
 
-    bindEvents(dispatch: any) {
-        this.global.addEventListener("dragover", (e) => e.preventDefault());
-        this.global.addEventListener("dragleave", (e) => e.preventDefault());
-        this.global.addEventListener("drop", (e) => e.preventDefault());
-        this.global.document.body.addEventListener("dragend", (e) => e.preventDefault());
-        let userDataPath = ipcRendererHandler.sendSync("getUserDataPath");
+    fileDrop(files: File[]) {
+        return this.autoResponderService.addFiles(files);
+    }
 
-        /**
-         * AutoResponderService
-         */
-        this.autoResponderService.bind(this.global, () => {
-            this.autoResponderService.getAutoResponderBoxEntries();
-            ///
+    selectDialogEntry(fileNames: string[]) {
+        return this.autoResponderService.addPaths(fileNames);
+    }
+
+    clickCertificateStatus() {
+        return this.certificateService.getNewStatus().then((status: CertificateStatus) => {
+            ipcRendererHandler.send("clickCertificateStatus", status);
         });
+    }
 
-        /**
-         * ProxyService
-         */
-        let proxyService = new ProxyService(
-            new AutoResponderEntryRepository(),
-            new ClientRequestRepository(),
-            Path.join(userDataPath, HTTP_SSL_CA_DIR_PATH)
-        );
-        proxyService.createServer();
+    clickProxySettingStatus() {
+        return this.proxySettingService.getNewStatus().then((status: ProxySettingStatus) => {
+            ipcRendererHandler.send("clickProxySettingStatus", status);
+        });
+    }
 
-        /**
-         * CertificateService
-         */
-        let certificateService = new CertificateService(userDataPath);
-        let getCurrentCertificateStatus = () => {
-            certificateService.getCurrentStatus().then((certificateBoxStatus: CertificateStatus) => {
-                dispatch(AppActions.changeCirtificateStatus(certificateBoxStatus));
+    contextmenuAutoResponderEntry(id: number) {
+        this.contextMenuService.contextmenuAutoResponderEntry(id);
+    }
+
+    setOnProxyRequestEvent(callback: Function) {
+        this.proxyService.onRequest(callback);
+    }
+
+    getRender(): Promise<StateToProps> {
+        return new Promise((resolve, reject) => {
+            Promise.all([
+                this.certificateService.getCurrentStatus(),
+                this.proxySettingService.getCurrentStatus(),
+            ]).then(([certificateState, proxySettingStatus]: [CertificateStatus, ProxySettingStatus]) => {
+                resolve({
+                    autoResponderEntries: this.autoResponderEntryRepository.resolveAll(),
+                    clientRequestEntries: [...this.clientRequestRepository.resolveAll()].reverse(),
+                    certificateState: certificateState,
+                    proxySettingStatus: proxySettingStatus,
+                });
             });
-        };
-        certificateService.bind(getCurrentCertificateStatus);
-        getCurrentCertificateStatus();
+        });
+    }
 
-        /**
-         * ProxySettingService
-         */
-        let proxySettingService = new ProxySettingService();
-        let getCurrentProxySettingStatus = () => {
-            proxySettingService.getCurrentStatus().then((proxySettingStatus: ProxySettingStatus) => {
-                dispatch(AppActions.changeProxySettingStatus(proxySettingStatus));
-            });
-        };
-        proxySettingService.bind(getCurrentProxySettingStatus);
-        getCurrentProxySettingStatus();
+    initialize(global: Window) {
+        global.addEventListener("dragover", (e) => e.preventDefault());
+        global.addEventListener("dragleave", (e) => e.preventDefault());
+        global.addEventListener("drop", (e) => e.preventDefault());
+        global.document.body.addEventListener("dragend", (e) => e.preventDefault());
 
-        /**
-         * ContextMenuService
-         */
-        let contextMenuService = new ContextMenuService();
-        contextMenuService.bind(this.global);
+        this.proxyService.createServer();
+
+        this.contextMenuService.initialize(global);
     }
 }
