@@ -1,4 +1,4 @@
-import {StateToProps} from "../components/index";
+import {StateToProps} from "./components/index";
 
 export interface Action {
     type: string;

@@ -1,8 +1,8 @@
-import * as AppActions from "../actions/index";
-import {Action} from "../actions/index";
-import {StateToProps} from "../components/index";
-import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
-import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
+import * as AppActions from "./action";
+import {Action} from "./action";
+import {StateToProps} from "./components/index";
+import {AutoResponderEntryEntity} from "../domain/auto-responder-entry/auto-responder-entry-entity";
+import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
 
 let initialState: StateToProps = {
     autoResponderEntries: <AutoResponderEntryEntity[]>[],
@@ -14,7 +14,7 @@ let initialState: StateToProps = {
 export function reducer(state = initialState, action: Action): StateToProps {
     switch (action.type) {
         case AppActions.RENDER: {
-            return Object.assign({}, state, { ...action.render });
+            return action.render;
         }
         default:
             return state;

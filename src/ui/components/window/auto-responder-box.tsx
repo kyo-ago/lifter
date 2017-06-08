@@ -10,7 +10,6 @@ export class AutoResponderBox extends React.Component<GlobalProps, {}> {
     render() {
         let entries = (this.props.autoResponderEntries || []).map((entry: AutoResponderEntryEntity) => {
             let className = entry.type === 'Directory' ? 'icon-folder' : 'icon-doc';
-            console.log(entry.type);
             return (
                 <span
                     className="nav-group-item"

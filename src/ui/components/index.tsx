@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {WindowContent} from "./window/window-content";
 import {ToolbarHeader} from "./toolbar/toolbar-header";
 import {Application} from "../../application/application";
-import {Actions} from "../actions/index";
+import {Actions} from "../action";
 import {IpcHandler} from "./null/ipc-handler";
 import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
 import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
