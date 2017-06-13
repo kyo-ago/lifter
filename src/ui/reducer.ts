@@ -11,8 +11,13 @@ let initialState: StateToProps = {
     proxySettingStatus: "Off",
 };
 
-export function reducer(state = initialState, action: Action): StateToProps {
+export function reducer(state = initialState, action: any): StateToProps {
     switch (action.type) {
+        case AppActions.FILE_DROP:
+            return {
+                ...state,
+                autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),
+            };
         case AppActions.RENDER: {
             return action.render;
         }
