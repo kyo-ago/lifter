@@ -1,5 +1,4 @@
 import * as AppActions from "./action";
-import {Action} from "./action";
 import {StateToProps} from "./components/index";
 import {AutoResponderEntryEntity} from "../domain/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
@@ -18,9 +17,21 @@ export function reducer(state = initialState, action: any): StateToProps {
                 ...state,
                 autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),
             };
-        case AppActions.RENDER: {
-            return action.render;
-        }
+        case AppActions.SELECT_DIALOG_ENTRY:
+            return {
+                ...state,
+                autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),
+            };
+        case AppActions.CLICK_CERTIFICATE_STATUS:
+            return {
+                ...state,
+                certificateState: action.certificateState,
+            };
+        case AppActions.CLICK_PROXY_SETTING_STATUS:
+            return {
+                ...state,
+                proxySettingStatus: action.proxySettingStatus,
+            };
         default:
             return state;
     }

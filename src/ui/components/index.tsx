@@ -56,10 +56,9 @@ export interface GlobalProps extends DispathProps, StateToProps {}
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     application.initialize(window);
 
-    let render = () => application.getRender().then((render) => {
-        dispatch(Actions.render(render));
+    application.setOnProxyRequestEvent(() => {
+
     });
-    application.setOnProxyRequestEvent(render);
     return {
         fileDrop(files: File[]) {
             application.fileDrop(files).then(render);
@@ -75,7 +74,6 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
         },
         contextmenuAutoResponderEntry(id: number) {
             application.contextmenuAutoResponderEntry(id);
-            render();
         },
     };
 }
