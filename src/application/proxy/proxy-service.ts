@@ -4,6 +4,7 @@ import {PROXY_PORT} from "../../domain/settings";
 import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/auto-responder-entry-repositoty";
 import {ClientRequestFactory} from "../../domain/client-request/client-request-factory";
 import {EventEmitter2} from "eventemitter2";
+import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 const HttpMitmProxy = require('http-mitm-proxy');
 
 export class ProxyService {
@@ -19,7 +20,7 @@ export class ProxyService {
         this.eventEmitter = new EventEmitter2();
     }
 
-    onRequest(callback: Function) {
+    onRequest(callback: (clientRequestEntity: ClientRequestEntity) => void) {
         this.eventEmitter.addListener("onRequest", callback);
     }
 
@@ -37,8 +38,9 @@ export class ProxyService {
             let href = `http${encrypted ? `s` : ``}://${host}${url}`;
 
             let clientRequestUrl = new ClientRequestUrl(href);
-            this.clientRequestRepository.store(ClientRequestFactory.create(clientRequestUrl));
-            this.eventEmitter.emit("onRequest");
+            let clientRequestEntity = ClientRequestFactory.create(clientRequestUrl);
+            this.clientRequestRepository.store(clientRequestEntity);
+            this.eventEmitter.emit("onRequest", clientRequestEntity);
             this.autoResponderRepository.findMatchEntry(clientRequestUrl).then((result) => {
                 if (!result) {
                     return callback(undefined);

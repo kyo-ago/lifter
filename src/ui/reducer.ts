@@ -8,6 +8,7 @@ let initialState: StateToProps = {
     clientRequestEntries: <ClientRequestEntity[]>[],
     certificateState: "missing",
     proxySettingStatus: "Off",
+    clientRequestEntities: <ClientRequestEntity[]>[],
 };
 
 export function reducer(state = initialState, action: any): StateToProps {
@@ -28,6 +29,11 @@ export function reducer(state = initialState, action: any): StateToProps {
                 certificateState: action.certificateState,
             };
         case AppActions.CLICK_PROXY_SETTING_STATUS:
+            return {
+                ...state,
+                proxySettingStatus: action.proxySettingStatus,
+            };
+        case AppActions.CLIENT_PROXY_REQUEST_EVENT:
             return {
                 ...state,
                 proxySettingStatus: action.proxySettingStatus,

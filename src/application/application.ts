@@ -11,6 +11,7 @@ import {ProxyService} from "./proxy/proxy-service";
 import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
 import {StateToProps} from "../ui/components/index";
+import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
 
 export class Application {
     private projectEntity: ProjectEntity;
@@ -62,14 +63,16 @@ export class Application {
     }
 
     clickCertificateStatus() {
-        return this.certificateService.getNewStatus().then((status: CertificateStatus) => {
+        return this.certificateService.getNewStatus().then((status) => {
             ipcRendererHandler.send("clickCertificateStatus", status);
+            return status;
         });
     }
 
     clickProxySettingStatus() {
-        return this.proxySettingService.getNewStatus().then((status: ProxySettingStatus) => {
+        return this.proxySettingService.getNewStatus().then((status) => {
             ipcRendererHandler.send("clickProxySettingStatus", status);
+            return status;
         });
     }
 
@@ -77,7 +80,7 @@ export class Application {
         this.contextMenuService.contextmenuAutoResponderEntry(id);
     }
 
-    setOnProxyRequestEvent(callback: Function) {
+    setOnProxyRequestEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {
         this.proxyService.onRequest(callback);
     }
 

@@ -56,21 +56,29 @@ export interface GlobalProps extends DispathProps, StateToProps {}
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     application.initialize(window);
 
-    application.setOnProxyRequestEvent(() => {
-
+    application.setOnProxyRequestEvent((clientRequestEntity: ClientRequestEntity) => {
+        dispatch(Actions.clientProxyRequestEvent(clientRequestEntity));
     });
     return {
         fileDrop(files: File[]) {
-            application.fileDrop(files).then(render);
+            application.fileDrop(files).then((autoResponderEntryEntities) => {
+                dispatch(Actions.fileDrop(autoResponderEntryEntities));
+            });
         },
         selectDialogEntry(fileNames: string[]) {
-            application.selectDialogEntry(fileNames).then(render);
+            application.selectDialogEntry(fileNames).then((autoResponderEntryEntities) => {
+                dispatch(Actions.selectDialogEntry(autoResponderEntryEntities));
+            });
         },
         clickCertificateStatus() {
-            application.clickCertificateStatus().then(render);
+            application.clickCertificateStatus().then((status) => {
+                dispatch(Actions.clickCertificateStatus(status));
+            });
         },
         clickProxySettingStatus() {
-            application.clickProxySettingStatus().then(render);
+            application.clickProxySettingStatus().then((status) => {
+                dispatch(Actions.clickProxySettingStatus(status));
+            });
         },
         contextmenuAutoResponderEntry(id: number) {
             application.contextmenuAutoResponderEntry(id);
