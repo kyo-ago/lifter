@@ -1,20 +1,10 @@
 import * as React from "react";
-import {eventEmitter} from "../../libs/event-emitter";
+import {GlobalProps} from "../index";
+import {ClientRequestEntity} from "../../../domain/client-request/client-request-entity";
 
-export interface ClientRequestBoxEntry {
-    id: number;
-    url: string;
-}
-
-export class ClientRequestBox extends React.Component<{
-    entries: ClientRequestBoxEntry[];
-}, {}> {
-    onContextmenu() {
-        eventEmitter.emit("contextmenuClientRequest");
-    }
-
+export class ClientRequestBox extends React.Component<GlobalProps, {}> {
     render() {
-        let entries = (this.props.entries || []).map((entry: ClientRequestBoxEntry) => {
+        let entries = (this.props.clientRequestEntries || []).map((entry: ClientRequestEntity) => {
             return (
                 <tr key={entry.id}>
                     <td>{entry.url}</td>

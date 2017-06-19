@@ -1,12 +1,9 @@
 import * as React from "react";
-import {eventEmitter} from "../../libs/event-emitter";
-import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
+import {GlobalProps} from "../index";
 
-export class ProxySettingBox extends React.Component<{
-    status: ProxySettingStatus;
-}, {}> {
+export class ProxySettingBox extends React.Component<GlobalProps, {}> {
     onClick() {
-        eventEmitter.emit("clickProxySettingStatus");
+        this.props.clickProxySettingStatus();
     }
 
     render() {
@@ -23,7 +20,7 @@ export class ProxySettingBox extends React.Component<{
                 'className' : 'icon-switch',
                 'title' : 'ProxyService on',
             },
-        } as any)[this.props.status];
+        } as any)[this.props.proxySettingStatus];
         return (
             <button className="btn btn-default" title={ui.title} onClick={this.onClick.bind(this)}>
                 <span className={`icon ${ui.className}`}></span>

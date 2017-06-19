@@ -11,7 +11,7 @@
     "lib": ["dom", "es2015"]
   },
   "include": [
-    "./src/global.d.ts",
+    "./typings/global.d.ts",
     "./src/index.ts",
     "./src/renderer.ts"
   ],
