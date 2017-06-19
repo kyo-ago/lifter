@@ -4,7 +4,7 @@ import {ipcRendererHandler} from "../../../libs/ipc-renderer-handler";
 import {GlobalProps} from "../index";
 
 export class IpcHandler extends React.Component<GlobalProps, {}> {
-    render(): any {
+    componentDidMount() {
         ipcRendererHandler.on("addAutoResponderEntry", () => {
             remote.dialog.showOpenDialog(null, {
                 properties: ['openDirectory', 'openFile', 'createDirectory'],
@@ -18,7 +18,8 @@ export class IpcHandler extends React.Component<GlobalProps, {}> {
         ipcRendererHandler.on("clickProxySettingStatus", () => {
             this.props.clickProxySettingStatus();
         });
-
+    }
+    render(): any {
         return null;
     }
 }
