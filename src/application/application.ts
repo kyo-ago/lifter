@@ -84,6 +84,10 @@ export class Application {
         this.proxyService.onRequest(callback);
     }
 
+    openRewriteRuleSettingWindow() {
+        ipcRendererHandler.send("openRewriteRuleSettingWindow");
+    }
+
     getRender(): Promise<StateToProps> {
         return new Promise((resolve, reject) => {
             Promise.all([

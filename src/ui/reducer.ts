@@ -12,12 +12,7 @@ let initialState: StateToProps = {
 
 export function reducer(state = initialState, action: any): StateToProps {
     switch (action.type) {
-        case AppActions.FILE_DROP:
-            return {
-                ...state,
-                autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),
-            };
-        case AppActions.SELECT_DIALOG_ENTRY:
+        case AppActions.ADD_AUTO_RESPONDER:
             return {
                 ...state,
                 autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),

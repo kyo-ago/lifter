@@ -49,6 +49,7 @@ interface DispathProps {
     clickCertificateStatus: () => void;
     clickProxySettingStatus: () => void;
     contextmenuAutoResponderEntry: (id: number) => void;
+    openRewriteRuleSettingWindow: () => void;
 }
 
 export interface GlobalProps extends DispathProps, StateToProps {}
@@ -62,12 +63,12 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
     return {
         fileDrop(files: File[]) {
             application.fileDrop(files).then((autoResponderEntryEntities) => {
-                dispatch(Actions.fileDrop(autoResponderEntryEntities));
+                dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
             });
         },
         selectDialogEntry(fileNames: string[]) {
             application.selectDialogEntry(fileNames).then((autoResponderEntryEntities) => {
-                dispatch(Actions.selectDialogEntry(autoResponderEntryEntities));
+                dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
             });
         },
         clickCertificateStatus() {
@@ -82,6 +83,9 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
         },
         contextmenuAutoResponderEntry(id: number) {
             application.contextmenuAutoResponderEntry(id);
+        },
+        openRewriteRuleSettingWindow() {
+            application.openRewriteRuleSettingWindow();
         },
     };
 }

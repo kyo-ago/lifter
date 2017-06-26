@@ -12,6 +12,7 @@ interface IpcRendererHandlerMap {
 interface IpcRendererSenderMap {
     "clickCertificateStatus": CertificateStatus;
     "clickProxySettingStatus": ProxySettingStatus;
+    "openRewriteRuleSettingWindow": void;
 }
 
 interface IpcRendererSyncSenderMap {

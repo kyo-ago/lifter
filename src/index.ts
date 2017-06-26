@@ -10,6 +10,7 @@ let createWindow = () => {
     let mainWindowState = windowStateKeeper({
         defaultWidth: 1000,
         defaultHeight: 800,
+        file: 'main-window-state.json',
     });
 
     mainWindow = new BrowserWindow(mainWindowState);
@@ -28,4 +29,19 @@ app.on('activate', () => mainWindow || createWindow());
 
 ipcMain.on('getUserDataPath', (event) => {
     event.returnValue = app.getPath('userData');
+});
+
+ipcMain.on('openRewriteRuleSettingWindow', (event) => {
+    let rewriteRuleSettingWindowState = windowStateKeeper({
+        defaultWidth: 1000,
+        defaultHeight: 800,
+        file: 'rewrite-rule-setting-window-state.json',
+    });
+
+    let rewriteRuleSettingWindow = new BrowserWindow(rewriteRuleSettingWindowState);
+    rewriteRuleSettingWindow.loadURL(`file://${__dirname}/rewrite-rule-setting-window.html`);
+    rewriteRuleSettingWindow.on('closed', () => {
+        rewriteRuleSettingWindow = null;
+    });
+    rewriteRuleSettingWindowState.manage(rewriteRuleSettingWindow);
 });
