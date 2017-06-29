@@ -7,7 +7,7 @@ export interface IOResult {
     stderr: string;
 }
 
-let execCommand = (command: string, param: string[]) => {
+let execCommand = (command: string, param: string[]): Promise<IOResult> => {
     return new Promise((resolve, reject) => {
         exec(`${command} ${param.join(' ')}`, (error: string, stdout: string, stderr: string) => {
             if (error && !stderr) {

@@ -7,3 +7,4 @@ npm-debug.log
 app/
 .idea
 *.db
+yarn.lock

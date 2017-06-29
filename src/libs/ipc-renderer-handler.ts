@@ -1,5 +1,4 @@
 import {ipcRenderer} from "electron";
-import IpcRendererEvent = Electron.IpcRendererEvent;
 import {CertificateStatus} from "../application/certificate/certificate-service";
 import {ProxySettingStatus} from "../application/proxy-setting/proxy-setting-service";
 
@@ -20,7 +19,7 @@ interface IpcRendererSyncSenderMap {
 }
 
 export class ipcRendererHandler {
-    static on<K extends keyof IpcRendererHandlerMap>(type: K, listener: (ipcRendererEvent: IpcRendererEvent, ev?: IpcRendererHandlerMap[K]) => void): void {
+    static on<K extends keyof IpcRendererHandlerMap>(type: K, listener: (ipcRendererEvent: any, ev?: IpcRendererHandlerMap[K]) => void): void {
         ipcRenderer.on(type, listener);
     }
 

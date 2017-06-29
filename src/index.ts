@@ -27,11 +27,11 @@ app.on('window-all-closed', () => app.quit());
 
 app.on('activate', () => mainWindow || createWindow());
 
-ipcMain.on('getUserDataPath', (event) => {
+ipcMain.on('getUserDataPath', (event: any) => {
     event.returnValue = app.getPath('userData');
 });
 
-ipcMain.on('openRewriteRuleSettingWindow', (event) => {
+ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
     let rewriteRuleSettingWindowState = windowStateKeeper({
         defaultWidth: 1000,
         defaultHeight: 800,
