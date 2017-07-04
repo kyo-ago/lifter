@@ -10,7 +10,7 @@ import {ContextMenuService} from "./context-menu/context-menu-service";
 import {ProxyService} from "./proxy/proxy-service";
 import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
-import {StateToProps} from "../ui/components/index";
+import {StateToProps} from "../ui/app/components/index";
 import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
 
 export class Application {
