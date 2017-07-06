@@ -4,7 +4,7 @@ node_modules/
 build/
 dist/
 npm-debug.log
-app/
+/app/
 .idea
 *.db
 yarn.lock
