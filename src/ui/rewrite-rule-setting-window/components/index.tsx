@@ -15,10 +15,47 @@ import {DragAndDropHandler} from "./null/drag-and-drop";
 class App extends React.Component<GlobalProps, any> {
     render() {
         return <div className="window">
-            <ToolbarHeader {...this.props} />
-            <WindowContent {...this.props} />
-            <IpcHandler {...this.props} />
-            <DragAndDropHandler {...this.props} />
+            <div className="window-content">
+                <div className="pane-group">
+                    <div className="pane pane-sm sidebar">
+                        <table className="table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Kind</th>
+                                    <th>Date Modified</th>
+                                    <th>Author</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>variables.scss</td>
+                                    <td>Document</td>
+                                    <td>Oct 13, 2015</td>
+                                    <td>connors</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="pane">
+                        <form>
+                            <select className="form-control">
+                                <option>Modify</option>
+                                <option>Add</option>
+                                <option>Delete</option>
+                            </select>
+                            <div className="form-group">
+                                <label>header</label>
+                                <input type="text" className="form-control" placeholder="user agent" />
+                            </div>
+                            <div className="form-group">
+                                <label>value</label>
+                                <input type="text" className="form-control" placeholder="user agent" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>;
     }
 }

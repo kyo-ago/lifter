@@ -8,7 +8,7 @@ export const CLICK_CERTIFICATE_STATUS = 'CLICK_CERTIFICATE_STATUS';
 export const CLICK_PROXY_SETTING_STATUS = 'CLICK_PROXY_SETTING_STATUS';
 export const CLIENT_PROXY_REQUEST_EVENT = 'CLIENT_PROXY_REQUEST_EVENT';
 
-export var Actions = {
+export const Actions = {
     addAutoResponder: (autoResponderEntryEntity: AutoResponderEntryEntity[]) => {
         return {
             type: ADD_AUTO_RESPONDER,

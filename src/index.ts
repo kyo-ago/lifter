@@ -11,6 +11,7 @@ let createWindow = () => {
         defaultWidth: 1000,
         defaultHeight: 800,
         file: 'main-window-state.json',
+        acceptFirstMouse: true,
     });
 
     mainWindow = new BrowserWindow(mainWindowState);
@@ -36,6 +37,8 @@ ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
         defaultWidth: 1000,
         defaultHeight: 800,
         file: 'rewrite-rule-setting-window-state.json',
+        acceptFirstMouse: true,
+        parent: mainWindow,
     });
 
     let rewriteRuleSettingWindow = new BrowserWindow(rewriteRuleSettingWindowState);
