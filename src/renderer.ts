@@ -1,5 +1,5 @@
-import {render as appRender} from "./ui/app/render";
-import {render as rewriteRuleSettingWindowRender} from "./ui/rewrite-rule-setting-window/render";
+import {render as appRender} from "./main-window/ui/render";
+import {render as rewriteRuleSettingWindowRender} from "./rewrite-rule-setting-window/ui/render";
 
 document.addEventListener('DOMContentLoaded', () => {
     [

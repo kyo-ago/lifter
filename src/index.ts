@@ -1,6 +1,5 @@
 import {app, BrowserWindow, ipcMain} from "electron";
-import "./create-menu";
-import {createMenu} from "./create-menu";
+import {createMenu} from "./main-window/create-menu";
 
 const windowStateKeeper = require('electron-window-state');
 

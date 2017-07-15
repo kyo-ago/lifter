@@ -1,1 +1,14 @@
 @import url('photon.css');
+
+.top-form {
+    background-color: #ddd;
+}
+
+.form-table {
+    display: table;
+    width: 100%;
+}
+
+.form-table-cell {
+    display: table-cell;
+}
