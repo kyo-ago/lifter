@@ -16,7 +16,15 @@ export class TopForm extends React.Component<GlobalProps, any> {
                 <label className="form-table-cell">
                     Value<input type="text" className="form-control" placeholder="text/html; charset=utf-8"/>
                 </label>
-                <button class="btn btn-primary pull-right">
+                ${
+                    this.props.currentRewriteRule.isDefined
+                        ? <button className="btn btn-default">Cancel</button>
+                        : null
+                }
+                <button className="btn btn-default">
+                    Cancel
+                </button>
+                <button className="btn btn-primary pull-right">
                     Save
                 </button>
             </form>

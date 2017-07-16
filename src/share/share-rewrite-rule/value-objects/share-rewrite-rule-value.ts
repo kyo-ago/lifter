@@ -1,6 +1,6 @@
 import {BaseValueObject} from "../../domain/base/value-object";
 
-export class RewriteRuleValue extends BaseValueObject<string> {
+export class ShareRewriteRuleValue extends BaseValueObject<string> {
     constructor(
         _value: string,
     ) {

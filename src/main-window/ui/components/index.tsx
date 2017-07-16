@@ -11,6 +11,7 @@ import {CertificateStatus} from "../../application/certificate/certificate-servi
 import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import {DragAndDropHandler} from "./null/drag-and-drop";
+import {StateToProps} from "../reducer";
 
 class App extends React.Component<GlobalProps, any> {
     render() {
@@ -21,13 +22,6 @@ class App extends React.Component<GlobalProps, any> {
             <DragAndDropHandler {...this.props} />
         </div>;
     }
-}
-
-export interface StateToProps {
-    autoResponderEntries: AutoResponderEntryEntity[],
-    clientRequestEntries: ClientRequestEntity[],
-    certificateState: CertificateStatus,
-    proxySettingStatus: ProxySettingStatus,
 }
 
 function mapStateToProps(state: StateToProps): StateToProps {

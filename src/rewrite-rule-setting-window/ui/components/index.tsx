@@ -1,11 +1,14 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {Application} from "../../application/application";
-import {Actions} from "../action";
 import {TopForm} from "./top-form/top-form";
 import {RewriteRules} from "./rewrite-rules/rewrite-rules";
 import {SubmitForm} from "./submit-form/submit-form";
-import {RewriteRuleEntity} from "../../../share/rewrite-rule/rewrite-rule-entity";
+import {ShareRewriteRuleIdentity} from "../../../share/share-rewrite-rule/share-rewrite-rule-identity";
+import {StateToProps} from "../reducer";
+import {Actions} from "../action";
+import {Option, None, Some} from "monapt";
+import {ShareRewriteRuleEntity} from "../../../share/share-rewrite-rule/share-rewrite-rule-entity";
 
 class App extends React.Component<GlobalProps, any> {
     render() {
@@ -17,16 +20,44 @@ class App extends React.Component<GlobalProps, any> {
     }
 }
 
-export interface StateToProps {
-    rewriteRules: RewriteRuleEntity[],
-}
-
 interface DispathProps {
     saveRewriteRule: (action: string, header: string, value: string) => void;
-    
+    deleteRewriteRule: (id: ShareRewriteRuleIdentity) => void;
+    selectRewriteRule: (id: ShareRewriteRuleIdentity) => void;
+    cancelRewriteRule: () => void;
+    cancelAllRewriteRule: () => void;
+    saveAllRewriteRule: () => void;
 }
 
+let application = new Application();
+
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
+    return {
+        saveRewriteRule(action: string, header: string, value: string) {
+            application.saveRewriteRule(action, header, value).then((rewriteRule: ShareRewriteRuleEntity) => {
+                dispatch(Actions.saveRewriteRule(rewriteRule));
+            });
+        },
+        deleteRewriteRule(id: ShareRewriteRuleIdentity) {
+            application.deleteRewriteRule(id).then((rewriteRules: ShareRewriteRuleEntity[]) => {
+                dispatch(Actions.updateRewriteRules(rewriteRules));
+            });
+        },
+        selectRewriteRule(id: ShareRewriteRuleIdentity) {
+            application.selectRewriteRule(id).then((rewriteRuleEntity: Option<ShareRewriteRuleEntity>) => {
+                dispatch(Actions.updateCurrentRewriteRule(rewriteRuleEntity));
+            });
+        },
+        cancelRewriteRule() {
+            application.cancelRewriteRule().then((rewriteRuleEntity: Option<ShareRewriteRuleEntity>) => {
+                dispatch(Actions.updateCurrentRewriteRule(rewriteRuleEntity));
+            });
+        },
+        cancelAllRewriteRule() {
+        },
+        saveAllRewriteRule() {
+        },
+    };
 }
 
 export default connect(

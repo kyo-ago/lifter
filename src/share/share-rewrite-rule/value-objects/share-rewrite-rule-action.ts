@@ -13,7 +13,7 @@ const StringToAction = (value: string): ACTION => {
     throw new Error("Invalid rewrite rule action");
 };
 
-export class RewriteRuleAction extends BaseValueObject<ACTION> {
+export class ShareRewriteRuleAction extends BaseValueObject<ACTION> {
     constructor(
         _value: string,
     ) {

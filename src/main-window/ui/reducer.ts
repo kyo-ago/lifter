@@ -1,7 +1,15 @@
 import * as AppActions from "./action";
-import {StateToProps} from "./components/index";
 import {AutoResponderEntryEntity} from "../domain/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
+import {ProxySettingStatus} from "../application/proxy-setting/proxy-setting-service";
+import {CertificateStatus} from "../application/certificate/certificate-service";
+
+export interface StateToProps {
+    autoResponderEntries: AutoResponderEntryEntity[],
+    clientRequestEntries: ClientRequestEntity[],
+    certificateState: CertificateStatus,
+    proxySettingStatus: ProxySettingStatus,
+}
 
 let initialState: StateToProps = {
     autoResponderEntries: <AutoResponderEntryEntity[]>[],

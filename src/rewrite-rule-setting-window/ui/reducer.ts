@@ -1,38 +1,35 @@
 import * as AppActions from "./action";
-import {StateToProps} from "./components/index";
-import {AutoResponderEntryEntity} from "../domain/auto-responder-entry/auto-responder-entry-entity";
-import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
+import {ShareRewriteRuleEntity} from "../../share/share-rewrite-rule/share-rewrite-rule-entity";
+import {None, Option} from "monapt";
+
+export interface StateToProps {
+    rewriteRules: ShareRewriteRuleEntity[],
+    currentRewriteRule: Option<ShareRewriteRuleEntity>,
+}
 
 let initialState: StateToProps = {
-    autoResponderEntries: <AutoResponderEntryEntity[]>[],
-    clientRequestEntries: <ClientRequestEntity[]>[],
-    certificateState: "missing",
-    proxySettingStatus: "Off",
+    rewriteRules: <ShareRewriteRuleEntity[]>[],
+    currentRewriteRule: None,
 };
 
 export function reducer(state = initialState, action: any): StateToProps {
     switch (action.type) {
-        case AppActions.ADD_AUTO_RESPONDER:
+        case AppActions.SAVE_REWRITE_RULE:
             return {
                 ...state,
-                autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),
+                rewriteRules: state.rewriteRules.concat(action.rewriteRuleEntity),
             };
-        case AppActions.CLICK_CERTIFICATE_STATUS:
+        case AppActions.UPDATE_REWRITE_RULES:
             return {
                 ...state,
-                certificateState: action.certificateState,
+                rewriteRules: action.rewriteRules,
             };
-        case AppActions.CLICK_PROXY_SETTING_STATUS:
+        case AppActions.UPDATE_CURRENT_REWRITE_RULE:
             return {
                 ...state,
-                proxySettingStatus: action.proxySettingStatus,
+                currentRewriteRule: action.currentRewriteRule,
             };
-        case AppActions.CLIENT_PROXY_REQUEST_EVENT:
-            return {
-                ...state,
-                clientRequestEntries: state.clientRequestEntries.concat(action.clientRequestEntries),
-            };
-        default:
+\        default:
             return state;
     }
 }
