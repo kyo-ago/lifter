@@ -1,6 +1,6 @@
 import * as mime from "mime";
 
-import {BaseEntity} from "../base/base-entity";
+import {BaseEntity} from "../../../share/domain/base/base-entity";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
 import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";

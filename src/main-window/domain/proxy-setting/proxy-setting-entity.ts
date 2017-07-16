@@ -1,4 +1,4 @@
-import {BaseEntity} from "../base/base-entity";
+import {BaseEntity} from "../../../share/domain/base/base-entity";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
 import {IOResult, execNetworkCommand} from "../../libs/exec-command";

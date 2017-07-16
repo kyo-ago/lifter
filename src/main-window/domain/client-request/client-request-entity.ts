@@ -1,4 +1,4 @@
-import {BaseEntity} from "../base/base-entity";
+import {BaseEntity} from "../../../share/domain/base/base-entity";
 import {ClientRequestIdentity} from "./client-request-identity";
 import {ClientRequestUrl} from "./value-objects/client-request-url";
 

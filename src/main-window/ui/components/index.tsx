@@ -37,12 +37,6 @@ function mapStateToProps(state: StateToProps): StateToProps {
 let userDataPath = ipcRendererHandler.sendSync("getUserDataPath");
 let application = new Application(userDataPath);
 
-interface Dispath {
-    (action: {
-        type: string;
-    }): void;
-}
-
 interface DispathProps {
     fileDrop: (files: File[]) => void;
     selectDialogEntry: (fileNames: string[]) => void;

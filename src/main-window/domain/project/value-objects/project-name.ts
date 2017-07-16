@@ -1,4 +1,4 @@
-import {BaseValueObject} from "../../base/value-object";
+import {BaseValueObject} from "../../../../share/domain/base/value-object";
 
 export class ProjectName extends BaseValueObject<string> {
 }

@@ -1,4 +1,4 @@
-import {BaseEntity} from "../base/base-entity";
+import {BaseEntity} from "../../../share/domain/base/base-entity";
 import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
 import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
 import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";

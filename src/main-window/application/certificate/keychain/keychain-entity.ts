@@ -1,4 +1,4 @@
-import {BaseEntity} from "../../../domain/base/base-entity";
+import {BaseEntity} from "../../../../share/domain/base/base-entity";
 import {KeychainIdentity} from "./keychain-identity";
 import {KeychainName} from "./value-objects/keychain-name";
 
