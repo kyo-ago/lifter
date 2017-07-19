@@ -16,7 +16,7 @@ export class TopForm extends React.Component<GlobalProps, any> {
                 <label className="form-table-cell">
                     Value<input type="text" className="form-control" placeholder="text/html; charset=utf-8"/>
                 </label>
-                ${
+                {
                     this.props.currentRewriteRule.isDefined
                         ? <button className="btn btn-default">Cancel</button>
                         : null

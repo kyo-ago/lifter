@@ -31,6 +31,11 @@ ipcMain.on('getUserDataPath', (event: any) => {
     event.returnValue = app.getPath('userData');
 });
 
+ipcMain.on('getAllRewriteRules', (event: any) => {
+    mainWindow.webContents.send('getAllRewriteRules');
+});
+
+let rewriteRuleSettingWindow: any;
 ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
     let rewriteRuleSettingWindowState = windowStateKeeper({
         defaultWidth: 1000,
@@ -40,10 +45,14 @@ ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
         parent: mainWindow,
     });
 
-    let rewriteRuleSettingWindow = new BrowserWindow(rewriteRuleSettingWindowState);
+    rewriteRuleSettingWindow = new BrowserWindow(rewriteRuleSettingWindowState);
     rewriteRuleSettingWindow.loadURL(`file://${__dirname}/rewrite-rule-setting-window.html`);
     rewriteRuleSettingWindow.on('closed', () => {
         rewriteRuleSettingWindow = null;
     });
     rewriteRuleSettingWindowState.manage(rewriteRuleSettingWindow);
+});
+
+ipcMain.on('responseAllRewriteRules', (event: any, allRewriteRules: any) => {
+    rewriteRuleSettingWindow.webContents.send('responseAllRewriteRules', allRewriteRules);
 });

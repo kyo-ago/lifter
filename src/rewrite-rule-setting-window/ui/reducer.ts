@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: any): StateToProps {
                 ...state,
                 currentRewriteRule: action.currentRewriteRule,
             };
-\        default:
+        default:
             return state;
     }
 }

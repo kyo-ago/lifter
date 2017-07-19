@@ -10,8 +10,8 @@ import {ContextMenuService} from "./context-menu/context-menu-service";
 import {ProxyService} from "./proxy/proxy-service";
 import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
-import {StateToProps} from "../ui/components/index";
 import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
+import {StateToProps} from "../ui/reducer";
 
 export class Application {
     private projectEntity: ProjectEntity;
@@ -113,5 +113,9 @@ export class Application {
         this.proxyService.createServer();
 
         this.contextMenuService.initialize(global);
+
+        ipcRendererHandler.on("getAllRewriteRules", () => {
+            this.
+        });
     }
 }

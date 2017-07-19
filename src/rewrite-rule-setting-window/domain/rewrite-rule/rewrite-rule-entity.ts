@@ -9,9 +9,9 @@ export class RewriteRuleEntity extends ShareRewriteRuleEntity {
 
     constructor(
         identity: ShareRewriteRuleIdentity,
-        private _action: ShareRewriteRuleAction,
-        private _header: ShareRewriteRuleHeader,
-        private _value: ShareRewriteRuleValue,
+        _action: ShareRewriteRuleAction,
+        _header: ShareRewriteRuleHeader,
+        _value: ShareRewriteRuleValue,
     ) {
         super(identity, _action, _header, _value);
         this.selected = false;
