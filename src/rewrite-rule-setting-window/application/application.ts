@@ -1,4 +1,4 @@
-import {ShareRewriteRuleIdentity} from "../../share/share-rewrite-rule/share-rewrite-rule-identity";
+import {ShareRewriteRuleIdentity} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {RewriteRuleRepository} from "../domain/rewrite-rule/rewrite-rule-repository";
 import {RewriteRuleFactory} from "../domain/rewrite-rule/rewrite-rule-factory";
 

@@ -4,11 +4,11 @@ import {Application} from "../../application/application";
 import {TopForm} from "./top-form/top-form";
 import {RewriteRules} from "./rewrite-rules/rewrite-rules";
 import {SubmitForm} from "./submit-form/submit-form";
-import {ShareRewriteRuleIdentity} from "../../../share/share-rewrite-rule/share-rewrite-rule-identity";
+import {ShareRewriteRuleIdentity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {StateToProps} from "../reducer";
 import {Actions} from "../action";
 import {Option, None, Some} from "monapt";
-import {ShareRewriteRuleEntity} from "../../../share/share-rewrite-rule/share-rewrite-rule-entity";
+import {ShareRewriteRuleEntity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 
 class App extends React.Component<GlobalProps, any> {
     render() {

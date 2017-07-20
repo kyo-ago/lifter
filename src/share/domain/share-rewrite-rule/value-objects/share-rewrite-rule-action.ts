@@ -1,4 +1,4 @@
-import {BaseValueObject} from "../../domain/base/value-object";
+import {BaseValueObject} from '../../base/value-object';
 
 type ACTION = "ADD" | "MODIFY" | "DELETE";
 

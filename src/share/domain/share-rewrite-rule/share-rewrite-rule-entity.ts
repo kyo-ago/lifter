@@ -1,8 +1,8 @@
-import {BaseEntity} from "../domain/base/base-entity";
-import {ShareRewriteRuleIdentity} from "./share-rewrite-rule-identity";
-import {ShareRewriteRuleAction} from "./value-objects/share-rewrite-rule-action";
-import {ShareRewriteRuleHeader} from "./value-objects/share-rewrite-rule-header";
-import {ShareRewriteRuleValue} from "./value-objects/share-rewrite-rule-value";
+import {BaseEntity} from '../base/base-entity';
+import {ShareRewriteRuleIdentity} from './share-rewrite-rule-identity';
+import {ShareRewriteRuleAction} from './value-objects/share-rewrite-rule-action';
+import {ShareRewriteRuleHeader} from './value-objects/share-rewrite-rule-header';
+import {ShareRewriteRuleValue} from './value-objects/share-rewrite-rule-value';
 
 export class ShareRewriteRuleEntity extends BaseEntity<ShareRewriteRuleIdentity> {
     constructor(

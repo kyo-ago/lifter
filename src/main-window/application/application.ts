@@ -12,6 +12,7 @@ import {ClientRequestRepository} from "../domain/client-request/client-request-r
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
 import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
 import {StateToProps} from "../ui/reducer";
+import {RewriteRuleRepository} from '../domain/rewrite-rule/rewrite-rule-repository';
 
 export class Application {
     private projectEntity: ProjectEntity;
@@ -22,6 +23,7 @@ export class Application {
     private proxyService: ProxyService;
     private proxySettingService: ProxySettingService;
     private contextMenuService: ContextMenuService;
+    private rewriteRuleRepository: RewriteRuleRepository;
 
     constructor(
         private userDataPath: string,
@@ -52,6 +54,8 @@ export class Application {
         this.proxySettingService = new ProxySettingService();
 
         this.contextMenuService = new ContextMenuService();
+
+        this.rewriteRuleRepository = new RewriteRuleRepository();
     }
 
     fileDrop(files: File[]) {
@@ -115,7 +119,7 @@ export class Application {
         this.contextMenuService.initialize(global);
 
         ipcRendererHandler.on("getAllRewriteRules", () => {
-            this.
+            this.rewriteRuleRepository.resolveAll();
         });
     }
 }

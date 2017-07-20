@@ -1,4 +1,4 @@
-import {BaseValueObject} from "../../domain/base/value-object";
+import {BaseValueObject} from '../../base/value-object';
 
 export class ShareRewriteRuleHeader extends BaseValueObject<string> {
     constructor(

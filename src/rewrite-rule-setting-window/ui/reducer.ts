@@ -1,5 +1,5 @@
 import * as AppActions from "./action";
-import {ShareRewriteRuleEntity} from "../../share/share-rewrite-rule/share-rewrite-rule-entity";
+import {ShareRewriteRuleEntity} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 import {None, Option} from "monapt";
 
 export interface StateToProps {
