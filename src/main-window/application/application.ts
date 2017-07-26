@@ -119,7 +119,8 @@ export class Application {
         this.contextMenuService.initialize(global);
 
         ipcRendererHandler.on("getAllRewriteRules", () => {
-            this.rewriteRuleRepository.resolveAll();
+            let allRewriteRules = this.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
+            ipcRendererHandler.send("responseAllRewriteRules", allRewriteRules);
         });
     }
 }

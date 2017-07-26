@@ -1,4 +1,4 @@
-import {ShareRewriteRuleEntity} from './share-rewrite-rule-entity';
+import {ShareRewriteRuleEntity, ShareRewriteRuleEntityJSON} from './share-rewrite-rule-entity';
 import {ShareRewriteRuleIdentity} from './share-rewrite-rule-identity';
 import {ShareRewriteRuleAction} from './value-objects/share-rewrite-rule-action';
 import {ShareRewriteRuleHeader} from './value-objects/share-rewrite-rule-header';
@@ -20,11 +20,12 @@ export class ShareRewriteRuleFactory<Entity extends ShareRewriteRuleEntity> {
         );
     }
 
-    static toJSON(entities: Entity[]): any {
-        entities
-    }
-
-    static fromJSON(json: any): void {
-
+    static fromJSON(json: ShareRewriteRuleEntityJSON): Entity {
+        return new Entity(
+            new ShareRewriteRuleIdentity(json.id),
+            new ShareRewriteRuleAction(json.action),
+            new ShareRewriteRuleHeader(json.header),
+            new ShareRewriteRuleValue(json.value),
+        );
     }
 }

@@ -1,6 +1,6 @@
 import {BaseValueObject} from '../../base/value-object';
 
-type ACTION = "ADD" | "MODIFY" | "DELETE";
+export type ACTION = "ADD" | "MODIFY" | "DELETE";
 
 const StringToAction = (value: string): ACTION => {
     if (value === "ADD") {

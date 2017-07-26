@@ -53,6 +53,6 @@ ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
     rewriteRuleSettingWindowState.manage(rewriteRuleSettingWindow);
 });
 
-ipcMain.on('responseAllRewriteRules', (event: any, allRewriteRules: any) => {
+ipcMain.on('responseAllRewriteRules', (event: any, allRewriteRules: any[]) => {
     rewriteRuleSettingWindow.webContents.send('responseAllRewriteRules', allRewriteRules);
 });
