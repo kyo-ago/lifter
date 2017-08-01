@@ -3,15 +3,17 @@ import {RewriteRuleRepository} from "../domain/rewrite-rule/rewrite-rule-reposit
 import {RewriteRuleFactory} from "../domain/rewrite-rule/rewrite-rule-factory";
 
 export class Application {
-    private rewriteRuleRepository: RewriteRuleRepository;
+    public rewriteRuleRepository: RewriteRuleRepository;
+    public rewriteRuleFactory: RewriteRuleFactory;
 
     constructor() {
         this.rewriteRuleRepository = new RewriteRuleRepository();
+        this.rewriteRuleFactory = new RewriteRuleFactory();
     }
 
     saveRewriteRule(action: string, header: string, value: string) {
         return new Promise((resolve, reject) => {
-            let rewriteRuleEntity = RewriteRuleFactory.create(action, header, value);
+            let rewriteRuleEntity = this.rewriteRuleFactory.create(action, header, value);
             this.rewriteRuleRepository.store(rewriteRuleEntity);
             resolve(rewriteRuleEntity);
         });

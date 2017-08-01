@@ -9,6 +9,7 @@ import {StateToProps} from "../reducer";
 import {Actions} from "../action";
 import {Option, None, Some} from "monapt";
 import {ShareRewriteRuleEntity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
+import {ajaxGetJSON} from "@reactivex/rxjs/dist/cjs/observable/dom/AjaxObservable";
 
 class App extends React.Component<GlobalProps, any> {
     render() {
@@ -30,6 +31,10 @@ interface DispathProps {
 }
 
 let application = new Application();
+
+export function RewriteRuleFactoryFromJSON(json: any) {
+    return application.rewriteRuleFactory.fromJSON(json);
+}
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     return {

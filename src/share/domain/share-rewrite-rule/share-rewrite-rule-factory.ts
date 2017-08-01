@@ -5,9 +5,9 @@ import {ShareRewriteRuleHeader} from './value-objects/share-rewrite-rule-header'
 import {ShareRewriteRuleValue} from './value-objects/share-rewrite-rule-value';
 
 export class ShareRewriteRuleFactory<Entity extends ShareRewriteRuleEntity> {
-    private static identity = 0;
+    private identity = 0;
 
-    static create(
+    create(
         action: string,
         header: string,
         value: string,
@@ -20,7 +20,7 @@ export class ShareRewriteRuleFactory<Entity extends ShareRewriteRuleEntity> {
         );
     }
 
-    static fromJSON(json: ShareRewriteRuleEntityJSON): Entity {
+    fromJSON(json: ShareRewriteRuleEntityJSON): Entity {
         return new Entity(
             new ShareRewriteRuleIdentity(json.id),
             new ShareRewriteRuleAction(json.action),
