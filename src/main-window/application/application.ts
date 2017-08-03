@@ -1,32 +1,29 @@
-import * as Path from "path";
-import {AutoResponderEntryRepository} from "../domain/auto-responder-entry/auto-responder-entry-repositoty";
-import {ProjectEntity} from "../domain/project/project-entity";
-import {ProjectFactory} from "../domain/project/project-factory";
-import {HTTP_SSL_CA_DIR_PATH} from "../domain/settings";
-import {AutoResponderService} from "./auto-responder/auto-responder-service";
-import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
-import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
-import {ContextMenuService} from "./context-menu/context-menu-service";
-import {ProxyService} from "./proxy/proxy-service";
-import {ClientRequestRepository} from "../domain/client-request/client-request-repository";
-import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
-import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
-import {StateToProps} from "../ui/reducer";
-import {RewriteRuleRepository} from '../domain/rewrite-rule/rewrite-rule-repository';
+import * as Path from 'path';
+import {AutoResponderEntryRepository} from '../domain/auto-responder-entry/auto-responder-entry-repositoty';
+import {ClientRequestEntity} from '../domain/client-request/client-request-entity';
+import {ProjectEntity} from '../domain/project/project-entity';
+import {ProjectFactory} from '../domain/project/project-factory';
+import {HTTP_SSL_CA_DIR_PATH} from '../domain/settings';
+import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
+import {StateToProps} from '../ui/reducer';
+import {AutoResponderService} from './auto-responder/auto-responder-service';
+import {CertificateService, CertificateStatus} from './certificate/certificate-service';
+import {ContextMenuService} from './context-menu/context-menu-service';
+import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
+import {ProxySettingService, ProxySettingStatus} from './proxy-setting/proxy-setting-service';
+import {ProxyService} from './proxy/proxy-service';
 
 export class Application {
     private projectEntity: ProjectEntity;
     private autoResponderService: AutoResponderService;
-    private autoResponderEntryRepository: AutoResponderEntryRepository;
     private certificateService: CertificateService;
-    private clientRequestRepository: ClientRequestRepository;
     private proxyService: ProxyService;
     private proxySettingService: ProxySettingService;
     private contextMenuService: ContextMenuService;
-    private rewriteRuleRepository: RewriteRuleRepository;
 
     constructor(
         private userDataPath: string,
+        private lifecycleContextService: LifecycleContextService,
         private projectFactory = new ProjectFactory(),
     ) {
         this.projectEntity = this.projectFactory.create();
@@ -34,28 +31,22 @@ export class Application {
             this.projectEntity.getIdentity()
         );
 
-        this.autoResponderEntryRepository = new AutoResponderEntryRepository();
-
         this.autoResponderService = new AutoResponderService(
             autoResponderEntryFactory,
-            this.autoResponderEntryRepository,
+            this.lifecycleContextService.autoResponderEntryRepository,
         );
 
         this.certificateService = new CertificateService(this.userDataPath);
 
-        this.clientRequestRepository = new ClientRequestRepository();
-
         this.proxyService = new ProxyService(
             new AutoResponderEntryRepository(),
-            this.clientRequestRepository,
+            this.lifecycleContextService.clientRequestRepository,
             Path.join(this.userDataPath, HTTP_SSL_CA_DIR_PATH)
         );
 
         this.proxySettingService = new ProxySettingService();
 
         this.contextMenuService = new ContextMenuService();
-
-        this.rewriteRuleRepository = new RewriteRuleRepository();
     }
 
     fileDrop(files: File[]) {
@@ -99,8 +90,8 @@ export class Application {
                 this.proxySettingService.getCurrentStatus(),
             ]).then(([certificateState, proxySettingStatus]: [CertificateStatus, ProxySettingStatus]) => {
                 resolve({
-                    autoResponderEntries: this.autoResponderEntryRepository.resolveAll(),
-                    clientRequestEntries: [...this.clientRequestRepository.resolveAll()].reverse(),
+                    autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
+                    clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
                     certificateState: certificateState,
                     proxySettingStatus: proxySettingStatus,
                 });
@@ -119,7 +110,7 @@ export class Application {
         this.contextMenuService.initialize(global);
 
         ipcRendererHandler.on("getAllRewriteRules", () => {
-            let allRewriteRules = this.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
+            let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
             ipcRendererHandler.send("responseAllRewriteRules", allRewriteRules);
         });
     }
