@@ -1,8 +1,8 @@
 import * as Path from 'path';
-import {AutoResponderEntryRepository} from '../domain/auto-responder-entry/auto-responder-entry-repositoty';
+import {AutoResponderEntryRepository} from '../domain/auto-responder-entry/lifecycle/auto-responder-entry-repositoty';
 import {ClientRequestEntity} from '../domain/client-request/client-request-entity';
 import {ProjectEntity} from '../domain/project/project-entity';
-import {ProjectFactory} from '../domain/project/project-factory';
+import {ProjectFactory} from '../domain/project/lifecycle/project-factory';
 import {HTTP_SSL_CA_DIR_PATH} from '../domain/settings';
 import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
 import {StateToProps} from '../ui/reducer';
@@ -14,7 +14,6 @@ import {ProxySettingService, ProxySettingStatus} from './proxy-setting/proxy-set
 import {ProxyService} from './proxy/proxy-service';
 
 export class Application {
-    private projectEntity: ProjectEntity;
     private autoResponderService: AutoResponderService;
     private certificateService: CertificateService;
     private proxyService: ProxyService;
@@ -24,27 +23,24 @@ export class Application {
     constructor(
         private userDataPath: string,
         private lifecycleContextService: LifecycleContextService,
-        private projectFactory = new ProjectFactory(),
     ) {
-        this.projectEntity = this.projectFactory.create();
-        let autoResponderEntryFactory = this.projectFactory.createAutoResponderEntryFactory(
-            this.projectEntity.getIdentity()
-        );
-
         this.autoResponderService = new AutoResponderService(
-            autoResponderEntryFactory,
+            this.lifecycleContextService.autoResponderEntryFactory,
             this.lifecycleContextService.autoResponderEntryRepository,
         );
 
         this.certificateService = new CertificateService(this.userDataPath);
 
         this.proxyService = new ProxyService(
-            new AutoResponderEntryRepository(),
+            this.lifecycleContextService.autoResponderEntryRepository,
             this.lifecycleContextService.clientRequestRepository,
+            this.lifecycleContextService.clientRequestFactory,
             Path.join(this.userDataPath, HTTP_SSL_CA_DIR_PATH)
         );
 
-        this.proxySettingService = new ProxySettingService();
+        this.proxySettingService = new ProxySettingService(
+            this.lifecycleContextService.proxySettingRepository,
+        );
 
         this.contextMenuService = new ContextMenuService();
     }
@@ -65,7 +61,7 @@ export class Application {
     }
 
     clickProxySettingStatus() {
-        return this.proxySettingService.getNewStatus().then((status) => {
+        return this.proxySettingService.getNewStatus().then((status: ProxySettingStatus) => {
             ipcRendererHandler.send("clickProxySettingStatus", status);
             return status;
         });

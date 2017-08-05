@@ -1,6 +1,6 @@
 import {OnMemoryRepository} from "typescript-dddbase";
-import {ClientRequestIdentity} from "./client-request-identity";
-import {ClientRequestEntity} from "./client-request-entity";
+import {ClientRequestIdentity} from "../client-request-identity";
+import {ClientRequestEntity} from "../client-request-entity";
 
 export class ClientRequestRepository extends OnMemoryRepository<ClientRequestIdentity, ClientRequestEntity> {
     resolveAll(): ClientRequestEntity[] {

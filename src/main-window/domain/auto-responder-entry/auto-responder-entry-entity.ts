@@ -4,7 +4,7 @@ import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path"
 import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
 import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
 import {ProjectIdentity} from "../project/project-identity";
-import {LocalFileResponderEntity} from '../local-file-responder/local-file-responder-entity';
+import {LocalFileResponderParam} from "../local-file-responder/lifecycle/local-file-responder-factory";
 
 export type AutoResponderEntryType = "File" | "Directory" | "Glob";
 
@@ -19,14 +19,14 @@ export abstract class AutoResponderEntryEntity extends BaseEntity<AutoResponderE
         super(identity);
     }
 
-    abstract getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderEntity | null>;
+    abstract getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderParam | null>;
 
     getMatchStats(path: ClientRequestUrl) {
         return new Promise((resolve, reject) => {
             if (!this.pattern.isMatch(path)) {
                 return resolve(null);
             }
-            this.path.getState().then(resolve, reject);
+            return this.path.getState().then(resolve, reject);
         });
     }
 }

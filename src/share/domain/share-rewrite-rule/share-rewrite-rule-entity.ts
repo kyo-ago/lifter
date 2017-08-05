@@ -21,6 +21,10 @@ export class ShareRewriteRuleEntity extends BaseEntity<ShareRewriteRuleIdentity>
         super(identity);
     }
 
+    getIdentity() {
+        return this.id;
+    }
+
     get action() {
         return this._action.value;
     }

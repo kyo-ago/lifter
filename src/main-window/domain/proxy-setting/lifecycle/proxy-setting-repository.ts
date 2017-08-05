@@ -1,9 +1,9 @@
 import {OnMemoryRepository} from "typescript-dddbase";
-import {ProxySettingIdentity} from "./proxy-setting-identity";
-import {ProxySettingEntity} from "./proxy-setting-entity";
+import {ProxySettingIdentity} from "../proxy-setting-identity";
+import {ProxySettingEntity} from "../proxy-setting-entity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
-import {execNetworkCommand, IOResult} from "../../libs/exec-command";
-import {NETWORK_SETUP_PROXY_COMMAND} from "../settings";
+import {execNetworkCommand, IOResult} from "../../../libs/exec-command";
+import {NETWORK_SETUP_PROXY_COMMAND} from "../../settings";
 const ifconfig = require('ifconfig');
 
 import {NetworksetupProxy} from "networksetup-proxy";
@@ -22,7 +22,11 @@ export interface Ifconfig {
 }
 
 export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdentity, ProxySettingEntity> {
-    getProxySetting() {
+    constructor(private proxySettingFactory: ProxySettingFactory) {
+        super();
+    }
+
+    getProxySetting(): Promise<ProxySettingEntity> {
         return Promise.all([
             execNetworkCommand([`-listnetworkserviceorder`]).then(({stdout, stderr}: IOResult) => {
                 if (stderr) {
@@ -39,8 +43,8 @@ export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdent
                 });
             }),
             networksetupProxy.hasGrant(),
-        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, any]) => {
-            return ProxySettingFactory.create(serviceorder, ifconfig, hasGrant);
+        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, boolean]) => {
+            return this.proxySettingFactory.create(serviceorder, ifconfig, hasGrant);
         });
     }
 }

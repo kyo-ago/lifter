@@ -1,10 +1,12 @@
-import {ProxySettingRepository} from "../../domain/proxy-setting/proxy-setting-repository";
+import {ProxySettingRepository} from "../../domain/proxy-setting/lifecycle/proxy-setting-repository";
 import {ProxySettingEntity} from "../../domain/proxy-setting/proxy-setting-entity";
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 
 export class ProxySettingService {
-    private proxySettingRepository = new ProxySettingRepository();
+    constructor(
+        private proxySettingRepository: ProxySettingRepository,
+    ) { }
 
     getCurrentStatus() {
         return this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
@@ -12,10 +14,9 @@ export class ProxySettingService {
         });
     }
 
-    getNewStatus() {
+    getNewStatus(): Promise<ProxySettingStatus> {
         return this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
             return proxySettingEntity.getNewStatus();
         });
     }
-
 }

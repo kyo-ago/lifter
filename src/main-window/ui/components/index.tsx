@@ -6,12 +6,11 @@ import {Application} from "../../application/application";
 import {Actions} from "../action";
 import {IpcHandler} from "./null/ipc-handler";
 import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
-import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
-import {CertificateStatus} from "../../application/certificate/certificate-service";
-import {AutoResponderEntryEntity} from "../../domain/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
 import {DragAndDropHandler} from "./null/drag-and-drop";
 import {StateToProps} from "../reducer";
+import {ProjectFactory} from "../../domain/project/lifecycle/project-factory";
+import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
 
 class App extends React.Component<GlobalProps, any> {
     render() {
@@ -29,7 +28,13 @@ function mapStateToProps(state: StateToProps): StateToProps {
 }
 
 let userDataPath = ipcRendererHandler.sendSync("getUserDataPath");
-let application = new Application(userDataPath);
+let projectFactory = new ProjectFactory();
+let projectEntity = projectFactory.create();
+let lifecycleContextService = new LifecycleContextService(projectEntity.id);
+let application = new Application(
+    userDataPath,
+    lifecycleContextService,
+);
 
 interface DispathProps {
     fileDrop: (files: File[]) => void;

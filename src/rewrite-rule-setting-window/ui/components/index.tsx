@@ -7,9 +7,9 @@ import {SubmitForm} from "./submit-form/submit-form";
 import {ShareRewriteRuleIdentity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {StateToProps} from "../reducer";
 import {Actions} from "../action";
-import {Option, None, Some} from "monapt";
+import {None, Option, Some} from "monapt";
 import {ShareRewriteRuleEntity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
-import {ajaxGetJSON} from "@reactivex/rxjs/dist/cjs/observable/dom/AjaxObservable";
+import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
 
 class App extends React.Component<GlobalProps, any> {
     render() {
@@ -30,10 +30,11 @@ interface DispathProps {
     saveAllRewriteRule: () => void;
 }
 
-let application = new Application();
+let lifecycleContextService = new LifecycleContextService();
+let application = new Application(lifecycleContextService);
 
 export function RewriteRuleFactoryFromJSON(json: any) {
-    return application.rewriteRuleFactory.fromJSON(json);
+    return lifecycleContextService.rewriteRuleFactory.fromJSON(json);
 }
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {

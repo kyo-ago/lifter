@@ -31,7 +31,7 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
         });
     }
 
-    getNewStatus() {
+    getNewStatus(): Promise<ProxySettingStatus> {
         return new Promise<ProxySettingStatus>((resolve, reject) => {
             if (!this.isGranted) {
                 this.grantProxy().then(() => {

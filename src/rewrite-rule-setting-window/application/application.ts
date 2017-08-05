@@ -1,46 +1,40 @@
 import {ShareRewriteRuleIdentity} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
-import {RewriteRuleRepository} from "../domain/rewrite-rule/rewrite-rule-repository";
-import {RewriteRuleFactory} from "../domain/rewrite-rule/rewrite-rule-factory";
+import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
 
 export class Application {
-    public rewriteRuleRepository: RewriteRuleRepository;
-    public rewriteRuleFactory: RewriteRuleFactory;
-
-    constructor() {
-        this.rewriteRuleRepository = new RewriteRuleRepository();
-        this.rewriteRuleFactory = new RewriteRuleFactory();
+    constructor(private lifecycleContextService: LifecycleContextService) {
     }
 
     saveRewriteRule(action: string, header: string, value: string) {
         return new Promise((resolve, reject) => {
-            let rewriteRuleEntity = this.rewriteRuleFactory.create(action, header, value);
-            this.rewriteRuleRepository.store(rewriteRuleEntity);
+            let rewriteRuleEntity = this.lifecycleContextService.rewriteRuleFactory.create(action, header, value);
+            this.lifecycleContextService.rewriteRuleRepository.store(rewriteRuleEntity);
             resolve(rewriteRuleEntity);
         });
     }
 
     deleteRewriteRule(id: ShareRewriteRuleIdentity) {
         return new Promise((resolve, reject) => {
-            this.rewriteRuleRepository.deleteByIdentity(id);
-            let rewriteRuleEntities = this.rewriteRuleRepository.resolveAll();
+            this.lifecycleContextService.rewriteRuleRepository.deleteByIdentity(id);
+            let rewriteRuleEntities = this.lifecycleContextService.rewriteRuleRepository.resolveAll();
             resolve(rewriteRuleEntities);
         });
     }
 
     selectRewriteRule(id: ShareRewriteRuleIdentity) {
         return new Promise((resolve, reject) => {
-            let rewriteRule = this.rewriteRuleRepository.resolve(id);
+            let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolve(id);
             rewriteRule.select();
-            this.rewriteRuleRepository.store(rewriteRule);
+            this.lifecycleContextService.rewriteRuleRepository.store(rewriteRule);
             resolve();
         });
     }
 
     cancelRewriteRule() {
         return new Promise((resolve, reject) => {
-            let rewriteRule = this.rewriteRuleRepository.resolveSelectedRewriteRule();
+            let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolveSelectedRewriteRule();
             rewriteRule.deselect();
-            this.rewriteRuleRepository.store(rewriteRule);
+            this.lifecycleContextService.rewriteRuleRepository.store(rewriteRule);
             resolve();
         });
     }

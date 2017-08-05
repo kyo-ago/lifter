@@ -1,6 +1,6 @@
-import {ProxySettingEntity} from "./proxy-setting-entity";
-import {ProxySettingIdentity} from "./proxy-setting-identity";
-import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
+import {ProxySettingEntity} from "../proxy-setting-entity";
+import {ProxySettingIdentity} from "../proxy-setting-identity";
+import {ProxySettingDevices} from "../value-objects/proxy-setting-devices";
 
 import {Stats} from "fs";
 import {Ifconfig} from "./proxy-setting-repository";
@@ -11,9 +11,9 @@ interface Device {
 }
 
 export class ProxySettingFactory {
-    private static identity = 0;
+    private identity = 0;
 
-    static create(
+    create(
         serviceorder: string,
         ifconfig: Ifconfig,
         hasGrant: boolean,

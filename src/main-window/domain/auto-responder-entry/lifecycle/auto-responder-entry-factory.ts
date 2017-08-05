@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as Path from 'path';
-import {ProjectIdentity} from '../project/project-identity';
-import {AutoResponderEntryDirectoryEntity} from './auto-responder-entry-directory-entity';
-import {AutoResponderEntryEntity, AutoResponderEntryType} from './auto-responder-entry-entity';
-import {AutoResponderEntryFileEntity} from './auto-responder-entry-file-entity';
-import {AutoResponderEntryGlobEntity} from './auto-responder-entry-glob-entity';
-import {AutoResponderEntryIdentity} from './auto-responder-entry-identity';
-import {AutoResponderEntryPath} from './value-objects/auto-responder-entry-path';
-import {AutoResponderEntryPattern} from './value-objects/auto-responder-entry-pattern';
+import {ProjectIdentity} from '../../project/project-identity';
+import {AutoResponderEntryDirectoryEntity} from '../auto-responder-entry-directory-entity';
+import {AutoResponderEntryEntity, AutoResponderEntryType} from '../auto-responder-entry-entity';
+import {AutoResponderEntryFileEntity} from '../auto-responder-entry-file-entity';
+import {AutoResponderEntryGlobEntity} from '../auto-responder-entry-glob-entity';
+import {AutoResponderEntryIdentity} from '../auto-responder-entry-identity';
+import {AutoResponderEntryPath} from '../value-objects/auto-responder-entry-path';
+import {AutoResponderEntryPattern} from '../value-objects/auto-responder-entry-pattern';
 
 export class AutoResponderEntryFactory {
     private identity = 0;
@@ -44,7 +44,7 @@ export class AutoResponderEntryFactory {
     }
 
     createFromFile(file: File): Promise<AutoResponderEntryEntity> {
-        return this.createFrom(file.name, file.path);
+        return this.createFrom(file.name, (<any>file).path);
     }
 
     createFromPath(path: string): Promise<AutoResponderEntryEntity> {
