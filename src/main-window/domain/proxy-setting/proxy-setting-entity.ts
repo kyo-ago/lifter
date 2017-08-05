@@ -5,6 +5,7 @@ import {IOResult, execNetworkCommand} from "../../libs/exec-command";
 import {PROXY_PORT, NETWORK_HOST_NAME, NETWORK_SETUP_PROXY_COMMAND} from "../settings";
 import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
 import {NetworksetupProxy} from "networksetup-proxy";
+
 let networksetupProxy = new NetworksetupProxy(NETWORK_SETUP_PROXY_COMMAND);
 
 export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {

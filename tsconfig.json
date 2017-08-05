@@ -3,12 +3,12 @@
     "noImplicitAny": true,
     "outDir": "./app/",
     "module": "commonjs",
-    "target": "es6",
+    "target": "es2017",
     "rootDir": "./src/",
     "declaration": false,
     "noEmitOnError": true,
     "jsx": "React",
-    "lib": ["dom", "es2017"]
+    "lib": ["dom", "es2017", "es2017.object"]
   },
   "include": [
     "./typings/global.d.ts",
