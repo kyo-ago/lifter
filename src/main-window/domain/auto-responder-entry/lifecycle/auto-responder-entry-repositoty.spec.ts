@@ -8,8 +8,10 @@ describe('AutoResponderEntryRepository', () => {
         let lifecycleContextService = getLifecycleContextService();
         autoResponderEntryRepository = lifecycleContextService.autoResponderEntryRepository;
     });
-    it('findMatchEntry', async () => {
-        let result = await autoResponderEntryRepository.findMatchEntry(new ClientRequestUrl(''));
-        expect(result).resolves.toBeNull();
+    describe('findMatchEntry', () => {
+        it('result is null', async () => {
+            let result = await autoResponderEntryRepository.findMatchEntry(new ClientRequestUrl(''));
+            expect(result).resolves.toBeNull();
+        });
     });
 });
