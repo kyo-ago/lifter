@@ -21,12 +21,11 @@ export abstract class AutoResponderEntryEntity extends BaseEntity<AutoResponderE
 
     abstract getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderParam | null>;
 
-    getMatchStats(path: ClientRequestUrl) {
-        return new Promise((resolve, reject) => {
-            if (!this.pattern.isMatch(path)) {
-                return resolve(null);
-            }
-            return this.path.getState().then(resolve, reject);
-        });
+    protected async getMatchStats(path: ClientRequestUrl) {
+        if (!this.pattern.isMatch(path)) {
+            return null;
+        }
+
+        return await this.path.getState();
     }
 }

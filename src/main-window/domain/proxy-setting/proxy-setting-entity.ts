@@ -56,13 +56,12 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
         });
     }
 
-    grantProxy() {
-        return networksetupProxy.grant().then(({stdout, stderr}: IOResult) => {
-            if (stderr) {
-                throw new Error(stderr);
-            }
-            return true;
-        })
+    async grantProxy() {
+        let {stdout, stderr}: IOResult = await networksetupProxy.grant();
+        if (stderr) {
+            throw new Error(stderr);
+        }
+        return true;
     }
 
     hasProxy() {

@@ -8,15 +8,13 @@ export class ProxySettingService {
         private proxySettingRepository: ProxySettingRepository,
     ) { }
 
-    getCurrentStatus() {
-        return this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
-            return proxySettingEntity.getCurrentStatus();
-        });
+    async getCurrentStatus(): Promise<ProxySettingStatus> {
+        let proxySettingEntity: ProxySettingEntity = await this.proxySettingRepository.getProxySetting();
+        return proxySettingEntity.getCurrentStatus();
     }
 
-    getNewStatus(): Promise<ProxySettingStatus> {
-        return this.proxySettingRepository.getProxySetting().then((proxySettingEntity: ProxySettingEntity) => {
-            return proxySettingEntity.getNewStatus();
-        });
+    async getNewStatus(): Promise<ProxySettingStatus> {
+        let proxySettingEntity: ProxySettingEntity = await this.proxySettingRepository.getProxySetting();
+        return proxySettingEntity.getNewStatus();
     }
 }

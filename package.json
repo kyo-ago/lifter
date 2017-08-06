@@ -3,7 +3,9 @@
   "description": "Electron Local Proxy for Fiddler users",
   "version": "0.0.2",
   "author": "@kyo_ago",
-  "bugs": "https://github.com/kyo-ago/lifter/issues",
+  "bugs": {
+    "url": "https://github.com/kyo-ago/lifter/issues"
+  },
   "build": {
     "productName": "Lifter Proxy",
     "appId": "com.electron.lifter",
@@ -59,7 +61,10 @@
   "license": "GPL-3.0",
   "main": "app/index.js",
   "productName": "Lifter Proxy",
-  "repository": "kyo-ago/lifter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyo-ago/lifter.git"
+  },
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "clean": "rm -rf ./dist ./build ./app",

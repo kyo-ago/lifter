@@ -8,19 +8,17 @@ export class AutoResponderService {
         private autoResponderEntryRepository: AutoResponderEntryRepository,
     ) {}
 
-    addFiles(files: File[]) {
+    async addFiles(files: File[]) {
         let filePromises = files.map((file) => this.autoResponderEntryFactory.createFromFile(file));
-        return Promise.all(filePromises).then((autoResponderEntryEntities) => {
-            this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
-            return autoResponderEntryEntities;
-        });
+        let autoResponderEntryEntities = await Promise.all(filePromises);
+        this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+        return autoResponderEntryEntities;
     }
 
-    addPaths(paths: string[]) {
+    async addPaths(paths: string[]) {
         let filePromises = paths.map((path) => this.autoResponderEntryFactory.createFromPath(path));
-        return Promise.all(filePromises).then((autoResponderEntryEntities) => {
-            this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
-            return autoResponderEntryEntities;
-        });
+        let autoResponderEntryEntities = await Promise.all(filePromises);
+        this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+        return autoResponderEntryEntities;
     }
 }

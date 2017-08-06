@@ -5,23 +5,22 @@ import {LocalFileResponderParam} from "../local-file-responder/lifecycle/local-f
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 
 export class AutoResponderEntryDirectoryEntity extends AutoResponderEntryEntity {
-    getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderParam | null> {
-        return this.getMatchStats(path).then((stats: fs.Stats | null) => {
-            if (!stats) {
-                return null;
-            }
-            return this.path.getMathFile(path).then((path) => {
-                if (!path) {
-                    return null;
-                }
-                return path.getState().then((stats: fs.Stats) => {
-                    return {
-                        path: path.value,
-                        type: mime.lookup(path.value),
-                        size: stats.size,
-                    };
-                });
-            });
-        });
+    async getMatchResponder(clientRequestUrl: ClientRequestUrl): Promise<LocalFileResponderParam | null> {
+        let directoryStats = await this.getMatchStats(clientRequestUrl);
+        if (!directoryStats) {
+            return null;
+        }
+
+        let filePath = await this.path.getMathFile(clientRequestUrl);
+        if (!filePath) {
+            return null;
+        }
+
+        let fileStats: fs.Stats = await filePath.getState();
+        return {
+            path: filePath.value,
+            type: mime.lookup(filePath.value),
+            size: fileStats.size,
+        };
     }
 }

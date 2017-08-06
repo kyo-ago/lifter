@@ -10,6 +10,6 @@ export class ShareIpcRendererHandler<Handlers, Senders, SyncSenders> {
     }
 
     sendSync<Key extends keyof SyncSenders>(type: Key, ev?: SyncSenders[Key]): SyncSenders[Key] {
-        return ev ? ipcRenderer.sendSync(type, ev) : ipcRenderer.sendSync(type);
+        return <any>(ev ? ipcRenderer.sendSync(type, ev) : ipcRenderer.sendSync(type));
     }
 }

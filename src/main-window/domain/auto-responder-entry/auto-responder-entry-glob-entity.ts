@@ -5,16 +5,16 @@ import {LocalFileResponderParam} from "../local-file-responder/lifecycle/local-f
 import {AutoResponderEntryEntity} from "./auto-responder-entry-entity";
 
 export class AutoResponderEntryGlobEntity extends AutoResponderEntryEntity {
-    getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderParam | null> {
-        return this.getMatchStats(path).then((stats: fs.Stats | null) => {
-            if (!stats) {
-                return null;
-            }
-            return {
-                path: this.path.value,
-                type: mime.lookup(this.path.value),
-                size: stats.size,
-            };
-        });
+    async getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderParam | null> {
+        let stats: fs.Stats | null = await this.getMatchStats(path);
+        if (!stats) {
+            return null;
+        }
+
+        return {
+            path: this.path.value,
+            type: mime.lookup(this.path.value),
+            size: stats.size,
+        };
     }
 }
