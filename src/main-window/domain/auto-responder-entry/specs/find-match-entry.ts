@@ -9,21 +9,20 @@ export class FindMatchEntry {
         private clientRequestPathname: ClientRequestUrl,
     ) { }
 
-    reduce(
+    async reduce(
         entity: AutoResponderEntryEntity,
         promise: Promise<LocalFileResponderEntity | null>,
     ) {
-        return promise.then((result) => {
-            if (result) {
-                return result;
-            }
+        let result = await promise;
+        if (result) {
+            return result;
+        }
 
-            return entity.getMatchResponder(this.clientRequestPathname).then((localFileResponderParam) => {
-                if (!localFileResponderParam) {
-                    return null;
-                }
-                return this.localFileResponderFactory.create(localFileResponderParam);
-            });
-        });
+        let localFileResponderParam = await entity.getMatchResponder(this.clientRequestPathname);
+        if (!localFileResponderParam) {
+            return null;
+        }
+
+        return this.localFileResponderFactory.create(localFileResponderParam);
     }
 }

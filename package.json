@@ -33,26 +33,48 @@
     "typescript-dddbase": "0.0.3"
   },
   "devDependencies": {
+    "@types/jest": "^20.0.6",
     "@types/mime": "1.3.1",
     "@types/minimatch": "^2.0.29",
-    "@types/mocha": "^2.2.41",
     "@types/nedb": "1.8.3",
     "@types/node": "^8.0.19",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^15.5.2",
     "@types/react-redux": "^4.4.47",
     "@types/redux": "^3.6.31",
+    "@types/when": "^2.4.29",
     "devtron": "^1.4.0",
     "electron": "^1.6.11",
     "electron-builder": "^19.19.1",
     "fixpack": "^2.3.1",
-    "mocha": "^3.5.0",
-    "mock-fs": "^4.4.1",
+    "jest": "^20.0.4",
     "mock-require": "^2.0.2",
     "npm-check-updates": "^2.12.1",
+    "ts-jest": "^20.0.9",
     "typescript": "^2.4.2"
   },
   "homepage": "https://github.com/kyo-ago/lifter/",
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!@foo)"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  },
   "keywords": [
     "electron",
     "local proxy",
@@ -72,10 +94,10 @@
     "fix": "fixpack",
     "ncu": "ncu",
     "pack": "build --dir",
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
-    "pretest": "tsc -p ./tsconfig_test.json",
     "start": "NODE_ENV='development' && electron ./app --enable-logging",
+    "test": "jest",
     "watch": "tsc -p ./tsconfig.json --watch"
   }
 }
