@@ -7,10 +7,12 @@ import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 
 describe('AutoResponderEntryFactory', () => {
     let autoResponderEntryFactory: AutoResponderEntryFactory;
+
     beforeEach(() => {
         let lifecycleContextService = getLifecycleContextService();
         autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
     });
+
     describe('create', () => {
         [
             {
