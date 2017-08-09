@@ -8,7 +8,7 @@ import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/
 import {None} from "monapt";
 
 export function render(container: Element | null) {
-    ipcRendererHandler.on("responseAllRewriteRules", (allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
+    ipcRendererHandler.on("responseAllRewriteRules", (ipcRendererEvent, allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
         let allRewriteRuleEntities = allRewriteRules.map((json) => RewriteRuleFactoryFromJSON(json));
 
         const store = configureStore({
