@@ -3,7 +3,9 @@
   "description": "Electron Local Proxy for Fiddler users",
   "version": "0.0.2",
   "author": "@kyo_ago",
-  "bugs": "https://github.com/kyo-ago/lifter/issues",
+  "bugs": {
+    "url": "https://github.com/kyo-ago/lifter/issues"
+  },
   "build": {
     "productName": "Lifter Proxy",
     "appId": "com.electron.lifter",
@@ -12,47 +14,67 @@
     }
   },
   "dependencies": {
-    "@reactivex/rxjs": "^5.3.0",
+    "@reactivex/rxjs": "^5.4.2",
     "electron-window-state": "^4.1.1",
-    "eventemitter2": "^4.1.0",
+    "eventemitter2": "^4.1.2",
     "http-mitm-proxy": "^0.5.2",
     "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
-    "mime": "^1.3.4",
-    "minimatch": "^3.0.3",
-    "monapt": "^0.7.1",
+    "mime": "^1.3.6",
+    "minimatch": "^3.0.4",
+    "monapt": "^1.0.4",
     "nedb": "^1.8.0",
-    "networksetup-proxy": "^0.0.11",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-redux": "^5.0.4",
-    "redux": "^3.6.0",
-    "regenerator-runtime": "^0.10.3",
+    "networksetup-proxy": "^0.0.12",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "regenerator-runtime": "^0.10.5",
     "remote": "^0.2.6",
-    "typescript-dddbase": "0.0.2"
+    "typescript-dddbase": "0.0.3"
   },
   "devDependencies": {
-    "@types/electron": "^1.4.37",
-    "@types/eventemitter2": "^2.2.1",
-    "@types/mime": "0.0.29",
+    "@types/jest": "^20.0.6",
+    "@types/mime": "1.3.1",
     "@types/minimatch": "^2.0.29",
-    "@types/mocha": "^2.2.41",
-    "@types/nedb": "1.8.2",
-    "@types/node": "^7.0.13",
-    "@types/react": "^15.0.22",
-    "@types/react-dom": "^15.5.0",
-    "@types/react-redux": "^4.4.39",
+    "@types/nedb": "1.8.3",
+    "@types/node": "^8.0.20",
+    "@types/react": "^16.0.2",
+    "@types/react-dom": "^15.5.2",
+    "@types/react-redux": "^5.0.0",
     "@types/redux": "^3.6.31",
+    "@types/when": "^2.4.29",
     "devtron": "^1.4.0",
-    "electron": "^1.6.5",
-    "electron-builder": "^17.0.3",
+    "electron": "^1.6.11",
+    "electron-builder": "^19.19.1",
     "fixpack": "^2.3.1",
-    "mocha": "^3.3.0",
-    "mock-fs": "^4.2.0",
+    "jest": "^20.0.4",
     "mock-require": "^2.0.2",
-    "npm-check-updates": "^2.11.0",
-    "typescript": "^2.2.2"
+    "npm-check-updates": "^2.12.1",
+    "ts-jest": "^20.0.10",
+    "typescript": "^2.4.2"
   },
   "homepage": "https://github.com/kyo-ago/lifter/",
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!@foo)"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  },
   "keywords": [
     "electron",
     "local proxy",
@@ -61,7 +83,10 @@
   "license": "GPL-3.0",
   "main": "app/index.js",
   "productName": "Lifter Proxy",
-  "repository": "kyo-ago/lifter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kyo-ago/lifter.git"
+  },
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "clean": "rm -rf ./dist ./build ./app",
@@ -69,10 +94,10 @@
     "fix": "fixpack",
     "ncu": "ncu",
     "pack": "build --dir",
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
-    "pretest": "tsc -p ./tsconfig_test.json",
     "start": "NODE_ENV='development' && electron ./app --enable-logging",
+    "test": "jest",
     "watch": "tsc -p ./tsconfig.json --watch"
   }
 }
