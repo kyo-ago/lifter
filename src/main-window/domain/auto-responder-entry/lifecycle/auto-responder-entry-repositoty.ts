@@ -15,8 +15,8 @@ export class AutoResponderEntryRepository extends OnMemoryRepository<AutoRespond
 
     findMatchEntry(clientRequestPathname: ClientRequestUrl): Promise<LocalFileResponderEntity | null> {
         let findMatchEntry = new FindMatchEntry(this.localFileResponderFactory, clientRequestPathname);
-        return Object.keys(this.entities).reduce((promise, key) => {
-            return findMatchEntry.reduce(this.entities[key], promise);
+        return this.resolveAll().reduce((promise, entity) => {
+            return findMatchEntry.reduce(entity, promise);
         }, Promise.resolve(<LocalFileResponderEntity | null>null));
     }
 

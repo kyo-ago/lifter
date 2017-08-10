@@ -19,7 +19,7 @@ describe('AutoResponderEntryRepository', () => {
             expect(result).toBeNull();
         });
         it('result is not null', async () => {
-            autoResponderEntryRepository.store(autoResponderEntryFactory.create("File", 'a', 'a.png'));
+            autoResponderEntryRepository.store(autoResponderEntryFactory.create("File", 'a', __filename));
             let result = await autoResponderEntryRepository.findMatchEntry(new ClientRequestUrl('/a'));
             expect(result).not.toBeNull();
         });
