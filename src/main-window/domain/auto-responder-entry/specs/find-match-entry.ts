@@ -1,7 +1,7 @@
-import {LocalFileResponderEntity} from "../../local-file-responder/local-file-responder-entity";
 import {ClientRequestUrl} from "../../client-request/value-objects/client-request-url";
-import {AutoResponderEntryEntity} from "../auto-responder-entry-entity";
 import {LocalFileResponderFactory} from "../../local-file-responder/lifecycle/local-file-responder-factory";
+import {LocalFileResponderEntity} from "../../local-file-responder/local-file-responder-entity";
+import {AbstractAutoResponderEntryEntity} from "../auto-responder-entry-entity";
 
 export class FindMatchEntry {
     constructor(
@@ -10,7 +10,7 @@ export class FindMatchEntry {
     ) { }
 
     async reduce(
-        entity: AutoResponderEntryEntity,
+        entity: AbstractAutoResponderEntryEntity,
         promise: Promise<LocalFileResponderEntity | null>,
     ) {
         let result = await promise;

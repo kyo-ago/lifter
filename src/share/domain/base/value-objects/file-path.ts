@@ -6,11 +6,7 @@ import {BaseValueObject} from "../value-object";
 
 export class FilePath extends BaseValueObject<string> {
     getState(): Promise<fs.Stats> {
-        return new Promise((resolve, reject) => {
-            fs.stat(this._value, (err: any, stats: fs.Stats) => {
-                err ? reject(err) : resolve(stats);
-            });
-        });
+        return new Promise((resolve, reject) => fs.stat(this._value, (err, stat) => err ? reject(err) : resolve(stat)));
     }
 
     getMathFile(requestPath: ClientRequestUrl): Promise<FilePath | null> {

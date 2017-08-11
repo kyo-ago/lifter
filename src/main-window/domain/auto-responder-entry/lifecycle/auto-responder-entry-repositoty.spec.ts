@@ -23,5 +23,11 @@ describe('AutoResponderEntryRepository', () => {
             let result = await autoResponderEntryRepository.findMatchEntry(new ClientRequestUrl('/a'));
             expect(result).not.toBeNull();
         });
+        it('choose from entities', async () => {
+            let entities = Array.from(Array(10)).map((_, index) => autoResponderEntryFactory.create("File", String(index), __filename));
+            autoResponderEntryRepository.storeList(entities);
+            let result = await autoResponderEntryRepository.findMatchEntry(new ClientRequestUrl('/2'));
+            expect(result).not.toBeNull();
+        });
     });
 });
