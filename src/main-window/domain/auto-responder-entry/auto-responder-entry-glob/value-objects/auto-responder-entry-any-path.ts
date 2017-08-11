@@ -4,13 +4,38 @@ import {AutoResponderEntryFilePath} from "../../auto-responder-entry-file/value-
 import {AutoResponderEntryPath} from "../../value-objects/auto-responder-entry-path";
 
 export class AutoResponderEntryAnyPath extends AutoResponderEntryPath {
-    async getAutoResponderEntryFilePath(clientRequestUrl: ClientRequestUrl): Promise<AutoResponderEntryFilePath> {
+    async getAutoResponderEntryFilePath(clientRequestUrl: ClientRequestUrl): Promise<AutoResponderEntryFilePath | null> {
         let stat = await this.getState();
         if (stat.isFile()) {
             return new AutoResponderEntryFilePath(this.value);
         }
 
-        let lastPath = clientRequestUrl.getPathname().split(`/${Path.basename(this.value)}/`).pop();
+        if (!stat.isDirectory()) {
+            return null;
+        }
+
+        let pathname = clientRequestUrl.getPathname();
+
+        // /
+        if (pathname === '/') {
+            return null;
+        }
+
+        // /hoge
+        if (pathname.match(/^\/[^\/]+$/)) {
+            return new AutoResponderEntryFilePath(Path.join(this.value, pathname));
+        }
+
+        let splited = clientRequestUrl.getPathname().split(`/${Path.basename(this.value)}/`);
+
+        // unmatch
+        if (splited.length === 1) return null;
+
+        let lastPath = splited.pop();
+
+        // directory match
+        if (!lastPath) return null;
+
         return new AutoResponderEntryFilePath(Path.join(this.value, lastPath));
     }
 }
