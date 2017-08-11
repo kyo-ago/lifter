@@ -1,30 +1,34 @@
-
+import * as Path from "path";
 import {AutoResponderEntryFactory} from "../lifecycle/auto-responder-entry-factory";
 import {getLifecycleContextService} from "../../../../../test/main-window/mocks";
 import {ClientRequestUrl} from "../../client-request/value-objects/client-request-url";
+import {AutoResponderEntryDirectoryEntity} from "./auto-responder-entry-directory-entity";
+
 describe('AutoResponderEntryDirectoryEntity', () => {
-    let autoResponderEntryFactory: AutoResponderEntryFactory;
+    let autoResponderEntryDirectoryEntity: AutoResponderEntryDirectoryEntity;
 
     beforeEach(() => {
-        let lifecycleContextService = getLifecycleContextService();
-        autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
+        let autoResponderEntryFactory = getLifecycleContextService().autoResponderEntryFactory;
+        autoResponderEntryDirectoryEntity = <AutoResponderEntryDirectoryEntity>autoResponderEntryFactory.create("Directory", Path.basename(__dirname), __dirname);
     });
 
     describe('getMatchResponder', () => {
-        it('is unmatch url is returned null', async () => {
-            let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("Directory", 'a', __dirname);
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl('/b'));
-            expect(result).toBeNull();
+        it('file exist', async () => {
+            let url = `/${Path.basename(__dirname)}/${Path.basename(__filename)}`;
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl(url));
+            expect(result.path).toBe(__filename);
         });
-        it('is match url is returned param', async () => {
-            let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("Directory", 'a', __dirname);
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl('/a'));
-            expect(result).not.toBeNull();
+
+        it('file not exist', async () => {
+            let url = `/${Path.basename(__dirname)}/not_exist.txt`;
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl(url));
+            expect(result).toBeUndefined();
         });
-        it('is match partial url is returned param', async () => {
-            let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("Directory", 'aaaa', __dirname);
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl('/a'));
-            expect(result).not.toBeNull();
+
+        it('unmatch', async () => {
+            let url = `/unknown-dir/${Path.basename(__filename)}`;
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl(url));
+            expect(result).toBeUndefined();
         });
     });
 });

@@ -6,10 +6,10 @@ export class AutoResponderEntryFilePattern extends AutoResponderEntryPattern {
         let splitted = clientRequestUrl.getPathname().split(this.value);
 
         // unmatch
-        if (splitted.length === 1) return;
+        if (splitted.length === 1) return false;
 
         // is last match?
-        if (splitted.pop()) return;
+        if (splitted.pop()) return false;
 
         return true;
     }

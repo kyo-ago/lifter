@@ -10,10 +10,10 @@ export class AutoResponderEntryDirectoryPattern extends AutoResponderEntryPatter
         let splitted = clientRequestUrl.getPathname().split(this.value);
 
         // unmatch
-        if (splitted.length === 1) return;
+        if (splitted.length === 1) return false;
 
         // is not last match?
-        if (!splitted.pop()) return;
+        if (!splitted.pop()) return false;
 
         return true;
     }
