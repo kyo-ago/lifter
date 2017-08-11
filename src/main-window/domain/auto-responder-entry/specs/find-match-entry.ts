@@ -6,7 +6,7 @@ import {AbstractAutoResponderEntryEntity} from "../auto-responder-entry-entity";
 export class FindMatchEntry {
     constructor(
         private localFileResponderFactory: LocalFileResponderFactory,
-        private clientRequestPathname: ClientRequestUrl,
+        private clientRequestUrl: ClientRequestUrl,
     ) { }
 
     async reduce(
@@ -14,11 +14,9 @@ export class FindMatchEntry {
         promise: Promise<LocalFileResponderEntity | null>,
     ) {
         let result = await promise;
-        if (result) {
-            return result;
-        }
+        if (result) return result;
 
-        let localFileResponderParam = await entity.getMatchResponder(this.clientRequestPathname);
+        let localFileResponderParam = await entity.getMatchResponder(this.clientRequestUrl);
         if (!localFileResponderParam) {
             return null;
         }

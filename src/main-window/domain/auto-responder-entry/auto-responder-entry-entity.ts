@@ -26,7 +26,7 @@ export abstract class AutoResponderEntryEntity<
         super(identity);
     }
 
-    abstract getMatchResponder(path: ClientRequestUrl): Promise<LocalFileResponderParam | null>;
+    abstract getMatchResponder(clientRequestUrl: ClientRequestUrl): Promise<LocalFileResponderParam | null>;
 
     protected async filePathToLocalFileResponderParam(filePath: AutoResponderEntryFilePath): Promise<LocalFileResponderParam | null> {
         let stats;
@@ -34,7 +34,7 @@ export abstract class AutoResponderEntryEntity<
             stats = await filePath.getState();
         } catch (e) {
             // missing file
-            return;
+            return null;
         }
         return {
             path: filePath.value,

@@ -22,13 +22,13 @@ describe('AutoResponderEntryDirectoryEntity', () => {
         it('file not exist', async () => {
             let url = `/${Path.basename(__dirname)}/not_exist.txt`;
             let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl(url));
-            expect(result).toBeUndefined();
+            expect(result).toBeNull();
         });
 
         it('unmatch', async () => {
             let url = `/unknown-dir/${Path.basename(__filename)}`;
             let result = await autoResponderEntryDirectoryEntity.getMatchResponder(new ClientRequestUrl(url));
-            expect(result).toBeUndefined();
+            expect(result).toBeNull();
         });
     });
 });

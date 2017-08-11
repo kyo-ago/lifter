@@ -7,7 +7,7 @@ import {AutoResponderEntryDirectoryPattern} from "./value-objects/auto-responder
 
 export class AutoResponderEntryDirectoryEntity extends AutoResponderEntryEntity<AutoResponderEntryDirectoryPattern, AutoResponderEntryDirectoryPath> {
     getMatchResponder(clientRequestUrl: ClientRequestUrl): Promise<LocalFileResponderParam | null> {
-        if (!this.pattern.isMatchPath(clientRequestUrl)) return;
+        if (!this.pattern.isMatchPath(clientRequestUrl)) return null;
 
         let filePath = this.path.getAutoResponderEntryFilePath(clientRequestUrl);
         return this.filePathToLocalFileResponderParam(filePath);
