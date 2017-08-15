@@ -6,24 +6,7 @@ import {BaseValueObject} from "../value-object";
 
 export class FilePath extends BaseValueObject<string> {
     getState(): Promise<fs.Stats> {
-        return new Promise((resolve, reject) => {
-            fs.stat(this._value, (err: any, stats: fs.Stats) => {
-                err ? reject(err) : resolve(stats);
-            });
-        });
-    }
-
-    getMathFile(requestPath: ClientRequestUrl): Promise<FilePath | null> {
-        return new Promise((resolve, reject) => {
-            let basename = Path.basename(this._value);
-            let paths = requestPath.getPathname().split(`${Path.sep}${basename}${Path.sep}`);
-            paths.shift();
-            let localPath = paths.join(Path.sep);
-            let absolutePath = `${this._value}${Path.sep}${localPath}`;
-            fs.access(absolutePath, fs.constants.R_OK, (err: any) => {
-                resolve(err ? null : new FilePath(absolutePath));
-            });
-        });
+        return new Promise((resolve, reject) => fs.stat(this._value, (err, stat) => err ? reject(err) : resolve(stat)));
     }
 
     getBody(): Promise<Buffer> {

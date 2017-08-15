@@ -1,8 +1,8 @@
 import {getLifecycleContextService} from "../../../../../test/main-window/mocks";
-import {AutoResponderEntryDirectoryEntity} from "../auto-responder-entry-directory-entity";
+import {AutoResponderEntryDirectoryEntity} from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
 import {AutoResponderEntryType} from "../auto-responder-entry-entity";
-import {AutoResponderEntryFileEntity} from "../auto-responder-entry-file-entity";
-import {AutoResponderEntryGlobEntity} from "../auto-responder-entry-glob-entity";
+import {AutoResponderEntryFileEntity} from "../auto-responder-entry-file/auto-responder-entry-file-entity";
+import {AutoResponderEntryGlobEntity} from "../auto-responder-entry-glob/auto-responder-entry-glob-entity";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 
 describe('AutoResponderEntryFactory', () => {

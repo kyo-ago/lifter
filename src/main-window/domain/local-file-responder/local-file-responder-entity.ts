@@ -9,9 +9,9 @@ import {LocalFileResponderType} from "./value-objects/local-file-responder-type"
 export class LocalFileResponderEntity extends BaseEntity<LocalFileResponderIdentity> {
     constructor(
         identity: LocalFileResponderIdentity,
-        private path: LocalFileResponderPath,
-        private type: LocalFileResponderType,
-        private size: LocalFileResponderSize,
+        public path: LocalFileResponderPath,
+        public type: LocalFileResponderType,
+        public size: LocalFileResponderSize,
     ) {
         super(identity);
     }
