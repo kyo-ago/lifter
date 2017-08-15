@@ -1,157 +1,56 @@
 import {BaseEntity} from "../../../share/domain/base/base-entity";
-import {ProxySettingIdentity} from "./proxy-setting-identity";
-import {ProxySettingDevices} from "./value-objects/proxy-setting-devices";
-import {IOResult, execNetworkCommand} from "../../libs/exec-command";
-import {PROXY_PORT, NETWORK_HOST_NAME, NETWORK_SETUP_PROXY_COMMAND} from "../settings";
 import {ProxySettingStatus} from "../../application/proxy-setting/proxy-setting-service";
-import {NetworksetupProxy} from "networksetup-proxy";
-
-let networksetupProxy = new NetworksetupProxy(NETWORK_SETUP_PROXY_COMMAND);
+import {networksetupProxy} from "../../libs/networksetup-proxy-command";
+import {throwableCommand} from "../../libs/throwable-command";
+import {ProxySettingIdentity} from "./proxy-setting-identity";
+import {ProxySettingDevice} from "./value-objects/proxy-setting-device";
 
 export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     constructor(
         identity: ProxySettingIdentity,
-        private _devices: ProxySettingDevices,
+        private devices: ProxySettingDevice[],
         public isGranted: boolean,
     ) {
         super(identity);
     }
 
-    get devices() {
-        return this._devices.value;
+    async getCurrentStatus(): Promise<ProxySettingStatus> {
+        if (!this.isGranted) {
+            throw new Error("NoPermission");
+        }
+        return (await this.hasProxy()) ? "On" : "Off";
     }
 
-    getCurrentStatus() {
-        return new Promise<ProxySettingStatus>((resolve, reject) => {
-            if (!this.isGranted) {
-                return resolve("NoPermission");
-            }
-            this.hasProxy().then((result: boolean) => {
-                resolve(result ? "On" : "Off");
-            });
-        });
-    }
+    async getNewStatus(): Promise<ProxySettingStatus> {
+        if (!this.isGranted) {
+            await this.grantProxy();
+            return (await this.hasProxy()) ? "On" : "Off";
+        }
 
-    getNewStatus(): Promise<ProxySettingStatus> {
-        return new Promise<ProxySettingStatus>((resolve, reject) => {
-            if (!this.isGranted) {
-                this.grantProxy().then(() => {
-                    this.hasProxy().then((result: boolean) => {
-                        resolve(result ? "On" : "Off");
-                    });
-                });
-                return;
-            }
-            this.hasProxy().then((result: boolean) => {
-                if (result) {
-                    this.disableProxy().then(() => {
-                        resolve("Off");
-                    });
-                } else {
-                    this.enableProxy().then(() => {
-                        resolve("On");
-                    });
-                }
-            });
-        });
+        if (await this.hasProxy()) {
+            await this.disableProxy();
+            return "Off";
+        } else {
+            await this.enableProxy();
+            return "On";
+        }
     }
 
     async grantProxy() {
-        let {stdout, stderr}: IOResult = await networksetupProxy.grant();
-        if (stderr) {
-            throw new Error(stderr);
-        }
+        await throwableCommand(networksetupProxy.grant());
         return true;
     }
 
-    hasProxy() {
-        return Promise.all(this.devices.map((device) => {
-            return Promise.all([
-                execNetworkCommand([`-getwebproxy "${device}"`]),
-                execNetworkCommand([`-getsecurewebproxy "${device}"`]),
-            ]).then((results: IOResult[]) => {
-                return results.find(({stdout, stderr}: IOResult) => {
-                    return this.isProxing(stdout);
-                });
-            });
-        })).then((results) => {
-            return !!results.find((result) => !!result);
-        });
-    }
-
-    isProxing(stdout: string): boolean {
-        let result = stdout.trim().split(/\r?\n/).reduce((base: any, cur: string) => {
-            let [key, val] = cur.split(/:/);
-            base[key.trim()] = val.trim();
-            return base;
-        }, <{
-            Enabled: "Yes" | "No";
-            Server: string;
-            Port: string;
-            "Authenticated Proxy Enabled": string;
-        }>{});
-
-        if (result.Enabled !== 'Yes') {
-            return false;
-        }
-        if (result.Server !== NETWORK_HOST_NAME) {
-            return false;
-        }
-        if (result.Port !== String(PROXY_PORT)) {
-            return false;
-        }
-        return true;
+    async hasProxy(): Promise<boolean> {
+        let results = await Promise.all(this.devices.map((device) => device.hasProxy()));
+        return results.find((result) => result);
     }
 
     enableProxy() {
-        return Promise.all([
-            this.changeProxy((device: string) => {
-                return networksetupProxy.setwebproxy(device, NETWORK_HOST_NAME, String(PROXY_PORT));
-            }, 'getwebproxy', true),
-            this.changeProxy((device: string) => {
-                return networksetupProxy.setsecurewebproxy(device, NETWORK_HOST_NAME, String(PROXY_PORT));
-            }, 'getsecurewebproxy', true),
-        ]);
+        return Promise.all(this.devices.map((device) => device.enableProxy()));
     }
 
     disableProxy() {
-        return Promise.all([
-            this.changeProxy((device: string) => {
-                return networksetupProxy.setwebproxystate(device, 'off');
-            }, 'getwebproxy', false),
-            this.changeProxy((device: string) => {
-                return networksetupProxy.setsecurewebproxystate(device, 'off');
-            }, 'getsecurewebproxy', false),
-        ]);
-    }
-
-    private changeProxy(setCommand: (device: string) => Promise<any>, getCommand: string, result: boolean) {
-        return this.execAllDevices((device) => {
-            return new Promise((resolve, reject) => {
-                let exec = (count: number) => {
-                    if (!count) {
-                        reject();
-                    }
-                    setCommand(device).then(() => {
-                        return execNetworkCommand([`-${getCommand} "${device}"`]).then(({stdout, stderr}: IOResult) => {
-                            if (this.isProxing(stdout) === result) {
-                                return resolve();
-                            }
-                            setTimeout(() => {
-                                exec(count--)
-                            }, 100);
-                        });
-                    }).catch(reject);
-                };
-                exec(3);
-            });
-        });
-    }
-
-    private execAllDevices(exec: (device: string) => any) {
-        let promises = this.devices.map((device: string) => exec(device));
-        return promises.reduce((base, cur) => {
-            return base.then(cur);
-        }, Promise.resolve());
+        return Promise.all(this.devices.map((device) => device.disableProxy()));
     }
 }

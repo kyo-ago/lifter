@@ -1,14 +1,8 @@
 import {ProxySettingEntity} from "../proxy-setting-entity";
 import {ProxySettingIdentity} from "../proxy-setting-identity";
-import {ProxySettingDevices} from "../value-objects/proxy-setting-devices";
-
-import {Stats} from "fs";
+import {ParseNetworkDevices} from "../specs/parse-network-devices";
+import {ProxySettingDevice} from "../value-objects/proxy-setting-device";
 import {Ifconfig} from "./proxy-setting-repository";
-
-interface Device {
-    "Hardware Port": string
-    "Device": string
-}
 
 export class ProxySettingFactory {
     private identity = 0;
@@ -18,21 +12,10 @@ export class ProxySettingFactory {
         ifconfig: Ifconfig,
         hasGrant: boolean,
     ): ProxySettingEntity {
-        let deviceOrder = serviceorder.trim().match(/\(Hardware Port.+?\)/gi).map((line) => {
-            return line.replace(/[\(\)]/g, '').split(/,/).reduce((base: any, cur: string) => {
-                let [key, val] = cur.split(/:/);
-                base[key.trim()] = val.trim();
-                return base;
-            }, <Device>{});
-        });
-        let devices = deviceOrder.filter((device) => {
-            let conf = ifconfig[device.Device];
-            return conf && conf.status == 'active' && 'ether' in conf;
-        }).map(device => device['Hardware Port']);
-
+        let enableDevices = ParseNetworkDevices(serviceorder, ifconfig);
         return new ProxySettingEntity(
             new ProxySettingIdentity(this.identity++),
-            new ProxySettingDevices(devices),
+            enableDevices.map((device) => new ProxySettingDevice(device)),
             hasGrant,
         );
     }

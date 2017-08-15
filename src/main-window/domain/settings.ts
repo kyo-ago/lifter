@@ -1,6 +1,7 @@
 import * as fs from "fs";
 
 export const PROXY_PORT = 8888;
+export const APPLICATION_NAME = require('../../../package.json').build.productName;
 export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
 export const NETWORK_HOST_NAME = 'localhost';
 export const SECURITY_COMMAND = '/usr/bin/security';

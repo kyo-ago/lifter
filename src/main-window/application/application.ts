@@ -79,20 +79,18 @@ export class Application {
         ipcRendererHandler.send("openRewriteRuleSettingWindow");
     }
 
-    getRender(): Promise<StateToProps> {
-        return new Promise((resolve, reject) => {
-            Promise.all([
-                this.certificateService.getCurrentStatus(),
-                this.proxySettingService.getCurrentStatus(),
-            ]).then(([certificateState, proxySettingStatus]: [CertificateStatus, ProxySettingStatus]) => {
-                resolve({
-                    autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
-                    clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
-                    certificateState: certificateState,
-                    proxySettingStatus: proxySettingStatus,
-                });
-            });
-        });
+    async getRender(): Promise<StateToProps> {
+        let [certificateState, proxySettingStatus]: [CertificateStatus, ProxySettingStatus] = await Promise.all([
+            this.certificateService.getCurrentStatus(),
+            this.proxySettingService.getCurrentStatus(),
+        ]);
+
+        return {
+            autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
+            clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
+            certificateState: certificateState,
+            proxySettingStatus: proxySettingStatus,
+        };
     }
 
     initialize(global: Window) {

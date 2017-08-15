@@ -1,13 +1,16 @@
+import * as ifconfig from "ifconfig";
 import {OnMemoryRepository} from "typescript-dddbase";
-import {ProxySettingIdentity} from "../proxy-setting-identity";
+import {getListnetworkserviceorder} from "../../../libs/exec-command";
+import {networksetupProxy} from "../../../libs/networksetup-proxy-command";
 import {ProxySettingEntity} from "../proxy-setting-entity";
+import {ProxySettingIdentity} from "../proxy-setting-identity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
-import {execNetworkCommand, IOResult} from "../../../libs/exec-command";
-import {NETWORK_SETUP_PROXY_COMMAND} from "../../settings";
-const ifconfig = require('ifconfig');
 
-import {NetworksetupProxy} from "networksetup-proxy";
-let networksetupProxy = new NetworksetupProxy(NETWORK_SETUP_PROXY_COMMAND);
+function promisedIfconfig(): Promise<Ifconfig> {
+    return new Promise((resolve, reject) => {
+        ifconfig((err: any, configs: Ifconfig) => err ? reject(err) : resolve(configs));
+    });
+}
 
 export interface Ifconfig {
     [name: string]: {
@@ -26,25 +29,13 @@ export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdent
         super();
     }
 
-    getProxySetting(): Promise<ProxySettingEntity> {
-        return Promise.all([
-            execNetworkCommand([`-listnetworkserviceorder`]).then(({stdout, stderr}: IOResult) => {
-                if (stderr) {
-                   throw new Error(stderr);
-                }
-                return stdout;
-            }),
-            new Promise((resolve, reject) => {
-                ifconfig(function(err: any, configs: Ifconfig) {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(configs);
-                });
-            }),
+    async getProxySetting(): Promise<ProxySettingEntity> {
+        let [serviceorder, ifconfig, hasGrant]: [string, Ifconfig, boolean] = Promise.all([
+            getListnetworkserviceorder(),
+            promisedIfconfig(),
             networksetupProxy.hasGrant(),
-        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, boolean]) => {
-            return this.proxySettingFactory.create(serviceorder, ifconfig, hasGrant);
-        });
+        ]);
+
+        return this.proxySettingFactory.create(serviceorder, ifconfig, hasGrant);
     }
 }

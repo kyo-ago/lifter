@@ -1,27 +1,25 @@
-import {exec} from "child_process";
-
-import {SECURITY_COMMAND, NETWORK_SETUP_COMMAND} from "../domain/settings";
+import * as execa from "execa";
+import {ProxySettingDevice} from "../domain/proxy-setting/value-objects/proxy-setting-device";
+import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../domain/settings";
+import {throwableCommand} from "./throwable-command";
 
 export interface IOResult {
     stdout: string;
     stderr: string;
 }
 
-let execCommand = (command: string, param: string[]): Promise<IOResult> => {
-    return new Promise((resolve, reject) => {
-        exec(`${command} ${param.join(' ')}`, (error: string, stdout: string, stderr: string) => {
-            if (error && !stderr) {
-                return reject(error);
-            }
-            resolve({stdout, stderr});
-        });
-    });
-};
-
 export function execSecurityCommand(param: string[]) {
-    return execCommand(SECURITY_COMMAND, param);
+    return execa(SECURITY_COMMAND, param);
 }
 
-export function execNetworkCommand(param: string[]) {
-    return execCommand(NETWORK_SETUP_COMMAND, param);
+export function getListnetworkserviceorder(): Promise<string> {
+    return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-listnetworkserviceorder`]));
+}
+
+export function getWebproxy(device: ProxySettingDevice): Promise<string> {
+    return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-getwebproxy "${device.value}"`]));
+}
+
+export function getSecureWebproxy(device: ProxySettingDevice): Promise<string> {
+    return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-getsecurewebproxy "${device.value}"`]));
 }
