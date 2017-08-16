@@ -22,7 +22,11 @@ describe('ParseNetworkDevices', () => {
                 status: 'active',
             },
         });
-        expect(results).toEqual(['Wi-Fi']);
+        expect(results).toEqual([{
+            name: 'en0',
+            hardwarePort: 'Wi-Fi',
+            enable: true,
+        }]);
     });
 
     it('filtering multi devices', () => {
@@ -51,7 +55,18 @@ describe('ParseNetworkDevices', () => {
                 status: 'active',
             },
         });
-        expect(results).toEqual(['Wi-Fi', 'Bluetooth PAN']);
+        expect(results).toEqual([
+            {
+                name: 'en0',
+                hardwarePort: 'Wi-Fi',
+                enable: true,
+            },
+            {
+                name: 'en1',
+                hardwarePort: 'Bluetooth PAN',
+                enable: true,
+            },
+        ]);
     });
 
     it('no active devices', () => {

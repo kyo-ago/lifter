@@ -4,11 +4,12 @@ import {networksetupProxy} from "../../libs/networksetup-proxy-command";
 import {throwableCommand} from "../../libs/throwable-command";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 import {ProxySettingDevice} from "./value-objects/proxy-setting-device";
+import {ProxySettingDeviceIdentity} from "./proxy-setting-device/proxy-setting-device-identity";
 
 export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     constructor(
         identity: ProxySettingIdentity,
-        private devices: ProxySettingDevice[],
+        private devices: ProxySettingDeviceIdentity[],
         public isGranted: boolean,
     ) {
         super(identity);

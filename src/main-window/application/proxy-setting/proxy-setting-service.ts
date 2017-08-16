@@ -6,7 +6,7 @@ export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 export class ProxySettingService {
     constructor(
         private proxySettingRepository: ProxySettingRepository,
-    ) { }
+    ) {}
 
     async getCurrentStatus(): Promise<ProxySettingStatus> {
         let proxySettingEntity: ProxySettingEntity = await this.proxySettingRepository.getProxySetting();

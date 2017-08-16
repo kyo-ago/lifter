@@ -45,6 +45,10 @@ export class Application {
         this.contextMenuService = new ContextMenuService();
     }
 
+    load() {
+        return this.lifecycleContextService.load();
+    }
+
     fileDrop(files: File[]) {
         return this.autoResponderService.addFiles(files);
     }
