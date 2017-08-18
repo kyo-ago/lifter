@@ -29,7 +29,7 @@ export class ProxySettingDeviceRepository extends OnMemoryRepository<ProxySettin
         super();
     }
 
-    async getAllEnableDevices(): Promise<ProxySettingDeviceEntity[]> {
+    async resolveAllEnableDevices(): Promise<ProxySettingDeviceEntity[]> {
         let [serviceorder, ifconfig] = await Promise.all([
             ExecCommand.getListnetworkserviceorder(),
             promisedIfconfig(),

@@ -42,18 +42,18 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     }
 
     private async isProxing(): Promise<boolean> {
-        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.getAllEnableDevices();
+        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.resolveAllEnableDevices();
         let results = await Promise.all(proxySettingDeviceEntities.map((device) => device.proxing()));
         return results.find((result) => result);
     }
 
     private async enableProxy(): Promise<void[]> {
-        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.getAllEnableDevices();
+        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.resolveAllEnableDevices();
         return Promise.all(proxySettingDeviceEntities.map((device) => device.enableProxy()));
     }
 
     private async disableProxy(): Promise<void[]> {
-        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.getAllEnableDevices();
+        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.resolveAllEnableDevices();
         return Promise.all(proxySettingDeviceEntities.map((device) => device.disableProxy()));
     }
 }
