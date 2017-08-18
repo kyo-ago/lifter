@@ -5,3 +5,8 @@ interface Dispath {
         type: string;
     }): void;
 }
+
+declare module "es6-promisify" {
+    function promisify(...args: any[]): (...args: any[]) => Promise<any>;
+    export = promisify;
+}

@@ -17,6 +17,7 @@
     "@reactivex/rxjs": "^5.4.3",
     "@types/execa": "^0.7.0",
     "electron-window-state": "^4.1.1",
+    "es6-promisify": "^5.0.0",
     "eventemitter2": "^4.1.2",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.5.2",
