@@ -11,11 +11,15 @@ import {ProxySettingDeviceName} from "./value-objects/proxy-setting-device-name"
 export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdentity> {
     constructor(
         identity: ProxySettingDeviceIdentity,
-        public name: ProxySettingDeviceName,
+        private _name: ProxySettingDeviceName,
         private hardwarePort: ProxySettingDeviceHardwarePort,
         public enabled: boolean,
     ) {
         super(identity);
+    }
+
+    get name() {
+        return this._name.value;
     }
 
     proxing(): Promise<boolean> {
@@ -31,8 +35,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
         return ChangeProxyCommand(
             this,
-            () => networksetupProxy.setwebproxy(this.name.value, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            () => networksetupProxy.setsecurewebproxy(this.name.value, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setwebproxy(this.name, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setsecurewebproxy(this.name, NETWORK_HOST_NAME, String(PROXY_PORT)),
             true
         );
     }
@@ -43,8 +47,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
         return ChangeProxyCommand(
             this,
-            () => networksetupProxy.setwebproxystate(this.name.value, 'off'),
-            () => networksetupProxy.setsecurewebproxystate(this.name.value, 'off'),
+            () => networksetupProxy.setwebproxystate(this.name, 'off'),
+            () => networksetupProxy.setsecurewebproxystate(this.name, 'off'),
             false
         );
     }

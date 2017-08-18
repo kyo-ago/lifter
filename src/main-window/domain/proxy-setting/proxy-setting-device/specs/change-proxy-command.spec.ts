@@ -1,7 +1,7 @@
 import {ChangeProxyCommandExecute, PromisedSetTimeout} from "./change-proxy-command";
 import * as sinon from "sinon";
 
-describe.only('ChangeProxyCommand', () => {
+describe('ChangeProxyCommand', () => {
     it('succeed', async () => {
         let result = await ChangeProxyCommandExecute(
             () => Promise.resolve(),
@@ -11,7 +11,7 @@ describe.only('ChangeProxyCommand', () => {
         expect(result).toBe(true);
     });
 
-    it.only('failed', async () => {
+    it('failed', async () => {
         (<any>PromisedSetTimeout).wait = 1;
         let result;
         let spy = sinon.spy(() => false);

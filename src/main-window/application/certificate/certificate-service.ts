@@ -1,54 +1,66 @@
-import {CertificateRepository} from "./certificate-repository";
-import {KeychainRepository} from "./keychain/keychain-repository";
-import {KeychainEntity} from "./keychain/keychain-entity";
+import * as Path from "path";
+import {ExecCommand} from "../../libs/exec-command";
+import {ParseKeychainCommand} from "./specs/parse-keychain-command";
 
 export type CertificateStatus = "missing" | "installed";
 
 export class CertificateService {
-    private certificateRepository: CertificateRepository;
-    private keychainRepository = new KeychainRepository();
+    private certificatePath: string;
+    private certificateName = 'NodeMITMProxyCA';
 
     constructor(
         userDataPath: string,
     ) {
-        this.certificateRepository = new CertificateRepository(userDataPath);
+        this.certificatePath = Path.join(userDataPath, '.http-mitm-proxy/certs/ca.pem');
     }
 
-    getCurrentStatus(): Promise<CertificateStatus> {
-        return new Promise<CertificateStatus>((resolve, reject) => {
-            this.hasCertificate().then((result) => {
-                resolve(result ? "installed" : "missing");
-            });
-        });
+    async getCurrentStatus(): Promise<CertificateStatus> {
+        let result = await this.hasCertificate();
+        return result ? "installed" : "missing";
     }
 
-    getNewStatus(): Promise<CertificateStatus> {
-        return new Promise<CertificateStatus>((resolve, reject) => {
-            this.hasCertificate().then((result) => {
-                if (result) {
-                    this.deleteCertificate().then(() => {
-                        resolve("missing");
-                    });
-                } else {
-                    this.installCertificate().then(() => {
-                        resolve("installed");
-                    });
-                }
-            });
-        });
+    async getNewStatus(): Promise<CertificateStatus> {
+        let result = await this.hasCertificate();
+        if (result) {
+            await this.deleteCertificate();
+            return "missing";
+        } else {
+            await this.installCertificate();
+            return "installed";
+        }
     }
 
-    private hasCertificate() {
-        return this.certificateRepository.findCertificate().then((result: string) => !!result);
+    private async hasCertificate(): Promise<boolean> {
+        try {
+            return !!await ExecCommand.findCertificate(this.certificateName);
+        } catch(e) {
+            // missing Certificate
+            if (!e.message.match(/SecKeychainSearchCopyNext/)) throw e;
+        }
+        return false;
     }
 
-    private installCertificate() {
-        return this.keychainRepository.getKeychain().then((keychainEntity: KeychainEntity) => {
-            return this.certificateRepository.registerCertificate(keychainEntity);
-        }).then((result: string) => !!result);
+    private async installCertificate(): Promise<boolean> {
+        let keychainName = await this.getKeychainName();
+        let result = await ExecCommand.addTrustedCert(
+            keychainName,
+            this.certificatePath,
+        );
+        return !!result;
     }
 
-    private deleteCertificate() {
-        return this.certificateRepository.deleteCertificate().then(() => true);
+    private async deleteCertificate(): Promise<true> {
+        try {
+            await ExecCommand.deleteCertificate(this.certificateName);
+        } catch(e) {
+            // missing Certificate
+            if (!e.message.match(/Unable to delete certificate matching/)) throw e;
+        }
+        return true;
+    }
+
+    private async getKeychainName(): Promise<string> {
+        let result = await ExecCommand.listKeychains();
+        return ParseKeychainCommand(result);
     }
 }
