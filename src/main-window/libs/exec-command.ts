@@ -1,5 +1,5 @@
 import * as execa from "execa";
-import {ProxySettingDevice} from "../domain/proxy-setting/value-objects/proxy-setting-device";
+import {ProxySettingDeviceEntity} from "../domain/proxy-setting/proxy-setting-device/proxy-setting-device-entity";
 import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../domain/settings";
 import {throwableCommand} from "./throwable-command";
 
@@ -12,14 +12,16 @@ export function execSecurityCommand(param: string[]) {
     return execa(SECURITY_COMMAND, param);
 }
 
-export function getListnetworkserviceorder(): Promise<string> {
-    return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-listnetworkserviceorder`]));
-}
+export class ExecCommand {
+    static getListnetworkserviceorder(): Promise<string> {
+        return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-listnetworkserviceorder`]));
+    }
 
-export function getWebproxy(device: ProxySettingDevice): Promise<string> {
-    return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-getwebproxy "${device.value}"`]));
-}
+    static getSecureWebproxy(device: ProxySettingDeviceEntity): Promise<string> {
+        return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-getsecurewebproxy "${device.name}"`]));
+    }
 
-export function getSecureWebproxy(device: ProxySettingDevice): Promise<string> {
-    return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-getsecurewebproxy "${device.value}"`]));
+    static getWebproxy(device: ProxySettingDeviceEntity): Promise<string> {
+        return throwableCommand(execa(NETWORK_SETUP_COMMAND, [`-getwebproxy "${device.name}"`]));
+    }
 }

@@ -84,16 +84,11 @@ export class Application {
     }
 
     async getRender(): Promise<StateToProps> {
-        let [certificateState, proxySettingStatus]: [CertificateStatus, ProxySettingStatus] = await Promise.all([
-            this.certificateService.getCurrentStatus(),
-            this.proxySettingService.getCurrentStatus(),
-        ]);
-
         return {
             autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
             clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
-            certificateState: certificateState,
-            proxySettingStatus: proxySettingStatus,
+            certificateState: await this.certificateService.getCurrentStatus(),
+            proxySettingStatus: await this.proxySettingService.getCurrentStatus(),
         };
     }
 

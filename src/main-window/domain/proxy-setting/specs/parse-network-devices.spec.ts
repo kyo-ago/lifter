@@ -90,6 +90,12 @@ describe('ParseNetworkDevices', () => {
                 status: 'inactive',
             },
         });
-        expect(results).toEqual([]);
+        expect(results).toEqual([
+            {
+                name: 'en0',
+                hardwarePort: 'Wi-Fi',
+                enable: false,
+            },
+        ]);
     });
 });

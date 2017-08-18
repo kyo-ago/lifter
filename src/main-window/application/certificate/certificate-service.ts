@@ -14,7 +14,7 @@ export class CertificateService {
         this.certificateRepository = new CertificateRepository(userDataPath);
     }
 
-    getCurrentStatus() {
+    getCurrentStatus(): Promise<CertificateStatus> {
         return new Promise<CertificateStatus>((resolve, reject) => {
             this.hasCertificate().then((result) => {
                 resolve(result ? "installed" : "missing");
@@ -22,7 +22,7 @@ export class CertificateService {
         });
     }
 
-    getNewStatus() {
+    getNewStatus(): Promise<CertificateStatus> {
         return new Promise<CertificateStatus>((resolve, reject) => {
             this.hasCertificate().then((result) => {
                 if (result) {

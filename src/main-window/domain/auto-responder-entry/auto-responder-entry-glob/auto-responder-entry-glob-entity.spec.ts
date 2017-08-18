@@ -8,7 +8,7 @@ let createAutoResponderEntryGlobEntity = (pattern: string, path: string) => {
     return <AutoResponderEntryGlobEntity>autoResponderEntryFactory.create("Glob", pattern, path);
 };
 
-describe.only('AutoResponderEntryGlobEntity.getMatchResponder', () => {
+describe('AutoResponderEntryGlobEntity.getMatchResponder', () => {
     it('file path', async () => {
         let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity('/*', __filename);
         let result = await autoResponderEntryGlobEntity.getMatchResponder(new ClientRequestUrl('/hoge'));

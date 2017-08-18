@@ -5,14 +5,16 @@ interface Device {
     "Device": string;
 }
 
-export function ParseNetworkDevices(
-    serviceorder: string,
-    ifconfig: Ifconfig,
-): {
+export interface NetworkDeviceParam {
     name: string;
     hardwarePort: string;
     enable: boolean;
-}[] {
+}
+
+export function ParseNetworkDevices(
+    serviceorder: string,
+    ifconfig: Ifconfig,
+): NetworkDeviceParam[] {
     let deviceOrder: Device[] = serviceorder.trim().match(/\(Hardware Port.+?\)/gi).map((line) => {
         return line.replace(/[\(\)]/g, '').split(/,/).reduce((base: any, cur: string) => {
             let [key, val] = cur.split(/:/);
@@ -24,10 +26,11 @@ export function ParseNetworkDevices(
     return deviceOrder
         .filter((device: Device) => ifconfig[device['Device']])
         .map((device: Device) => {
+            let conf = ifconfig[device['Device']];
             return {
                 name: device['Device'],
                 hardwarePort: device['Hardware Port'],
-                enable: ifconfig[device['Device']].status == 'active',
+                enable: conf.status === 'active',
             };
         })
     ;

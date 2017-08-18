@@ -9,9 +9,9 @@ export interface CommandResult {
 }
 
 export function ParseGetwebproxyCommand(stdout: string): boolean {
-    let result: CommandResult = stdout.trim().split(/\r?\n/).reduce((base: Partial<CommandResult>, cur: string) => {
+    let result = stdout.trim().split(/\r?\n/).reduce((base: Partial<CommandResult>, cur: string) => {
         let [key, val] = cur.split(/:/);
-        base[key.trim()] = val.trim();
+        (<any>base)[key.trim()] = val.trim();
         return base;
     }, <Partial<CommandResult>>{});
 

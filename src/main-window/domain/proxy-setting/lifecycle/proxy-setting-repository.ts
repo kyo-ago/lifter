@@ -6,6 +6,8 @@ import {ProxySettingIdentity} from "../proxy-setting-identity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
 
 export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdentity, ProxySettingEntity> {
+    private proxySettingEntity: ProxySettingEntity;
+
     constructor(
         private proxySettingFactory: ProxySettingFactory,
         private proxySettingDeviceRepository: ProxySettingDeviceRepository,
@@ -14,13 +16,12 @@ export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdent
     }
 
     async loadEntities() {
-        await this.proxySettingDeviceRepository.loadEntities();
         let hasGrant = await networksetupProxy.hasGrant();
-        let proxySettingDeviceIds = this.proxySettingDeviceRepository.getAllId();
-        return this.proxySettingFactory.create(proxySettingDeviceIds, hasGrant);
+        this.proxySettingEntity = this.proxySettingFactory.create(this.proxySettingDeviceRepository, hasGrant);
+        this.store(this.proxySettingEntity);
     }
 
-    async getProxySetting(): Promise<ProxySettingEntity> {
-        
+    getProxySetting(): ProxySettingEntity {
+        return this.proxySettingEntity;
     }
 }

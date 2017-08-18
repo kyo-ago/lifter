@@ -1,9 +1,10 @@
-import * as ifconfig from "ifconfig";
 import {OnMemoryRepository} from "typescript-dddbase";
-import {getListnetworkserviceorder} from "../../../../libs/exec-command";
+import {ExecCommand} from "../../../../libs/exec-command";
+import {NetworkDeviceParam, ParseNetworkDevices} from "../../specs/parse-network-devices";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
 import {ProxySettingDeviceIdentity} from "../proxy-setting-device-identity";
 import {ProxySettingDeviceFactory} from "./proxy-setting-device-factory";
+const ifconfig = require("ifconfig");
 
 export interface Ifconfig {
     [name: string]: {
@@ -18,9 +19,7 @@ export interface Ifconfig {
 }
 
 function promisedIfconfig(): Promise<Ifconfig> {
-    return new Promise((resolve, reject) => {
-        ifconfig((err: any, configs: Ifconfig) => err ? reject(err) : resolve(configs));
-    });
+    return new Promise((resolve, reject) => ifconfig((err: any, configs: Ifconfig) => err ? reject(err) : resolve(configs)));
 }
 
 export class ProxySettingDeviceRepository extends OnMemoryRepository<ProxySettingDeviceIdentity, ProxySettingDeviceEntity> {
@@ -30,19 +29,14 @@ export class ProxySettingDeviceRepository extends OnMemoryRepository<ProxySettin
         super();
     }
 
-    async loadEntities() {
-        let [serviceorder, ifconfig]: [string, Ifconfig] = await Promise.all([
-            getListnetworkserviceorder(),
+    async getAllEnableDevices(): Promise<ProxySettingDeviceEntity[]> {
+        let [serviceorder, ifconfig] = await Promise.all([
+            ExecCommand.getListnetworkserviceorder(),
             promisedIfconfig(),
         ]);
-        let entities = this.proxySettingDeviceFactory.creates(serviceorder, ifconfig);
-        this.storeList(entities);
-    }
-
-    getAllId() {
-        return Object.keys(this.entities)
-            .sort((a,b) => Number(a) - Number(b))
-            .map((key) => this.entities[key].id)
+        return ParseNetworkDevices(serviceorder, ifconfig)
+            .map((param: NetworkDeviceParam) => this.proxySettingDeviceFactory.create(param))
+            .filter((entity) => entity.enabled)
         ;
     }
 }
