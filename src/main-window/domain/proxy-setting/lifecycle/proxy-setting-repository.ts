@@ -1,50 +1,27 @@
 import {OnMemoryRepository} from "typescript-dddbase";
-import {ProxySettingIdentity} from "../proxy-setting-identity";
+import {networksetupProxy} from "../../../libs/networksetup-proxy-command";
+import {ProxySettingDeviceRepository} from "../proxy-setting-device/lifecycle/proxy-setting-device-repository";
 import {ProxySettingEntity} from "../proxy-setting-entity";
+import {ProxySettingIdentity} from "../proxy-setting-identity";
 import {ProxySettingFactory} from "./proxy-setting-factory";
-import {execNetworkCommand, IOResult} from "../../../libs/exec-command";
-import {NETWORK_SETUP_PROXY_COMMAND} from "../../settings";
-const ifconfig = require('ifconfig');
-
-import {NetworksetupProxy} from "networksetup-proxy";
-let networksetupProxy = new NetworksetupProxy(NETWORK_SETUP_PROXY_COMMAND);
-
-export interface Ifconfig {
-    [name: string]: {
-        flags: string;
-        ether?: string;
-        options?: string;
-        media?: string;
-        status?: "inactive" | "active";
-        inet6?: string;
-        inet?: string;
-    }
-}
 
 export class ProxySettingRepository extends OnMemoryRepository<ProxySettingIdentity, ProxySettingEntity> {
-    constructor(private proxySettingFactory: ProxySettingFactory) {
+    private proxySettingEntity: ProxySettingEntity;
+
+    constructor(
+        private proxySettingFactory: ProxySettingFactory,
+        private proxySettingDeviceRepository: ProxySettingDeviceRepository,
+    ) {
         super();
     }
 
-    getProxySetting(): Promise<ProxySettingEntity> {
-        return Promise.all([
-            execNetworkCommand([`-listnetworkserviceorder`]).then(({stdout, stderr}: IOResult) => {
-                if (stderr) {
-                   throw new Error(stderr);
-                }
-                return stdout;
-            }),
-            new Promise((resolve, reject) => {
-                ifconfig(function(err: any, configs: Ifconfig) {
-                    if (err) {
-                        return reject(err);
-                    }
-                    resolve(configs);
-                });
-            }),
-            networksetupProxy.hasGrant(),
-        ]).then(([serviceorder, ifconfig, hasGrant]: [string, Ifconfig, boolean]) => {
-            return this.proxySettingFactory.create(serviceorder, ifconfig, hasGrant);
-        });
+    async loadEntities() {
+        let hasGrant = await networksetupProxy.hasGrant();
+        this.proxySettingEntity = this.proxySettingFactory.create(this.proxySettingDeviceRepository, hasGrant);
+        this.store(this.proxySettingEntity);
+    }
+
+    getProxySetting(): ProxySettingEntity {
+        return this.proxySettingEntity;
     }
 }

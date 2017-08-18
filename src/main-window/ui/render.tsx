@@ -2,14 +2,15 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Provider} from 'react-redux';
 import {configureStore} from './store';
-import App from './components/index';
+import {Index, load} from "./components/index";
 
-export function render(container: Element | null) {
+export async function render(container: Element | null) {
+    await load();
+
     const store = configureStore();
-
     ReactDOM.render(
         <Provider store={store}>
-            <App />
+            <Index />
         </Provider>,
         container,
     );

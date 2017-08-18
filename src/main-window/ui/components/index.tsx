@@ -83,7 +83,11 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
     };
 }
 
-export default connect(
+export const Index = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(App);
+
+export function load() {
+    return application.load();
+}

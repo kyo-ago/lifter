@@ -45,6 +45,10 @@ export class Application {
         this.contextMenuService = new ContextMenuService();
     }
 
+    load() {
+        return this.lifecycleContextService.load();
+    }
+
     fileDrop(files: File[]) {
         return this.autoResponderService.addFiles(files);
     }
@@ -79,20 +83,13 @@ export class Application {
         ipcRendererHandler.send("openRewriteRuleSettingWindow");
     }
 
-    getRender(): Promise<StateToProps> {
-        return new Promise((resolve, reject) => {
-            Promise.all([
-                this.certificateService.getCurrentStatus(),
-                this.proxySettingService.getCurrentStatus(),
-            ]).then(([certificateState, proxySettingStatus]: [CertificateStatus, ProxySettingStatus]) => {
-                resolve({
-                    autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
-                    clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
-                    certificateState: certificateState,
-                    proxySettingStatus: proxySettingStatus,
-                });
-            });
-        });
+    async getRender(): Promise<StateToProps> {
+        return {
+            autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
+            clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
+            certificateState: await this.certificateService.getCurrentStatus(),
+            proxySettingStatus: await this.proxySettingService.getCurrentStatus(),
+        };
     }
 
     initialize(global: Window) {
