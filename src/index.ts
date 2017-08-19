@@ -1,5 +1,6 @@
 import {app, BrowserWindow, ipcMain} from "electron";
 import {createMenu} from "./main-window/create-menu";
+import {ShareRewriteRuleEntityJSON} from "./share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 
 const windowStateKeeper = require('electron-window-state');
 
@@ -27,14 +28,6 @@ app.on('window-all-closed', () => app.quit());
 
 app.on('activate', () => mainWindow || createWindow());
 
-ipcMain.on('getUserDataPath', (event: any) => {
-    event.returnValue = app.getPath('userData');
-});
-
-ipcMain.on('getAllRewriteRules', (event: any) => {
-    mainWindow.webContents.send('getAllRewriteRules');
-});
-
 let rewriteRuleSettingWindow: any;
 ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
     let rewriteRuleSettingWindowState = windowStateKeeper({
@@ -53,6 +46,23 @@ ipcMain.on('openRewriteRuleSettingWindow', (event: any) => {
     rewriteRuleSettingWindowState.manage(rewriteRuleSettingWindow);
 });
 
-ipcMain.on('responseAllRewriteRules', (event: any, allRewriteRules: any[]) => {
-    rewriteRuleSettingWindow.webContents.send('responseAllRewriteRules', allRewriteRules);
+ipcMain.on('getUserDataPath', (event: any) => {
+    event.returnValue = app.getPath('userData');
+});
+
+ipcMain.on('getAllRewriteRules', (event: any) => {
+    mainWindow.webContents.send('getAllRewriteRules');
+});
+
+ipcMain.on('responseAllRewriteRules', (event: any, allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
+    if (rewriteRuleSettingWindow) {
+        rewriteRuleSettingWindow.send('responseAllRewriteRules', allRewriteRules);
+    }
+});
+
+ipcMain.on('overwriteAllRewriteRules', (event: any, allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
+    mainWindow.webContents.send('overwriteAllRewriteRules', allRewriteRules);
+    if (rewriteRuleSettingWindow) {
+        rewriteRuleSettingWindow.close();
+    }
 });

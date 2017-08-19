@@ -1,14 +1,14 @@
-import * as AppActions from "./action";
-import {ShareRewriteRuleEntity} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 import {None, Option} from "monapt";
+import {RewriteRuleEntity} from "../domain/rewrite-rule/rewrite-rule-entity";
+import * as AppActions from "./action";
 
 export interface StateToProps {
-    rewriteRules: ShareRewriteRuleEntity[],
-    currentRewriteRule: Option<ShareRewriteRuleEntity>,
+    rewriteRules: RewriteRuleEntity[],
+    currentRewriteRule: Option<RewriteRuleEntity>,
 }
 
 let initialState: StateToProps = {
-    rewriteRules: <ShareRewriteRuleEntity[]>[],
+    rewriteRules: <RewriteRuleEntity[]>[],
     currentRewriteRule: None,
 };
 

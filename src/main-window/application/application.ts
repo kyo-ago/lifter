@@ -1,17 +1,15 @@
-import * as Path from 'path';
-import {AutoResponderEntryRepository} from '../domain/auto-responder-entry/lifecycle/auto-responder-entry-repositoty';
-import {ClientRequestEntity} from '../domain/client-request/client-request-entity';
-import {ProjectEntity} from '../domain/project/project-entity';
-import {ProjectFactory} from '../domain/project/lifecycle/project-factory';
-import {HTTP_SSL_CA_DIR_PATH} from '../domain/settings';
-import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
-import {StateToProps} from '../ui/reducer';
-import {AutoResponderService} from './auto-responder/auto-responder-service';
-import {CertificateService, CertificateStatus} from './certificate/certificate-service';
-import {ContextMenuService} from './context-menu/context-menu-service';
-import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
-import {ProxySettingService, ProxySettingStatus} from './proxy-setting/proxy-setting-service';
-import {ProxyService} from './proxy/proxy-service';
+import * as Path from "path";
+import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
+import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
+import {HTTP_SSL_CA_DIR_PATH} from "../domain/settings";
+import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
+import {StateToProps} from "../ui/reducer";
+import {AutoResponderService} from "./auto-responder/auto-responder-service";
+import {CertificateService} from "./certificate/certificate-service";
+import {ContextMenuService} from "./context-menu/context-menu-service";
+import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
+import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
+import {ProxyService} from "./proxy/proxy-service";
 
 export class Application {
     private autoResponderService: AutoResponderService;
@@ -102,9 +100,14 @@ export class Application {
 
         this.contextMenuService.initialize(global);
 
-        ipcRendererHandler.on("getAllRewriteRules", () => {
+        ipcRendererHandler.on("getAllRewriteRules", (ipcRendererEvent: any) => {
             let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
             ipcRendererHandler.send("responseAllRewriteRules", allRewriteRules);
+        });
+
+        ipcRendererHandler.on("overwriteAllRewriteRules", (ipcRendererEvent, allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
+            let rewriteRules = allRewriteRules.map((rewriteRule) => this.lifecycleContextService.rewriteRuleFactory.fromJSON(rewriteRule));
+            this.lifecycleContextService.rewriteRuleRepository.overwrite(rewriteRules);
         });
     }
 }

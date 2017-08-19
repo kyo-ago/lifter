@@ -12,3 +12,9 @@
 .form-table-cell {
     display: table-cell;
 }
+
+.form-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

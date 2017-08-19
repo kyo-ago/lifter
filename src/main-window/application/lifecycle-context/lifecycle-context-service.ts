@@ -8,12 +8,14 @@ import {ProxySettingFactory} from "../../domain/proxy-setting/lifecycle/proxy-se
 import {ProxySettingRepository} from "../../domain/proxy-setting/lifecycle/proxy-setting-repository";
 import {ProxySettingDeviceFactory} from "../../domain/proxy-setting/proxy-setting-device/lifecycle/proxy-setting-device-factory";
 import {ProxySettingDeviceRepository} from "../../domain/proxy-setting/proxy-setting-device/lifecycle/proxy-setting-device-repository";
+import {RewriteRuleFactory} from "../../domain/rewrite-rule/lifecycle/rewrite-rule-factory";
 import {RewriteRuleRepository} from "../../domain/rewrite-rule/lifecycle/rewrite-rule-repository";
 
 export class LifecycleContextService {
     public clientRequestRepository = new ClientRequestRepository();
     public clientRequestFactory = new ClientRequestFactory();
     public rewriteRuleRepository = new RewriteRuleRepository();
+    public rewriteRuleFactory = new RewriteRuleFactory();
     public localFileResponderFactory = new LocalFileResponderFactory();
     public proxySettingFactory = new ProxySettingFactory();
     public proxySettingDeviceFactory = new ProxySettingDeviceFactory();
