@@ -1,6 +1,6 @@
 import * as mime from "mime";
 import {BaseEntity} from "../../../share/domain/base/base-entity";
-import {ClientRequestUrl} from "../client-request/value-objects/client-request-url";
+import {ClientRequestEntity} from "../client-request/client-request-entity";
 import {LocalFileResponderParam} from "../local-file-responder/lifecycle/local-file-responder-factory";
 import {ProjectIdentity} from "../project/project-identity";
 import {AutoResponderEntryFilePath} from "./auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
@@ -26,7 +26,7 @@ export abstract class AutoResponderEntryEntity<
         super(identity);
     }
 
-    abstract getMatchResponder(clientRequestUrl: ClientRequestUrl): Promise<LocalFileResponderParam | null>;
+    abstract getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderParam | null>;
 
     protected async filePathToLocalFileResponderParam(filePath: AutoResponderEntryFilePath): Promise<LocalFileResponderParam | null> {
         let stats;

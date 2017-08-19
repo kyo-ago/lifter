@@ -5,10 +5,10 @@ import {ClientRequestUrl} from "../value-objects/client-request-url";
 export class ClientRequestFactory {
     private identity = 0;
 
-    create(clientRequestUrl: ClientRequestUrl): ClientRequestEntity {
+    create(href: string): ClientRequestEntity {
         return new ClientRequestEntity(
             new ClientRequestIdentity(this.identity++),
-            clientRequestUrl,
+            new ClientRequestUrl(href),
         );
     }
 }
