@@ -18,6 +18,11 @@ describe('AutoResponderEntryGlobPattern', () => {
             let result = autoResponderEntryGlobPattern.isMatchPath(new ClientRequestUrl('/hoge/huga'));
             expect(result).toBe(true);
         });
+        it('extension match', () => {
+            let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('*.js');
+            let result = autoResponderEntryGlobPattern.isMatchPath(new ClientRequestUrl('/hoge/huga.js'));
+            expect(result).toBe(true);
+        });
         it('unmatch', () => {
             let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('/hoge/*');
             let result = autoResponderEntryGlobPattern.isMatchPath(new ClientRequestUrl('/huga'));

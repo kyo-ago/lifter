@@ -1,11 +1,12 @@
-import {ClientRequestUrl} from "../../domain/client-request/value-objects/client-request-url";
-import {ClientRequestRepository} from "../../domain/client-request/lifecycle/client-request-repository";
-import {PROXY_PORT} from "../../domain/settings";
-import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
-import {ClientRequestFactory} from "../../domain/client-request/lifecycle/client-request-factory";
 import {EventEmitter2} from "eventemitter2";
+import * as HttpMitmProxy from "http-mitm-proxy";
+import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
 import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
-const HttpMitmProxy = require('http-mitm-proxy');
+import {ClientRequestFactory} from "../../domain/client-request/lifecycle/client-request-factory";
+import {ClientRequestRepository} from "../../domain/client-request/lifecycle/client-request-repository";
+import {ClientRequestUrl} from "../../domain/client-request/value-objects/client-request-url";
+import {LocalFileResponderEntity} from "../../domain/local-file-responder/local-file-responder-entity";
+import {PROXY_PORT} from "../../domain/settings";
 
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy;
@@ -32,7 +33,7 @@ export class ProxyService {
             console.error(`${errorKind} on ${url}:${err}`);
         });
 
-        this.mitmProxy.onRequest((ctx: HttpMitmProxy.IContext, callback: (error: Error | undefined) => void) => {
+        this.mitmProxy.onRequest(async (ctx: HttpMitmProxy.IContext, callback: (error: Error | undefined) => void) => {
             let encrypted = (<any>ctx.clientToProxyRequest).client.encrypted;
             let host = ctx.clientToProxyRequest.headers.host;
             let url = ctx.clientToProxyRequest.url;
@@ -42,15 +43,15 @@ export class ProxyService {
             let clientRequestEntity = this.clientRequestFactory.create(clientRequestUrl);
             this.clientRequestRepository.store(clientRequestEntity);
             this.eventEmitter.emit("onRequest", clientRequestEntity);
-            this.autoResponderRepository.findMatchEntry(clientRequestUrl).then((result) => {
-                if (!result) {
-                    return callback(undefined);
-                }
-                ctx.proxyToClientResponse.writeHead(200, result.getHeader());
-                result.getBody().then((body) => {
-                    ctx.proxyToClientResponse.end(body);
-                });
+            let result: LocalFileResponderEntity | null = await this.autoResponderRepository.findMatchEntry(clientRequestUrl);
+            if (!result) {
+                return callback(undefined);
+            }
+            ctx.proxyToClientResponse.writeHead(200, {
+                ...result.getHeader(),
             });
+            let body = await result.getBody();
+            ctx.proxyToClientResponse.end(body);
         });
 
         this.mitmProxy.listen({

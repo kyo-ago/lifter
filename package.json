@@ -1,6 +1,6 @@
 {
   "name": "lifter",
-  "description": "Electron Local Proxy for Fiddler users",
+  "description": "Electron Local Proxy for frontend developers",
   "version": "0.0.2",
   "author": "@kyo_ago",
   "bugs": {
@@ -22,8 +22,8 @@
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.5.2",
     "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
+    "micromatch": "^3.0.4",
     "mime": "^1.3.6",
-    "minimatch": "^3.0.4",
     "monapt": "^1.0.4",
     "nedb": "^1.8.0",
     "networksetup-proxy": "^0.1.1",
@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@types/jest": "^20.0.7",
+    "@types/micromatch": "^2.3.29",
     "@types/mime": "1.3.1",
-    "@types/minimatch": "^3.0.0",
     "@types/nedb": "1.8.3",
     "@types/node": "^8.0.22",
     "@types/react": "^16.0.2",
