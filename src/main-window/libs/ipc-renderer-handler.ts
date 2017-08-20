@@ -1,13 +1,14 @@
+import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
+import {ShareIpcRendererHandler} from "../../share/libs/share-ipc-renderer-handler";
 import {CertificateStatus} from "../application/certificate/certificate-service";
 import {ProxySettingStatus} from "../application/proxy-setting/proxy-setting-service";
-import {ShareIpcRendererHandler} from "../../share/libs/share-ipc-renderer-handler";
-import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 
 interface Handlers {
     "clickCertificateStatus": void;
     "clickProxySettingStatus": void;
     "addAutoResponderEntry": void;
     "getAllRewriteRules": void;
+    "overwriteAllRewriteRules": ShareRewriteRuleEntityJSON[];
 }
 
 interface Senders {
@@ -18,7 +19,7 @@ interface Senders {
 }
 
 interface SyncSenders {
-    "getUserDataPath": string;
+    "getUserDataPath": void;
 }
 
 export const ipcRendererHandler = new ShareIpcRendererHandler<Handlers, Senders, SyncSenders>();

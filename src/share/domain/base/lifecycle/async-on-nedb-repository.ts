@@ -10,7 +10,7 @@ export class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID
     constructor(private datastore: Datastore, private mapper:  NedbMapper<ID, E>) {
     }
 
-    findAll(): Promise<E[]> {
+    async resolveAll(): Promise<E[]> {
         return new Promise((resolve, reject) => {
             this.datastore.find({}, (err: Error, data: any[]) => {
                 if (err) {

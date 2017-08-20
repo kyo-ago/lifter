@@ -13,4 +13,8 @@ export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
     get url() {
         return this._url.value;
     }
+
+    get pathname() {
+        return this._url.value;
+    }
 }

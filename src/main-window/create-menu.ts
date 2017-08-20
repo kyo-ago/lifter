@@ -2,6 +2,9 @@ import {app, Menu, shell, ipcMain} from "electron";
 import {CertificateStatus} from "./application/certificate/certificate-service";
 import {ProxySettingStatus} from "./application/proxy-setting/proxy-setting-service";
 
+let separator = {type: 'separator'};
+let makeRoles = (roles: (string | Object)[]) => roles.map((role) => (typeof role === 'string' ? {role} : role));
+
 let baseCertificateStatus: CertificateStatus = "missing";
 let baseProxySettingStatus: ProxySettingStatus = "NoPermission";
 let targetWindow: any;
@@ -10,6 +13,7 @@ ipcMain.on("clickCertificateStatus", (event: any, certificateStatus: Certificate
     baseCertificateStatus = certificateStatus;
     setApplicationMenu();
 });
+
 ipcMain.on("clickProxySettingStatus", (event: any, proxySettingStatus: ProxySettingStatus) => {
     baseProxySettingStatus = proxySettingStatus;
     setApplicationMenu();
@@ -32,6 +36,13 @@ function setApplicationMenu() {
     })[baseCertificateStatus];
 
     const template: any = [
+        {
+            label: 'Edit',
+            submenu: makeRoles([
+                'undo', 'redo', separator, 'cut', 'copy', 'paste',
+                'pasteandmatchstyle', 'delete', 'selectall',
+            ]),
+        },
         {
             label: 'Proxy',
             submenu: [
@@ -57,43 +68,14 @@ function setApplicationMenu() {
         },
         {
             label: 'View',
-            submenu: [
-                {
-                    role: 'reload'
-                },
-                {
-                    role: 'toggledevtools'
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    role: 'resetzoom'
-                },
-                {
-                    role: 'zoomin'
-                },
-                {
-                    role: 'zoomout'
-                },
-                {
-                    type: 'separator'
-                },
-                {
-                    role: 'togglefullscreen'
-                },
-            ],
+            submenu: makeRoles([
+                'reload', 'toggledevtools', separator, 'resetzoom',
+                'zoomin', 'zoomout', separator, 'togglefullscreen',
+            ]),
         },
         {
             role: 'window',
-            submenu: [
-                {
-                    role: 'minimize'
-                },
-                {
-                    role: 'close'
-                },
-            ],
+            submenu: makeRoles(['minimize', 'close', ]),
         },
         {
             role: 'help',
@@ -111,48 +93,25 @@ function setApplicationMenu() {
     }
 
     template.unshift({
-                         label  : app.getName(),
-                         submenu: [
-                             {
-                                 role: 'about'
-                             },
-                             {
-                                 type: 'separator'
-                             },
-                             {
-                                 label: 'Preferences',
-                                 accelerator: 'CmdOrCtrl+,',
-                                 click: () => targetWindow.webContents.send("openPreferencesWindow")
-                             },
-                             {
-                                 type: 'separator'
-                             },
-                             {
-                                 role   : 'services',
-                                 submenu: []
-                             },
-                             {
-                                 type: 'separator'
-                             },
-                             {
-                                 role: 'hide'
-                             },
-                             {
-                                 role: 'hideothers'
-                             },
-                             {
-                                 role: 'unhide'
-                             },
-                             {
-                                 type: 'separator'
-                             },
-                             {
-                                 role: 'quit'
-                             },
-                         ],
-                     });
+        label  : app.getName(),
+        submenu: [
+            {role: 'about'},
+            separator,
+            {
+                label: 'Preferences',
+                accelerator: 'CmdOrCtrl+,',
+                click: () => targetWindow.webContents.send("openPreferencesWindow")
+            },
+            separator,
+            {
+                role   : 'services',
+                submenu: []
+            },
+        ].concat(<any>makeRoles([separator, 'hide', 'hideothers', 'unhide', separator, 'quit', ])),
+    });
+
     // Window menu.
-    template[3].submenu = [
+    (template.find((menu: any) => menu.label === 'window') || <any>{}).submenu = [
         {
             label: 'Close',
             accelerator: 'CmdOrCtrl+W',
@@ -167,9 +126,7 @@ function setApplicationMenu() {
             label: 'Zoom',
             role: 'zoom'
         },
-        {
-            type: 'separator'
-        },
+        separator,
         {
             label: 'Bring All to Front',
             role: 'front'

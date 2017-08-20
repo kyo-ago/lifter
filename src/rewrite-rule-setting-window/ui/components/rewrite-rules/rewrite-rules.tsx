@@ -1,23 +1,20 @@
 import * as React from "react";
 import {GlobalProps} from "../index";
+import {RewriteRuleRow} from "./rewrite-rule-row";
 
-export class RewriteRules extends React.Component<GlobalProps, any> {
+export class RewriteRules extends React.Component<GlobalProps, {}> {
     render() {
         return <div>
             <table className="table-striped">
                 <thead>
-                <tr>
-                    <th>Action</th>
-                    <th>Header</th>
-                    <th>Value</th>
-                </tr>
+                    <tr>
+                        <th>Action</th>
+                        <th>Header</th>
+                        <th>Value</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>variables.scss</td>
-                    <td>Document</td>
-                    <td>Oct 13, 2015</td>
-                </tr>
+                    { this.props.rewriteRules.map((rewriteRule) => <RewriteRuleRow rewriteRule={rewriteRule} />) }
                 </tbody>
             </table>
         </div>;

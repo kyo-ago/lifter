@@ -1,17 +1,17 @@
+import {None, Option} from "monapt";
 import * as React from "react";
 import {connect} from "react-redux";
+import {ShareRewriteRuleIdentity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {Application} from "../../application/application";
-import {TopForm} from "./top-form/top-form";
+import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
+import {RewriteRuleEntity} from "../../domain/rewrite-rule/rewrite-rule-entity";
+import {Actions} from "../action";
+import {StateToProps} from "../reducer";
 import {RewriteRules} from "./rewrite-rules/rewrite-rules";
 import {SubmitForm} from "./submit-form/submit-form";
-import {ShareRewriteRuleIdentity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
-import {StateToProps} from "../reducer";
-import {Actions} from "../action";
-import {Option} from "monapt";
-import {ShareRewriteRuleEntity} from "../../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
-import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
+import {TopForm} from "./top-form/top-form";
 
-class App extends React.Component<GlobalProps, any> {
+class App extends React.Component<GlobalProps, {}> {
     render() {
         return <div>
             <TopForm {...this.props} />
@@ -22,7 +22,7 @@ class App extends React.Component<GlobalProps, any> {
 }
 
 interface DispathProps {
-    saveRewriteRule: (action: string, header: string, value: string) => void;
+    saveRewriteRule: (url: string, action: string, header: string, value: string) => void;
     deleteRewriteRule: (id: ShareRewriteRuleIdentity) => void;
     selectRewriteRule: (id: ShareRewriteRuleIdentity) => void;
     cancelRewriteRule: () => void;
@@ -39,34 +39,37 @@ export function RewriteRuleFactoryFromJSON(json: any) {
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     return {
-        saveRewriteRule(action: string, header: string, value: string) {
-            application.saveRewriteRule(action, header, value).then((rewriteRule: ShareRewriteRuleEntity) => {
-                dispatch(Actions.saveRewriteRule(rewriteRule));
-            });
+        saveRewriteRule(url: string, action: string, header: string, value: string) {
+            let rewriteRule: RewriteRuleEntity = application.saveRewriteRule(url, action, header, value);
+            dispatch(Actions.saveRewriteRule(rewriteRule));
         },
+
         deleteRewriteRule(id: ShareRewriteRuleIdentity) {
-            application.deleteRewriteRule(id).then((rewriteRules: ShareRewriteRuleEntity[]) => {
-                dispatch(Actions.updateRewriteRules(rewriteRules));
-            });
+            let rewriteRules: RewriteRuleEntity[] = application.deleteRewriteRule(id);
+            dispatch(Actions.updateRewriteRules(rewriteRules));
         },
+
         selectRewriteRule(id: ShareRewriteRuleIdentity) {
-            application.selectRewriteRule(id).then((rewriteRuleEntity: Option<ShareRewriteRuleEntity>) => {
-                dispatch(Actions.updateCurrentRewriteRule(rewriteRuleEntity));
-            });
+            let rewriteRuleEntity: Option<RewriteRuleEntity> = application.selectRewriteRule(id);
+            dispatch(Actions.updateCurrentRewriteRule(rewriteRuleEntity));
         },
+
         cancelRewriteRule() {
-            application.cancelRewriteRule().then((rewriteRuleEntity: Option<ShareRewriteRuleEntity>) => {
-                dispatch(Actions.updateCurrentRewriteRule(rewriteRuleEntity));
-            });
+            application.cancelRewriteRule();
+            dispatch(Actions.updateCurrentRewriteRule(None));
         },
+
         cancelAllRewriteRule() {
+            application.cancelAllRewriteRule();
         },
+
         saveAllRewriteRule() {
+            application.saveAllRewriteRule();
         },
     };
 }
 
-export default connect(
+export const Index = connect(
     (state: StateToProps) => state,
     mapDispatchToProps,
 )(App);

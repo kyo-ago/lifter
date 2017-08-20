@@ -1,9 +1,9 @@
+import {OutgoingHttpHeaders} from "http";
 import * as mime from "mime";
-
 import {BaseEntity} from "../../../share/domain/base/base-entity";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
-import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
 import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
+import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
 import {LocalFileResponderType} from "./value-objects/local-file-responder-type";
 
 export class LocalFileResponderEntity extends BaseEntity<LocalFileResponderIdentity> {
@@ -20,7 +20,7 @@ export class LocalFileResponderEntity extends BaseEntity<LocalFileResponderIdent
         return this.path.getBody();
     }
 
-    getHeader() {
+    getHeader(): OutgoingHttpHeaders {
         return {
             'content-length': this.getContentLength(),
             'content-type': this.getContentType(),

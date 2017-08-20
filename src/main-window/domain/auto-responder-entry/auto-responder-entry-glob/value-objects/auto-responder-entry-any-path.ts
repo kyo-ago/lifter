@@ -1,10 +1,10 @@
 import * as Path from "path";
-import {ClientRequestUrl} from "../../../client-request/value-objects/client-request-url";
+import {ClientRequestEntity} from "../../../client-request/client-request-entity";
 import {AutoResponderEntryFilePath} from "../../auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
 import {AutoResponderEntryPath} from "../../value-objects/auto-responder-entry-path";
 
 export class AutoResponderEntryAnyPath extends AutoResponderEntryPath {
-    async getAutoResponderEntryFilePath(clientRequestUrl: ClientRequestUrl): Promise<AutoResponderEntryFilePath | null> {
+    async getAutoResponderEntryFilePath(clientRequestEntity: ClientRequestEntity): Promise<AutoResponderEntryFilePath | null> {
         let stat = await this.getState();
         if (stat.isFile()) {
             return new AutoResponderEntryFilePath(this.value);
@@ -14,7 +14,7 @@ export class AutoResponderEntryAnyPath extends AutoResponderEntryPath {
             return null;
         }
 
-        let pathname = clientRequestUrl.getPathname();
+        let pathname = clientRequestEntity.pathname;
 
         // /
         if (pathname === '/') {
@@ -26,7 +26,7 @@ export class AutoResponderEntryAnyPath extends AutoResponderEntryPath {
             return new AutoResponderEntryFilePath(Path.join(this.value, pathname));
         }
 
-        let splited = clientRequestUrl.getPathname().split(`/${Path.basename(this.value)}/`);
+        let splited = pathname.split(`/${Path.basename(this.value)}/`);
 
         // unmatch
         if (splited.length === 1) return null;
