@@ -1,31 +1,24 @@
-import {EventEmitter2} from "eventemitter2";
-import * as HttpMitmProxy from "http-mitm-proxy";
-import {AutoResponderEntryRepository} from "../../domain/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
-import {ClientRequestEntity} from "../../domain/client-request/client-request-entity";
-import {ClientRequestFactory} from "../../domain/client-request/lifecycle/client-request-factory";
-import {ClientRequestRepository} from "../../domain/client-request/lifecycle/client-request-repository";
-import {LocalFileResponderEntity} from "../../domain/local-file-responder/local-file-responder-entity";
 import {PROXY_PORT} from "../../domain/settings";
+const HttpMitmProxy = require('http-mitm-proxy');
 
 export class ProxyService {
-    private mitmProxy: HttpMitmProxy.IProxy;
-    private eventEmitter = new EventEmitter2();
+    private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
 
     constructor(
-        private autoResponderRepository: AutoResponderEntryRepository,
-        private clientRequestRepository: ClientRequestRepository,
-        private clientRequestFactory: ClientRequestFactory,
         private appDataPath: string,
     ) {
-        this.mitmProxy = HttpMitmProxy();
-        this.eventEmitter = new EventEmitter2();
     }
 
-    onRequest(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        this.eventEmitter.addListener("onRequest", callback);
-    }
-
-    createServer() {
+    createServer(
+        onRequestCallback: (
+            href: string,
+            successCallback: (
+                header: {[key: string]: string | number},
+                body: Buffer | string,
+            ) => void,
+            errorCallback: (error: Error | undefined) => void,
+        ) => void,
+    ) {
         this.mitmProxy.onError((context: HttpMitmProxy.IContext, err?: Error, errorKind?: string) => {
             // context may be null
             let url = (context && context.clientToProxyRequest) ? context.clientToProxyRequest.url : "";
@@ -38,18 +31,10 @@ export class ProxyService {
             let url = ctx.clientToProxyRequest.url;
             let href = `http${encrypted ? `s` : ``}://${host}${url}`;
 
-            let clientRequestEntity = this.clientRequestFactory.create(href);
-            this.clientRequestRepository.store(clientRequestEntity);
-            this.eventEmitter.emit("onRequest", clientRequestEntity);
-            let result: LocalFileResponderEntity | null = await this.autoResponderRepository.findMatchEntry(clientRequestEntity);
-            if (!result) {
-                return callback(undefined);
-            }
-            ctx.proxyToClientResponse.writeHead(200, {
-                ...result.getHeader(),
-            });
-            let body = await result.getBody();
-            ctx.proxyToClientResponse.end(body);
+            onRequestCallback(href, (header: {[key: string]: string}, body: Buffer | string) => {
+                ctx.proxyToClientResponse.writeHead(200, header);
+                ctx.proxyToClientResponse.end(body);
+            }, callback);
         });
 
         this.mitmProxy.listen({
