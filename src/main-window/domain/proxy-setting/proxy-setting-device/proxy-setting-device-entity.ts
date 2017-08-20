@@ -12,7 +12,7 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
     constructor(
         identity: ProxySettingDeviceIdentity,
         private _name: ProxySettingDeviceName,
-        private hardwarePort: ProxySettingDeviceHardwarePort,
+        private _hardwarePort: ProxySettingDeviceHardwarePort,
         public enabled: boolean,
     ) {
         super(identity);
@@ -20,6 +20,10 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
     get name() {
         return this._name.value;
+    }
+
+    get hardwarePort() {
+        return this._hardwarePort.value;
     }
 
     proxing(): Promise<boolean> {

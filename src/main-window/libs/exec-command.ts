@@ -25,10 +25,10 @@ export class ExecCommand {
     }
 
     static getSecureWebproxy(device: ProxySettingDeviceEntity): Promise<string> {
-        return throwableCommand(execa(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.name]));
+        return throwableCommand(execa(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.hardwarePort]));
     }
 
     static getWebproxy(device: ProxySettingDeviceEntity): Promise<string> {
-        return throwableCommand(execa(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.name]));
+        return throwableCommand(execa(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.hardwarePort]));
     }
 }
