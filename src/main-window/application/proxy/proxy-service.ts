@@ -1,3 +1,4 @@
+import {OutgoingHttpHeaders} from "http";
 import {PROXY_PORT} from "../../domain/settings";
 const HttpMitmProxy = require('http-mitm-proxy');
 
@@ -12,10 +13,7 @@ export class ProxyService {
     createServer(
         onRequestCallback: (
             href: string,
-            successCallback: (
-                header: {[key: string]: string | number},
-                body: Buffer | string,
-            ) => void,
+            successCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
             errorCallback: (error: Error | undefined) => void,
         ) => void,
     ) {

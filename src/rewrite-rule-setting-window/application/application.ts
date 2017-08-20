@@ -9,8 +9,8 @@ export class Application {
     constructor(private lifecycleContextService: LifecycleContextService) {
     }
 
-    saveRewriteRule(action: string, header: string, value: string): RewriteRuleEntity {
-        let rewriteRuleEntity = this.lifecycleContextService.rewriteRuleFactory.create(action, header, value);
+    saveRewriteRule(url: string, action: string, header: string, value: string): RewriteRuleEntity {
+        let rewriteRuleEntity = this.lifecycleContextService.rewriteRuleFactory.create(url, action, header, value);
         this.lifecycleContextService.rewriteRuleRepository.store(rewriteRuleEntity);
         return rewriteRuleEntity;
     }

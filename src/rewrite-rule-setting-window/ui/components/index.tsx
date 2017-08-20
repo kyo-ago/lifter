@@ -22,7 +22,7 @@ class App extends React.Component<GlobalProps, {}> {
 }
 
 interface DispathProps {
-    saveRewriteRule: (action: string, header: string, value: string) => void;
+    saveRewriteRule: (url: string, action: string, header: string, value: string) => void;
     deleteRewriteRule: (id: ShareRewriteRuleIdentity) => void;
     selectRewriteRule: (id: ShareRewriteRuleIdentity) => void;
     cancelRewriteRule: () => void;
@@ -39,8 +39,8 @@ export function RewriteRuleFactoryFromJSON(json: any) {
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     return {
-        saveRewriteRule(action: string, header: string, value: string) {
-            let rewriteRule: RewriteRuleEntity = application.saveRewriteRule(action, header, value);
+        saveRewriteRule(url: string, action: string, header: string, value: string) {
+            let rewriteRule: RewriteRuleEntity = application.saveRewriteRule(url, action, header, value);
             dispatch(Actions.saveRewriteRule(rewriteRule));
         },
 

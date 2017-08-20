@@ -43,6 +43,7 @@ export class Application {
         this.connectionService = new ConnectionService(
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.rewriteRuleRepository,
         );
 
         this.contextMenuService = new ContextMenuService();
