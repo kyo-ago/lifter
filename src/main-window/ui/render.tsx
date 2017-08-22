@@ -2,12 +2,13 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Provider} from 'react-redux';
 import {configureStore} from './store';
-import {Index, load} from "./components/index";
+import {Index, App} from "./components/index";
 
 export async function render(container: Element | null) {
-    await load();
+    await App.load();
+    let stateToProps = await App.getRender();
 
-    const store = configureStore();
+    const store = configureStore(stateToProps);
     ReactDOM.render(
         <Provider store={store}>
             <Index />

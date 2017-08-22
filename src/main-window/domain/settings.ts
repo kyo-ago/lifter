@@ -11,11 +11,11 @@ export const HTTP_SSL_CA_DIR_PATH = '.http-mitm-proxy';
 
 let production = __dirname.replace(/app\.asar\/.+/, `app.asar.unpacked/node_modules/networksetup-proxy/rust/proxy-setting`);
 let staging = './node_modules/networksetup-proxy/rust/proxy-setting';
-let path = fs.existsSync(production)
-    ? production
+let path = fs.existsSync(staging)
+    ? staging
     : (
-        fs.existsSync(staging)
-            ? staging
+        fs.existsSync(production)
+            ? production
             : undefined
     )
 ;

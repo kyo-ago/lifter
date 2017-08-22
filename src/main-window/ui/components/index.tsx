@@ -12,7 +12,7 @@ import {StateToProps} from "../reducer";
 import {ProjectFactory} from "../../domain/project/lifecycle/project-factory";
 import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
 
-class App extends React.Component<GlobalProps, any> {
+class AppComponent extends React.Component<GlobalProps, any> {
     render() {
         return <div className="window">
             <ToolbarHeader {...this.props} />
@@ -35,6 +35,7 @@ let application = new Application(
     userDataPath,
     lifecycleContextService,
 );
+export const App = application;
 
 interface DispathProps {
     fileDrop: (files: File[]) => void;
@@ -86,8 +87,5 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
 export const Index = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(App);
+)(AppComponent);
 
-export function load() {
-    return application.load();
-}

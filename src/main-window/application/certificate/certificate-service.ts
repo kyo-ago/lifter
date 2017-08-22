@@ -1,6 +1,5 @@
 import * as Path from "path";
 import {ExecCommand} from "../../libs/exec-command";
-import {ParseKeychainCommand} from "./specs/parse-keychain-command";
 
 export type CertificateStatus = "missing" | "installed";
 
@@ -15,12 +14,12 @@ export class CertificateService {
     }
 
     async getCurrentStatus(): Promise<CertificateStatus> {
-        let result = await this.hasCertificate();
+        let result = await this.findCertificate();
         return result ? "installed" : "missing";
     }
 
     async getNewStatus(): Promise<CertificateStatus> {
-        let result = await this.hasCertificate();
+        let result = await this.findCertificate();
         if (result) {
             await this.deleteCertificate();
             return "missing";
@@ -30,9 +29,10 @@ export class CertificateService {
         }
     }
 
-    private async hasCertificate(): Promise<boolean> {
+    private async findCertificate(): Promise<boolean> {
         try {
-            return !!await ExecCommand.findCertificate(this.certificateName);
+            let result = await ExecCommand.findCertificate(this.certificateName);
+            return !!result;
         } catch(e) {
             // missing Certificate
             if (!e.message.match(/SecKeychainSearchCopyNext/)) throw e;
@@ -41,11 +41,7 @@ export class CertificateService {
     }
 
     private async installCertificate(): Promise<boolean> {
-        let keychainName = await this.getKeychainName();
-        let result = await ExecCommand.addTrustedCert(
-            keychainName,
-            this.certificatePath,
-        );
+        let result = await ExecCommand.addTrustedCert(this.certificatePath);
         return !!result;
     }
 
@@ -57,10 +53,5 @@ export class CertificateService {
             if (!e.message.match(/Unable to delete certificate matching/)) throw e;
         }
         return true;
-    }
-
-    private async getKeychainName(): Promise<string> {
-        let result = await ExecCommand.listKeychains();
-        return ParseKeychainCommand(result);
     }
 }

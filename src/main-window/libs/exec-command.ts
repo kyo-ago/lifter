@@ -4,10 +4,6 @@ import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../domain/settings";
 import {throwableCommand} from "./throwable-command";
 
 export class ExecCommand {
-    static listKeychains() {
-        return throwableCommand(execa(SECURITY_COMMAND, ['list-keychains']));
-    }
-
     static findCertificate(certificateName: string) {
         return throwableCommand(execa(SECURITY_COMMAND, ['find-certificate', '-c', certificateName]));
     }
@@ -16,8 +12,8 @@ export class ExecCommand {
         return throwableCommand(execa(SECURITY_COMMAND, ['delete-certificate', '-c', certificateName]));
     }
 
-    static addTrustedCert(keychainName: string, certificatePath: string): Promise<string> {
-        return throwableCommand(execa(SECURITY_COMMAND, ['add-trusted-cert', '-k', keychainName, certificatePath]));
+    static addTrustedCert(certificatePath: string): Promise<string> {
+        return throwableCommand(execa(SECURITY_COMMAND, ['add-trusted-cert', certificatePath]));
     }
 
     static getListnetworkserviceorder(): Promise<string> {

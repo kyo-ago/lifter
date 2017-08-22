@@ -11,7 +11,7 @@ import {RewriteRules} from "./rewrite-rules/rewrite-rules";
 import {SubmitForm} from "./submit-form/submit-form";
 import {TopForm} from "./top-form/top-form";
 
-class App extends React.Component<GlobalProps, {}> {
+class AppComponent extends React.Component<GlobalProps, {}> {
     render() {
         return <div>
             <TopForm {...this.props} />
@@ -72,6 +72,6 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
 export const Index = connect(
     (state: StateToProps) => state,
     mapDispatchToProps,
-)(App);
+)(AppComponent);
 
 export interface GlobalProps extends DispathProps, StateToProps {}
