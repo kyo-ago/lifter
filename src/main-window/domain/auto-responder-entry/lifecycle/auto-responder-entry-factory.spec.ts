@@ -1,4 +1,4 @@
-import {getLifecycleContextService} from "../../../../../test/mocks/main-window/mocks";
+import {getLifecycleContextService} from "../../../../../tests/mocks/main-window/mocks";
 import {AutoResponderEntryDirectoryEntity} from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
 import {AutoResponderEntryType} from "../auto-responder-entry-entity";
 import {AutoResponderEntryFileEntity} from "../auto-responder-entry-file/auto-responder-entry-file-entity";

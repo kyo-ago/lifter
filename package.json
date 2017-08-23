@@ -66,7 +66,7 @@
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/(?!@foo)"
     ],
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testRegex": "\\/src\\/.+\\.spec\\.(ts|tsx|js)$",
     "testEnvironment": "node",
     "moduleFileExtensions": [
       "ts",
@@ -98,6 +98,7 @@
     "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
     "start": "NODE_ENV='development' && electron ./app --enable-logging",
     "test": "jest",
+    "test:e2e": "jest --testRegex '\\/tests\\/e2e\\/.+\\.spec\\.(ts|tsx|js)$'",
     "watch": "tsc -p ./tsconfig.json --watch"
   }
 }

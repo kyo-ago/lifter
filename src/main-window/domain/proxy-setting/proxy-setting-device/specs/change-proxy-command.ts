@@ -1,11 +1,7 @@
+import {PromisedSetTimeout} from "../../../../../share/libs/promised-set-timeout";
 import {ExecCommand} from "../../../../libs/exec-command";
 import {ParseGetwebproxyCommand} from "../../specs/parse-getwebproxy-command";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
-
-// export for only tests
-export function PromisedSetTimeout(wait: number) {
-    return new Promise((result) => setTimeout(result, (<any>PromisedSetTimeout).wait || wait));
-}
 
 // export for only tests
 export function ChangeProxyCommandExecute(
@@ -20,7 +16,7 @@ export function ChangeProxyCommandExecute(
         if (checkResult(stdout)) {
             return true;
         }
-        await PromisedSetTimeout(1000);
+        await PromisedSetTimeout(100);
         return false;
     }, Promise.resolve(false));
 }

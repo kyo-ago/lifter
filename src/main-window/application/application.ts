@@ -23,6 +23,8 @@ export class Application {
     private connectionService: ConnectionService;
     private contextMenuService: ContextMenuService;
 
+    public isContentRendering = false;
+
     constructor(
         private userDataPath: string,
         private lifecycleContextService: LifecycleContextService,
@@ -47,10 +49,6 @@ export class Application {
         );
 
         this.contextMenuService = new ContextMenuService();
-    }
-
-    load() {
-        return this.lifecycleContextService.load();
     }
 
     fileDrop(files: File[]) {
@@ -119,5 +117,9 @@ export class Application {
             let rewriteRules = allRewriteRules.map((rewriteRule) => this.lifecycleContextService.rewriteRuleFactory.fromJSON(rewriteRule));
             this.lifecycleContextService.rewriteRuleRepository.overwrite(rewriteRules);
         });
+    }
+
+    load() {
+        return this.lifecycleContextService.load();
     }
 }

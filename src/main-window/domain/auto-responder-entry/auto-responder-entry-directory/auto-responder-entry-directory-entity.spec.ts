@@ -1,5 +1,5 @@
 import * as Path from "path";
-import {getLifecycleContextService} from "../../../../../test/mocks/main-window/mocks";
+import {getLifecycleContextService} from "../../../../../tests/mocks/main-window/mocks";
 import {ClientRequestFactory} from "../../client-request/lifecycle/client-request-factory";
 import {AutoResponderEntryDirectoryEntity} from "./auto-responder-entry-directory-entity";
 
