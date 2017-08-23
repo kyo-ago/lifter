@@ -1,4 +1,4 @@
-import {getLifecycleContextService} from "../../../../../test/main-window/mocks";
+import {getLifecycleContextService} from "../../../../../test/mocks/main-window/mocks";
 import {ClientRequestFactory} from "../../client-request/lifecycle/client-request-factory";
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 import {AutoResponderEntryRepository} from "./auto-responder-entry-repositoty";
