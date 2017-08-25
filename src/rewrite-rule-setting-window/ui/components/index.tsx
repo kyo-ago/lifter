@@ -32,6 +32,8 @@ interface DispathProps {
 
 let lifecycleContextService = new LifecycleContextService();
 let application = new Application(lifecycleContextService);
+export const App = application;
+(window as any).application = application;
 
 export function RewriteRuleFactoryFromJSON(json: any) {
     return lifecycleContextService.rewriteRuleFactory.fromJSON(json);

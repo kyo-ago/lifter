@@ -14,14 +14,13 @@ describe('ChangeProxyCommand', () => {
 
     it('failed', async () => {
         (<any>PromisedSetTimeout).wait = 1;
-        let result;
         let spy = sinon.spy(() => false);
-        result = await ChangeProxyCommandExecute(
+        let result = await ChangeProxyCommandExecute(
             () => Promise.resolve(),
             () => Promise.resolve(''),
             spy,
         );
-        expect(result).toBe(false);
+        expect(result).toBeNull();
         expect(spy.callCount).toBe(3);
     });
 });

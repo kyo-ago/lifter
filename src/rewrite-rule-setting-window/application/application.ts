@@ -6,6 +6,8 @@ import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
 
 export class Application {
+    public isContentRendering = false;
+
     constructor(private lifecycleContextService: LifecycleContextService) {
     }
 

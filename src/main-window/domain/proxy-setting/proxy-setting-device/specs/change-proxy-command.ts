@@ -1,4 +1,5 @@
 import {PromisedSetTimeout} from "../../../../../share/libs/promised-set-timeout";
+import {WaitFor} from "../../../../../share/libs/wait-for";
 import {ExecCommand} from "../../../../libs/exec-command";
 import {ParseGetwebproxyCommand} from "../../specs/parse-getwebproxy-command";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
@@ -9,16 +10,12 @@ export function ChangeProxyCommandExecute(
     getCommand: () => Promise<string>,
     checkResult: (result: string) => boolean,
 ): Promise<boolean> {
-    return [...Array(3)].reduce(async (base: Promise<boolean>, cur: number) => {
-        if (await base) return true;
+    return WaitFor<boolean>(async () => {
         await setCommand();
-        let stdout = await getCommand();
-        if (checkResult(stdout)) {
-            return true;
-        }
         await PromisedSetTimeout(100);
-        return false;
-    }, Promise.resolve(false));
+        let stdout = await getCommand();
+        return checkResult(stdout);
+    }, 100, 3);
 }
 
 export async function ChangeProxyCommand(

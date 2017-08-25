@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
-import {Index, RewriteRuleFactoryFromJSON} from "./components/index";
+import {App, Index, RewriteRuleFactoryFromJSON} from "./components/index";
 import {configureStore} from "./store";
 
 export function render(container: Element | null) {
@@ -21,6 +21,9 @@ export function render(container: Element | null) {
                 <Index />
             </Provider>,
             container,
+            () => {
+                App.isContentRendering = true;
+            },
         );
     });
 
