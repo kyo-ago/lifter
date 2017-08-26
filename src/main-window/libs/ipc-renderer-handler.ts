@@ -7,15 +7,11 @@ interface Handlers {
     "clickCertificateStatus": void;
     "clickProxySettingStatus": void;
     "addAutoResponderEntry": void;
-    "getAllRewriteRules": void;
-    "overwriteAllRewriteRules": ShareRewriteRuleEntityJSON[];
 }
 
 interface Senders {
     "clickCertificateStatus": CertificateStatus;
     "clickProxySettingStatus": ProxySettingStatus;
-    "openRewriteRuleSettingWindow": void;
-    "responseAllRewriteRules": ShareRewriteRuleEntityJSON[];
 }
 
 interface SyncSenders {

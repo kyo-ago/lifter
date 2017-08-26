@@ -1,3 +1,4 @@
+import {remote} from "electron";
 import {EventEmitter2} from "eventemitter2";
 import * as Path from "path";
 import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
@@ -12,6 +13,8 @@ import {ContextMenuService} from "./context-menu/context-menu-service";
 import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
 import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
 import {ProxyService} from "./proxy/proxy-service";
+
+const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
 export class Application {
     private eventEmitter = new EventEmitter2();
@@ -82,7 +85,18 @@ export class Application {
     }
 
     openRewriteRuleSettingWindow() {
-        ipcRendererHandler.send("openRewriteRuleSettingWindow");
+        let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
+        windowManager.sharedData.set('mainRewriteRules', allRewriteRules);
+        windowManager.open(
+            'rewriteRuleSettingWindow',
+            'Rewrite rule setting',
+            '/rewrite-rule-setting-window.html',
+            'default',
+            {
+                file: 'rewrite-rule-setting-window-state.json',
+                parent: windowManager.get('mainWindow'),
+            }
+        );
     }
 
     async getRender(): Promise<StateToProps> {
@@ -108,12 +122,7 @@ export class Application {
 
         this.contextMenuService.initialize(global);
 
-        ipcRendererHandler.on("getAllRewriteRules", (ipcRendererEvent: any) => {
-            let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
-            ipcRendererHandler.send("responseAllRewriteRules", allRewriteRules);
-        });
-
-        ipcRendererHandler.on("overwriteAllRewriteRules", (ipcRendererEvent, allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
+        windowManager.bridge.on('overwriteRewriteRules', (allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
             let rewriteRules = allRewriteRules.map((rewriteRule) => this.lifecycleContextService.rewriteRuleFactory.fromJSON(rewriteRule));
             this.lifecycleContextService.rewriteRuleRepository.overwrite(rewriteRules);
         });
