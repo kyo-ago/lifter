@@ -26,6 +26,8 @@ export class Application {
     }
 
     selectRewriteRule(id: ShareRewriteRuleIdentity): Option<RewriteRuleEntity> {
+        this.clearSelectedRule();
+
         let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolve(id);
         if (!rewriteRule) return None;
         rewriteRule.select();
@@ -33,10 +35,7 @@ export class Application {
     }
 
     cancelRewriteRule(): void {
-        let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolveSelectedRewriteRule();
-        if (!rewriteRule) return;
-        rewriteRule.deselect();
-        this.lifecycleContextService.rewriteRuleRepository.store(rewriteRule);
+        this.clearSelectedRule();
     }
 
     cancelAllRewriteRule(): void {
@@ -47,5 +46,12 @@ export class Application {
         let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
         windowManager.bridge.emit('overwriteRewriteRules', allRewriteRules);
         window.close();
+    }
+
+    private clearSelectedRule () {
+        let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolveSelectedRewriteRule();
+        if (!rewriteRule) return;
+        rewriteRule.deselect();
+        this.lifecycleContextService.rewriteRuleRepository.store(rewriteRule);
     }
 }

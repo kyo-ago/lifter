@@ -41,10 +41,16 @@
 }
 
 .top-form__btn-block {
+    display: flex;
     text-align: right;
 }
 
 .top-form__btn-primary {
     margin-right: 7px;
     margin-bottom: 2px;
+}
+
+.rewrite-rule-row__selected {
+    color: #fff;
+    background-color: #116cd6 !important;
 }
