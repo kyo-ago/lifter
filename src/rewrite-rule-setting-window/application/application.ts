@@ -1,9 +1,11 @@
+import {remote} from "electron";
 import {None, Option, Some} from "monapt";
 import {ShareRewriteRuleIdentity} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {RewriteRuleEntity} from "../domain/rewrite-rule/rewrite-rule-entity";
-import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
-import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
+import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
+
+const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
 export class Application {
     public isContentRendering = false;
@@ -43,6 +45,7 @@ export class Application {
 
     saveAllRewriteRule(): void {
         let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
-        ipcRendererHandler.send("overwriteAllRewriteRules", allRewriteRules);
+        windowManager.bridge.emit('overwriteRewriteRules', allRewriteRules);
+        window.close();
     }
 }
