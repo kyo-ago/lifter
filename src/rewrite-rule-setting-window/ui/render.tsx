@@ -11,7 +11,7 @@ const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
 export function render(container: Element | null) {
     let allRewriteRules: ShareRewriteRuleEntityJSON[] = windowManager.sharedData.fetch('mainRewriteRules');
-    windowManager.sharedData.set('mainRewriteRules', undefined);
+    windowManager.sharedData.set('mainRewriteRules', []);
 
     let allRewriteRuleEntities = allRewriteRules.map((json) => RewriteRuleFactoryFromJSON(json));
 

@@ -8,6 +8,10 @@ export class TopForm extends React.Component<GlobalProps, {}> {
     private headerElem: HTMLInputElement;
     private valueElem: HTMLInputElement;
 
+    onCancelEnterKeyDownForm(e: React.KeyboardEvent<HTMLFormElement>) {
+        return (e.key === "Enter") && e.preventDefault();
+    }
+
     onCancelClick() {
         this.props.cancelRewriteRule();
     }
@@ -29,12 +33,15 @@ export class TopForm extends React.Component<GlobalProps, {}> {
             None: () => null,
         });
 
+        // {getValue((rewriteRule) => rewriteRule.url)}
+        // {getValue((rewriteRule) => rewriteRule.header)}
+        // {getValue((rewriteRule) => rewriteRule.value)}
         return <div className="top-form">
-            <form className="form-table" onKeyDown={(e: React.KeyboardEvent<HTMLFormElement>) => (e.key === "Enter") && e.preventDefault()}>
+            <form className="form-table" onKeyDown={this.onCancelEnterKeyDownForm.bind(this)}>
                 <div className="top-form__top">
                     <input type="text" className="form-control top-form__input-url"
                            placeholder="http://example.com/**.js"
-                           defaultValue={getValue((rewriteRule) => rewriteRule.url)}
+                           defaultValue="https://github.com/kyo-ago/lifter"
                            ref={(elem) => this.urlElem = elem}
                     />
                 </div>
@@ -52,7 +59,7 @@ export class TopForm extends React.Component<GlobalProps, {}> {
                         <input type="text" className="form-control top-form__input-header"
                                placeholder="Content-Type"
                                ref={(elem) => this.headerElem = elem}
-                               defaultValue={getValue((rewriteRule) => rewriteRule.header)}
+                               defaultValue="content-type"
                         />
                     </label>
                     <label className="form-table-cell">
@@ -60,13 +67,13 @@ export class TopForm extends React.Component<GlobalProps, {}> {
                         <input type="text" className="form-control top-form__input-value"
                                placeholder="text/html; charset=utf-8"
                                ref={(elem) => this.valueElem = elem}
-                               defaultValue={getValue((rewriteRule) => rewriteRule.value)}
+                               defaultValue="text/html"
                         />
                     </label>
                     <div className="top-form__btn-block">
                         {cancelButton}
                         <button className="btn btn-primary top-form__btn-primary" onClick={this.onSaveClick.bind(this)}>
-                            Save
+                            Add
                         </button>
                     </div>
                 </div>

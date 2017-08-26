@@ -17,7 +17,7 @@ export class RewriteRuleFactory extends ShareRewriteRuleFactory<RewriteRuleEntit
         return new RewriteRuleEntity(
             new ShareRewriteRuleIdentity(this.identity++),
             new ShareRewriteRuleUrlPattern(url),
-            new ShareRewriteRuleAction(action),
+            new ShareRewriteRuleAction(action.toUpperCase()),
             new ShareRewriteRuleHeader(header),
             new ShareRewriteRuleValue(value),
         );

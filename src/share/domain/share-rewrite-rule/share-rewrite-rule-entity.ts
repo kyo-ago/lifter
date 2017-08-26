@@ -13,7 +13,7 @@ export interface ShareRewriteRuleEntityJSON {
     value: string;
 }
 
-export class ShareRewriteRuleEntity extends BaseEntity<ShareRewriteRuleIdentity> {
+export abstract class ShareRewriteRuleEntity extends BaseEntity<ShareRewriteRuleIdentity> {
     constructor(
         identity: ShareRewriteRuleIdentity,
         private _url: ShareRewriteRuleUrlPattern,
@@ -22,10 +22,6 @@ export class ShareRewriteRuleEntity extends BaseEntity<ShareRewriteRuleIdentity>
         private _value: ShareRewriteRuleValue,
     ) {
         super(identity);
-    }
-
-    getIdentity() {
-        return this.id;
     }
 
     get url(): string {

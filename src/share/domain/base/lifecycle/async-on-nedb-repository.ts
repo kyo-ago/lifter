@@ -6,7 +6,7 @@ export interface NedbMapper<ID extends Identity<ID>, E extends Entity<any>> {
     toJSON(entity: E): Object;
 }
 
-export class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID>> {
+export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID>> {
     constructor(private datastore: Datastore, private mapper:  NedbMapper<ID, E>) {
     }
 

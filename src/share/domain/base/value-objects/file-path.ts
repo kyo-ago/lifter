@@ -6,7 +6,7 @@ const promisify = require("es6-promisify");
 const promisedFsStat = promisify(fs.stat, fs);
 const promisedFsReadFile = promisify(fs.readFile, fs);
 
-export class FilePath extends BaseValueObject<string> {
+export abstract class FilePath extends BaseValueObject<string> {
     getState(): Promise<fs.Stats> {
         return promisedFsStat(this._value);
     }

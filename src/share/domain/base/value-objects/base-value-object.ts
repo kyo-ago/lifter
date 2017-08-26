@@ -1,4 +1,4 @@
-export class BaseValueObject<T> {
+export abstract class BaseValueObject<T> {
     constructor(
         protected _value: T
     ) {
