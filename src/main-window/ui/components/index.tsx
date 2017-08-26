@@ -36,6 +36,7 @@ let application = new Application(
     lifecycleContextService,
 );
 export const App = application;
+(window as any).application = application;
 
 interface DispathProps {
     fileDrop: (files: File[]) => void;
@@ -88,4 +89,3 @@ export const Index = connect(
     mapStateToProps,
     mapDispatchToProps,
 )(AppComponent);
-

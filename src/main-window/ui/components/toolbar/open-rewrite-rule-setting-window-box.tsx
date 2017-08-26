@@ -8,7 +8,11 @@ export class OpenRewriteRuleSettingWindowBox extends React.Component<GlobalProps
 
     render() {
         return (
-            <button className="btn btn-default" title="Open rewrite rule setting window" onClick={this.onClick.bind(this)}>
+            <button
+                className="btn btn-default"
+                title="Open rewrite rule setting window"
+                onClick={this.onClick.bind(this)}
+            >
                 <span className="icon icon-export"></span>
             </button>
         );

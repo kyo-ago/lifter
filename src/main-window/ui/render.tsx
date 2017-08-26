@@ -14,5 +14,8 @@ export async function render(container: Element | null) {
             <Index />
         </Provider>,
         container,
+        () => {
+            App.isContentRendering = true;
+        },
     );
 }

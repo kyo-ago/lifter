@@ -1,5 +1,6 @@
-import {ChangeProxyCommandExecute, PromisedSetTimeout} from "./change-proxy-command";
 import * as sinon from "sinon";
+import {PromisedSetTimeout} from "../../../../../share/libs/promised-set-timeout";
+import {ChangeProxyCommandExecute} from "./change-proxy-command";
 
 describe('ChangeProxyCommand', () => {
     it('succeed', async () => {
@@ -13,14 +14,13 @@ describe('ChangeProxyCommand', () => {
 
     it('failed', async () => {
         (<any>PromisedSetTimeout).wait = 1;
-        let result;
         let spy = sinon.spy(() => false);
-        result = await ChangeProxyCommandExecute(
+        let result = await ChangeProxyCommandExecute(
             () => Promise.resolve(),
             () => Promise.resolve(''),
             spy,
         );
-        expect(result).toBe(false);
+        expect(result).toBeNull();
         expect(spy.callCount).toBe(3);
     });
 });
