@@ -48,7 +48,7 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
 
         deleteRewriteRule(id: ShareRewriteRuleIdentity) {
             let rewriteRules: RewriteRuleEntity[] = application.deleteRewriteRule(id);
-            dispatch(Actions.updateRewriteRules(rewriteRules));
+            dispatch(Actions.updateProxyBypassDomains(rewriteRules));
         },
 
         selectRewriteRule(id: ShareRewriteRuleIdentity) {

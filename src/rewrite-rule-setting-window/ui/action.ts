@@ -12,7 +12,7 @@ export const Actions = {
             rewriteRuleEntity,
         };
     },
-    updateRewriteRules: (rewriteRules: ShareRewriteRuleEntity[]) => {
+    updateProxyBypassDomains: (rewriteRules: ShareRewriteRuleEntity[]) => {
         return {
             type: UPDATE_REWRITE_RULES,
             rewriteRules,

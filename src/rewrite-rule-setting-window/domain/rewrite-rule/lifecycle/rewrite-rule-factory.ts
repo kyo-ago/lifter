@@ -1,13 +1,14 @@
-import {ShareRewriteRuleFactory} from "../../../../share/domain/share-rewrite-rule/lifecycle/share-rewrite-rule-factory";
-import {RewriteRuleEntity} from "../rewrite-rule-entity";
-import {ShareRewriteRuleValue} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-value";
-import {ShareRewriteRuleHeader} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-header";
-import {ShareRewriteRuleAction} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-action";
-import {ShareRewriteRuleIdentity} from "../../../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {ShareRewriteRuleEntityJSON} from "../../../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
+import {ShareRewriteRuleIdentity} from "../../../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
+import {ShareRewriteRuleAction} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-action";
+import {ShareRewriteRuleHeader} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-header";
 import {ShareRewriteRuleUrlPattern} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-url-pattern";
+import {ShareRewriteRuleValue} from "../../../../share/domain/share-rewrite-rule/value-objects/share-rewrite-rule-value";
+import {RewriteRuleEntity} from "../rewrite-rule-entity";
 
-export class RewriteRuleFactory extends ShareRewriteRuleFactory<RewriteRuleEntity> {
+export class RewriteRuleFactory {
+    private identity = 0;
+
     create(
         url: string,
         action: string,

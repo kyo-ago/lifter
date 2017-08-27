@@ -1,9 +1,8 @@
+import * as windowManager from "@kyo-ago/electron-window-manager";
 import {app, BrowserWindow, ipcMain} from "electron";
 import {createMenu} from "./main-window/create-menu";
 import {APPLICATION_NAME, WindowManagerInit} from "./settings";
-import {ShareRewriteRuleEntityJSON} from "./share/domain/share-rewrite-rule/share-rewrite-rule-entity";
 
-const windowManager = require('@kyo-ago/electron-window-manager');
 windowManager.init(WindowManagerInit);
 
 let createWindow = () => {

@@ -37,11 +37,11 @@ export class Application {
         this.clearSelectedRule();
     }
 
-    cancelAllRewriteRule(): void {
+    cancelAll(): void {
         window.close();
     }
 
-    saveAllRewriteRule(): void {
+    saveAll(): void {
         let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
         windowManager.bridge.emit('overwriteRewriteRules', allRewriteRules);
         window.close();
