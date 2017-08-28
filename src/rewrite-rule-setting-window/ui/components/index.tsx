@@ -8,7 +8,7 @@ import {RewriteRuleEntity} from "../../domain/rewrite-rule/rewrite-rule-entity";
 import {Actions} from "../action";
 import {StateToProps} from "../reducer";
 import {RewriteRules} from "./rewrite-rules/rewrite-rules";
-import {SubmitForm} from "./submit-form/submit-form";
+import {SubmitForm} from "../../../share/ui/components/submit-form/submit-form";
 import {TopForm} from "./top-form/top-form";
 
 class AppComponent extends React.Component<GlobalProps, {}> {
@@ -16,7 +16,10 @@ class AppComponent extends React.Component<GlobalProps, {}> {
         return <div>
             <TopForm {...this.props} />
             <RewriteRules {...this.props} />
-            <SubmitForm {...this.props} />
+            <SubmitForm
+                onClickCancel={() => this.props.cancelAllRewriteRule()}
+                onClickSave={() => this.props.saveAllRewriteRule()}
+            />
         </div>;
     }
 }
@@ -48,7 +51,7 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
 
         deleteRewriteRule(id: ShareRewriteRuleIdentity) {
             let rewriteRules: RewriteRuleEntity[] = application.deleteRewriteRule(id);
-            dispatch(Actions.updateProxyBypassDomains(rewriteRules));
+            dispatch(Actions.updateRewriteRules(rewriteRules));
         },
 
         selectRewriteRule(id: ShareRewriteRuleIdentity) {

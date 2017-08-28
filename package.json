@@ -19,7 +19,7 @@
     "es6-promisify": "^5.0.0",
     "eventemitter2": "^4.1.2",
     "execa": "^0.8.0",
-    "http-mitm-proxy": "^0.5.2",
+    "http-mitm-proxy": "^0.5.3",
     "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
     "micromatch": "^3.0.4",
     "mime": "^1.3.6",
@@ -52,7 +52,7 @@
     "sinon": "^3.2.1",
     "spectron": "^3.7.2",
     "ts-jest": "^20.0.10",
-    "typescript": "^2.4.2"
+    "typescript": "^2.5.1"
   },
   "homepage": "https://github.com/kyo-ago/lifter/",
   "jest": {

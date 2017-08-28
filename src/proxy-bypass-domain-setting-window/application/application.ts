@@ -1,8 +1,5 @@
-import {remote} from "electron";
-import {None, Option, Some} from "monapt";
-import {ShareRewriteRuleIdentity} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-identity";
-import {RewriteRuleEntity} from "../domain/rewrite-rule/rewrite-rule-entity";
-import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
+import {remote} from 'electron';
+import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
 
 const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
@@ -12,29 +9,14 @@ export class Application {
     constructor(private lifecycleContextService: LifecycleContextService) {
     }
 
-    saveRewriteRule(url: string, action: string, header: string, value: string): RewriteRuleEntity {
-        let rewriteRuleEntity = this.lifecycleContextService.rewriteRuleFactory.create(url, action, header, value);
-        this.lifecycleContextService.rewriteRuleRepository.store(rewriteRuleEntity);
-        return rewriteRuleEntity;
-    }
-
-    deleteRewriteRule(id: ShareRewriteRuleIdentity): RewriteRuleEntity[] {
-        this.lifecycleContextService.rewriteRuleRepository.deleteByIdentity(id);
-        let rewriteRuleEntities = this.lifecycleContextService.rewriteRuleRepository.resolveAll();
-        return rewriteRuleEntities;
-    }
-
-    selectRewriteRule(id: ShareRewriteRuleIdentity): Option<RewriteRuleEntity> {
-        this.clearSelectedRule();
-
-        let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolve(id);
-        if (!rewriteRule) return None;
-        rewriteRule.select();
-        return new Some(this.lifecycleContextService.rewriteRuleRepository.store(rewriteRule));
-    }
-
-    cancelRewriteRule(): void {
-        this.clearSelectedRule();
+    updateEntities(formText: string) {
+        let entities = formText
+            .split(/\s+/)
+            .filter((pattern) => pattern)
+            .map((pattern) => this.lifecycleContextService.proxyBypassDomainFactory.create(pattern))
+        ;
+        this.lifecycleContextService.ProxyBypassDomainRepository.overwriteAll(entities);
+        return entities;
     }
 
     cancelAll(): void {
@@ -42,15 +24,8 @@ export class Application {
     }
 
     saveAll(): void {
-        let allRewriteRules = this.lifecycleContextService.rewriteRuleRepository.resolveAll().map((entity) => entity.json);
-        windowManager.bridge.emit('overwriteRewriteRules', allRewriteRules);
+        let allJsons = this.lifecycleContextService.ProxyBypassDomainRepository.resolveAll().map((entity) => entity.json);
+        windowManager.bridge.emit('overwriteProxyBypassDomains', allJsons);
         window.close();
-    }
-
-    private clearSelectedRule () {
-        let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolveSelectedRewriteRule();
-        if (!rewriteRule) return;
-        rewriteRule.deselect();
-        this.lifecycleContextService.rewriteRuleRepository.store(rewriteRule);
     }
 }

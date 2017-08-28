@@ -6,13 +6,13 @@ export const UPDATE_REWRITE_RULES = 'UPDATE_REWRITE_RULES';
 export const UPDATE_CURRENT_REWRITE_RULE = 'UPDATE_CURRENT_REWRITE_RULE';
 
 export const Actions = {
-    saveRewriteRule: (rewriteRuleEntity: ShareRewriteRuleEntity) => {
+    saveRewriteRule         : (rewriteRuleEntity: ShareRewriteRuleEntity) => {
         return {
             type: SAVE_REWRITE_RULE,
             rewriteRuleEntity,
         };
     },
-    updateProxyBypassDomains: (rewriteRules: ShareRewriteRuleEntity[]) => {
+    updateRewriteRules      : (rewriteRules: ShareRewriteRuleEntity[]) => {
         return {
             type: UPDATE_REWRITE_RULES,
             rewriteRules,
