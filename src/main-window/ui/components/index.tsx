@@ -45,6 +45,7 @@ interface DispathProps {
     clickProxySettingStatus: () => void;
     contextmenuAutoResponderEntry: (id: number) => void;
     openRewriteRuleSettingWindow: () => void;
+    openProxyBypassDomainSettingWindow: () => void;
 }
 
 export interface GlobalProps extends DispathProps, StateToProps {}
@@ -81,6 +82,9 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
         },
         openRewriteRuleSettingWindow() {
             application.openRewriteRuleSettingWindow();
+        },
+        openProxyBypassDomainSettingWindow() {
+            application.openProxyBypassDomainSettingWindow();
         },
     };
 }

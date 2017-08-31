@@ -1,18 +1,19 @@
-import {remote} from "electron";
-import {EventEmitter2} from "eventemitter2";
-import * as Path from "path";
-import {ShareRewriteRuleEntityJSON} from "../../share/domain/share-rewrite-rule/share-rewrite-rule-entity";
-import {ClientRequestEntity} from "../domain/client-request/client-request-entity";
-import {HTTP_SSL_CA_DIR_PATH} from "../domain/settings";
-import {ipcRendererHandler} from "../libs/ipc-renderer-handler";
-import {StateToProps} from "../ui/reducer";
-import {AutoResponderService} from "./auto-responder/auto-responder-service";
-import {CertificateService} from "./certificate/certificate-service";
-import {ConnectionService} from "./connection-service/connection-service";
-import {ContextMenuService} from "./context-menu/context-menu-service";
-import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
-import {ProxySettingService, ProxySettingStatus} from "./proxy-setting/proxy-setting-service";
-import {ProxyService} from "./proxy/proxy-service";
+import {remote} from 'electron';
+import {EventEmitter2} from 'eventemitter2';
+import * as Path from 'path';
+import {ShareProxyBypassDomainEntityJSON} from '../../share/domain/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
+import {ShareRewriteRuleEntityJSON} from '../../share/domain/share-rewrite-rule/share-rewrite-rule-entity';
+import {ClientRequestEntity} from '../domain/client-request/client-request-entity';
+import {HTTP_SSL_CA_DIR_PATH} from '../domain/settings';
+import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
+import {StateToProps} from '../ui/reducer';
+import {AutoResponderService} from './auto-responder/auto-responder-service';
+import {CertificateService} from './certificate/certificate-service';
+import {ConnectionService} from './connection-service/connection-service';
+import {ContextMenuService} from './context-menu/context-menu-service';
+import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
+import {ProxySettingService, ProxySettingStatus} from './proxy-setting/proxy-setting-service';
+import {ProxyService} from './proxy/proxy-service';
 
 const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
@@ -99,6 +100,21 @@ export class Application {
         );
     }
 
+    openProxyBypassDomainSettingWindow() {
+        let allEntities = this.lifecycleContextService.proxyBypassDomainRepository.resolveAll().map((entity) => entity.json);
+        windowManager.sharedData.set('mainProxyBypassDomains', allEntities);
+        windowManager.open(
+            'proxyBypassDomainSettingWindow',
+            'Proxy bypass domain setting',
+            '/proxy-bypass-domain-setting-window.html',
+            'default',
+            {
+                file: 'proxy-bypass-domain-setting-window-state.json',
+                parent: windowManager.get('mainWindow'),
+            }
+        );
+    }
+
     async getRender(): Promise<StateToProps> {
         return {
             autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
@@ -122,9 +138,13 @@ export class Application {
 
         this.contextMenuService.initialize(global);
 
-        windowManager.bridge.on('overwriteRewriteRules', (allRewriteRules: ShareRewriteRuleEntityJSON[]) => {
-            let rewriteRules = allRewriteRules.map((rewriteRule) => this.lifecycleContextService.rewriteRuleFactory.fromJSON(rewriteRule));
-            this.lifecycleContextService.rewriteRuleRepository.overwrite(rewriteRules);
+        windowManager.bridge.on('overwriteRewriteRules', (allJsons: ShareRewriteRuleEntityJSON[]) => {
+            let entities = allJsons.map((json) => this.lifecycleContextService.rewriteRuleFactory.fromJSON(json));
+            this.lifecycleContextService.rewriteRuleRepository.overwriteAll(entities);
+        });
+        windowManager.bridge.on('overwriteProxyBypassDomains', (allJsons: ShareProxyBypassDomainEntityJSON[]) => {
+            let entities = allJsons.map((json) => this.lifecycleContextService.proxyBypassDomainFactory.fromJSON(json));
+            this.lifecycleContextService.proxyBypassDomainRepository.overwriteAll(entities);
         });
     }
 

@@ -11,6 +11,6 @@ export class ProxyBypassDomainRepository extends ResolveAllOnMemoryRepository<Sh
         this.entities = entities.reduce((base: E, cur: ProxyBypassDomainEntity) => {
             base[cur.id] = cur;
             return base;
-        }, {});
+        }, <E>{});
     }
 }
