@@ -1,7 +1,7 @@
 import * as ifconfig from "ifconfig";
 import {OnMemoryRepository} from "typescript-dddbase";
+import {getListnetworkserviceorder} from "../../../../../libs/exec-commands";
 import {ParseNetworkDevices} from "../../specs/parse-network-devices";
-import {ExecCommand} from "../exec-command";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
 import {ProxySettingDeviceIdentity} from "../proxy-setting-device-identity";
 import {ProxySettingDeviceFactory} from "./proxy-setting-device-factory";
@@ -19,7 +19,7 @@ export class ProxySettingDeviceRepository extends OnMemoryRepository<ProxySettin
 
     async resolveAllEnableDevices(): Promise<ProxySettingDeviceEntity[]> {
         let [serviceorder, ifconfig] = await Promise.all([
-            ExecCommand.getListnetworkserviceorder(),
+            getListnetworkserviceorder(),
             promisedIfconfig(),
         ]);
         return ParseNetworkDevices(serviceorder, ifconfig)

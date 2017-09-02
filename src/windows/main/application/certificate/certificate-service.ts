@@ -1,5 +1,5 @@
 import * as Path from "path";
-import {ExecCommand} from "./exec-command";
+import {addTrustedCert, deleteCertificate, findCertificate} from "../../../../libs/exec-commands";
 
 export type CertificateStatus = "missing" | "installed";
 
@@ -31,7 +31,7 @@ export class CertificateService {
 
     private async findCertificate(): Promise<boolean> {
         try {
-            let result = await ExecCommand.findCertificate(this.certificateName);
+            let result = await findCertificate(this.certificateName);
             return !!result;
         } catch(e) {
             // missing Certificate
@@ -41,13 +41,13 @@ export class CertificateService {
     }
 
     private async installCertificate(): Promise<boolean> {
-        let result = await ExecCommand.addTrustedCert(this.certificatePath);
+        let result = await addTrustedCert(this.certificatePath);
         return !!result;
     }
 
     private async deleteCertificate(): Promise<true> {
         try {
-            await ExecCommand.deleteCertificate(this.certificateName);
+            await deleteCertificate(this.certificateName);
         } catch(e) {
             // missing Certificate
             if (!e.message.match(/Unable to delete certificate matching/)) throw e;

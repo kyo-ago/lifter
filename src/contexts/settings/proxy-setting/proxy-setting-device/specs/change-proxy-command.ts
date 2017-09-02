@@ -1,10 +1,10 @@
+import {getSecureWebproxy, getWebproxy} from "../../../../../libs/exec-commands";
 import {PromisedSetTimeout} from "../../../../libs/promised-set-timeout";
 import {WaitFor} from "../../../../libs/wait-for";
 import {ParseGetwebproxyCommand} from "../../specs/parse-getwebproxy-command";
-import {ExecCommand} from "../exec-command";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
 
-// export for only tests
+// export for tests
 export function ChangeProxyCommandExecute(
     setCommand: () => Promise<any>,
     getCommand: () => Promise<string>,
@@ -27,12 +27,12 @@ export async function ChangeProxyCommand(
     let result = await Promise.all([
         ChangeProxyCommandExecute(
             setCommand,
-            () => ExecCommand.getWebproxy(proxySettingDeviceEntity),
+            () => getWebproxy(proxySettingDeviceEntity),
             (result: string) => ParseGetwebproxyCommand(result) === stdoutResult,
         ),
         ChangeProxyCommandExecute(
             setSecureCommand,
-            () => ExecCommand.getSecureWebproxy(proxySettingDeviceEntity),
+            () => getSecureWebproxy(proxySettingDeviceEntity),
             (result: string) => ParseGetwebproxyCommand(result) === stdoutResult,
         ),
     ]);

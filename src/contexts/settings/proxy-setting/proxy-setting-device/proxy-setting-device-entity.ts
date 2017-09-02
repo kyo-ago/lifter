@@ -1,8 +1,8 @@
+import {getSecureWebproxy, getWebproxy} from "../../../../libs/exec-commands";
 import {NETWORK_HOST_NAME, PROXY_PORT} from "../../../../settings";
 import {BaseEntity} from "../../../share/base/base-entity";
 import {networksetupProxy} from "../networksetup-proxy-command";
 import {ParseGetwebproxyCommand} from "../specs/parse-getwebproxy-command";
-import {ExecCommand} from "./exec-command";
 import {ProxySettingDeviceIdentity} from "./proxy-setting-device-identity";
 import {ChangeProxyCommand} from "./specs/change-proxy-command";
 import {ProxySettingDeviceHardwarePort} from "./value-objects/proxy-setting-device-hardware-port";
@@ -59,8 +59,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
     private async isProxing(): Promise<boolean> {
         let results: string[] = await Promise.all([
-            ExecCommand.getWebproxy(this),
-            ExecCommand.getSecureWebproxy(this),
+            getWebproxy(this),
+            getSecureWebproxy(this),
         ]);
         let result = results.find((stdout) => ParseGetwebproxyCommand(stdout));
         return Boolean(result);
