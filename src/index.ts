@@ -1,6 +1,6 @@
 import * as windowManager from "@kyo-ago/electron-window-manager";
 import {app, BrowserWindow, ipcMain} from "electron";
-import {createMenu} from "./main-window/create-menu";
+import {createMenu} from "./windows/main/create-menu";
 import {APPLICATION_NAME, WindowManagerInit} from "./settings";
 
 windowManager.init(WindowManagerInit);

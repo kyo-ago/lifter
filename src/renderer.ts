@@ -1,6 +1,6 @@
-import {render as appRender} from "./main-window/ui/render";
-import {render as rewriteRuleSettingWindowRender} from "./rewrite-rule-setting-window/ui/render";
-import {render as proxyBypassDomainSettingWindowRender} from "./proxy-bypass-domain-setting-window/ui/render";
+import {render as appRender} from "./windows/main/ui/render";
+import {render as rewriteRuleSettingWindowRender} from "./windows/rewrite-rule-setting/ui/render";
+import {render as proxyBypassDomainSettingWindowRender} from "./windows/proxy-bypass-domain-setting/ui/render";
 
 document.addEventListener('DOMContentLoaded', () => {
     [
