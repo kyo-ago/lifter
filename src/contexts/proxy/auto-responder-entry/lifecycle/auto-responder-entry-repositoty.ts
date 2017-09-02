@@ -1,4 +1,4 @@
-import {ResolveAllOnMemoryRepository} from "../../../share/domain/base/lifecycle/resolve-all-on-memory-repository";
+import {ResolveAllOnMemoryRepository} from "../../../share/base/lifecycle/resolve-all-on-memory-repository";
 import {ClientRequestEntity} from "../../client-request/client-request-entity";
 import {LocalFileResponderFactory} from "../../local-file-responder/lifecycle/local-file-responder-factory";
 import {LocalFileResponderEntity} from "../../local-file-responder/local-file-responder-entity";

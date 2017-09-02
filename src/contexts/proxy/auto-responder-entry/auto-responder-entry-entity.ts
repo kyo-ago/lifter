@@ -1,5 +1,5 @@
 import * as mime from "mime";
-import {BaseEntity} from "../../share/domain/base/base-entity";
+import {BaseEntity} from "../../share/base/base-entity";
 import {ClientRequestEntity} from "../client-request/client-request-entity";
 import {LocalFileResponderParam} from "../local-file-responder/lifecycle/local-file-responder-factory";
 import {ProjectIdentity} from "../project/project-identity";

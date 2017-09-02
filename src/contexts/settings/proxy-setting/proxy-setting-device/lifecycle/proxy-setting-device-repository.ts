@@ -1,7 +1,7 @@
 import * as ifconfig from "ifconfig";
 import {OnMemoryRepository} from "typescript-dddbase";
-import {ExecCommand} from "../../../../../windows/main/libs/exec-command";
 import {ParseNetworkDevices} from "../../specs/parse-network-devices";
+import {ExecCommand} from "../exec-command";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
 import {ProxySettingDeviceIdentity} from "../proxy-setting-device-identity";
 import {ProxySettingDeviceFactory} from "./proxy-setting-device-factory";

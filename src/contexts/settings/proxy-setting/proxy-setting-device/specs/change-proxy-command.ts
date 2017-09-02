@@ -1,7 +1,7 @@
-import {ExecCommand} from "../../../../../windows/main/libs/exec-command";
-import {PromisedSetTimeout} from "../../../../share/libs/promised-set-timeout";
-import {WaitFor} from "../../../../share/libs/wait-for";
+import {PromisedSetTimeout} from "../../../../libs/promised-set-timeout";
+import {WaitFor} from "../../../../libs/wait-for";
 import {ParseGetwebproxyCommand} from "../../specs/parse-getwebproxy-command";
+import {ExecCommand} from "../exec-command";
 import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
 
 // export for only tests

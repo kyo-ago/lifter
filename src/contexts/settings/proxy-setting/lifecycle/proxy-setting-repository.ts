@@ -1,5 +1,5 @@
 import {OnMemoryRepository} from "typescript-dddbase";
-import {networksetupProxy} from "../../../../windows/main/libs/networksetup-proxy-command";
+import {networksetupProxy} from "../networksetup-proxy-command";
 import {ProxySettingDeviceRepository} from "../proxy-setting-device/lifecycle/proxy-setting-device-repository";
 import {ProxySettingEntity} from "../proxy-setting-entity";
 import {ProxySettingIdentity} from "../proxy-setting-identity";

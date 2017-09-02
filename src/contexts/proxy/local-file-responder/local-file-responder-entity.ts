@@ -1,6 +1,6 @@
 import {OutgoingHttpHeaders} from "http";
 import * as mime from "mime";
-import {BaseEntity} from "../../share/domain/base/base-entity";
+import {BaseEntity} from "../../share/base/base-entity";
 import {LocalFileResponderIdentity} from "./local-file-responder-identity";
 import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
 import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";

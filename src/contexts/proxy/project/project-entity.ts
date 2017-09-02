@@ -1,4 +1,4 @@
-import {BaseEntity} from "../../share/domain/base/base-entity";
+import {BaseEntity} from "../../share/base/base-entity";
 import {ProjectIdentity} from "./project-identity";
 import {ProjectName} from "./value-objects/project-name";
 import {ProjectPath} from "./value-objects/project-path";

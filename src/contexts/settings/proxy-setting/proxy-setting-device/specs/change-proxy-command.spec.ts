@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import {PromisedSetTimeout} from "../../../../share/libs/promised-set-timeout";
+import {PromisedSetTimeout} from "../../../../libs/promised-set-timeout";
 import {ChangeProxyCommandExecute} from "./change-proxy-command";
 
 describe('ChangeProxyCommand', () => {

@@ -4,9 +4,10 @@ import * as Path from 'path';
 import {ClientRequestEntity} from '../../../contexts/proxy/client-request/client-request-entity';
 import {ProxyBypassDomainEntity} from "../../../contexts/proxy/proxy-bypass-domain/proxy-bypass-domain-entity";
 import {RewriteRuleEntity} from "../../../contexts/proxy/rewrite-rule/rewrite-rule-entity";
-import {HTTP_SSL_CA_DIR_PATH} from '../../../contexts/proxy/settings';
-import {ShareProxyBypassDomainEntityJSON} from '../../../contexts/share/domain/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
-import {ShareRewriteRuleEntityJSON} from '../../../contexts/share/domain/share-rewrite-rule/share-rewrite-rule-entity';
+import {HTTP_SSL_CA_DIR_PATH} from '../../../settings';
+import {ShareProxyBypassDomainEntityJSON} from '../../../contexts/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
+import {ShareRewriteRuleEntityJSON} from '../../../contexts/share/share-rewrite-rule/share-rewrite-rule-entity';
+import {windowManager} from "../../libs/get-window-manager";
 import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
 import {StateToProps} from '../ui/reducer';
 import {AutoResponderService} from './auto-responder/auto-responder-service';
@@ -16,8 +17,6 @@ import {ContextMenuService} from './context-menu/context-menu-service';
 import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
 import {ProxySettingService, ProxySettingStatus} from './proxy-setting/proxy-setting-service';
 import {ProxyService} from './proxy/proxy-service';
-
-const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
 export class Application {
     private eventEmitter = new EventEmitter2();
@@ -93,6 +92,7 @@ export class Application {
             .resolveAll()
             .map((entity: RewriteRuleEntity) => entity.json)
         ;
+
         windowManager.sharedData.set('mainRewriteRules', allRewriteRules);
         windowManager.open(
             'rewriteRuleSettingWindow',

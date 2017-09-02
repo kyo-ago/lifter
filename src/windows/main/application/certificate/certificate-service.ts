@@ -1,5 +1,5 @@
 import * as Path from "path";
-import {ExecCommand} from "../../libs/exec-command";
+import {ExecCommand} from "./exec-command";
 
 export type CertificateStatus = "missing" | "installed";
 

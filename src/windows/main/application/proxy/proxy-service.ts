@@ -1,5 +1,5 @@
 import {OutgoingHttpHeaders} from "http";
-import {PROXY_PORT} from "../../../../contexts/proxy/settings";
+import {PROXY_PORT} from "../../../../settings";
 import * as HttpMitmProxy from "http-mitm-proxy";
 
 export class ProxyService {

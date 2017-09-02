@@ -1,7 +1,7 @@
-import {BaseEntity} from "../../share/domain/base/base-entity";
 import {ProxySettingStatus} from "../../../windows/main/application/proxy-setting/proxy-setting-service";
-import {networksetupProxy} from "../../../windows/main/libs/networksetup-proxy-command";
-import {throwableCommand} from "../../../windows/main/libs/throwable-command";
+import {throwableCommand} from "../../../libs/throwable-command";
+import {BaseEntity} from "../../share/base/base-entity";
+import {networksetupProxy} from "./networksetup-proxy-command";
 import {ProxySettingDeviceRepository} from "./proxy-setting-device/lifecycle/proxy-setting-device-repository";
 import {ProxySettingIdentity} from "./proxy-setting-identity";
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {SubmitForm} from '../../../../contexts/share/ui/components/submit-form/submit-form';
+import {SubmitForm} from '../../../share/components/submit-form/submit-form';
 import {Application} from '../../application/application';
 import {LifecycleContextService} from '../../application/lifecycle-context/lifecycle-context-service';
 import {Actions} from '../action';

@@ -1,15 +1,12 @@
-import {remote} from 'electron';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {ShareProxyBypassDomainEntityJSON} from '../../../contexts/share/domain/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
+import {windowManager} from "../../libs/get-window-manager";
 import {App, Index, JSONToEntity} from './components/index';
 import {configureStore} from './store';
 
-const windowManager = remote.require('@kyo-ago/electron-window-manager');
-
 export function render(container: Element | null) {
-    let jsons: ShareProxyBypassDomainEntityJSON[] = windowManager.sharedData.fetch('mainProxyBypassDomains');
+    let jsons = windowManager.sharedData.fetch('mainProxyBypassDomains');
     windowManager.sharedData.set('mainProxyBypassDomains', []);
 
     let entities = jsons.map((json) => JSONToEntity(json));

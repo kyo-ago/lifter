@@ -1,14 +1,14 @@
 import {None, Option} from "monapt";
 import * as React from "react";
 import {connect} from "react-redux";
-import {ShareRewriteRuleIdentity} from "../../../../contexts/share/domain/share-rewrite-rule/share-rewrite-rule-identity";
+import {RewriteRuleEntity} from "../../../../contexts/settings/rewrite-rule/rewrite-rule-entity";
+import {ShareRewriteRuleIdentity} from "../../../../contexts/share/share-rewrite-rule/share-rewrite-rule-identity";
+import {SubmitForm} from "../../../share/components/submit-form/submit-form";
 import {Application} from "../../application/application";
 import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
-import {RewriteRuleEntity} from "../../../../contexts/settings/rewrite-rule/rewrite-rule-entity";
 import {Actions} from "../action";
 import {StateToProps} from "../reducer";
 import {RewriteRules} from "./rewrite-rules/rewrite-rules";
-import {SubmitForm} from "../../../../contexts/share/ui/components/submit-form/submit-form";
 import {TopForm} from "./top-form/top-form";
 
 class AppComponent extends React.Component<GlobalProps, {}> {

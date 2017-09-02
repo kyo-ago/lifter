@@ -1,7 +1,5 @@
-import {remote} from 'electron';
+import {windowManager} from "../../libs/get-window-manager";
 import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
-
-const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
 export class Application {
     public isContentRendering = false;

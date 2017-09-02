@@ -1,10 +1,8 @@
-import {remote} from "electron";
 import {None, Option, Some} from "monapt";
-import {ShareRewriteRuleIdentity} from "../../../contexts/share/domain/share-rewrite-rule/share-rewrite-rule-identity";
 import {RewriteRuleEntity} from "../../../contexts/settings/rewrite-rule/rewrite-rule-entity";
+import {ShareRewriteRuleIdentity} from "../../../contexts/share/share-rewrite-rule/share-rewrite-rule-identity";
+import {windowManager} from "../../libs/get-window-manager";
 import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
-
-const windowManager = remote.require('@kyo-ago/electron-window-manager');
 
 export class Application {
     public isContentRendering = false;

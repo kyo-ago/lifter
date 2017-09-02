@@ -1,5 +1,5 @@
 import * as Url from "url";
-import {BaseValueObject} from "../../../share/domain/base/value-objects/base-value-object";
+import {BaseValueObject} from "../../../share/base/value-objects/base-value-object";
 
 export class ClientRequestUrl extends BaseValueObject<string> {
     private reqestUrl: Url.Url;

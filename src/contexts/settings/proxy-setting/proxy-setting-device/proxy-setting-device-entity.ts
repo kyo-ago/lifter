@@ -1,8 +1,8 @@
-import {ExecCommand} from "../../../../windows/main/libs/exec-command";
-import {networksetupProxy} from "../../../../windows/main/libs/networksetup-proxy-command";
-import {NETWORK_HOST_NAME, PROXY_PORT} from "../../../proxy/settings";
-import {BaseEntity} from "../../../share/domain/base/base-entity";
+import {NETWORK_HOST_NAME, PROXY_PORT} from "../../../../settings";
+import {BaseEntity} from "../../../share/base/base-entity";
+import {networksetupProxy} from "../networksetup-proxy-command";
 import {ParseGetwebproxyCommand} from "../specs/parse-getwebproxy-command";
+import {ExecCommand} from "./exec-command";
 import {ProxySettingDeviceIdentity} from "./proxy-setting-device-identity";
 import {ChangeProxyCommand} from "./specs/change-proxy-command";
 import {ProxySettingDeviceHardwarePort} from "./value-objects/proxy-setting-device-hardware-port";
