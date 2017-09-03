@@ -16,6 +16,14 @@ export class ApplicationMenu extends React.Component<GlobalProps, {}> {
         return null;
     }
 
+    private addAutoResponderEntry() {
+        remote.dialog.showOpenDialog(null, {
+            properties: ['openDirectory', 'openFile', 'createDirectory'],
+        }, (filePaths) => {
+            this.props.selectDialogEntry(filePaths);
+        });
+    }
+
     private getTemplate() {
         let proxySettingStatusMessage = ({
             'NoPermission': 'ProxyService NoPermission',
@@ -41,37 +49,23 @@ export class ApplicationMenu extends React.Component<GlobalProps, {}> {
                 submenu: [
                     {
                         label: proxySettingStatusMessage,
-                        click () {
-                            this.props.clickProxySettingStatus();
-                        }
+                        click: this.props.clickProxySettingStatus,
                     },
                     {
-                        label: 'Add replace entry',
-                        click () {
-                            remote.dialog.showOpenDialog(null, {
-                                properties: ['openDirectory', 'openFile', 'createDirectory'],
-                            }, (filePaths) => {
-                                this.props.selectDialogEntry(filePaths);
-                            });
-                        }
+                        label: 'Add auto responder entry',
+                        click: this.addAutoResponderEntry.bind(this),
                     },
                     {
                         label: certificateStatusMessage,
-                        click () {
-                            this.props.clickCertificateStatus();
-                        }
+                        click: this.props.clickCertificateStatus,
                     },
                     {
                         label: 'Open rewrite rule setting',
-                        click () {
-                            this.props.openRewriteRuleSettingWindow();
-                        }
+                        click: this.props.openRewriteRuleSettingWindow,
                     },
                     {
                         label: 'Open proxy bypass domain setting',
-                        click () {
-                            this.props.openProxyBypassDomainSettingWindow();
-                        }
+                        click: this.props.openProxyBypassDomainSettingWindow,
                     },
                 ]
             },
