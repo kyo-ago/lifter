@@ -7,8 +7,8 @@ import {LifecycleContextService} from "../../application/lifecycle-context/lifec
 import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
 import {Actions} from "../action";
 import {StateToProps} from "../reducer";
+import {ApplicationMenu} from "./null/application-menu";
 import {DragAndDropHandler} from "./null/drag-and-drop";
-import {IpcHandler} from "./null/ipc-handler";
 import {ToolbarHeader} from "./toolbar/toolbar-header";
 import {WindowContent} from "./window/window-content";
 
@@ -17,7 +17,7 @@ class AppComponent extends React.Component<GlobalProps, any> {
         return <div className="window">
             <ToolbarHeader {...this.props} />
             <WindowContent {...this.props} />
-            <IpcHandler {...this.props} />
+            <ApplicationMenu {...this.props} />
             <DragAndDropHandler {...this.props} />
         </div>;
     }
@@ -57,25 +57,21 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
         dispatch(Actions.clientProxyRequestEvent(clientRequestEntity));
     });
     return {
-        fileDrop(files: File[]) {
-            application.fileDrop(files).then((autoResponderEntryEntities) => {
-                dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
-            });
+        async fileDrop(files: File[]) {
+            let autoResponderEntryEntities = await application.fileDrop(files);
+            dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
         },
-        selectDialogEntry(fileNames: string[]) {
-            application.selectDialogEntry(fileNames).then((autoResponderEntryEntities) => {
-                dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
-            });
+        async selectDialogEntry(fileNames: string[]) {
+            let autoResponderEntryEntities = await application.selectDialogEntry(fileNames);
+            dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
         },
-        clickCertificateStatus() {
-            application.clickCertificateStatus().then((status) => {
-                dispatch(Actions.clickCertificateStatus(status));
-            });
+        async clickCertificateStatus() {
+            let status = await application.clickCertificateStatus();
+            dispatch(Actions.clickCertificateStatus(status));
         },
-        clickProxySettingStatus() {
-            application.clickProxySettingStatus().then((status) => {
-                dispatch(Actions.clickProxySettingStatus(status));
-            });
+        async clickProxySettingStatus() {
+            let status = await application.clickProxySettingStatus();
+            dispatch(Actions.clickProxySettingStatus(status));
         },
         contextmenuAutoResponderEntry(id: number) {
             application.contextmenuAutoResponderEntry(id);

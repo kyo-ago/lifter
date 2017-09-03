@@ -4,9 +4,9 @@ import * as Path from 'path';
 import {ClientRequestEntity} from '../../../contexts/proxy/client-request/client-request-entity';
 import {ProxyBypassDomainEntity} from "../../../contexts/proxy/proxy-bypass-domain/proxy-bypass-domain-entity";
 import {RewriteRuleEntity} from "../../../contexts/proxy/rewrite-rule/rewrite-rule-entity";
-import {HTTP_SSL_CA_DIR_PATH} from '../../../settings';
 import {ShareProxyBypassDomainEntityJSON} from '../../../contexts/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../contexts/share/share-rewrite-rule/share-rewrite-rule-entity';
+import {HTTP_SSL_CA_DIR_PATH} from '../../../settings';
 import {windowManager} from "../../libs/get-window-manager";
 import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
 import {StateToProps} from '../ui/reducer';
@@ -15,7 +15,7 @@ import {CertificateService} from './certificate/certificate-service';
 import {ConnectionService} from './connection-service/connection-service';
 import {ContextMenuService} from './context-menu/context-menu-service';
 import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
-import {ProxySettingService, ProxySettingStatus} from './proxy-setting/proxy-setting-service';
+import {ProxySettingService} from './proxy-setting/proxy-setting-service';
 import {ProxyService} from './proxy/proxy-service';
 
 export class Application {
@@ -64,18 +64,14 @@ export class Application {
         return this.autoResponderService.addPaths(fileNames);
     }
 
-    clickCertificateStatus() {
-        return this.certificateService.getNewStatus().then((status) => {
-            ipcRendererHandler.send("clickCertificateStatus", status);
-            return status;
-        });
+    async clickCertificateStatus() {
+        let status = await this.certificateService.getNewStatus();
+        return status;
     }
 
-    clickProxySettingStatus() {
-        return this.proxySettingService.getNewStatus().then((status: ProxySettingStatus) => {
-            ipcRendererHandler.send("clickProxySettingStatus", status);
-            return status;
-        });
+    async clickProxySettingStatus() {
+        let status = await this.proxySettingService.getNewStatus();
+        return status;
     }
 
     contextmenuAutoResponderEntry(id: number) {

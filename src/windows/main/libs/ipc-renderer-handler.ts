@@ -3,14 +3,9 @@ import {CertificateStatus} from "../application/certificate/certificate-service"
 import {ProxySettingStatus} from "../application/proxy-setting/proxy-setting-service";
 
 interface Handlers {
-    "clickCertificateStatus": void;
-    "clickProxySettingStatus": void;
-    "addAutoResponderEntry": void;
 }
 
 interface Senders {
-    "clickCertificateStatus": CertificateStatus;
-    "clickProxySettingStatus": ProxySettingStatus;
 }
 
 interface SyncSenders {
