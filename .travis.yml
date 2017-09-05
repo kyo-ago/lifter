@@ -21,7 +21,7 @@ before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 script:
   - npm run build
-  - npm run dist --  --mac --win
+  - npm run dist -- --mac
 deploy:
   provider: releases
   api_key:
