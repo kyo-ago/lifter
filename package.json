@@ -91,10 +91,10 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "clean": "rm -rf ./dist ./build ./app",
-    "dist": "build",
+    "dist": "electron-builder",
     "fix": "fixpack",
     "ncu": "ncu",
-    "pack": "build --dir",
+    "pack": "electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
     "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
     "start": "NODE_ENV='development' && electron ./app --enable-logging",
