@@ -36,5 +36,5 @@ export async function ChangeProxyCommand(
             (result: string) => ParseGetwebproxyCommand(result) === stdoutResult,
         ),
     ]);
-    if (!result) throw new Error('change proxy settings error');
+    if (!result.filter((_) => _).length) throw new Error('change proxy settings error');
 }
