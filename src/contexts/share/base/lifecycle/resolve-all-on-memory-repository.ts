@@ -9,6 +9,6 @@ export abstract class ResolveAllOnMemoryRepository<
             .map((key) => Number(key))
             .sort((a, b) => a - b)
             .map((key) => this.entities[String(key)])
-            ;
+        ;
     }
 }
