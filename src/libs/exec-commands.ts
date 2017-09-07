@@ -10,7 +10,7 @@ function ExecCommand(commandPath: string, args: string[]) {
             commandPath,
             args
                 .filter((arg) => arg)
-                .map((arg) => arg.match(/[\s]/) ? `"${arg}"` : arg)
+                .map((arg) => arg.match(/\s/) ? `"${arg}"` : arg)
         )
     );
 }
