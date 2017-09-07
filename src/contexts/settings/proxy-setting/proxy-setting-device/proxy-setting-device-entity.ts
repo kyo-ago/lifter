@@ -1,12 +1,12 @@
-import {getSecureWebproxy, getWebproxy} from "../../../../libs/exec-commands";
-import {NETWORK_HOST_NAME, PROXY_PORT} from "../../../../settings";
-import {BaseEntity} from "../../../share/base/base-entity";
-import {networksetupProxy} from "../networksetup-proxy-command";
-import {ParseGetwebproxyCommand} from "../specs/parse-getwebproxy-command";
-import {ProxySettingDeviceIdentity} from "./proxy-setting-device-identity";
-import {ChangeProxyCommand} from "./specs/change-proxy-command";
-import {ProxySettingDeviceHardwarePort} from "./value-objects/proxy-setting-device-hardware-port";
-import {ProxySettingDeviceName} from "./value-objects/proxy-setting-device-name";
+import {getSecureWebproxy, getWebproxy} from '../../../../libs/exec-commands';
+import {NETWORK_HOST_NAME, PROXY_PORT} from '../../../../settings';
+import {BaseEntity} from '../../../share/base/base-entity';
+import {networksetupProxy} from '../networksetup-proxy-command';
+import {ParseGetwebproxyCommand} from '../specs/parse-getwebproxy-command';
+import {ProxySettingDeviceIdentity} from './proxy-setting-device-identity';
+import {ChangeProxyCommand} from './specs/change-proxy-command';
+import {ProxySettingDeviceHardwarePort} from './value-objects/proxy-setting-device-hardware-port';
+import {ProxySettingDeviceName} from './value-objects/proxy-setting-device-name';
 
 export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdentity> {
     constructor(
@@ -39,8 +39,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
         return ChangeProxyCommand(
             this,
-            () => networksetupProxy.setwebproxy(this.name, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            () => networksetupProxy.setsecurewebproxy(this.name, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setwebproxy(this.hardwarePort, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setsecurewebproxy(this.hardwarePort, NETWORK_HOST_NAME, String(PROXY_PORT)),
             true
         );
     }
@@ -51,8 +51,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
         return ChangeProxyCommand(
             this,
-            () => networksetupProxy.setwebproxystate(this.name, 'off'),
-            () => networksetupProxy.setsecurewebproxystate(this.name, 'off'),
+            () => networksetupProxy.setwebproxystate(this.hardwarePort, 'off'),
+            () => networksetupProxy.setsecurewebproxystate(this.hardwarePort, 'off'),
             false
         );
     }

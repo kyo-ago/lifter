@@ -1,17 +1,20 @@
-import {getSecureWebproxy, getWebproxy} from "../../../../../libs/exec-commands";
-import {PromisedSetTimeout} from "../../../../libs/promised-set-timeout";
-import {WaitFor} from "../../../../libs/wait-for";
-import {ParseGetwebproxyCommand} from "../../specs/parse-getwebproxy-command";
-import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
+import {IOResult} from 'networksetup-proxy';
+import {getSecureWebproxy, getWebproxy} from '../../../../../libs/exec-commands';
+import {throwableCommand} from '../../../../../libs/throwable-command';
+import {PromisedSetTimeout} from '../../../../libs/promised-set-timeout';
+import {WaitFor} from '../../../../libs/wait-for';
+import {ParseGetwebproxyCommand} from '../../specs/parse-getwebproxy-command';
+import {ProxySettingDeviceEntity} from '../proxy-setting-device-entity';
 
 // export for tests
 export function ChangeProxyCommandExecute(
-    setCommand: () => Promise<any>,
+    setCommand: () => Promise<IOResult>,
     getCommand: () => Promise<string>,
     checkResult: (result: string) => boolean,
 ): Promise<boolean> {
     return WaitFor<boolean>(async () => {
-        await setCommand();
+        let result = await throwableCommand(setCommand());
+        if (result) throw new Error(result);
         await PromisedSetTimeout(100);
         let stdout = await getCommand();
         return checkResult(stdout);
@@ -20,8 +23,8 @@ export function ChangeProxyCommandExecute(
 
 export async function ChangeProxyCommand(
     proxySettingDeviceEntity: ProxySettingDeviceEntity,
-    setCommand: () => Promise<any>,
-    setSecureCommand: () => Promise<any>,
+    setCommand: () => Promise<IOResult>,
+    setSecureCommand: () => Promise<IOResult>,
     stdoutResult: boolean,
 ): Promise<void> {
     let result = await Promise.all([

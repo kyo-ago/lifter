@@ -4,7 +4,7 @@ import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../settings";
 import {throwableCommand} from "./throwable-command";
 
 function ExecCommand(commandPath: string, args: string[]) {
-    return throwableCommand(execa.shell(`${commandPath} "${args.join('" "')}"`));
+    return throwableCommand(execa.shell(`${commandPath} "${args.map((arg) => (arg || '').replace(/["\\]/g, '\\$&')).join('" "')}"`));
 }
 
 export function getListnetworkserviceorder() {
