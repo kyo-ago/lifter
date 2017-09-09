@@ -1,12 +1,12 @@
 import {OutgoingHttpHeaders} from "http";
-import {PROXY_PORT} from "../../../../settings";
 import * as HttpMitmProxy from "http-mitm-proxy";
+import {PROXY_PORT} from "../../../../settings";
 
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
 
     constructor(
-        private appDataPath: string,
+        private sslCaDir: string,
     ) {
     }
 
@@ -38,7 +38,7 @@ export class ProxyService {
         this.mitmProxy.listen({
             port: PROXY_PORT,
             silent: true,
-            sslCaDir: this.appDataPath
+            sslCaDir: this.sslCaDir
         });
     }
 }

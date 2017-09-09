@@ -4,15 +4,8 @@ import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../settings";
 import {throwableCommand} from "./throwable-command";
 
 function ExecCommand(commandPath: string, args: string[]) {
-
-    return throwableCommand(
-        execa(
-            commandPath,
-            args
-                .filter((arg) => arg)
-                .map((arg) => arg.match(/\s/) ? `"${arg}"` : arg)
-        )
-    );
+    let filteredArgs = args.filter((arg) => arg).map((arg) => arg.match(/\s/) ? `"${arg}"` : arg);
+    return throwableCommand(execa(commandPath, filteredArgs));
 }
 
 export function getListnetworkserviceorder() {
@@ -36,5 +29,5 @@ export function deleteCertificate(certificateName: string) {
 }
 
 export function addTrustedCert(certificatePath: string): Promise<string> {
-    return ExecCommand(SECURITY_COMMAND, ['add-trusted-cert', certificatePath]);
+    return ExecCommand(SECURITY_COMMAND, ['import', certificatePath]);
 }

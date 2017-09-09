@@ -11,7 +11,7 @@ export interface StateToProps {
     proxySettingStatus: ProxySettingStatus,
 }
 
-let initialState: StateToProps = {
+const initialState: StateToProps = {
     autoResponderEntries: <AbstractAutoResponderEntryEntity[]>[],
     clientRequestEntries: <ClientRequestEntity[]>[],
     certificateState: "missing",
@@ -38,7 +38,7 @@ export function reducer(state = initialState, action: any): StateToProps {
         case AppActions.CLIENT_PROXY_REQUEST_EVENT:
             return {
                 ...state,
-                clientRequestEntries: state.clientRequestEntries.concat(action.clientRequestEntries),
+                clientRequestEntries: state.clientRequestEntries.concat(action.clientRequestEntity),
             };
         default:
             return state;

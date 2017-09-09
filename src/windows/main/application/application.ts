@@ -1,6 +1,4 @@
-import {remote} from 'electron';
 import {EventEmitter2} from 'eventemitter2';
-import * as Path from 'path';
 import {ClientRequestEntity} from '../../../contexts/proxy/client-request/client-request-entity';
 import {ProxyBypassDomainEntity} from "../../../contexts/proxy/proxy-bypass-domain/proxy-bypass-domain-entity";
 import {RewriteRuleEntity} from "../../../contexts/proxy/rewrite-rule/rewrite-rule-entity";
@@ -8,7 +6,6 @@ import {ShareProxyBypassDomainEntityJSON} from '../../../contexts/share/share-pr
 import {ShareRewriteRuleEntityJSON} from '../../../contexts/share/share-rewrite-rule/share-rewrite-rule-entity';
 import {HTTP_SSL_CA_DIR_PATH} from '../../../settings';
 import {windowManager} from "../../libs/get-window-manager";
-import {ipcRendererHandler} from '../libs/ipc-renderer-handler';
 import {StateToProps} from '../ui/reducer';
 import {AutoResponderService} from './auto-responder/auto-responder-service';
 import {CertificateService} from './certificate/certificate-service';
@@ -31,7 +28,6 @@ export class Application {
     public isContentRendering = false;
 
     constructor(
-        private userDataPath: string,
         private lifecycleContextService: LifecycleContextService,
     ) {
         this.autoResponderService = new AutoResponderService(
@@ -39,9 +35,9 @@ export class Application {
             this.lifecycleContextService.autoResponderEntryRepository,
         );
 
-        this.certificateService = new CertificateService(this.userDataPath);
+        this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
 
-        this.proxyService = new ProxyService(Path.join(this.userDataPath, HTTP_SSL_CA_DIR_PATH));
+        this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
 
         this.proxySettingService = new ProxySettingService(
             this.lifecycleContextService.proxySettingRepository,

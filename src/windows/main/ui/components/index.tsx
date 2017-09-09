@@ -4,7 +4,6 @@ import {ClientRequestEntity} from "../../../../contexts/proxy/client-request/cli
 import {ProjectFactory} from "../../../../contexts/proxy/project/lifecycle/project-factory";
 import {Application} from "../../application/application";
 import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
-import {ipcRendererHandler} from "../../libs/ipc-renderer-handler";
 import {Actions} from "../action";
 import {StateToProps} from "../reducer";
 import {ApplicationMenu} from "./null/application-menu";
@@ -27,12 +26,10 @@ function mapStateToProps(state: StateToProps): StateToProps {
     return state;
 }
 
-let userDataPath = ipcRendererHandler.sendSync("getUserDataPath");
 let projectFactory = new ProjectFactory();
 let projectEntity = projectFactory.create();
 let lifecycleContextService = new LifecycleContextService(projectEntity.id);
 let application = new Application(
-    userDataPath,
     lifecycleContextService,
 );
 export const App = application;

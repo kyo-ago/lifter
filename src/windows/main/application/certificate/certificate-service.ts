@@ -1,4 +1,3 @@
-import * as Path from "path";
 import {addTrustedCert, deleteCertificate, findCertificate} from "../../../../libs/exec-commands";
 
 export type CertificateStatus = "missing" | "installed";
@@ -8,9 +7,9 @@ export class CertificateService {
     private certificateName = 'NodeMITMProxyCA';
 
     constructor(
-        userDataPath: string,
+        sslCaDir: string,
     ) {
-        this.certificatePath = Path.join(userDataPath, '.http-mitm-proxy/certs/ca.pem');
+        this.certificatePath = `${sslCaDir}/certs/ca.pem`;
     }
 
     async getCurrentStatus(): Promise<CertificateStatus> {

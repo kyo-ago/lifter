@@ -24,6 +24,7 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     async getNewStatus(): Promise<ProxySettingStatus> {
         if (!this.isGranted) {
             await this.grantProxy();
+            this.isGranted = true;
             return (await this.isProxing()) ? "On" : "Off";
         }
 
