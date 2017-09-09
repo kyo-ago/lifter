@@ -37,6 +37,10 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
         }
     }
 
+    clearProxyState(): Promise<void> {
+        return this.clearProxy().then(() => undefined);
+    }
+
     private async grantProxy() {
         await throwableCommand(networksetupProxy.grant());
         return true;
@@ -56,5 +60,10 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
     private async disableProxy(): Promise<void[]> {
         let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.resolveAllEnableDevices();
         return Promise.all(proxySettingDeviceEntities.map((device) => device.disableProxy()));
+    }
+
+    private async clearProxy(): Promise<void[]> {
+        let proxySettingDeviceEntities = await this.proxySettingDeviceRepository.resolveAllEnableDevices();
+        return Promise.all(proxySettingDeviceEntities.map((device) => device.clearProxy()));
     }
 }

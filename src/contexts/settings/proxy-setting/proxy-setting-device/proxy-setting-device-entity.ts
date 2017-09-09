@@ -57,6 +57,10 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
         );
     }
 
+    clearProxy(): Promise<void> {
+        return this.disableProxy();
+    }
+
     private async isProxing(): Promise<boolean> {
         let results: string[] = await Promise.all([
             getWebproxy(this),
