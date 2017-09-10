@@ -1,20 +1,15 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Provider} from 'react-redux';
+import {Index} from "./components/index";
 import {configureStore} from './store';
-import {Index, App} from "./components/index";
 
 export async function render(container: Element | null) {
-    let stateToProps = await App.getRender();
-
-    const store = configureStore(stateToProps);
+    const store = configureStore();
     ReactDOM.render(
         <Provider store={store}>
             <Index />
         </Provider>,
         container,
-        () => {
-            App.isContentRendering = true;
-        },
     );
 }

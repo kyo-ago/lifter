@@ -1,7 +1,7 @@
 import {createStore} from "redux";
 import {reducer, StateToProps} from "./reducer";
 
-export function configureStore(preloadedState?: StateToProps) {
-    const store = createStore(reducer, preloadedState);
+export function configureStore() {
+    const store = createStore(reducer);
     return store;
 }

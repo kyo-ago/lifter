@@ -18,6 +18,7 @@ interface WindowManager {
     sharedData: {
         fetch: <K extends keyof StoreDateKeyMap>(key: K) => StoreDateKeyMap[K];
         set: <K extends keyof StoreDateKeyMap>(key: K, jsons: StoreDateKeyMap[K]) => void;
+        watch: (name: string, callback: (props: any, action: string, newValue: any, oldValue: any) => void) => void;
     };
     bridge: {
         on: <K extends keyof BridgeDateKeyMap>(key: K, callback: (jsons: BridgeDateKeyMap[K]) => void) => void;

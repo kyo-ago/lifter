@@ -12,6 +12,14 @@ export type AutoResponderEntryType = "File" | "Directory" | "Glob";
 
 export type AbstractAutoResponderEntryEntity = AutoResponderEntryEntity<AutoResponderEntryPattern, AutoResponderEntryPath>;
 
+export interface AutoResponderEntryEntityJSON {
+    id: number;
+    type: AutoResponderEntryType;
+    pattern: string;
+    path: string;
+    projectId: number;
+}
+
 export abstract class AutoResponderEntryEntity<
         Pattern extends AutoResponderEntryPattern,
         Path extends AutoResponderEntryPath

@@ -2,12 +2,14 @@ import {OutgoingHttpHeaders} from "http";
 import {HTTP_SSL_CA_DIR_PATH} from "../../settings";
 import {LifecycleContextService} from "./lifecycle-context-service";
 import {ProxyService} from "./proxy/proxy-service";
-import {WindowManagerService} from "./WindowManager/WindowManagerService";
+import {WindowManagerService} from "./window-manager/window-manager-service";
 import {ipcMain} from "electron";
+import {CertificateService} from "./certificate/certificate-service";
 
 export class Application {
     private proxyService: ProxyService;
     private windowManagerService: WindowManagerService;
+    private certificateService: CertificateService;
 
     constructor(
         private lifecycleContextService: LifecycleContextService,
@@ -19,6 +21,8 @@ export class Application {
             this.lifecycleContextService.proxyBypassDomainFactory,
             this.lifecycleContextService.proxyBypassDomainRepository,
         );
+
+        this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
     }
 
     async load() {
@@ -26,6 +30,9 @@ export class Application {
         this.windowManagerService.load();
         ipcMain.on('openProxyBypassDomainSettingWindow', () => this.windowManagerService.openProxyBypassDomainSettingWindow());
         ipcMain.on('openRewriteRuleSettingWindow', () => this.windowManagerService.openRewriteRuleSettingWindow());
+        ipcMain.on('getNewCertificateStatus', async (event: any) => {
+            event.returnValue = await this.certificateService.getNewStatus();
+        });
     }
 
     start() {

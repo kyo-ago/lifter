@@ -4,7 +4,10 @@ import {ProjectIdentity} from "../../project/project-identity";
 import {AutoResponderEntryDirectoryEntity} from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
 import {AutoResponderEntryDirectoryPath} from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path";
 import {AutoResponderEntryDirectoryPattern} from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-pattern";
-import {AbstractAutoResponderEntryEntity, AutoResponderEntryType} from "../auto-responder-entry-entity";
+import {
+    AbstractAutoResponderEntryEntity, AutoResponderEntryEntityJSON,
+    AutoResponderEntryType
+} from "../auto-responder-entry-entity";
 import {AutoResponderEntryFileEntity} from "../auto-responder-entry-file/auto-responder-entry-file-entity";
 import {AutoResponderEntryFilePath} from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
 import {AutoResponderEntryFilePattern} from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-pattern";
@@ -16,6 +19,36 @@ import {AutoResponderEntryIdentity} from "../auto-responder-entry-identity";
 export class AutoResponderEntryFactory {
     private identity = 0;
     constructor(private projectIdentity: ProjectIdentity) {}
+
+    static fromJSON(autoResponderEntryEntityJSON: AutoResponderEntryEntityJSON) {
+        if (autoResponderEntryEntityJSON.type === "File") {
+            return new AutoResponderEntryFileEntity(
+                new AutoResponderEntryIdentity(autoResponderEntryEntityJSON.id),
+                "File",
+                new AutoResponderEntryFilePattern(autoResponderEntryEntityJSON.pattern),
+                new AutoResponderEntryFilePath(autoResponderEntryEntityJSON.path),
+                this.projectIdentity,
+            );
+        } else if (autoResponderEntryEntityJSON.type === "Directory") {
+            return new AutoResponderEntryDirectoryEntity(
+                new AutoResponderEntryIdentity(autoResponderEntryEntityJSON.id),
+                "Directory",
+                AutoResponderEntryDirectoryPattern.createSafeValue(autoResponderEntryEntityJSON.pattern),
+                new AutoResponderEntryDirectoryPath(autoResponderEntryEntityJSON.path),
+                this.projectIdentity,
+            );
+        } else if (autoResponderEntryEntityJSON.type === "Glob") {
+            return new AutoResponderEntryGlobEntity(
+                new AutoResponderEntryIdentity(autoResponderEntryEntityJSON.id),
+                "Glob",
+                new AutoResponderEntryGlobPattern(autoResponderEntryEntityJSON.pattern),
+                new AutoResponderEntryAnyPath(autoResponderEntryEntityJSON.path),
+                this.projectIdentity,
+            );
+        } else {
+            throw new Error(`Invalid type, type = "${type}"`);
+        }
+    }
 
     create(type: AutoResponderEntryType, pattern: string, path: string): AbstractAutoResponderEntryEntity {
         if (type === "File") {

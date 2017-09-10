@@ -1,67 +1,60 @@
 import {ipcRenderer} from "electron";
-import {EventEmitter2} from 'eventemitter2';
-import {ClientRequestEntity} from '../../../../domains/proxy/client-request/client-request-entity';
-import {HTTP_SSL_CA_DIR_PATH} from '../../../../settings';
-import {StateToProps} from '../ui/reducer';
-import {AutoResponderService} from './auto-responder/auto-responder-service';
-import {CertificateService} from './certificate/certificate-service';
-import {ConnectionService} from './connection-service/connection-service';
+import {AbstractAutoResponderEntryEntity} from "../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {
+    ClientRequestEntity,
+    ClientRequestEntityJSON
+} from '../../../../domains/proxy/client-request/client-request-entity';
+import {ProxySettingStatus} from "../../../../domains/settings/proxy-setting/proxy-setting-entity";
+import {CertificateStatus} from '../../../main/certificate/certificate-service';
 import {ContextMenuService} from './context-menu/context-menu-service';
-import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
+import {ClientRequestFactory} from "../../../../domains/proxy/client-request/lifecycle/client-request-factory";
 
 export class Application {
-    private eventEmitter = new EventEmitter2();
-
-    private autoResponderService: AutoResponderService;
-    private certificateService: CertificateService;
-    private connectionService: ConnectionService;
-    private contextMenuService: ContextMenuService;
-
     public isContentRendering = false;
+    private contextMenuService = new ContextMenuService();
 
-    constructor(
-        private lifecycleContextService: LifecycleContextService,
-    ) {
-        this.autoResponderService = new AutoResponderService(
-            this.lifecycleContextService.autoResponderEntryFactory,
-            this.lifecycleContextService.autoResponderEntryRepository,
-        );
-
-        this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
-
-        this.connectionService = new ConnectionService(
-            this.lifecycleContextService.clientRequestRepository,
-            this.lifecycleContextService.autoResponderEntryRepository,
-            this.lifecycleContextService.rewriteRuleRepository,
-        );
-
-        this.contextMenuService = new ContextMenuService();
-    }
-
-    fileDrop(files: File[]) {
-        return this.autoResponderService.addFiles(files);
+    addDropFiles(files: File[]) {
+        ipcRenderer.send("addDropFiles", files);
     }
 
     selectDialogEntry(fileNames: string[]) {
-        return this.autoResponderService.addPaths(fileNames);
+        ipcRenderer.send("selectDialogEntry", fileNames);
     }
 
-    async clickCertificateStatus() {
-        let status = await this.certificateService.getNewStatus();
-        return status;
+    clickCertificateStatus() {
+        ipcRenderer.send("setNewCertificateStatus");
     }
 
-    async clickProxySettingStatus() {
-        let status = await this.lifecycleContextService.proxySettingRepository.getProxySetting().getNewStatus();
-        return status;
+    clickProxySettingStatus() {
+        ipcRenderer.send("setNewProxySettingStatus");
     }
 
     contextmenuAutoResponderEntry(id: number) {
         this.contextMenuService.contextmenuAutoResponderEntry(id);
     }
 
-    setOnProxyRequestEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        this.eventEmitter.addListener("onRequest", callback);
+    setOnUpdateAutoResponderEntryEvent(callback: (autoResponderEntry: AbstractAutoResponderEntryEntity) => void) {
+        ipcRenderer.on('addAutoResponderEntry', (autoResponderEntryJSON: any) => {
+            callback(autoResponderEntryJSON);
+        });
+    }
+
+    setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {
+        ipcRenderer.on('addClientRequestEntity', (clientRequestEntityJSON: ClientRequestEntityJSON) => {
+            callback(ClientRequestFactory.fromJSON(clientRequestEntityJSON));
+        });
+    }
+
+    setOnUpdateCertificateStatusEvent(callback: (certificateStatus: CertificateStatus) => void) {
+            ipcRenderer.on('updateCertificateStatus', (certificateStatus: CertificateStatus) => {
+                callback(certificateStatus);
+            });
+    }
+
+    setOnUpdateProxySettingStatusEvent(callback: (proxySettingStatus: ProxySettingStatus) => void) {
+        ipcRenderer.on('updateProxySettingStatus', (proxySettingStatus: ProxySettingStatus) => {
+            callback(proxySettingStatus);
+        });
     }
 
     openRewriteRuleSettingWindow() {
@@ -70,15 +63,6 @@ export class Application {
 
     openProxyBypassDomainSettingWindow() {
         ipcRenderer.send('openProxyBypassDomainSettingWindow');
-    }
-
-    async getRender(): Promise<StateToProps> {
-        return {
-            autoResponderEntries: this.lifecycleContextService.autoResponderEntryRepository.resolveAll(),
-            clientRequestEntries: [...this.lifecycleContextService.clientRequestRepository.resolveAll()].reverse(),
-            certificateState: await this.certificateService.getCurrentStatus(),
-            proxySettingStatus: await this.lifecycleContextService.proxySettingRepository.getProxySetting().getCurrentStatus(),
-        };
     }
 
     initialize(global: Window) {

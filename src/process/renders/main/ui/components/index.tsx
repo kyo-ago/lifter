@@ -1,9 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {AbstractAutoResponderEntryEntity} from "../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../../../../../domains/proxy/client-request/client-request-entity";
-import {ProjectFactory} from "../../../../../domains/proxy/project/lifecycle/project-factory";
+import {ProxySettingStatus} from "../../../../../domains/settings/proxy-setting/proxy-setting-entity";
+import {CertificateStatus} from "../../../../main/certificate/certificate-service";
 import {Application} from "../../application/application";
-import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
 import {Actions} from "../action";
 import {StateToProps} from "../reducer";
 import {ApplicationMenu} from "./null/application-menu";
@@ -22,19 +23,6 @@ class AppComponent extends React.Component<GlobalProps, any> {
     }
 }
 
-function mapStateToProps(state: StateToProps): StateToProps {
-    return state;
-}
-
-let projectFactory = new ProjectFactory();
-let projectEntity = projectFactory.create();
-let lifecycleContextService = new LifecycleContextService(projectEntity.id);
-let application = new Application(
-    lifecycleContextService,
-);
-export const App = application;
-(window as any).application = application;
-
 interface DispathProps {
     fileDrop: (files: File[]) => void;
     selectDialogEntry: (fileNames: string[]) => void;
@@ -45,30 +33,41 @@ interface DispathProps {
     openProxyBypassDomainSettingWindow: () => void;
 }
 
-export interface GlobalProps extends DispathProps, StateToProps {}
+export type GlobalProps = DispathProps & StateToProps;
+
+let application = new Application();
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     application.initialize(window);
 
-    application.setOnProxyRequestEvent((clientRequestEntity: ClientRequestEntity) => {
+    application.setOnUpdateAutoResponderEntryEvent((autoResponderEntry: AbstractAutoResponderEntryEntity) => {
+        dispatch(Actions.addAutoResponder([autoResponderEntry]));
+    });
+
+    application.setOnUpdateClientRequestEntityEvent((clientRequestEntity: ClientRequestEntity) => {
         dispatch(Actions.clientProxyRequestEvent(clientRequestEntity));
     });
+
+    application.setOnUpdateCertificateStatusEvent((certificateStatus: CertificateStatus) => {
+        dispatch(Actions.clickCertificateStatus(certificateStatus));
+    });
+
+    application.setOnUpdateProxySettingStatusEvent((proxySettingStatus: ProxySettingStatus) => {
+        dispatch(Actions.clickProxySettingStatus(proxySettingStatus));
+    });
+
     return {
-        async fileDrop(files: File[]) {
-            let autoResponderEntryEntities = await application.fileDrop(files);
-            dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
+        fileDrop(files: File[]) {
+            application.addDropFiles(files);
         },
-        async selectDialogEntry(fileNames: string[]) {
-            let autoResponderEntryEntities = await application.selectDialogEntry(fileNames);
-            dispatch(Actions.addAutoResponder(autoResponderEntryEntities));
+        selectDialogEntry(fileNames: string[]) {
+            application.selectDialogEntry(fileNames);
         },
-        async clickCertificateStatus() {
-            let status = await application.clickCertificateStatus();
-            dispatch(Actions.clickCertificateStatus(status));
+        clickCertificateStatus() {
+            application.clickCertificateStatus();
         },
-        async clickProxySettingStatus() {
-            let status = await application.clickProxySettingStatus();
-            dispatch(Actions.clickProxySettingStatus(status));
+        clickProxySettingStatus() {
+            application.clickProxySettingStatus();
         },
         contextmenuAutoResponderEntry(id: number) {
             application.contextmenuAutoResponderEntry(id);
@@ -83,6 +82,6 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
 }
 
 export const Index = connect(
-    mapStateToProps,
+    (state: StateToProps) => state,
     mapDispatchToProps,
 )(AppComponent);
