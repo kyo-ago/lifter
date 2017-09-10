@@ -1,28 +1,16 @@
-import * as windowManager from "@kyo-ago/electron-window-manager";
 import {app} from "electron";
-import {ProxySettingFactory} from "./contexts/settings/proxy-setting/lifecycle/proxy-setting-factory";
-import {ProxySettingRepository} from "./contexts/settings/proxy-setting/lifecycle/proxy-setting-repository";
-import {ProxySettingDeviceFactory} from "./contexts/settings/proxy-setting/proxy-setting-device/lifecycle/proxy-setting-device-factory";
-import {ProxySettingDeviceRepository} from "./contexts/settings/proxy-setting/proxy-setting-device/lifecycle/proxy-setting-device-repository";
-import {APPLICATION_NAME, WindowManagerInit} from "./settings";
+import {ProjectFactory} from "./domains/proxy/project/lifecycle/project-factory";
+import {Application} from "./process/main/application";
+import {LifecycleContextService} from "./process/main/lifecycle-context-service";
 
-windowManager.init(WindowManagerInit);
-
-let createWindow = () => {
-    windowManager.open('mainWindow', APPLICATION_NAME, '/index.html', 'default', {
-        file: 'main-window-state.json',
-    });
-};
-
-app.on('ready', createWindow);
+app.on('ready', () => application.createWindow());
 app.on('window-all-closed', async () => {
-    let proxySettingRepository = new ProxySettingRepository(
-        new ProxySettingFactory(),
-        new ProxySettingDeviceRepository(new ProxySettingDeviceFactory()),
-    );
-    await proxySettingRepository.loadEntities();
-    let proxySettingEntity = proxySettingRepository.getProxySetting();
-    await proxySettingEntity.clearProxyState();
+    await application.stopProxy();
     app.quit();
 });
-app.on('activate', () => windowManager.get('mainWindow') || createWindow());
+app.on('activate', () => application.createWindow());
+
+let application = new Application(
+    new LifecycleContextService((new ProjectFactory()).create().id),
+);
+application.load().then(() => application.start());

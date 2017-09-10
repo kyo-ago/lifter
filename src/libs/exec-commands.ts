@@ -1,5 +1,5 @@
 import * as execa from "execa";
-import {ProxySettingDeviceEntity} from "../contexts/settings/proxy-setting/proxy-setting-device/proxy-setting-device-entity";
+import {ProxySettingDeviceEntity} from "../domains/settings/proxy-setting/proxy-setting-device/proxy-setting-device-entity";
 import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../settings";
 import {throwableCommand} from "./throwable-command";
 
