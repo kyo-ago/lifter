@@ -1,13 +1,17 @@
 import {ipcRenderer} from "electron";
-import {AbstractAutoResponderEntryEntity} from "../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {
+    AbstractAutoResponderEntryEntity,
+    AutoResponderEntryEntityJSON
+} from "../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {AutoResponderEntryFactory} from "../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory";
 import {
     ClientRequestEntity,
     ClientRequestEntityJSON
 } from '../../../../domains/proxy/client-request/client-request-entity';
+import {ClientRequestFactory} from "../../../../domains/proxy/client-request/lifecycle/client-request-factory";
 import {ProxySettingStatus} from "../../../../domains/settings/proxy-setting/proxy-setting-entity";
 import {CertificateStatus} from '../../../main/certificate/certificate-service';
 import {ContextMenuService} from './context-menu/context-menu-service';
-import {ClientRequestFactory} from "../../../../domains/proxy/client-request/lifecycle/client-request-factory";
 
 export class Application {
     public isContentRendering = false;
@@ -34,8 +38,8 @@ export class Application {
     }
 
     setOnUpdateAutoResponderEntryEvent(callback: (autoResponderEntry: AbstractAutoResponderEntryEntity) => void) {
-        ipcRenderer.on('addAutoResponderEntry', (autoResponderEntryJSON: any) => {
-            callback(autoResponderEntryJSON);
+        ipcRenderer.on('addAutoResponderEntry', (autoResponderEntryJSON: AutoResponderEntryEntityJSON) => {
+            callback(AutoResponderEntryFactory.fromJSON(autoResponderEntryJSON));
         });
     }
 

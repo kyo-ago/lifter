@@ -27,7 +27,7 @@ export class AutoResponderEntryFactory {
                 "File",
                 new AutoResponderEntryFilePattern(autoResponderEntryEntityJSON.pattern),
                 new AutoResponderEntryFilePath(autoResponderEntryEntityJSON.path),
-                this.projectIdentity,
+                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
             );
         } else if (autoResponderEntryEntityJSON.type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
@@ -35,7 +35,7 @@ export class AutoResponderEntryFactory {
                 "Directory",
                 AutoResponderEntryDirectoryPattern.createSafeValue(autoResponderEntryEntityJSON.pattern),
                 new AutoResponderEntryDirectoryPath(autoResponderEntryEntityJSON.path),
-                this.projectIdentity,
+                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
             );
         } else if (autoResponderEntryEntityJSON.type === "Glob") {
             return new AutoResponderEntryGlobEntity(
@@ -43,10 +43,10 @@ export class AutoResponderEntryFactory {
                 "Glob",
                 new AutoResponderEntryGlobPattern(autoResponderEntryEntityJSON.pattern),
                 new AutoResponderEntryAnyPath(autoResponderEntryEntityJSON.path),
-                this.projectIdentity,
+                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
             );
         } else {
-            throw new Error(`Invalid type, type = "${type}"`);
+            throw new Error(`Invalid type, type = "${autoResponderEntryEntityJSON.type}"`);
         }
     }
 

@@ -30,8 +30,15 @@ export class Application {
         this.windowManagerService.load();
         ipcMain.on('openProxyBypassDomainSettingWindow', () => this.windowManagerService.openProxyBypassDomainSettingWindow());
         ipcMain.on('openRewriteRuleSettingWindow', () => this.windowManagerService.openRewriteRuleSettingWindow());
-        ipcMain.on('getNewCertificateStatus', async (event: any) => {
-            event.returnValue = await this.certificateService.getNewStatus();
+        ipcMain.on('addDropFiles', (event: any) => {
+        });
+        ipcMain.on('selectDialogEntry', (event: any) => {
+        });
+        ipcMain.on('setNewCertificateStatus', async (event: any) => {
+            let newStatus = await this.certificateService.getNewStatus();
+            event.sender.send('updateCertificateStatus', newStatus);
+        });
+        ipcMain.on('setNewProxySettingStatus', (event: any) => {
         });
     }
 
