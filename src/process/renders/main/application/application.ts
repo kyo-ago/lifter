@@ -1,4 +1,3 @@
-import {ipcRenderer} from "electron";
 import {
     AbstractAutoResponderEntryEntity,
     AutoResponderEntryEntityJSON
@@ -10,6 +9,7 @@ import {
 } from '../../../../domains/proxy/client-request/client-request-entity';
 import {ClientRequestFactory} from "../../../../domains/proxy/client-request/lifecycle/client-request-factory";
 import {ProxySettingStatus} from "../../../../domains/settings/proxy-setting/proxy-setting-entity";
+import {ipc} from "../../../../libs/ipc";
 import {CertificateStatus} from '../../../main/certificate/certificate-service';
 import {ContextMenuService} from './context-menu/context-menu-service';
 
@@ -17,56 +17,41 @@ export class Application {
     public isContentRendering = false;
     private contextMenuService = new ContextMenuService();
 
-    addDropFiles(files: File[]) {
-        ipcRenderer.send("addDropFiles", files);
+    async addDropFiles(files: File[]): Promise<AbstractAutoResponderEntryEntity[]> {
+        let paths = files.map((file) => (<any>file).path);
+        let jsons: AutoResponderEntryEntityJSON[] = await ipc.publish("addAutoResponderEntryEntities", paths);
+        return jsons.map((json) => AutoResponderEntryFactory.fromJSON(json));
     }
 
-    selectDialogEntry(fileNames: string[]) {
-        ipcRenderer.send("selectDialogEntry", fileNames);
+    async selectDialogEntry(fileNames: string[]): Promise<AbstractAutoResponderEntryEntity[]> {
+        let jsons: AutoResponderEntryEntityJSON[] = await ipc.publish("addAutoResponderEntryEntities", fileNames);
+        return jsons.map((json) => AutoResponderEntryFactory.fromJSON(json));
     }
 
-    clickCertificateStatus() {
-        ipcRenderer.send("setNewCertificateStatus");
+    clickCertificateStatus(): Promise<CertificateStatus> {
+        return ipc.publish("setNewCertificateStatus");
     }
 
-    clickProxySettingStatus() {
-        ipcRenderer.send("setNewProxySettingStatus");
+    clickProxySettingStatus(): Promise<ProxySettingStatus> {
+        return ipc.publish("setNewProxySettingStatus");
     }
 
     contextmenuAutoResponderEntry(id: number) {
         this.contextMenuService.contextmenuAutoResponderEntry(id);
     }
 
-    setOnUpdateAutoResponderEntryEvent(callback: (autoResponderEntry: AbstractAutoResponderEntryEntity) => void) {
-        ipcRenderer.on('addAutoResponderEntry', (autoResponderEntryJSON: AutoResponderEntryEntityJSON) => {
-            callback(AutoResponderEntryFactory.fromJSON(autoResponderEntryJSON));
-        });
-    }
-
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        ipcRenderer.on('addClientRequestEntity', (clientRequestEntityJSON: ClientRequestEntityJSON) => {
+        ipc.on('addClientRequestEntity', (clientRequestEntityJSON: ClientRequestEntityJSON) => {
             callback(ClientRequestFactory.fromJSON(clientRequestEntityJSON));
         });
     }
 
-    setOnUpdateCertificateStatusEvent(callback: (certificateStatus: CertificateStatus) => void) {
-            ipcRenderer.on('updateCertificateStatus', (certificateStatus: CertificateStatus) => {
-                callback(certificateStatus);
-            });
-    }
-
-    setOnUpdateProxySettingStatusEvent(callback: (proxySettingStatus: ProxySettingStatus) => void) {
-        ipcRenderer.on('updateProxySettingStatus', (proxySettingStatus: ProxySettingStatus) => {
-            callback(proxySettingStatus);
-        });
-    }
-
     openRewriteRuleSettingWindow() {
-        ipcRenderer.send('openRewriteRuleSettingWindow');
+        ipc.publish('openRewriteRuleSettingWindow');
     }
 
     openProxyBypassDomainSettingWindow() {
-        ipcRenderer.send('openProxyBypassDomainSettingWindow');
+        ipc.publish('openProxyBypassDomainSettingWindow');
     }
 
     initialize(global: Window) {

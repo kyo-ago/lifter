@@ -36,6 +36,16 @@ export abstract class AutoResponderEntryEntity<
 
     abstract getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderParam | null>;
 
+    get json(): AutoResponderEntryEntityJSON {
+        return {
+            id: this.id,
+            type: this.type,
+            pattern: this.pattern.value,
+            path: this.path.value,
+            projectId: this.projectIdentity.getValue(),
+        };
+    }
+
     protected async filePathToLocalFileResponderParam(filePath: AutoResponderEntryFilePath): Promise<LocalFileResponderParam | null> {
         let stats;
         try {

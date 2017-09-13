@@ -1,10 +1,12 @@
 import {OutgoingHttpHeaders} from "http";
+import {AutoResponderEntryEntityJSON} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {ProxySettingStatus} from "../../domains/settings/proxy-setting/proxy-setting-entity";
+import {ipc} from "../../libs/ipc";
 import {HTTP_SSL_CA_DIR_PATH} from "../../settings";
+import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
 import {LifecycleContextService} from "./lifecycle-context-service";
 import {ProxyService} from "./proxy/proxy-service";
 import {WindowManagerService} from "./window-manager/window-manager-service";
-import {ipcMain} from "electron";
-import {CertificateService} from "./certificate/certificate-service";
 
 export class Application {
     private proxyService: ProxyService;
@@ -28,18 +30,27 @@ export class Application {
     async load() {
         await this.lifecycleContextService.load();
         this.windowManagerService.load();
-        ipcMain.on('openProxyBypassDomainSettingWindow', () => this.windowManagerService.openProxyBypassDomainSettingWindow());
-        ipcMain.on('openRewriteRuleSettingWindow', () => this.windowManagerService.openRewriteRuleSettingWindow());
-        ipcMain.on('addDropFiles', (event: any) => {
+        ipc.on('addAutoResponderEntryEntities', async (filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
+            let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
+            let autoResponderEntryEntities = await Promise.all(filePromises);
+            this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+            return autoResponderEntryEntities.map((autoResponderEntryEntity) => autoResponderEntryEntity.json);
         });
-        ipcMain.on('selectDialogEntry', (event: any) => {
+        ipc.on('setNewCertificateStatus', (): Promise<CertificateStatus> => {
+            return this.certificateService.getNewStatus();
         });
-        ipcMain.on('setNewCertificateStatus', async (event: any) => {
-            let newStatus = await this.certificateService.getNewStatus();
-            event.sender.send('updateCertificateStatus', newStatus);
+        ipc.on('setNewProxySettingStatus', (): Promise<ProxySettingStatus> => {
+            let proxySettingEntity = this.lifecycleContextService.proxySettingRepository.getProxySetting();
+            return proxySettingEntity.getNewStatus();
         });
-        ipcMain.on('setNewProxySettingStatus', (event: any) => {
-        });
+        ipc.on(
+            'openProxyBypassDomainSettingWindow',
+            () => this.windowManagerService.openProxyBypassDomainSettingWindow()
+        );
+        ipc.on(
+            'openRewriteRuleSettingWindow',
+            () => this.windowManagerService.openRewriteRuleSettingWindow()
+        );
     }
 
     start() {

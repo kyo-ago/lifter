@@ -1,9 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {AbstractAutoResponderEntryEntity} from "../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import {ClientRequestEntity} from "../../../../../domains/proxy/client-request/client-request-entity";
-import {ProxySettingStatus} from "../../../../../domains/settings/proxy-setting/proxy-setting-entity";
-import {CertificateStatus} from "../../../../main/certificate/certificate-service";
 import {Application} from "../../application/application";
 import {Actions} from "../action";
 import {StateToProps} from "../reducer";
@@ -40,34 +37,26 @@ let application = new Application();
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     application.initialize(window);
 
-    application.setOnUpdateAutoResponderEntryEvent((autoResponderEntry: AbstractAutoResponderEntryEntity) => {
-        dispatch(Actions.addAutoResponder([autoResponderEntry]));
-    });
-
     application.setOnUpdateClientRequestEntityEvent((clientRequestEntity: ClientRequestEntity) => {
         dispatch(Actions.clientProxyRequestEvent(clientRequestEntity));
     });
 
-    application.setOnUpdateCertificateStatusEvent((certificateStatus: CertificateStatus) => {
-        dispatch(Actions.clickCertificateStatus(certificateStatus));
-    });
-
-    application.setOnUpdateProxySettingStatusEvent((proxySettingStatus: ProxySettingStatus) => {
-        dispatch(Actions.clickProxySettingStatus(proxySettingStatus));
-    });
-
     return {
-        fileDrop(files: File[]) {
-            application.addDropFiles(files);
+        async fileDrop(files: File[]) {
+            let autoResponderEntries = await application.addDropFiles(files);
+            dispatch(Actions.addAutoResponder(autoResponderEntries));
         },
-        selectDialogEntry(fileNames: string[]) {
-            application.selectDialogEntry(fileNames);
+        async selectDialogEntry(fileNames: string[]) {
+            let autoResponderEntries = await application.selectDialogEntry(fileNames);
+            dispatch(Actions.addAutoResponder(autoResponderEntries));
         },
-        clickCertificateStatus() {
-            application.clickCertificateStatus();
+        async clickCertificateStatus() {
+            let certificateStatus = await application.clickCertificateStatus();
+            dispatch(Actions.clickCertificateStatus(certificateStatus));
         },
-        clickProxySettingStatus() {
-            application.clickProxySettingStatus();
+        async clickProxySettingStatus() {
+            let proxySettingStatus = await application.clickProxySettingStatus();
+            dispatch(Actions.clickProxySettingStatus(proxySettingStatus));
         },
         contextmenuAutoResponderEntry(id: number) {
             application.contextmenuAutoResponderEntry(id);
