@@ -8,6 +8,7 @@ import {RewriteRuleEntity} from '../../../domains/proxy/rewrite-rule/rewrite-rul
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
+import {ipc} from "../../../libs/ipc";
 
 export class WindowManagerService {
     constructor(
@@ -18,13 +19,15 @@ export class WindowManagerService {
     ) {
     }
 
-    createWindow() {
-        if (windowManager.get('mainWindow')) {
+    createMainWindow() {
+        let name = 'mainWindow';
+        if (windowManager.get(name)) {
             return;
         }
-        windowManager.open('mainWindow', APPLICATION_NAME, '/index.html', 'default', {
+        windowManager.open(name, APPLICATION_NAME, '/index.html', 'default', {
             file: 'main-window-state.json',
         });
+        this.registerWindow(name);
     }
 
     load() {
@@ -45,9 +48,11 @@ export class WindowManagerService {
             .resolveAll()
             .map((entity: ProxyBypassDomainEntity) => entity.json)
         ;
+
         windowManager.sharedData.set('mainProxyBypassDomains', allEntities);
+        let name  = 'proxyBypassDomainSettingWindow';
         windowManager.open(
-            'proxyBypassDomainSettingWindow',
+            name,
             'Proxy bypass domain setting',
             '/proxy-bypass-domain-setting-window.html',
             'default',
@@ -56,6 +61,7 @@ export class WindowManagerService {
                 parent: windowManager.get('mainWindow'),
             }
         );
+        this.registerWindow(name);
     }
 
     openRewriteRuleSettingWindow() {
@@ -65,8 +71,9 @@ export class WindowManagerService {
         ;
 
         windowManager.sharedData.set('mainRewriteRules', allRewriteRules);
+        let name  = 'rewriteRuleSettingWindow';
         windowManager.open(
-            'rewriteRuleSettingWindow',
+            name,
             'Rewrite rule setting',
             '/rewrite-rule-setting-window.html',
             'default',
@@ -75,5 +82,12 @@ export class WindowManagerService {
                 parent: windowManager.get('mainWindow'),
             }
         );
+        this.registerWindow(name);
+    }
+
+    private registerWindow(name: string) {
+        let window = windowManager.get(name);
+        ipc.addWindow(window);
+        window.object.on('closed', () => ipc.removeWindow(window));
     }
 }

@@ -37,24 +37,24 @@ export class Application {
     async load() {
         await this.lifecycleContextService.load();
         this.windowManagerService.load();
-        ipc.on('addAutoResponderEntryEntities', async (filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
+        ipc.subscribe('addAutoResponderEntryEntities', async (filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
             let autoResponderEntryEntities = await Promise.all(filePromises);
             this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
             return autoResponderEntryEntities.map((autoResponderEntryEntity) => autoResponderEntryEntity.json);
         });
-        ipc.on('setNewCertificateStatus', (): Promise<CertificateStatus> => {
+        ipc.subscribe('setNewCertificateStatus', (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
         });
-        ipc.on('setNewProxySettingStatus', (): Promise<ProxySettingStatus> => {
+        ipc.subscribe('setNewProxySettingStatus', (): Promise<ProxySettingStatus> => {
             let proxySettingEntity = this.lifecycleContextService.proxySettingRepository.getProxySetting();
             return proxySettingEntity.getNewStatus();
         });
-        ipc.on(
+        ipc.subscribe(
             'openProxyBypassDomainSettingWindow',
             () => this.windowManagerService.openProxyBypassDomainSettingWindow()
         );
-        ipc.on(
+        ipc.subscribe(
             'openRewriteRuleSettingWindow',
             () => this.windowManagerService.openRewriteRuleSettingWindow()
         );
@@ -73,7 +73,7 @@ export class Application {
     }
 
     createWindow() {
-        this.windowManagerService.createWindow();
+        this.windowManagerService.createMainWindow();
     }
 
     stopProxy(): Promise<void> {
