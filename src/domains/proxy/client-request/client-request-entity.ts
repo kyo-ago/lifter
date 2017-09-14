@@ -1,6 +1,6 @@
-import {BaseEntity} from "../../share/base/base-entity";
-import {ClientRequestIdentity} from "./client-request-identity";
-import {ClientRequestUrl} from "./value-objects/client-request-url";
+import {BaseEntity} from '../../share/base/base-entity';
+import {ClientRequestIdentity} from './client-request-identity';
+import {ClientRequestUrl} from './value-objects/client-request-url';
 
 export interface ClientRequestEntityJSON {
     id: number;
@@ -21,5 +21,12 @@ export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
 
     get pathname() {
         return this._url.value;
+    }
+
+    get json(): ClientRequestEntityJSON {
+        return {
+            id: this.id,
+            url: this._url.value,
+        };
     }
 }

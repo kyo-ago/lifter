@@ -1,5 +1,5 @@
-import {remote} from "electron";
-import {AutoResponderEntryIdentity} from "../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import {remote} from 'electron';
+import {AutoResponderEntryIdentity} from '../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity';
 
 const Menu = remote.Menu;
 const MenuItem = remote.MenuItem;

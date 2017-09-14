@@ -1,6 +1,6 @@
-import * as React from "react";
-import {ClientRequestEntity} from "../../../../../../domains/proxy/client-request/client-request-entity";
-import {GlobalProps} from "../index";
+import * as React from 'react';
+import {ClientRequestEntity} from '../../../../../../domains/proxy/client-request/client-request-entity';
+import {GlobalProps} from '../index';
 
 export class ClientRequestBox extends React.Component<GlobalProps, {}> {
     render() {

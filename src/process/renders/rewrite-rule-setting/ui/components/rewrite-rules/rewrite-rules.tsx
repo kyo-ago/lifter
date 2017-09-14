@@ -1,7 +1,7 @@
-import * as React from "react";
-import {RewriteRuleEntity} from "../../../../../../domains/settings/rewrite-rule/rewrite-rule-entity";
-import {GlobalProps} from "../index";
-import {RewriteRuleRow} from "./rewrite-rule-row";
+import * as React from 'react';
+import {RewriteRuleEntity} from '../../../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import {GlobalProps} from '../index';
+import {RewriteRuleRow} from './rewrite-rule-row';
 
 export class RewriteRules extends React.Component<GlobalProps, {}> {
     onClick(rewriteRule: RewriteRuleEntity, event: React.MouseEvent<HTMLTableRowElement>) {

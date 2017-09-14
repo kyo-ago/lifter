@@ -1,5 +1,5 @@
-import {AutoResponderEntryFactory} from "../../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory";
-import {AutoResponderEntryRepository} from "../../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
+import {AutoResponderEntryFactory} from '../../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory';
+import {AutoResponderEntryRepository} from '../../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty';
 
 export class AutoResponderService {
     constructor(

@@ -1,8 +1,8 @@
-import {AbstractAutoResponderEntryEntity} from "../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import {ClientRequestEntity} from "../../../../domains/proxy/client-request/client-request-entity";
-import {CertificateStatus} from "../../../main/certificate/certificate-service";
-import {ProxySettingStatus} from "../../../../domains/settings/proxy-setting/proxy-setting-entity";
-import * as AppActions from "./action";
+import {AbstractAutoResponderEntryEntity} from '../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {ClientRequestEntity} from '../../../../domains/proxy/client-request/client-request-entity';
+import {ProxySettingStatus} from '../../../../domains/settings/proxy-setting/proxy-setting-entity';
+import {CertificateStatus} from '../../../main/certificate/certificate-service';
+import * as AppActions from './action';
 
 export interface StateToProps {
     autoResponderEntries: AbstractAutoResponderEntryEntity[],

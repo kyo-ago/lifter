@@ -1,6 +1,6 @@
-import * as React from "react";
-import {AbstractAutoResponderEntryEntity} from "../../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import {GlobalProps} from "../index";
+import * as React from 'react';
+import {AbstractAutoResponderEntryEntity} from '../../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {GlobalProps} from '../index';
 
 export class AutoResponderBox extends React.Component<GlobalProps, {}> {
     onContextmenu(id: number) {

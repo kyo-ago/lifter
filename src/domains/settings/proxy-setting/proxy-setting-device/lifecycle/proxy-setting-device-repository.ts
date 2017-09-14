@@ -1,10 +1,10 @@
-import * as ifconfig from "ifconfig";
-import {OnMemoryRepository} from "typescript-dddbase";
-import {getListnetworkserviceorder} from "../../../../../libs/exec-commands";
-import {ParseNetworkDevices} from "../../specs/parse-network-devices";
-import {ProxySettingDeviceEntity} from "../proxy-setting-device-entity";
-import {ProxySettingDeviceIdentity} from "../proxy-setting-device-identity";
-import {ProxySettingDeviceFactory} from "./proxy-setting-device-factory";
+import * as ifconfig from 'ifconfig';
+import {OnMemoryRepository} from 'typescript-dddbase';
+import {getListnetworkserviceorder} from '../../../../../libs/exec-commands';
+import {ParseNetworkDevices} from '../../specs/parse-network-devices';
+import {ProxySettingDeviceEntity} from '../proxy-setting-device-entity';
+import {ProxySettingDeviceIdentity} from '../proxy-setting-device-identity';
+import {ProxySettingDeviceFactory} from './proxy-setting-device-factory';
 
 function promisedIfconfig(): Promise<Ifconfig> {
     return new Promise((resolve, reject) => ifconfig((err: any, configs: Ifconfig) => err ? reject(err) : resolve(configs)));

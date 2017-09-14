@@ -1,10 +1,10 @@
-import {ResolveAllOnMemoryRepository} from "../../../share/base/lifecycle/resolve-all-on-memory-repository";
-import {ClientRequestEntity} from "../../client-request/client-request-entity";
-import {LocalFileResponderFactory} from "../../local-file-responder/lifecycle/local-file-responder-factory";
-import {LocalFileResponderEntity} from "../../local-file-responder/local-file-responder-entity";
-import {AbstractAutoResponderEntryEntity} from "../auto-responder-entry-entity";
-import {AutoResponderEntryIdentity} from "../auto-responder-entry-identity";
-import {FindMatchEntry} from "../specs/find-match-entry";
+import {ResolveAllOnMemoryRepository} from '../../../share/base/lifecycle/resolve-all-on-memory-repository';
+import {ClientRequestEntity} from '../../client-request/client-request-entity';
+import {LocalFileResponderFactory} from '../../local-file-responder/lifecycle/local-file-responder-factory';
+import {LocalFileResponderEntity} from '../../local-file-responder/local-file-responder-entity';
+import {AbstractAutoResponderEntryEntity} from '../auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from '../auto-responder-entry-identity';
+import {FindMatchEntry} from '../specs/find-match-entry';
 
 export class AutoResponderEntryRepository extends ResolveAllOnMemoryRepository<AutoResponderEntryIdentity, AbstractAutoResponderEntryEntity> {
     constructor(

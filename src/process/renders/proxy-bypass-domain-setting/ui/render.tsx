@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {windowManager} from "../../libs/get-window-manager";
+import {windowManager} from '../../libs/get-window-manager';
 import {App, Index, JSONToEntity} from './components/index';
 import {configureStore} from './store';
 

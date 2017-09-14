@@ -1,4 +1,4 @@
-import {windowManager} from "../../libs/get-window-manager";
+import {windowManager} from '../../libs/get-window-manager';
 import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
 
 export class Application {

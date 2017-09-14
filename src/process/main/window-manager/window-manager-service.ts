@@ -1,13 +1,13 @@
-import * as windowManager from "@kyo-ago/electron-window-manager";
-import {ProxyBypassDomainFactory} from "../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
-import {ProxyBypassDomainRepository} from "../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository";
-import {ProxyBypassDomainEntity} from "../../../domains/proxy/proxy-bypass-domain/proxy-bypass-domain-entity";
-import {RewriteRuleFactory} from "../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
-import {RewriteRuleRepository} from "../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
-import {RewriteRuleEntity} from "../../../domains/proxy/rewrite-rule/rewrite-rule-entity";
-import {ShareProxyBypassDomainEntityJSON} from "../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity";
-import {ShareRewriteRuleEntityJSON} from "../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity";
-import {APPLICATION_NAME, WindowManagerInit} from "../../../settings";
+import * as windowManager from '@kyo-ago/electron-window-manager';
+import {ProxyBypassDomainFactory} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
+import {ProxyBypassDomainRepository} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
+import {ProxyBypassDomainEntity} from '../../../domains/proxy/proxy-bypass-domain/proxy-bypass-domain-entity';
+import {RewriteRuleFactory} from '../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory';
+import {RewriteRuleRepository} from '../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
+import {RewriteRuleEntity} from '../../../domains/proxy/rewrite-rule/rewrite-rule-entity';
+import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
+import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
+import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
 
 export class WindowManagerService {
     constructor(

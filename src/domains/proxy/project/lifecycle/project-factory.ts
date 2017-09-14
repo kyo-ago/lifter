@@ -1,6 +1,5 @@
-import {ProjectIdentity} from "../project-identity";
-import {ProjectEntity} from "../project-entity";
-import {AutoResponderEntryFactory} from "../../auto-responder-entry/lifecycle/auto-responder-entry-factory";
+import {ProjectEntity} from '../project-entity';
+import {ProjectIdentity} from '../project-identity';
 
 export class ProjectFactory {
     private identity = 0;

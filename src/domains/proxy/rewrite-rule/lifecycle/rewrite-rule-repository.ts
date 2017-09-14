@@ -1,7 +1,7 @@
-import {ResolveAllOnMemoryRepository} from "../../../share/base/lifecycle/resolve-all-on-memory-repository";
-import {ShareRewriteRuleIdentity} from "../../../share/share-rewrite-rule/share-rewrite-rule-identity";
-import {ClientRequestEntity} from "../../client-request/client-request-entity";
-import {RewriteRuleEntity} from "../rewrite-rule-entity";
+import {ResolveAllOnMemoryRepository} from '../../../share/base/lifecycle/resolve-all-on-memory-repository';
+import {ShareRewriteRuleIdentity} from '../../../share/share-rewrite-rule/share-rewrite-rule-identity';
+import {ClientRequestEntity} from '../../client-request/client-request-entity';
+import {RewriteRuleEntity} from '../rewrite-rule-entity';
 
 type E = {
     [key: string]: RewriteRuleEntity;

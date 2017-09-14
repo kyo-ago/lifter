@@ -1,7 +1,7 @@
-import * as execa from "execa";
-import {ProxySettingDeviceEntity} from "../domains/settings/proxy-setting/proxy-setting-device/proxy-setting-device-entity";
-import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from "../settings";
-import {throwableCommand} from "./throwable-command";
+import * as execa from 'execa';
+import {ProxySettingDeviceEntity} from '../domains/settings/proxy-setting/proxy-setting-device/proxy-setting-device-entity';
+import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from '../settings';
+import {throwableCommand} from './throwable-command';
 
 function ExecCommand(commandPath: string, args: string[]) {
     let filteredArgs = args.filter((arg) => arg).map((arg) => arg.match(/\s/) ? `"${arg}"` : arg);

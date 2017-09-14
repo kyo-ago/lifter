@@ -4,9 +4,6 @@ import {ClientRequestFactory} from '../../../../../domains/proxy/client-request/
 import {ClientRequestRepository} from '../../../../../domains/proxy/client-request/lifecycle/client-request-repository';
 import {LocalFileResponderFactory} from '../../../../../domains/proxy/local-file-responder/lifecycle/local-file-responder-factory';
 import {ProjectIdentity} from '../../../../../domains/proxy/project/project-identity';
-import {ProxyBypassDomainFactory} from '../../../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
-import {ProxyBypassDomainRepository} from '../../../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
-import {RewriteRuleFactory} from '../../../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory';
 import {RewriteRuleRepository} from '../../../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
 import {ProxySettingFactory} from '../../../../../domains/settings/proxy-setting/lifecycle/proxy-setting-factory';
 import {ProxySettingRepository} from '../../../../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository';

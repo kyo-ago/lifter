@@ -1,5 +1,5 @@
-import * as React from "react";
-import {RewriteRuleEntity} from "../../../../../../domains/settings/rewrite-rule/rewrite-rule-entity";
+import * as React from 'react';
+import {RewriteRuleEntity} from '../../../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
 
 export class RewriteRuleRow extends React.Component<{
     rewriteRule: RewriteRuleEntity;

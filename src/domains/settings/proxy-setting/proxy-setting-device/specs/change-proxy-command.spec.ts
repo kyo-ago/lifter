@@ -1,6 +1,6 @@
-import * as sinon from "sinon";
-import {PromisedSetTimeout} from "../../../../libs/promised-set-timeout";
-import {ChangeProxyCommandExecute} from "./change-proxy-command";
+import * as sinon from 'sinon';
+import {PromisedSetTimeout} from '../../../../libs/promised-set-timeout';
+import {ChangeProxyCommandExecute} from './change-proxy-command';
 
 describe('ChangeProxyCommand', () => {
     it('succeed', async () => {

@@ -1,5 +1,5 @@
-import * as React from "react";
-import {GlobalProps} from "../index";
+import * as React from 'react';
+import {GlobalProps} from '../index';
 
 export class ProxySettingBox extends React.Component<GlobalProps, {}> {
     onClick() {

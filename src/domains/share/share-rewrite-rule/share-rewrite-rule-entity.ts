@@ -1,9 +1,9 @@
-import {BaseEntity} from "../base/base-entity";
-import {ShareRewriteRuleIdentity} from "./share-rewrite-rule-identity";
-import {ACTION, ShareRewriteRuleAction} from "./value-objects/share-rewrite-rule-action";
-import {ShareRewriteRuleHeader} from "./value-objects/share-rewrite-rule-header";
-import {ShareRewriteRuleUrlPattern} from "./value-objects/share-rewrite-rule-url-pattern";
-import {ShareRewriteRuleValue} from "./value-objects/share-rewrite-rule-value";
+import {BaseEntity} from '../base/base-entity';
+import {ShareRewriteRuleIdentity} from './share-rewrite-rule-identity';
+import {ACTION, ShareRewriteRuleAction} from './value-objects/share-rewrite-rule-action';
+import {ShareRewriteRuleHeader} from './value-objects/share-rewrite-rule-header';
+import {ShareRewriteRuleUrlPattern} from './value-objects/share-rewrite-rule-url-pattern';
+import {ShareRewriteRuleValue} from './value-objects/share-rewrite-rule-value';
 
 export interface ShareRewriteRuleEntityJSON {
     id: number;

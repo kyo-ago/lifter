@@ -1,5 +1,5 @@
-import {ClientRequestEntity} from "../../../client-request/client-request-entity";
-import {AutoResponderEntryPattern} from "../../value-objects/auto-responder-entry-pattern";
+import {ClientRequestEntity} from '../../../client-request/client-request-entity';
+import {AutoResponderEntryPattern} from '../../value-objects/auto-responder-entry-pattern';
 
 export class AutoResponderEntryDirectoryPattern extends AutoResponderEntryPattern {
     static createSafeValue(pattern: string) {

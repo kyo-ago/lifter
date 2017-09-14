@@ -1,6 +1,6 @@
-import {OutgoingHttpHeaders} from "http";
-import * as HttpMitmProxy from "http-mitm-proxy";
-import {PROXY_PORT} from "../../../settings";
+import {OutgoingHttpHeaders} from 'http';
+import * as HttpMitmProxy from 'http-mitm-proxy';
+import {PROXY_PORT} from '../../../settings';
 
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
@@ -13,8 +13,8 @@ export class ProxyService {
     createServer(
         onRequestCallback: (
             href: string,
-            successCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
-            errorCallback: (error: Error | undefined) => void,
+            blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
+            passCallback: (error: Error | undefined) => void,
         ) => void,
     ) {
         this.mitmProxy.onError((context: HttpMitmProxy.IContext, err?: Error, errorKind?: string) => {

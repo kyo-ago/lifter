@@ -1,5 +1,5 @@
-import {ShareRewriteRuleEntity} from "../../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity";
-import {Option} from "monapt";
+import {Option} from 'monapt';
+import {ShareRewriteRuleEntity} from '../../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 
 export const SAVE_REWRITE_RULE = 'SAVE_REWRITE_RULE';
 export const UPDATE_REWRITE_RULES = 'UPDATE_REWRITE_RULES';

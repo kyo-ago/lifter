@@ -1,6 +1,6 @@
-import * as React from "react";
-import {remote} from "electron";
-import {GlobalProps} from "../index";
+import {remote} from 'electron';
+import * as React from 'react';
+import {GlobalProps} from '../index';
 
 let separator = {type: 'separator'};
 let makeRoles = (roles: (string | Object)[]) => roles.map((role) => (typeof role === 'string' ? {role} : role));

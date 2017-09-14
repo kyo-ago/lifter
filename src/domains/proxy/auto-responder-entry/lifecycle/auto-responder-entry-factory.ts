@@ -1,20 +1,21 @@
-import * as fs from "fs";
-import * as Path from "path";
-import {ProjectIdentity} from "../../project/project-identity";
-import {AutoResponderEntryDirectoryEntity} from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
-import {AutoResponderEntryDirectoryPath} from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path";
-import {AutoResponderEntryDirectoryPattern} from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-pattern";
+import * as fs from 'fs';
+import * as Path from 'path';
+import {ProjectIdentity} from '../../project/project-identity';
+import {AutoResponderEntryDirectoryEntity} from '../auto-responder-entry-directory/auto-responder-entry-directory-entity';
+import {AutoResponderEntryDirectoryPath} from '../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path';
+import {AutoResponderEntryDirectoryPattern} from '../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-pattern';
 import {
-    AbstractAutoResponderEntryEntity, AutoResponderEntryEntityJSON,
+    AbstractAutoResponderEntryEntity,
+    AutoResponderEntryEntityJSON,
     AutoResponderEntryType
-} from "../auto-responder-entry-entity";
-import {AutoResponderEntryFileEntity} from "../auto-responder-entry-file/auto-responder-entry-file-entity";
-import {AutoResponderEntryFilePath} from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
-import {AutoResponderEntryFilePattern} from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-pattern";
-import {AutoResponderEntryGlobEntity} from "../auto-responder-entry-glob/auto-responder-entry-glob-entity";
-import {AutoResponderEntryAnyPath} from "../auto-responder-entry-glob/value-objects/auto-responder-entry-any-path";
-import {AutoResponderEntryGlobPattern} from "../auto-responder-entry-glob/value-objects/auto-responder-entry-glob-pattern";
-import {AutoResponderEntryIdentity} from "../auto-responder-entry-identity";
+} from '../auto-responder-entry-entity';
+import {AutoResponderEntryFileEntity} from '../auto-responder-entry-file/auto-responder-entry-file-entity';
+import {AutoResponderEntryFilePath} from '../auto-responder-entry-file/value-objects/auto-responder-entry-file-path';
+import {AutoResponderEntryFilePattern} from '../auto-responder-entry-file/value-objects/auto-responder-entry-file-pattern';
+import {AutoResponderEntryGlobEntity} from '../auto-responder-entry-glob/auto-responder-entry-glob-entity';
+import {AutoResponderEntryAnyPath} from '../auto-responder-entry-glob/value-objects/auto-responder-entry-any-path';
+import {AutoResponderEntryGlobPattern} from '../auto-responder-entry-glob/value-objects/auto-responder-entry-glob-pattern';
+import {AutoResponderEntryIdentity} from '../auto-responder-entry-identity';
 
 export class AutoResponderEntryFactory {
     private identity = 0;

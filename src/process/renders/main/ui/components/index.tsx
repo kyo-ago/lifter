@@ -1,13 +1,13 @@
-import * as React from "react";
-import {connect} from "react-redux";
-import {ClientRequestEntity} from "../../../../../domains/proxy/client-request/client-request-entity";
-import {Application} from "../../application/application";
-import {Actions} from "../action";
-import {StateToProps} from "../reducer";
-import {ApplicationMenu} from "./null/application-menu";
-import {DragAndDropHandler} from "./null/drag-and-drop";
-import {ToolbarHeader} from "./toolbar/toolbar-header";
-import {WindowContent} from "./window/window-content";
+import * as React from 'react';
+import {connect} from 'react-redux';
+import {ClientRequestEntity} from '../../../../../domains/proxy/client-request/client-request-entity';
+import {Application} from '../../application/application';
+import {Actions} from '../action';
+import {StateToProps} from '../reducer';
+import {ApplicationMenu} from './null/application-menu';
+import {DragAndDropHandler} from './null/drag-and-drop';
+import {ToolbarHeader} from './toolbar/toolbar-header';
+import {WindowContent} from './window/window-content';
 
 class AppComponent extends React.Component<GlobalProps, any> {
     render() {

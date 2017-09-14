@@ -1,7 +1,7 @@
-import {ClientRequestEntity} from "../../client-request/client-request-entity";
-import {LocalFileResponderFactory} from "../../local-file-responder/lifecycle/local-file-responder-factory";
-import {LocalFileResponderEntity} from "../../local-file-responder/local-file-responder-entity";
-import {AbstractAutoResponderEntryEntity} from "../auto-responder-entry-entity";
+import {ClientRequestEntity} from '../../client-request/client-request-entity';
+import {LocalFileResponderFactory} from '../../local-file-responder/lifecycle/local-file-responder-factory';
+import {LocalFileResponderEntity} from '../../local-file-responder/local-file-responder-entity';
+import {AbstractAutoResponderEntryEntity} from '../auto-responder-entry-entity';
 
 export class FindMatchEntry {
     constructor(

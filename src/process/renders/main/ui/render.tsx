@@ -1,7 +1,7 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {Index} from "./components/index";
+import {Index} from './components/index';
 import {configureStore} from './store';
 
 export async function render(container: Element | null) {

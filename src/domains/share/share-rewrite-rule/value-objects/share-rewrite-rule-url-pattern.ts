@@ -1,4 +1,4 @@
-import * as micromatch from "micromatch";
+import * as micromatch from 'micromatch';
 import {BaseValueObject} from '../../base/value-objects/base-value-object';
 
 export class ShareRewriteRuleUrlPattern extends BaseValueObject<string> {

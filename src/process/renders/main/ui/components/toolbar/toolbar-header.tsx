@@ -1,8 +1,8 @@
-import * as React from "react";
-import {CertificateBox} from "./cetificate-box";
-import {ProxySettingBox} from "./proxy-setting-box";
-import {GlobalProps} from "../index";
-import {OpenRewriteRuleSettingWindowBox} from "./open-rewrite-rule-setting-window-box";
+import * as React from 'react';
+import {GlobalProps} from '../index';
+import {CertificateBox} from './cetificate-box';
+import {OpenRewriteRuleSettingWindowBox} from './open-rewrite-rule-setting-window-box';
+import {ProxySettingBox} from './proxy-setting-box';
 
 export class ToolbarHeader extends React.Component<GlobalProps, {}> {
     render() {

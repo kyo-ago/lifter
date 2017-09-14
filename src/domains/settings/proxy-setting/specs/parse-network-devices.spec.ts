@@ -1,4 +1,4 @@
-import {ParseNetworkDevices} from "./parse-network-devices";
+import {ParseNetworkDevices} from './parse-network-devices';
 
 describe('ParseNetworkDevices', () => {
     it('filtering enable devices', () => {

@@ -1,7 +1,7 @@
-import * as React from "react";
-import {AutoResponderBox} from "./auto-responder-box";
-import {ClientRequestBox} from "./client-request-box";
-import {GlobalProps} from "../index";
+import * as React from 'react';
+import {GlobalProps} from '../index';
+import {AutoResponderBox} from './auto-responder-box';
+import {ClientRequestBox} from './client-request-box';
 
 export class WindowContent extends React.Component<GlobalProps, {}> {
     render() {

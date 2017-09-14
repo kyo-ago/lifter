@@ -1,12 +1,12 @@
-import * as mime from "mime";
-import {BaseEntity} from "../../share/base/base-entity";
-import {ClientRequestEntity} from "../client-request/client-request-entity";
-import {LocalFileResponderParam} from "../local-file-responder/lifecycle/local-file-responder-factory";
-import {ProjectIdentity} from "../project/project-identity";
-import {AutoResponderEntryFilePath} from "./auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
-import {AutoResponderEntryIdentity} from "./auto-responder-entry-identity";
-import {AutoResponderEntryPath} from "./value-objects/auto-responder-entry-path";
-import {AutoResponderEntryPattern} from "./value-objects/auto-responder-entry-pattern";
+import * as mime from 'mime';
+import {BaseEntity} from '../../share/base/base-entity';
+import {ClientRequestEntity} from '../client-request/client-request-entity';
+import {LocalFileResponderParam} from '../local-file-responder/lifecycle/local-file-responder-factory';
+import {ProjectIdentity} from '../project/project-identity';
+import {AutoResponderEntryFilePath} from './auto-responder-entry-file/value-objects/auto-responder-entry-file-path';
+import {AutoResponderEntryIdentity} from './auto-responder-entry-identity';
+import {AutoResponderEntryPath} from './value-objects/auto-responder-entry-path';
+import {AutoResponderEntryPattern} from './value-objects/auto-responder-entry-pattern';
 
 export type AutoResponderEntryType = "File" | "Directory" | "Glob";
 

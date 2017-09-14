@@ -1,6 +1,6 @@
-import * as promisify from "es6-promisify";
-import * as Datastore from "nedb";
-import {Entity, Identity} from "typescript-dddbase";
+import * as promisify from 'es6-promisify';
+import * as Datastore from 'nedb';
+import {Entity, Identity} from 'typescript-dddbase';
 
 export interface NedbMapper<ID extends Identity<ID>, E extends Entity<any>> {
     toEntity(json: Object): E;

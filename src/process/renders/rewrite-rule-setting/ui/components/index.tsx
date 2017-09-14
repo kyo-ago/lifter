@@ -1,15 +1,15 @@
-import {None, Option} from "monapt";
-import * as React from "react";
-import {connect} from "react-redux";
-import {RewriteRuleEntity} from "../../../../../domains/settings/rewrite-rule/rewrite-rule-entity";
-import {ShareRewriteRuleIdentity} from "../../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity";
-import {SubmitForm} from "../../../share/components/submit-form/submit-form";
-import {Application} from "../../application/application";
-import {LifecycleContextService} from "../../application/lifecycle-context/lifecycle-context-service";
-import {Actions} from "../action";
-import {StateToProps} from "../reducer";
-import {RewriteRules} from "./rewrite-rules/rewrite-rules";
-import {TopForm} from "./top-form/top-form";
+import {None, Option} from 'monapt';
+import * as React from 'react';
+import {connect} from 'react-redux';
+import {RewriteRuleEntity} from '../../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import {ShareRewriteRuleIdentity} from '../../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity';
+import {SubmitForm} from '../../../share/components/submit-form/submit-form';
+import {Application} from '../../application/application';
+import {LifecycleContextService} from '../../application/lifecycle-context/lifecycle-context-service';
+import {Actions} from '../action';
+import {StateToProps} from '../reducer';
+import {RewriteRules} from './rewrite-rules/rewrite-rules';
+import {TopForm} from './top-form/top-form';
 
 class AppComponent extends React.Component<GlobalProps, {}> {
     render() {

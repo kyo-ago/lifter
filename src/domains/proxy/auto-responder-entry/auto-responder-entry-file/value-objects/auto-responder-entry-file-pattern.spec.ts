@@ -1,6 +1,6 @@
-import {getLifecycleContextService} from "../../../../../../tests/mocks/main-window/mocks";
-import {ClientRequestFactory} from "../../../client-request/lifecycle/client-request-factory";
-import {AutoResponderEntryFilePattern} from "./auto-responder-entry-file-pattern";
+import {getLifecycleContextService} from '../../../../../../tests/mocks/main-window/mocks';
+import {ClientRequestFactory} from '../../../client-request/lifecycle/client-request-factory';
+import {AutoResponderEntryFilePattern} from './auto-responder-entry-file-pattern';
 
 describe('AutoResponderEntryFilePattern', () => {
     describe('isMatchPath', () => {

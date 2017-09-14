@@ -1,4 +1,4 @@
-import {PromisedSetTimeout} from "./promised-set-timeout";
+import {PromisedSetTimeout} from './promised-set-timeout';
 
 export async function WaitFor<T>(command: () => Promise<T | null>, time: number, max: number): Promise<T | null> {
     while (max--) {

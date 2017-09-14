@@ -1,6 +1,6 @@
 import {remote} from 'electron';
-import {ShareRewriteRuleEntityJSON} from "../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity";
-import {ShareProxyBypassDomainEntityJSON} from "../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity";
+import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
+import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 
 type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow";
 

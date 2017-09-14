@@ -1,6 +1,6 @@
-import {None, Option} from "monapt";
-import {RewriteRuleEntity} from "../../../../domains/settings/rewrite-rule/rewrite-rule-entity";
-import * as AppActions from "./action";
+import {None, Option} from 'monapt';
+import {RewriteRuleEntity} from '../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import * as AppActions from './action';
 
 export interface StateToProps {
     rewriteRules: RewriteRuleEntity[],

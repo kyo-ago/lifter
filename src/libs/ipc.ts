@@ -1,8 +1,8 @@
-import * as Ipc from "electron-ipc";
-import {AutoResponderEntryEntityJSON} from "../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import {ClientRequestEntityJSON} from "../domains/proxy/client-request/client-request-entity";
-import {ProxySettingStatus} from "../domains/settings/proxy-setting/proxy-setting-entity";
-import {CertificateStatus} from "../process/main/certificate/certificate-service";
+import * as Ipc from 'electron-ipc';
+import {AutoResponderEntryEntityJSON} from '../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {ClientRequestEntityJSON} from '../domains/proxy/client-request/client-request-entity';
+import {ProxySettingStatus} from '../domains/settings/proxy-setting/proxy-setting-entity';
+import {CertificateStatus} from '../process/main/certificate/certificate-service';
 
 interface ElectronIpcMap {
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];

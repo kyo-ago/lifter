@@ -1,4 +1,4 @@
-import {Entity, Identity, OnMemoryRepository} from "typescript-dddbase";
+import {Entity, Identity, OnMemoryRepository} from 'typescript-dddbase';
 
 export abstract class ResolveAllOnMemoryRepository<
     ID extends Identity<any>,

@@ -1,4 +1,4 @@
-import {addTrustedCert, deleteCertificate, findCertificate} from "../../../libs/exec-commands";
+import {addTrustedCert, deleteCertificate, findCertificate} from '../../../libs/exec-commands';
 
 export type CertificateStatus = "missing" | "installed";
 

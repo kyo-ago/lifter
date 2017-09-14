@@ -1,8 +1,8 @@
-import {throwableCommand} from "../../../libs/throwable-command";
-import {BaseEntity} from "../../share/base/base-entity";
-import {networksetupProxy} from "./networksetup-proxy-command";
-import {ProxySettingDeviceRepository} from "./proxy-setting-device/lifecycle/proxy-setting-device-repository";
-import {ProxySettingIdentity} from "./proxy-setting-identity";
+import {throwableCommand} from '../../../libs/throwable-command';
+import {BaseEntity} from '../../share/base/base-entity';
+import {networksetupProxy} from './networksetup-proxy-command';
+import {ProxySettingDeviceRepository} from './proxy-setting-device/lifecycle/proxy-setting-device-repository';
+import {ProxySettingIdentity} from './proxy-setting-identity';
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 

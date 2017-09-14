@@ -1,17 +1,19 @@
-import {OutgoingHttpHeaders} from "http";
-import {AutoResponderEntryEntityJSON} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import {ProxySettingStatus} from "../../domains/settings/proxy-setting/proxy-setting-entity";
-import {ipc} from "../../libs/ipc";
-import {HTTP_SSL_CA_DIR_PATH} from "../../settings";
-import {CertificateService, CertificateStatus} from "./certificate/certificate-service";
-import {LifecycleContextService} from "./lifecycle-context-service";
-import {ProxyService} from "./proxy/proxy-service";
-import {WindowManagerService} from "./window-manager/window-manager-service";
+import {OutgoingHttpHeaders} from 'http';
+import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-entity';
+import {ipc} from '../../libs/ipc';
+import {HTTP_SSL_CA_DIR_PATH} from '../../settings';
+import {CertificateService, CertificateStatus} from './certificate/certificate-service';
+import {LifecycleContextService} from './lifecycle-context-service';
+import {ProxyService} from './proxy/proxy-service';
+import {WindowManagerService} from './window-manager/window-manager-service';
+import {ConnectionService} from './connection/connection-service';
 
 export class Application {
     private proxyService: ProxyService;
     private windowManagerService: WindowManagerService;
     private certificateService: CertificateService;
+    private connectionService: ConnectionService;
 
     constructor(
         private lifecycleContextService: LifecycleContextService,
@@ -25,6 +27,11 @@ export class Application {
         );
 
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
+        this.connectionService = new ConnectionService(
+            this.lifecycleContextService.clientRequestRepository,
+            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.rewriteRuleRepository,
+        );
     }
 
     async load() {
@@ -56,10 +63,12 @@ export class Application {
     start() {
         this.proxyService.createServer((
             href: string,
-            successCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
-            errorCallback: (error: Error | undefined) => void,
+            blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
+            passCallback: (error: Error | undefined) => void,
         ) => {
-
+            let clientRequestEntity = this.lifecycleContextService.clientRequestFactory.create(href);
+            ipc.publish('addClientRequestEntity', clientRequestEntity.json);
+            this.connectionService.onRequest(clientRequestEntity, blockCallback, passCallback);
         });
     }
 

@@ -1,7 +1,7 @@
-import * as Path from "path";
-import {ClientRequestEntity} from "../../../client-request/client-request-entity";
-import {AutoResponderEntryFilePath} from "../../auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
-import {AutoResponderEntryPath} from "../../value-objects/auto-responder-entry-path";
+import * as Path from 'path';
+import {ClientRequestEntity} from '../../../client-request/client-request-entity';
+import {AutoResponderEntryFilePath} from '../../auto-responder-entry-file/value-objects/auto-responder-entry-file-path';
+import {AutoResponderEntryPath} from '../../value-objects/auto-responder-entry-path';
 
 export class AutoResponderEntryAnyPath extends AutoResponderEntryPath {
     async getAutoResponderEntryFilePath(clientRequestEntity: ClientRequestEntity): Promise<AutoResponderEntryFilePath | null> {

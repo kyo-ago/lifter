@@ -1,10 +1,10 @@
-import {OutgoingHttpHeaders} from "http";
-import * as mime from "mime";
-import {BaseEntity} from "../../share/base/base-entity";
-import {LocalFileResponderIdentity} from "./local-file-responder-identity";
-import {LocalFileResponderPath} from "./value-objects/local-file-responder-path";
-import {LocalFileResponderSize} from "./value-objects/local-file-responder-size";
-import {LocalFileResponderType} from "./value-objects/local-file-responder-type";
+import {OutgoingHttpHeaders} from 'http';
+import * as mime from 'mime';
+import {BaseEntity} from '../../share/base/base-entity';
+import {LocalFileResponderIdentity} from './local-file-responder-identity';
+import {LocalFileResponderPath} from './value-objects/local-file-responder-path';
+import {LocalFileResponderSize} from './value-objects/local-file-responder-size';
+import {LocalFileResponderType} from './value-objects/local-file-responder-type';
 
 export class LocalFileResponderEntity extends BaseEntity<LocalFileResponderIdentity> {
     constructor(

@@ -1,6 +1,6 @@
-import * as React from "react";
-import {RewriteRuleEntity} from "../../../../../../domains/settings/rewrite-rule/rewrite-rule-entity";
-import {GlobalProps} from "../index";
+import * as React from 'react';
+import {RewriteRuleEntity} from '../../../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import {GlobalProps} from '../index';
 
 export class TopForm extends React.Component<GlobalProps, {}> {
     private urlElem: HTMLInputElement;

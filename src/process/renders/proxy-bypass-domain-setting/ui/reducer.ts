@@ -1,5 +1,5 @@
-import {ProxyBypassDomainEntity} from "../../../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-entity";
-import * as AppActions from "./action";
+import {ProxyBypassDomainEntity} from '../../../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-entity';
+import * as AppActions from './action';
 
 export interface StateToProps {
     proxyBypassDomains: ProxyBypassDomainEntity[],

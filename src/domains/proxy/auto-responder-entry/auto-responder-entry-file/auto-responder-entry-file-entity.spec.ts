@@ -1,7 +1,7 @@
-import * as Path from "path";
-import {getLifecycleContextService} from "../../../../../tests/mocks/main-window/mocks";
-import {ClientRequestFactory} from "../../client-request/lifecycle/client-request-factory";
-import {AutoResponderEntryFactory} from "../lifecycle/auto-responder-entry-factory";
+import * as Path from 'path';
+import {getLifecycleContextService} from '../../../../../tests/mocks/main-window/mocks';
+import {ClientRequestFactory} from '../../client-request/lifecycle/client-request-factory';
+import {AutoResponderEntryFactory} from '../lifecycle/auto-responder-entry-factory';
 
 describe('AutoResponderEntryFileEntity', () => {
     let autoResponderEntryFactory: AutoResponderEntryFactory;

@@ -1,6 +1,6 @@
-import {OutgoingHttpHeaders} from "http";
-import {ShareRewriteRuleEntity} from "../../share/share-rewrite-rule/share-rewrite-rule-entity";
-import {ClientRequestEntity} from "../client-request/client-request-entity";
+import {OutgoingHttpHeaders} from 'http';
+import {ShareRewriteRuleEntity} from '../../share/share-rewrite-rule/share-rewrite-rule-entity';
+import {ClientRequestEntity} from '../client-request/client-request-entity';
 
 export class RewriteRuleEntity extends ShareRewriteRuleEntity {
     isMatchClientRequest(clientRequestEntity: ClientRequestEntity): boolean {

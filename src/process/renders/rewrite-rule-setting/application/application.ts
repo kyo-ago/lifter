@@ -1,8 +1,8 @@
-import {None, Option, Some} from "monapt";
-import {RewriteRuleEntity} from "../../../../domains/settings/rewrite-rule/rewrite-rule-entity";
-import {ShareRewriteRuleIdentity} from "../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity";
-import {windowManager} from "../../libs/get-window-manager";
-import {LifecycleContextService} from "./lifecycle-context/lifecycle-context-service";
+import {None, Option, Some} from 'monapt';
+import {RewriteRuleEntity} from '../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import {ShareRewriteRuleIdentity} from '../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity';
+import {windowManager} from '../../libs/get-window-manager';
+import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
 
 export class Application {
     public isContentRendering = false;
