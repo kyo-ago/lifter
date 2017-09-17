@@ -5,7 +5,10 @@ import {ChangeProxyCommandExecute} from './change-proxy-command';
 describe('ChangeProxyCommand', () => {
     it('succeed', async () => {
         let result = await ChangeProxyCommandExecute(
-            () => Promise.resolve(),
+            () => Promise.resolve({
+                stdout: '',
+                stderr: '',
+            }),
             () => Promise.resolve(''),
             () => true,
         );
@@ -16,7 +19,10 @@ describe('ChangeProxyCommand', () => {
         (<any>PromisedSetTimeout).wait = 1;
         let spy = sinon.spy(() => false);
         let result = await ChangeProxyCommandExecute(
-            () => Promise.resolve(),
+            () => Promise.resolve({
+                stdout: '',
+                stderr: '',
+            }),
             () => Promise.resolve(''),
             spy,
         );
