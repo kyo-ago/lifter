@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@kyo-ago/electron-window-manager": "^1.0.3",
-    "electron-window-state": "^4.1.1",
+    "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "eventemitter2": "^4.1.2",
     "execa": "^0.8.0",
@@ -24,8 +24,8 @@
     "micromatch": "^3.0.4",
     "mime": "^1.4.0",
     "monapt": "^1.0.4",
-    "networksetup-proxy": "^0.1.4",
     "nedb": "^1.8.0",
+    "networksetup-proxy": "^0.1.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
