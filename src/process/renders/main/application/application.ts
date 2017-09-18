@@ -41,7 +41,7 @@ export class Application {
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        ipc.subscribe('addClientRequestEntity', (clientRequestEntityJSON: ClientRequestEntityJSON) => {
+        ipc.subscribe('addClientRequestEntity', (event, clientRequestEntityJSON: ClientRequestEntityJSON) => {
             callback(ClientRequestFactory.fromJSON(clientRequestEntityJSON));
         });
     }

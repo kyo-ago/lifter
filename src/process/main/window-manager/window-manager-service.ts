@@ -87,7 +87,7 @@ export class WindowManagerService {
 
     private registerWindow(name: string) {
         let window = windowManager.get(name);
-        ipc.addWindow(window);
+        ipc.addWindow(window.object);
         window.object.on('closed', () => ipc.removeWindow(window));
     }
 }
