@@ -28,7 +28,7 @@ export class LocalFileResponderEntity extends BaseEntity<LocalFileResponderIdent
     }
 
     private getContentType() {
-        return this.type.value || mime.lookup(this.path.value);
+        return this.type.value || mime.getType(this.path.value);
     }
 
     private getContentLength() {
