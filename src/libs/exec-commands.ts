@@ -5,7 +5,7 @@ import {throwableCommand} from './throwable-command';
 
 function ExecCommand(commandPath: string, args: string[]) {
     let filteredArgs = args.filter((arg) => arg).map((arg) => arg.match(/\s/) ? `"${arg}"` : arg);
-    return throwableCommand(execa(commandPath, filteredArgs));
+    return throwableCommand(execa.shell(`${commandPath} ${filteredArgs.join(' ')}`));
 }
 
 export function getListnetworkserviceorder() {
