@@ -13,11 +13,11 @@ export function getListnetworkserviceorder() {
 }
 
 export function getWebproxy(device: ProxySettingDeviceEntity) {
-    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.hardwarePort]);
+    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.serviceName]);
 }
 
 export function getSecureWebproxy(device: ProxySettingDeviceEntity) {
-    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.hardwarePort]);
+    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.serviceName]);
 }
 
 export function findCertificate(certificateName: string) {

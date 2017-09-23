@@ -4,10 +4,10 @@ import {ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-set
 import {ipc} from '../../libs/ipc';
 import {HTTP_SSL_CA_DIR_PATH} from '../../settings';
 import {CertificateService, CertificateStatus} from './certificate/certificate-service';
+import {ConnectionService} from './connection/connection-service';
 import {LifecycleContextService} from './lifecycle-context-service';
 import {ProxyService} from './proxy/proxy-service';
 import {WindowManagerService} from './window-manager/window-manager-service';
-import {ConnectionService} from './connection/connection-service';
 
 export class Application {
     private proxyService: ProxyService;

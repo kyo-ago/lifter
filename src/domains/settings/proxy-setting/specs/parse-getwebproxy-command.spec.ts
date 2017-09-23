@@ -37,7 +37,7 @@ Authenticated Proxy Enabled: 0
                 Server: NETWORK_HOST_NAME,
                 Port: PROXY_PORT,
             }, command.param);
-            expect(testCommand(param)).toBe(command.result);
+            expect(testCommand(<any>param)).toBe(command.result);
         });
     });
 });

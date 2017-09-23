@@ -1,5 +1,5 @@
 interface Device {
-    "Hardware Port": string;
+    "ServiceName": string;
     "Device": string;
 }
 
@@ -7,12 +7,14 @@ export function ParseNetworkDevices(
     serviceorder: string,
     ifconfig: Ifconfig,
 ): NetworkDeviceParam[] {
-    let deviceOrder: Device[] = serviceorder.trim().match(/\(Hardware Port.+?\)/gi).map((line) => {
-        return line.replace(/[\(\)]/g, '').split(/,/).reduce((base: any, cur: string) => {
-            let [key, val] = cur.split(/:/);
-            base[key.trim()] = val.trim();
-            return base;
-        }, <Device>{});
+    // drop first line
+    let services = serviceorder.trim().split('\n').splice(1).join('\n');
+    let deviceOrder: Device[] = services.trim().split(/\n\n/).map((line: string) => {
+        let [serviceName, device] = line.split(/\n/);
+        return <Device>{
+            ServiceName: serviceName.replace(/^\(\d+\)/, '').trim(),
+            Device: device.match(/,\s*Device:\s*(.+?)\)/i).pop(),
+        };
     });
 
     return deviceOrder
@@ -21,7 +23,7 @@ export function ParseNetworkDevices(
             let conf = ifconfig[device['Device']];
             return {
                 name: device['Device'],
-                hardwarePort: device['Hardware Port'],
+                serviceName: device['ServiceName'],
                 enable: conf.status === 'active',
             };
         })

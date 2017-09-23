@@ -12,6 +12,6 @@ interface Dispath {
 
 interface NetworkDeviceParam {
     name: string;
-    hardwarePort: string;
+    serviceName: string;
     enable: boolean;
 }

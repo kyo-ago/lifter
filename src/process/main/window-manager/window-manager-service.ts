@@ -7,8 +7,8 @@ import {RewriteRuleRepository} from '../../../domains/proxy/rewrite-rule/lifecyc
 import {RewriteRuleEntity} from '../../../domains/proxy/rewrite-rule/rewrite-rule-entity';
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
-import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
 import {ipc} from "../../../libs/ipc";
+import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
 
 export class WindowManagerService {
     constructor(
