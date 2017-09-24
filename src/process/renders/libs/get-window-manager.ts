@@ -1,10 +1,12 @@
 import {remote} from 'electron';
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
+import {StateToProps} from "../main/ui/reducer";
 
 type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow";
 
 interface StoreDateKeyMap {
+    "mainApps": StateToProps,
     "mainRewriteRules": ShareRewriteRuleEntityJSON[];
     "mainProxyBypassDomains": ShareProxyBypassDomainEntityJSON[];
 }

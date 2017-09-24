@@ -6,7 +6,7 @@ describe('ParseNetworkDevices', () => {
 (1) iPhone USB
 (Hardware Port: iPhone USB, Device: en2)
 
-(2) Wi-Fi
+(2) Wi Fi
 (Hardware Port: Wi-Fi, Device: en0)
 
 (3) Bluetooth PAN
@@ -24,7 +24,7 @@ describe('ParseNetworkDevices', () => {
         });
         expect(results).toEqual([{
             name: 'en0',
-            hardwarePort: 'Wi-Fi',
+            serviceName: 'Wi Fi',
             enable: true,
         }]);
     });
@@ -58,12 +58,12 @@ describe('ParseNetworkDevices', () => {
         expect(results).toEqual([
             {
                 name: 'en0',
-                hardwarePort: 'Wi-Fi',
+                serviceName: 'Wi-Fi',
                 enable: true,
             },
             {
                 name: 'en1',
-                hardwarePort: 'Bluetooth PAN',
+                serviceName: 'Bluetooth PAN',
                 enable: true,
             },
         ]);
@@ -93,7 +93,7 @@ describe('ParseNetworkDevices', () => {
         expect(results).toEqual([
             {
                 name: 'en0',
-                hardwarePort: 'Wi-Fi',
+                serviceName: 'Wi-Fi',
                 enable: false,
             },
         ]);

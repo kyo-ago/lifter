@@ -5,7 +5,7 @@ import {throwableCommand} from './throwable-command';
 
 function ExecCommand(commandPath: string, args: string[]) {
     let filteredArgs = args.filter((arg) => arg).map((arg) => arg.match(/\s/) ? `"${arg}"` : arg);
-    return throwableCommand(execa(commandPath, filteredArgs));
+    return throwableCommand(execa.shell(`${commandPath} ${filteredArgs.join(' ')}`));
 }
 
 export function getListnetworkserviceorder() {
@@ -13,11 +13,11 @@ export function getListnetworkserviceorder() {
 }
 
 export function getWebproxy(device: ProxySettingDeviceEntity) {
-    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.hardwarePort]);
+    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.serviceName]);
 }
 
 export function getSecureWebproxy(device: ProxySettingDeviceEntity) {
-    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.hardwarePort]);
+    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.serviceName]);
 }
 
 export function findCertificate(certificateName: string) {

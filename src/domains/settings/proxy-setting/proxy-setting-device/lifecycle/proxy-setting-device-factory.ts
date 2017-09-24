@@ -1,7 +1,7 @@
 import {ProxySettingDeviceEntity} from '../proxy-setting-device-entity';
 import {ProxySettingDeviceIdentity} from '../proxy-setting-device-identity';
-import {ProxySettingDeviceHardwarePort} from '../value-objects/proxy-setting-device-hardware-port';
 import {ProxySettingDeviceName} from '../value-objects/proxy-setting-device-name';
+import {ProxySettingDeviceServiceName} from "../value-objects/proxy-setting-device-service-name";
 
 export class ProxySettingDeviceFactory {
     private identity = 0;
@@ -10,7 +10,7 @@ export class ProxySettingDeviceFactory {
         return new ProxySettingDeviceEntity(
             new ProxySettingDeviceIdentity(this.identity++),
             new ProxySettingDeviceName(param.name),
-            new ProxySettingDeviceHardwarePort(param.hardwarePort),
+            new ProxySettingDeviceServiceName(param.serviceName),
             param.enable,
         );
     }

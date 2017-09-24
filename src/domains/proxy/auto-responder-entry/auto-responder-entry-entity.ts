@@ -56,7 +56,7 @@ export abstract class AutoResponderEntryEntity<
         }
         return {
             path: filePath.value,
-            type: mime.lookup(filePath.value),
+            type: mime.getType(filePath.value),
             size: stats.size,
         };
     }

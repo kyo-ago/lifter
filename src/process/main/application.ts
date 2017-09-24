@@ -4,10 +4,10 @@ import {ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-set
 import {ipc} from '../../libs/ipc';
 import {HTTP_SSL_CA_DIR_PATH} from '../../settings';
 import {CertificateService, CertificateStatus} from './certificate/certificate-service';
+import {ConnectionService} from './connection/connection-service';
 import {LifecycleContextService} from './lifecycle-context-service';
 import {ProxyService} from './proxy/proxy-service';
 import {WindowManagerService} from './window-manager/window-manager-service';
-import {ConnectionService} from './connection/connection-service';
 
 export class Application {
     private proxyService: ProxyService;
@@ -19,18 +19,19 @@ export class Application {
         private lifecycleContextService: LifecycleContextService,
     ) {
         this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
-        this.windowManagerService = new WindowManagerService(
-            this.lifecycleContextService.rewriteRuleFactory,
-            this.lifecycleContextService.rewriteRuleRepository,
-            this.lifecycleContextService.proxyBypassDomainFactory,
-            this.lifecycleContextService.proxyBypassDomainRepository,
-        );
-
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
         this.connectionService = new ConnectionService(
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.autoResponderEntryRepository,
             this.lifecycleContextService.rewriteRuleRepository,
+        );
+        this.windowManagerService = new WindowManagerService(
+            this.certificateService,
+            this.lifecycleContextService.proxySettingRepository,
+            this.lifecycleContextService.rewriteRuleFactory,
+            this.lifecycleContextService.rewriteRuleRepository,
+            this.lifecycleContextService.proxyBypassDomainFactory,
+            this.lifecycleContextService.proxyBypassDomainRepository,
         );
     }
 
@@ -72,8 +73,8 @@ export class Application {
         });
     }
 
-    createWindow() {
-        this.windowManagerService.createMainWindow();
+    createMainWindow() {
+        return this.windowManagerService.createMainWindow();
     }
 
     stopProxy(): Promise<void> {

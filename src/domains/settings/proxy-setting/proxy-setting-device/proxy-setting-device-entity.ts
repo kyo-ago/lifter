@@ -5,14 +5,14 @@ import {networksetupProxy} from '../networksetup-proxy-command';
 import {ParseGetwebproxyCommand} from '../specs/parse-getwebproxy-command';
 import {ProxySettingDeviceIdentity} from './proxy-setting-device-identity';
 import {ChangeProxyCommand} from './specs/change-proxy-command';
-import {ProxySettingDeviceHardwarePort} from './value-objects/proxy-setting-device-hardware-port';
 import {ProxySettingDeviceName} from './value-objects/proxy-setting-device-name';
+import {ProxySettingDeviceServiceName} from "./value-objects/proxy-setting-device-service-name";
 
 export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdentity> {
     constructor(
         identity: ProxySettingDeviceIdentity,
         private _name: ProxySettingDeviceName,
-        private _hardwarePort: ProxySettingDeviceHardwarePort,
+        private _serviceName: ProxySettingDeviceServiceName,
         public enabled: boolean,
     ) {
         super(identity);
@@ -22,8 +22,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
         return this._name.value;
     }
 
-    get hardwarePort() {
-        return this._hardwarePort.value;
+    get serviceName() {
+        return this._serviceName.value;
     }
 
     proxing(): Promise<boolean> {
@@ -39,8 +39,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
         return ChangeProxyCommand(
             this,
-            () => networksetupProxy.setwebproxy(this.hardwarePort, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            () => networksetupProxy.setsecurewebproxy(this.hardwarePort, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setwebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
             true
         );
     }
@@ -51,8 +51,8 @@ export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdent
 
         return ChangeProxyCommand(
             this,
-            () => networksetupProxy.setwebproxystate(this.hardwarePort, 'off'),
-            () => networksetupProxy.setsecurewebproxystate(this.hardwarePort, 'off'),
+            () => networksetupProxy.setwebproxystate(this.serviceName, 'off'),
+            () => networksetupProxy.setsecurewebproxystate(this.serviceName, 'off'),
             false
         );
     }

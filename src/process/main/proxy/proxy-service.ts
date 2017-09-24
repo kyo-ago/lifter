@@ -35,10 +35,12 @@ export class ProxyService {
             }, callback);
         });
 
-        this.mitmProxy.listen({
+        (this.mitmProxy.listen as any)({
             port: PROXY_PORT,
             silent: true,
             sslCaDir: this.sslCaDir
+        }, (err: any) => {
+            if (err) console.error('error: ', err);
         });
     }
 }

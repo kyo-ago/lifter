@@ -1,9 +1,11 @@
+import {app} from 'electron';
+
 export const PROXY_PORT = 8888;
 export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
 export const NETWORK_HOST_NAME = 'localhost';
 export const SECURITY_COMMAND = '/usr/bin/security';
-export const HTTP_SSL_CA_DIR_PATH = './.http-mitm-proxy';
-
+// app === undefined is test env(node)
+export const HTTP_SSL_CA_DIR_PATH = `${app ? app.getPath('userData') : '.'}/http-mitm-proxy`;
 export const APPLICATION_NAME = 'Lifter Proxy';
 export const WindowManagerInit = {
     appBase: `file://${__dirname}`,
