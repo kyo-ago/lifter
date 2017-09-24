@@ -17,7 +17,7 @@ describe('ChangeProxyCommand', () => {
 
     it('failed', async () => {
         (<any>PromisedSetTimeout).wait = 1;
-        let spy: (result: string) => boolean = testdouble.function();
+        let spy: any = testdouble.function();
         testdouble.when(spy('')).thenReturn(false)
         let result = await ChangeProxyCommandExecute(
             () => Promise.resolve({
