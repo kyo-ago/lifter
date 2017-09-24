@@ -1,4 +1,4 @@
-import * as sinon from 'sinon';
+import * as testdouble from 'testdouble';
 import {PromisedSetTimeout} from '../../../../libs/promised-set-timeout';
 import {ChangeProxyCommandExecute} from './change-proxy-command';
 
@@ -17,7 +17,8 @@ describe('ChangeProxyCommand', () => {
 
     it('failed', async () => {
         (<any>PromisedSetTimeout).wait = 1;
-        let spy = sinon.spy(() => false);
+        let spy: (result: string) => boolean = testdouble.function();
+        testdouble.when(spy('')).thenReturn(false)
         let result = await ChangeProxyCommandExecute(
             () => Promise.resolve({
                 stdout: '',
@@ -27,6 +28,6 @@ describe('ChangeProxyCommand', () => {
             spy,
         );
         expect(result).toBeNull();
-        expect(spy.callCount).toBe(3);
+        testdouble.verify(spy(''), {times: 3});
     });
 });
