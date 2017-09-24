@@ -5,13 +5,17 @@ import {ProxyBypassDomainEntity} from '../../../domains/proxy/proxy-bypass-domai
 import {RewriteRuleFactory} from '../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory';
 import {RewriteRuleRepository} from '../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
 import {RewriteRuleEntity} from '../../../domains/proxy/rewrite-rule/rewrite-rule-entity';
+import {ProxySettingRepository} from "../../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository";
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 import {ipc} from "../../../libs/ipc";
 import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
+import {CertificateService} from "../certificate/certificate-service";
 
 export class WindowManagerService {
     constructor(
+        private certificateService: CertificateService,
+        private proxySettingRepository: ProxySettingRepository,
         private rewriteRuleFactory: RewriteRuleFactory,
         private rewriteRuleRepository: RewriteRuleRepository,
         private proxyBypassDomainFactory: ProxyBypassDomainFactory,
@@ -19,11 +23,19 @@ export class WindowManagerService {
     ) {
     }
 
-    createMainWindow() {
+    async createMainWindow() {
         let name = 'mainWindow';
         if (windowManager.get(name)) {
             return;
         }
+        let certificateState = await this.certificateService.getCurrentStatus();
+        let proxySettingStatus = await this.proxySettingRepository.getProxySetting().getCurrentStatus();
+        windowManager.sharedData.set('mainApps', {
+            autoResponderEntries: [],
+            clientRequestEntries: [],
+            certificateState: certificateState,
+            proxySettingStatus: proxySettingStatus,
+        });
         windowManager.open(name, APPLICATION_NAME, '/index.html', 'default', {
             file: 'main-window-state.json',
         });
