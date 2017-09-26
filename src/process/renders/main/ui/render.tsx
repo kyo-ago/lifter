@@ -8,7 +8,6 @@ import {configureStore} from './store';
 export async function render(container: Element | null) {
     let jsons = windowManager.sharedData.fetch('mainApps');
     windowManager.sharedData.set('mainApps', {} as any);
-    console.log(jsons);
 
     const store = configureStore(jsons);
 
