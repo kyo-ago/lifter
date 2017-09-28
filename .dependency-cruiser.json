@@ -1,6 +1,30 @@
 {
   "forbidden": [
     {
+      "from": {
+        "path": "^src/domains"
+      },
+      "to": {
+        "path": "^src/process"
+      }
+    },
+    {
+      "from": {
+        "path": "^src/libs"
+      },
+      "to": {
+        "pathNot": "^(:?src/settings|src/libs/|node_modules/)"
+      }
+    },
+    {
+      "from": {
+        "path": "^src/process/main"
+      },
+      "to": {
+        "path": "^src/process/renders"
+      }
+    },
+    {
       "name": "not-to-test",
       "comment": "Don't allow dependencies from outside the test folder to test",
       "severity": "error",
