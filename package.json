@@ -30,7 +30,7 @@
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "typescript-dddbase": "0.0.3"
+    "typescript-dddbase": "0.0.4"
   },
   "devDependencies": {
     "@types/execa": "^0.7.0",
