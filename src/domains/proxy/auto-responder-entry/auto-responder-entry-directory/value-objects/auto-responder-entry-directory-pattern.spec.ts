@@ -5,8 +5,8 @@ import {AutoResponderEntryDirectoryPattern} from './auto-responder-entry-directo
 describe('AutoResponderEntryDirectoryPattern', () => {
     describe('isMatchPath', () => {
         let clientRequestFactory: ClientRequestFactory;
-        beforeEach(() => {
-            clientRequestFactory = getLifecycleContextService().clientRequestFactory;
+        beforeEach(async () => {
+            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
         });
 
         it('is root url is unmatch', () => {

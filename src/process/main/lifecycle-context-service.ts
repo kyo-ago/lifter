@@ -48,6 +48,9 @@ export class LifecycleContextService {
     }
 
     load() {
-        return this.proxySettingRepository.loadEntities();
+        return Promise.all([
+            this.autoResponderEntryRepository.load(),
+            this.proxySettingRepository.loadEntities(),
+        ]);
     }
 }

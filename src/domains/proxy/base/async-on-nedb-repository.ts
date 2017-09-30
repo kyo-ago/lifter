@@ -1,10 +1,11 @@
 import * as promisify from 'es6-promisify';
 import * as Datastore from 'nedb';
 import {Entity, Identity} from 'typescript-dddbase';
+import {ResolveAll} from "../../libs/resolve-all";
 
-export interface NedbMapper<ID extends Identity<ID>, E extends Entity<any>> {
-    toEntity(json: Object): E;
-    toJSON(entity: E): Object;
+export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {
+    toEntity(json: any): E;
+    toJSON(entity: E): any;
 }
 
 export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID>> {
@@ -12,28 +13,43 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
     private findOne: (query: any) => Promise<any>;
     private update: (query: any, value: any, option: any) => Promise<any>;
     private remove: (query: any, option: any) => Promise<any>;
+    private loadDatabase: () => Promise<void>;
+
+    private entities: {[key: string]: E} = {};
 
     constructor(private datastore: Datastore, private mapper:  NedbMapper<ID, E>) {
         this.find = promisify(this.datastore.find, this.datastore);
         this.findOne = promisify(this.datastore.findOne, this.datastore);
         this.update = promisify(this.datastore.update, this.datastore);
         this.remove = promisify(this.datastore.remove, this.datastore);
+        this.loadDatabase = promisify(this.datastore.loadDatabase, this.datastore);
+    }
+
+    async load() {
+        await this.loadDatabase();
+        let data = await this.find({});
+        this.entities = data
+            .map((d) => this.mapper.toEntity(d))
+            .reduce((base, cur) => {
+                base[String(cur.getIdentity().getValue())] = cur;
+                return base;
+            }, <{[key: string]: E}>{})
+        ;
     }
 
     async resolveAll(): Promise<E[]> {
-        let data = await this.find({});
-        return data.map((d) => this.mapper.toEntity(d));
+        return ResolveAll(this.entities);
     }
 
     async resolve(identity: ID): Promise<E> {
-        let data = await this.findOne({ id: identity.getValue(), });
-        return this.mapper.toEntity(data);
+        return this.entities[identity.getValue()];
     }
 
     async store(entity: E): Promise<E> {
         let json = this.mapper.toJSON(entity);
         let id = entity.getIdentity().getValue();
         await this.update({'id': String(id)}, json, {upsert:true});
+        this.entities[id] = entity;
         return entity;
     }
 
@@ -48,6 +64,7 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
     async deleteByIdentity(identity: ID): Promise<AsyncOnNedbRepository<ID, E>> {
         let id = identity.getValue();
         await this.remove({'id': String(id)}, {});
+        delete this.entities[id];
         return this;
     }
 }

@@ -1,11 +1,14 @@
 import {app} from 'electron';
 
+// app === undefined is test env(node)
+let userDataPath = app ? app.getPath('userData') : '.';
+
 export const PROXY_PORT = 8888;
 export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
 export const NETWORK_HOST_NAME = 'localhost';
 export const SECURITY_COMMAND = '/usr/bin/security';
-// app === undefined is test env(node)
-export const HTTP_SSL_CA_DIR_PATH = `${app ? app.getPath('userData') : '.'}/http-mitm-proxy`;
+export const HTTP_SSL_CA_DIR_PATH = `${userDataPath}/http-mitm-proxy`;
+export const REPOSITORY_BASE_DIR_PATH = `${userDataPath}/.repositories`;
 export const APPLICATION_NAME = 'Lifter Proxy';
 export const WindowManagerInit = {
     appBase: `file://${__dirname}`,

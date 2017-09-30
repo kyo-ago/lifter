@@ -7,8 +7,8 @@ describe('AutoResponderEntryDirectoryEntity', () => {
     let autoResponderEntryDirectoryEntity: AutoResponderEntryDirectoryEntity;
     let clientRequestFactory: ClientRequestFactory;
 
-    beforeEach(() => {
-        let lifecycleContextService = getLifecycleContextService();
+    beforeEach(async () => {
+        let lifecycleContextService = await getLifecycleContextService();
         let autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;
         autoResponderEntryDirectoryEntity = <AutoResponderEntryDirectoryEntity>autoResponderEntryFactory.create("Directory", Path.basename(__dirname), __dirname);

@@ -9,8 +9,8 @@ describe('AutoResponderEntryAnyPath', () => {
         let filename = Path.basename(__filename);
 
         let clientRequestFactory: ClientRequestFactory;
-        beforeEach(() => {
-            clientRequestFactory = getLifecycleContextService().clientRequestFactory;
+        beforeEach(async () => {
+            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
         });
 
         it('match file', async () => {

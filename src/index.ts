@@ -10,7 +10,7 @@ app.on('window-all-closed', async () => {
 app.on('activate', () => application.createMainWindow());
 
 let application = new Application(
-    new LifecycleContextService((new ProjectFactory()).create().id),
+    new LifecycleContextService((new ProjectFactory()).create().getIdentity()),
 );
 
 Promise.all([

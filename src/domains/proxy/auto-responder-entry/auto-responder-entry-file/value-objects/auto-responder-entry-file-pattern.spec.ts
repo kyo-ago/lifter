@@ -5,8 +5,8 @@ import {AutoResponderEntryFilePattern} from './auto-responder-entry-file-pattern
 describe('AutoResponderEntryFilePattern', () => {
     describe('isMatchPath', () => {
         let clientRequestFactory: ClientRequestFactory;
-        beforeEach(() => {
-            clientRequestFactory = getLifecycleContextService().clientRequestFactory;
+        beforeEach(async () => {
+            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
         });
 
         it('unmatch', () => {

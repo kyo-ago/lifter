@@ -41,7 +41,7 @@ export class Application {
         ipc.subscribe('addAutoResponderEntryEntities', async (event: any, filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
             let autoResponderEntryEntities = await Promise.all(filePromises);
-            this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+            await this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
             return autoResponderEntryEntities.map((autoResponderEntryEntity) => autoResponderEntryEntity.json);
         });
         ipc.subscribe('setNewCertificateStatus', (): Promise<CertificateStatus> => {
