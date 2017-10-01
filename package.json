@@ -47,14 +47,14 @@
     "@types/when": "^2.4.29",
     "dependency-cruiser": "^2.4.1",
     "electron": "^1.7.8",
-    "electron-builder": "^19.32.0",
+    "electron-builder": "^19.33.0",
     "fixpack": "^2.3.1",
     "jest": "^21.2.1",
     "npm-check-updates": "^2.12.1",
     "spectron": "^3.7.2",
     "testdouble": "^3.2.6",
     "ts-jest": "^21.0.1",
-    "typescript": "^2.5.3"
+    "typescript": "2.5.1"
   },
   "directories": {
     "test": "tests"
