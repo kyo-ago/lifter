@@ -26,7 +26,8 @@ export class ConnectionService {
         }
 
         let body = await localFileResponderEntity.getBody();
-        let header = this.rewriteRuleRepository.findMatchRules(clientRequestEntity).reduce((base, rewriteRuleEntity) => {
+        let rewriteRuleEntities = await this.rewriteRuleRepository.findMatchRules(clientRequestEntity);
+        let header = rewriteRuleEntities.reduce((base, rewriteRuleEntity) => {
             return rewriteRuleEntity.applyHeader(base);
         }, localFileResponderEntity.getHeader());
         blockCallback(header, body);

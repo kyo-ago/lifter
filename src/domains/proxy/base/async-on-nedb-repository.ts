@@ -10,7 +10,6 @@ export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {
 
 export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID>> {
     private find: (query: any) => Promise<any[]>;
-    private findOne: (query: any) => Promise<any>;
     private update: (query: any, value: any, option: any) => Promise<any>;
     private remove: (query: any, option: any) => Promise<any>;
     private loadDatabase: () => Promise<void>;
@@ -19,7 +18,6 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
 
     constructor(private datastore: Datastore, private mapper:  NedbMapper<ID, E>) {
         this.find = promisify(this.datastore.find, this.datastore);
-        this.findOne = promisify(this.datastore.findOne, this.datastore);
         this.update = promisify(this.datastore.update, this.datastore);
         this.remove = promisify(this.datastore.remove, this.datastore);
         this.loadDatabase = promisify(this.datastore.loadDatabase, this.datastore);
@@ -66,5 +64,14 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
         await this.remove({'id': String(id)}, {});
         delete this.entities[id];
         return this;
+    }
+
+    async overwriteAll(entities: E[]) {
+        await this.deleteAll();
+        return this.storeList(entities);
+    }
+
+    protected deleteAll() {
+        return this.remove({}, { multi: true });
     }
 }

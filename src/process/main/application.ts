@@ -28,9 +28,7 @@ export class Application {
         this.windowManagerService = new WindowManagerService(
             this.certificateService,
             this.lifecycleContextService.proxySettingRepository,
-            this.lifecycleContextService.rewriteRuleFactory,
             this.lifecycleContextService.rewriteRuleRepository,
-            this.lifecycleContextService.proxyBypassDomainFactory,
             this.lifecycleContextService.proxyBypassDomainRepository,
         );
     }
@@ -53,11 +51,15 @@ export class Application {
         });
         ipc.subscribe(
             'openProxyBypassDomainSettingWindow',
-            () => this.windowManagerService.openProxyBypassDomainSettingWindow()
+            () => {
+                this.windowManagerService.openProxyBypassDomainSettingWindow();
+            },
         );
         ipc.subscribe(
             'openRewriteRuleSettingWindow',
-            () => this.windowManagerService.openRewriteRuleSettingWindow()
+            () => {
+                this.windowManagerService.openRewriteRuleSettingWindow();
+            },
         );
     }
 

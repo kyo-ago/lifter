@@ -16,9 +16,7 @@ export class WindowManagerService {
     constructor(
         private certificateService: CertificateService,
         private proxySettingRepository: ProxySettingRepository,
-        private rewriteRuleFactory: RewriteRuleFactory,
         private rewriteRuleRepository: RewriteRuleRepository,
-        private proxyBypassDomainFactory: ProxyBypassDomainFactory,
         private proxyBypassDomainRepository: ProxyBypassDomainRepository,
     ) {
     }
@@ -45,23 +43,21 @@ export class WindowManagerService {
     load() {
         windowManager.init(WindowManagerInit);
 
-        windowManager.bridge.on('overwriteRewriteRules', (allJsons: ShareRewriteRuleEntityJSON[]) => {
-            let entities = allJsons.map((json) => this.rewriteRuleFactory.fromJSON(json));
-            this.rewriteRuleRepository.overwriteAll(entities);
+        windowManager.bridge.on('overwriteRewriteRules', async (allJsons: ShareRewriteRuleEntityJSON[]) => {
+            let entities = allJsons.map((json) => RewriteRuleFactory.fromJSON(json));
+            await this.rewriteRuleRepository.overwriteAll(entities);
         });
-        windowManager.bridge.on('overwriteProxyBypassDomains', (allJsons: ShareProxyBypassDomainEntityJSON[]) => {
-            let entities = allJsons.map((json) => this.proxyBypassDomainFactory.fromJSON(json));
-            this.proxyBypassDomainRepository.overwriteAll(entities);
+        windowManager.bridge.on('overwriteProxyBypassDomains', async (allJsons: ShareProxyBypassDomainEntityJSON[]) => {
+            let entities = allJsons.map((json) => ProxyBypassDomainFactory.fromJSON(json));
+            await this.proxyBypassDomainRepository.overwriteAll(entities);
         });
     }
 
-    openProxyBypassDomainSettingWindow() {
-        let allEntities = this.proxyBypassDomainRepository
-            .resolveAll()
-            .map((entity: ProxyBypassDomainEntity) => entity.json)
-        ;
+    async openProxyBypassDomainSettingWindow() {
+        let allEntities = await this.proxyBypassDomainRepository.resolveAll();
+        let allJsons = allEntities.map((entity: ProxyBypassDomainEntity) => entity.json);
 
-        windowManager.sharedData.set('mainProxyBypassDomains', allEntities);
+        windowManager.sharedData.set('mainProxyBypassDomains', allJsons);
         let name  = 'proxyBypassDomainSettingWindow';
         windowManager.open(
             name,
@@ -76,13 +72,11 @@ export class WindowManagerService {
         this.registerWindow(name);
     }
 
-    openRewriteRuleSettingWindow() {
-        let allRewriteRules = this.rewriteRuleRepository
-            .resolveAll()
-            .map((entity: RewriteRuleEntity) => entity.json)
-        ;
+    async openRewriteRuleSettingWindow() {
+        let allEntities = await this.rewriteRuleRepository.resolveAll();
+        let allJsons = allEntities.map((entity: RewriteRuleEntity) => entity.json);
 
-        windowManager.sharedData.set('mainRewriteRules', allRewriteRules);
+        windowManager.sharedData.set('mainRewriteRules', allJsons);
         let name  = 'rewriteRuleSettingWindow';
         windowManager.open(
             name,
