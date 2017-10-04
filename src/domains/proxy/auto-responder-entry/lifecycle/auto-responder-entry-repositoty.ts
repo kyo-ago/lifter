@@ -1,5 +1,4 @@
 import * as Datastore from 'nedb';
-import {REPOSITORY_BASE_DIR_PATH} from "../../../../settings";
 import {AsyncOnNedbRepository} from "../../base/async-on-nedb-repository";
 import {ClientRequestEntity} from '../../client-request/client-request-entity';
 import {LocalFileResponderFactory} from '../../local-file-responder/lifecycle/local-file-responder-factory';
@@ -11,17 +10,16 @@ import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
 
 export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResponderEntryIdentity, AbstractAutoResponderEntryEntity> {
     constructor(
+        datastore: Datastore,
         private localFileResponderFactory: LocalFileResponderFactory,
     ) {
-        super(new Datastore({
-            filename: `${REPOSITORY_BASE_DIR_PATH}/AutoResponderEntryRepository.nedb`,
-        }), {
+        super(datastore, {
             toEntity: (json: any): AbstractAutoResponderEntryEntity => {
                 return AutoResponderEntryFactory.fromJSON(json);
             },
             toJSON: (entity: AbstractAutoResponderEntryEntity): any => {
                 return entity.json;
-            }
+            },
         });
     }
 

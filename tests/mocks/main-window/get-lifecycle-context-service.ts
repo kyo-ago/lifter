@@ -3,8 +3,8 @@ import {LifecycleContextService} from "../../../src/process/main/lifecycle-conte
 
 export async function getLifecycleContextService() {
     let projectFactory = new ProjectFactory();
-    let projectEntity = projectFactory.create();
-    let lifecycleContextService = new LifecycleContextService(projectEntity.getIdentity());
+    let projectEntity = projectFactory.createInMemory();
+    let lifecycleContextService = new LifecycleContextService(projectEntity);
     await lifecycleContextService.load();
     return lifecycleContextService;
 }
