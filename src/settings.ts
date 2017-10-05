@@ -8,8 +8,9 @@ export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
 export const NETWORK_HOST_NAME = 'localhost';
 export const SECURITY_COMMAND = '/usr/bin/security';
 export const HTTP_SSL_CA_DIR_PATH = `${userDataPath}/http-mitm-proxy`;
-export const REPOSITORY_BASE_DIR_PATH = `${userDataPath}/.repositories`;
+export const REPOSITORY_BASE_DIR_PATH = `${userDataPath}/Repositories`;
 export const APPLICATION_NAME = 'Lifter Proxy';
+export const WINDOW_STATE_DIR = 'WindowStates/';
 export const WindowManagerInit = {
     appBase: `file://${__dirname}`,
     defaultSetup: {

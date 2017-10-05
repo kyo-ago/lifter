@@ -9,7 +9,7 @@ import {ProxySettingRepository} from "../../../domains/settings/proxy-setting/li
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 import {ipc} from "../../../libs/ipc";
-import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
+import {APPLICATION_NAME, WINDOW_STATE_DIR, WindowManagerInit} from '../../../settings';
 import {CertificateService} from "../certificate/certificate-service";
 
 export class WindowManagerService {
@@ -35,7 +35,7 @@ export class WindowManagerService {
             proxySettingStatus: proxySettingStatus,
         });
         windowManager.open(name, APPLICATION_NAME, '/index.html', 'default', {
-            file: 'main-window-state.json',
+            file: `${WINDOW_STATE_DIR}main-window-state.json`,
         });
         this.registerWindow(name);
     }
@@ -65,7 +65,7 @@ export class WindowManagerService {
             '/proxy-bypass-domain-setting-window.html',
             'default',
             {
-                file: 'proxy-bypass-domain-setting-window-state.json',
+                file: `${WINDOW_STATE_DIR}proxy-bypass-domain-setting-window-state.json`,
                 parent: windowManager.get('mainWindow'),
             }
         );
@@ -84,7 +84,7 @@ export class WindowManagerService {
             '/rewrite-rule-setting-window.html',
             'default',
             {
-                file: 'rewrite-rule-setting-window-state.json',
+                file: `${WINDOW_STATE_DIR}rewrite-rule-setting-window-state.json`,
                 parent: windowManager.get('mainWindow'),
             }
         );
