@@ -1,22 +1,25 @@
-import {ResolveAllOnMemoryRepository} from '../../../share/base/lifecycle/resolve-all-on-memory-repository';
+import * as Datastore from 'nedb';
 import {ShareRewriteRuleIdentity} from '../../../share/share-rewrite-rule/share-rewrite-rule-identity';
+import {AsyncOnNedbRepository} from "../../base/async-on-nedb-repository";
 import {ClientRequestEntity} from '../../client-request/client-request-entity';
 import {RewriteRuleEntity} from '../rewrite-rule-entity';
+import {RewriteRuleFactory} from "./rewrite-rule-factory";
 
-type E = {
-    [key: string]: RewriteRuleEntity;
-};
-
-export class RewriteRuleRepository extends ResolveAllOnMemoryRepository<ShareRewriteRuleIdentity, RewriteRuleEntity> {
-    overwriteAll(rewriteRuleEntities: RewriteRuleEntity[]) {
-        this.entities = rewriteRuleEntities.reduce((base: E, cur: RewriteRuleEntity) => {
-            base[cur.id] = cur;
-            return base;
-        }, <E>{});
+export class RewriteRuleRepository extends AsyncOnNedbRepository<ShareRewriteRuleIdentity, RewriteRuleEntity> {
+    constructor(datastore: Datastore) {
+        super(datastore, {
+            toEntity: (json: any): RewriteRuleEntity => {
+                return RewriteRuleFactory.fromJSON(json);
+            },
+            toJSON: (entity: RewriteRuleEntity): any => {
+                return entity.json;
+            }
+        });
     }
 
-    findMatchRules(clientRequestEntity: ClientRequestEntity): RewriteRuleEntity[] {
-        return Object.values(this.entities).filter((rewriteRuleEntity: RewriteRuleEntity) => {
+    async findMatchRules(clientRequestEntity: ClientRequestEntity): Promise<RewriteRuleEntity[]> {
+        let entities = await this.resolveAll();
+        return entities.filter((rewriteRuleEntity: RewriteRuleEntity) => {
             rewriteRuleEntity.isMatchClientRequest(clientRequestEntity)
         });
     }

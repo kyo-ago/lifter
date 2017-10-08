@@ -21,17 +21,17 @@ export class Application {
         this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
         this.connectionService = new ConnectionService(
-            this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
         );
         this.windowManagerService = new WindowManagerService(
-            this.certificateService,
+            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.proxySettingRepository,
-            this.lifecycleContextService.rewriteRuleFactory,
             this.lifecycleContextService.rewriteRuleRepository,
-            this.lifecycleContextService.proxyBypassDomainFactory,
             this.lifecycleContextService.proxyBypassDomainRepository,
+            this.certificateService,
         );
     }
 
@@ -41,7 +41,7 @@ export class Application {
         ipc.subscribe('addAutoResponderEntryEntities', async (event: any, filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
             let autoResponderEntryEntities = await Promise.all(filePromises);
-            this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+            await this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
             return autoResponderEntryEntities.map((autoResponderEntryEntity) => autoResponderEntryEntity.json);
         });
         ipc.subscribe('setNewCertificateStatus', (): Promise<CertificateStatus> => {
@@ -53,11 +53,15 @@ export class Application {
         });
         ipc.subscribe(
             'openProxyBypassDomainSettingWindow',
-            () => this.windowManagerService.openProxyBypassDomainSettingWindow()
+            () => {
+                this.windowManagerService.openProxyBypassDomainSettingWindow();
+            },
         );
         ipc.subscribe(
             'openRewriteRuleSettingWindow',
-            () => this.windowManagerService.openRewriteRuleSettingWindow()
+            () => {
+                this.windowManagerService.openRewriteRuleSettingWindow();
+            },
         );
     }
 

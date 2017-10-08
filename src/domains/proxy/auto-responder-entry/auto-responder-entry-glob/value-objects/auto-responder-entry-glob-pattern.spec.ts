@@ -5,8 +5,8 @@ import {AutoResponderEntryGlobPattern} from './auto-responder-entry-glob-pattern
 describe('AutoResponderEntryGlobPattern', () => {
     describe('isMatchPath', () => {
         let clientRequestFactory: ClientRequestFactory;
-        beforeEach(() => {
-            clientRequestFactory = getLifecycleContextService().clientRequestFactory;
+        beforeEach(async () => {
+            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
         });
 
         it('match', () => {

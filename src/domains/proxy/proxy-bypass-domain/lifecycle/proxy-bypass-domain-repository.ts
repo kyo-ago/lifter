@@ -1,16 +1,18 @@
-import {ResolveAllOnMemoryRepository} from '../../../share/base/lifecycle/resolve-all-on-memory-repository';
+import * as Datastore from 'nedb';
 import {ShareProxyBypassDomainIdentity} from '../../../share/share-proxy-bypass-domain/share-proxy-bypass-domain-identity';
+import {AsyncOnNedbRepository} from "../../base/async-on-nedb-repository";
 import {ProxyBypassDomainEntity} from '../proxy-bypass-domain-entity';
+import {ProxyBypassDomainFactory} from "./proxy-bypass-domain-factory";
 
-type E = {
-    [key: string]: ProxyBypassDomainEntity;
-};
-
-export class ProxyBypassDomainRepository extends ResolveAllOnMemoryRepository<ShareProxyBypassDomainIdentity, ProxyBypassDomainEntity> {
-    overwriteAll(entities: ProxyBypassDomainEntity[]) {
-        this.entities = entities.reduce((base: E, cur: ProxyBypassDomainEntity) => {
-            base[cur.id] = cur;
-            return base;
-        }, <E>{});
+export class ProxyBypassDomainRepository extends AsyncOnNedbRepository<ShareProxyBypassDomainIdentity, ProxyBypassDomainEntity> {
+    constructor(datastore: Datastore) {
+        super(datastore, {
+            toEntity: (json: any): ProxyBypassDomainEntity => {
+                return ProxyBypassDomainFactory.fromJSON(json);
+            },
+            toJSON: (entity: ProxyBypassDomainEntity): any => {
+                return entity.json;
+            }
+        });
     }
 }

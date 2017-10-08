@@ -7,24 +7,7 @@ import {ShareRewriteRuleValue} from '../../../share/share-rewrite-rule/value-obj
 import {RewriteRuleEntity} from '../rewrite-rule-entity';
 
 export class RewriteRuleFactory {
-    private identity = 0;
-
-    create(
-        url: string,
-        action: string,
-        header: string,
-        value: string,
-    ): RewriteRuleEntity {
-        return new RewriteRuleEntity(
-            new ShareRewriteRuleIdentity(this.identity++),
-            new ShareRewriteRuleUrlPattern(url),
-            new ShareRewriteRuleAction(action),
-            new ShareRewriteRuleHeader(header),
-            new ShareRewriteRuleValue(value),
-        );
-    }
-
-    fromJSON(json: ShareRewriteRuleEntityJSON): RewriteRuleEntity {
+    static fromJSON(json: ShareRewriteRuleEntityJSON): RewriteRuleEntity {
         return new RewriteRuleEntity(
             new ShareRewriteRuleIdentity(json.id),
             new ShareRewriteRuleUrlPattern(json.url),

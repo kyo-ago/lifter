@@ -8,8 +8,8 @@ import {AutoResponderEntryFactory} from './auto-responder-entry-factory';
 describe('AutoResponderEntryFactory', () => {
     let autoResponderEntryFactory: AutoResponderEntryFactory;
 
-    beforeEach(() => {
-        let lifecycleContextService = getLifecycleContextService();
+    beforeEach(async () => {
+        let lifecycleContextService = await getLifecycleContextService();
         autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
     });
 

@@ -7,8 +7,8 @@ import {AutoResponderEntryGlobEntity} from './auto-responder-entry-glob-entity';
 describe('AutoResponderEntryGlobEntity.getMatchResponder', () => {
     let autoResponderEntryFactory: AutoResponderEntryFactory;
     let clientRequestFactory: ClientRequestFactory;
-    beforeEach(() => {
-        let lifecycleContextService = getLifecycleContextService();
+    beforeEach(async () => {
+        let lifecycleContextService = await getLifecycleContextService();
         autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;
     });

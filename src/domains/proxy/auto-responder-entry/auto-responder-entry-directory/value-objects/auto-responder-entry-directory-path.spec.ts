@@ -6,8 +6,8 @@ import {AutoResponderEntryDirectoryPath} from './auto-responder-entry-directory-
 describe('AutoResponderEntryDirectoryPath', () => {
     describe('getAutoResponderEntryFilePath', () => {
         let clientRequestFactory: ClientRequestFactory;
-        beforeEach(() => {
-            clientRequestFactory = getLifecycleContextService().clientRequestFactory;
+        beforeEach(async () => {
+            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
         });
 
         let dirname = Path.basename(__dirname);

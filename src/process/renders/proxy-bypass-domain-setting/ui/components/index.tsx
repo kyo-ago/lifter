@@ -30,9 +30,7 @@ let application = new Application(lifecycleContextService);
 export const App = application;
 (window as any).application = application;
 
-export function JSONToEntity(json: any) {
-    return lifecycleContextService.proxyBypassDomainFactory.fromJSON(json);
-}
+export const JSONToPreloadedState = (json: any) => application.JSONToPreloadedState(json);
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     return {

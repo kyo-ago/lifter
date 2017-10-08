@@ -11,11 +11,21 @@ import {ClientRequestFactory} from '../../../../domains/proxy/client-request/lif
 import {ProxySettingStatus} from '../../../../domains/settings/proxy-setting/proxy-setting-entity';
 import {ipc} from '../../../../libs/ipc';
 import {CertificateStatus} from '../../../main/certificate/certificate-service';
+import {StateToProps} from '../ui/reducer';
 import {ContextMenuService} from './context-menu/context-menu-service';
 
 export class Application {
     public isContentRendering = false;
     private contextMenuService = new ContextMenuService();
+
+    JSONToPreloadedState(json: any): StateToProps {
+        return {
+            autoResponderEntries: json.autoResponderEntries.map((json: any) => AutoResponderEntryFactory.fromJSON(json)),
+            clientRequestEntries: json.clientRequestEntries.map((json: any) => ClientRequestFactory.fromJSON(json)),
+            certificateState: json.certificateState,
+            proxySettingStatus: json.proxySettingStatus,
+        };
+    }
 
     async addDropFiles(files: File[]): Promise<AbstractAutoResponderEntryEntity[]> {
         let paths = files.map((file) => (<any>file).path);

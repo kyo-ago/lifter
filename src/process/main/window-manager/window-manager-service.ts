@@ -1,4 +1,8 @@
 import * as windowManager from '@kyo-ago/electron-window-manager';
+import {AbstractAutoResponderEntryEntity} from "../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {AutoResponderEntryRepository} from "../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
+import {ClientRequestEntity} from "../../../domains/proxy/client-request/client-request-entity";
+import {ClientRequestRepository} from "../../../domains/proxy/client-request/lifecycle/client-request-repository";
 import {ProxyBypassDomainFactory} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
 import {ProxyBypassDomainRepository} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
 import {ProxyBypassDomainEntity} from '../../../domains/proxy/proxy-bypass-domain/proxy-bypass-domain-entity';
@@ -9,18 +13,31 @@ import {ProxySettingRepository} from "../../../domains/settings/proxy-setting/li
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 import {ipc} from "../../../libs/ipc";
-import {APPLICATION_NAME, WindowManagerInit} from '../../../settings';
+import {APPLICATION_NAME, WINDOW_STATE_DIR, WindowManagerInit} from '../../../settings';
 import {CertificateService} from "../certificate/certificate-service";
 
 export class WindowManagerService {
     constructor(
-        private certificateService: CertificateService,
+        private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private clientRequestRepository: ClientRequestRepository,
         private proxySettingRepository: ProxySettingRepository,
-        private rewriteRuleFactory: RewriteRuleFactory,
         private rewriteRuleRepository: RewriteRuleRepository,
-        private proxyBypassDomainFactory: ProxyBypassDomainFactory,
         private proxyBypassDomainRepository: ProxyBypassDomainRepository,
+        private certificateService: CertificateService,
     ) {
+    }
+
+    load() {
+        windowManager.init(WindowManagerInit);
+
+        windowManager.bridge.on('overwriteRewriteRules', async (allJsons: ShareRewriteRuleEntityJSON[]) => {
+            let entities = allJsons.map((json) => RewriteRuleFactory.fromJSON(json));
+            await this.rewriteRuleRepository.overwriteAll(entities);
+        });
+        windowManager.bridge.on('overwriteProxyBypassDomains', async (allJsons: ShareProxyBypassDomainEntityJSON[]) => {
+            let entities = allJsons.map((json) => ProxyBypassDomainFactory.fromJSON(json));
+            await this.proxyBypassDomainRepository.overwriteAll(entities);
+        });
     }
 
     async createMainWindow() {
@@ -28,40 +45,28 @@ export class WindowManagerService {
         if (windowManager.get(name)) {
             return;
         }
+
+        let autoResponderEntries = await this.autoResponderEntryRepository.resolveAll();
+        let clientRequestEntries = this.clientRequestRepository.resolveAll();
         let certificateState = await this.certificateService.getCurrentStatus();
         let proxySettingStatus = await this.proxySettingRepository.getProxySetting().getCurrentStatus();
         windowManager.sharedData.set('mainApps', {
-            autoResponderEntries: [],
-            clientRequestEntries: [],
+            autoResponderEntries: autoResponderEntries.map((entity: AbstractAutoResponderEntryEntity) => entity.json),
+            clientRequestEntries: clientRequestEntries.map((entity: ClientRequestEntity) => entity.json),
             certificateState: certificateState,
             proxySettingStatus: proxySettingStatus,
         });
         windowManager.open(name, APPLICATION_NAME, '/index.html', 'default', {
-            file: 'main-window-state.json',
+            file: `${WINDOW_STATE_DIR}main-window-state.json`,
         });
         this.registerWindow(name);
     }
 
-    load() {
-        windowManager.init(WindowManagerInit);
+    async openProxyBypassDomainSettingWindow() {
+        let allEntities = await this.proxyBypassDomainRepository.resolveAll();
+        let allJsons = allEntities.map((entity: ProxyBypassDomainEntity) => entity.json);
 
-        windowManager.bridge.on('overwriteRewriteRules', (allJsons: ShareRewriteRuleEntityJSON[]) => {
-            let entities = allJsons.map((json) => this.rewriteRuleFactory.fromJSON(json));
-            this.rewriteRuleRepository.overwriteAll(entities);
-        });
-        windowManager.bridge.on('overwriteProxyBypassDomains', (allJsons: ShareProxyBypassDomainEntityJSON[]) => {
-            let entities = allJsons.map((json) => this.proxyBypassDomainFactory.fromJSON(json));
-            this.proxyBypassDomainRepository.overwriteAll(entities);
-        });
-    }
-
-    openProxyBypassDomainSettingWindow() {
-        let allEntities = this.proxyBypassDomainRepository
-            .resolveAll()
-            .map((entity: ProxyBypassDomainEntity) => entity.json)
-        ;
-
-        windowManager.sharedData.set('mainProxyBypassDomains', allEntities);
+        windowManager.sharedData.set('mainProxyBypassDomains', allJsons);
         let name  = 'proxyBypassDomainSettingWindow';
         windowManager.open(
             name,
@@ -69,20 +74,18 @@ export class WindowManagerService {
             '/proxy-bypass-domain-setting-window.html',
             'default',
             {
-                file: 'proxy-bypass-domain-setting-window-state.json',
+                file: `${WINDOW_STATE_DIR}proxy-bypass-domain-setting-window-state.json`,
                 parent: windowManager.get('mainWindow'),
             }
         );
         this.registerWindow(name);
     }
 
-    openRewriteRuleSettingWindow() {
-        let allRewriteRules = this.rewriteRuleRepository
-            .resolveAll()
-            .map((entity: RewriteRuleEntity) => entity.json)
-        ;
+    async openRewriteRuleSettingWindow() {
+        let allEntities = await this.rewriteRuleRepository.resolveAll();
+        let allJsons = allEntities.map((entity: RewriteRuleEntity) => entity.json);
 
-        windowManager.sharedData.set('mainRewriteRules', allRewriteRules);
+        windowManager.sharedData.set('mainRewriteRules', allJsons);
         let name  = 'rewriteRuleSettingWindow';
         windowManager.open(
             name,
@@ -90,7 +93,7 @@ export class WindowManagerService {
             '/rewrite-rule-setting-window.html',
             'default',
             {
-                file: 'rewrite-rule-setting-window-state.json',
+                file: `${WINDOW_STATE_DIR}rewrite-rule-setting-window-state.json`,
                 parent: windowManager.get('mainWindow'),
             }
         );

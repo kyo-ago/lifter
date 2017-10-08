@@ -10,14 +10,14 @@ export class AutoResponderService {
     async addFiles(files: File[]) {
         let filePromises = files.map((file) => this.autoResponderEntryFactory.createFromFile(file));
         let autoResponderEntryEntities = await Promise.all(filePromises);
-        this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+        await this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
         return autoResponderEntryEntities;
     }
 
     async addPaths(paths: string[]) {
         let filePromises = paths.map((path) => this.autoResponderEntryFactory.createFromPath(path));
         let autoResponderEntryEntities = await Promise.all(filePromises);
-        this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
+        await this.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
         return autoResponderEntryEntities;
     }
 }
