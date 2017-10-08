@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import {AutoResponderEntryIdentity} from "../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {ClientRequestEntity} from '../../../../../domains/proxy/client-request/client-request-entity';
 import {Application} from '../../application/application';
 import {Actions} from '../action';
@@ -61,7 +62,7 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
             dispatch(Actions.clickProxySettingStatus(proxySettingStatus));
         },
         contextmenuAutoResponderEntry(id: number) {
-            application.contextmenuAutoResponderEntry(id);
+            application.contextmenuAutoResponderEntry(new AutoResponderEntryIdentity(id));
         },
         openRewriteRuleSettingWindow() {
             application.openRewriteRuleSettingWindow();

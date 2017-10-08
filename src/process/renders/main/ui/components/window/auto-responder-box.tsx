@@ -3,7 +3,9 @@ import {AbstractAutoResponderEntryEntity} from '../../../../../../domains/proxy/
 import {GlobalProps} from '../index';
 
 export class AutoResponderBox extends React.Component<GlobalProps, {}> {
-    onContextmenu(id: number) {
+    onContextmenu(evn: React.MouseEvent<any>, id: number) {
+        evn.preventDefault();
+        evn.stopPropagation();
         this.props.contextmenuAutoResponderEntry(id);
     }
 
@@ -15,7 +17,7 @@ export class AutoResponderBox extends React.Component<GlobalProps, {}> {
                     className="nav-group-item"
                     title={entry.path.value}
                     key={entry.id}
-                    onContextMenu={this.onContextmenu.bind(this, entry.id)}
+                    onContextMenu={(env) => this.onContextmenu(env, entry.id)}
                 >
                     <span className={`icon ${className}`}></span>
                     {entry.pattern.value}

@@ -2,6 +2,7 @@ import {
     AbstractAutoResponderEntryEntity,
     AutoResponderEntryEntityJSON
 } from '../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from "../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {AutoResponderEntryFactory} from '../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory';
 import {
     ClientRequestEntity,
@@ -46,7 +47,7 @@ export class Application {
         return ipc.publish("setNewProxySettingStatus");
     }
 
-    contextmenuAutoResponderEntry(id: number) {
+    contextmenuAutoResponderEntry(id: AutoResponderEntryIdentity) {
         this.contextMenuService.contextmenuAutoResponderEntry(id);
     }
 

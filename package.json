@@ -56,9 +56,6 @@
     "ts-jest": "^21.1.0",
     "typescript": "2.5.1"
   },
-  "directories": {
-    "test": "tests"
-  },
   "homepage": "https://github.com/kyo-ago/lifter/",
   "jest": {
     "transform": {
