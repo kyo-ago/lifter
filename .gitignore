@@ -3,8 +3,8 @@
 
 *.js
 /node_modules/
-/.http-mitm-proxy/
-/.repositories/
+/http-mitm-proxy/
+/repositories/
 /build/
 /dist/
 /npm-debug.log
