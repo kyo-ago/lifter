@@ -2,12 +2,20 @@ import {None, Option, Some} from 'monapt';
 import {RewriteRuleEntity} from '../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
 import {ShareRewriteRuleIdentity} from '../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity';
 import {windowManager} from '../../libs/get-window-manager';
+import {StateToProps} from "../ui/reducer";
 import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
 
 export class Application {
     public isContentRendering = false;
 
     constructor(private lifecycleContextService: LifecycleContextService) {
+    }
+
+    JSONToPreloadedState(jsons: any[]): StateToProps {
+        return {
+            rewriteRules: jsons.map((json) => this.lifecycleContextService.rewriteRuleFactory.fromJSON(json)),
+            currentRewriteRule: None,
+        };
     }
 
     saveRewriteRule(url: string, action: string, header: string, value: string): RewriteRuleEntity {

@@ -38,9 +38,7 @@ let application = new Application(lifecycleContextService);
 export const App = application;
 (window as any).application = application;
 
-export function RewriteRuleFactoryFromJSON(json: any) {
-    return lifecycleContextService.rewriteRuleFactory.fromJSON(json);
-}
+export const JSONToPreloadedState = (json: any) => application.JSONToPreloadedState(json);
 
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     return {

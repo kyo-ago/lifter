@@ -21,15 +21,17 @@ export class Application {
         this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
         this.connectionService = new ConnectionService(
-            this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
         );
         this.windowManagerService = new WindowManagerService(
-            this.certificateService,
+            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.proxySettingRepository,
             this.lifecycleContextService.rewriteRuleRepository,
             this.lifecycleContextService.proxyBypassDomainRepository,
+            this.certificateService,
         );
     }
 

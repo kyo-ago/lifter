@@ -34,6 +34,8 @@ export type GlobalProps = DispathProps & StateToProps;
 
 let application = new Application();
 
+export const JSONToPreloadedState = (json: any) => application.JSONToPreloadedState(json);
+
 function mapDispatchToProps(dispatch: Dispath): DispathProps {
     application.initialize(window);
 

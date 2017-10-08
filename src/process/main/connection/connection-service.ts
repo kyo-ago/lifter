@@ -7,8 +7,8 @@ import {RewriteRuleRepository} from '../../../domains/proxy/rewrite-rule/lifecyc
 
 export class ConnectionService {
     constructor(
-        private clientRequestRepository: ClientRequestRepository,
         private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private clientRequestRepository: ClientRequestRepository,
         private rewriteRuleRepository: RewriteRuleRepository,
     ) { }
 

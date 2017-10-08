@@ -1,4 +1,8 @@
 import * as windowManager from '@kyo-ago/electron-window-manager';
+import {AbstractAutoResponderEntryEntity} from "../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {AutoResponderEntryRepository} from "../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
+import {ClientRequestEntity} from "../../../domains/proxy/client-request/client-request-entity";
+import {ClientRequestRepository} from "../../../domains/proxy/client-request/lifecycle/client-request-repository";
 import {ProxyBypassDomainFactory} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
 import {ProxyBypassDomainRepository} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
 import {ProxyBypassDomainEntity} from '../../../domains/proxy/proxy-bypass-domain/proxy-bypass-domain-entity';
@@ -14,30 +18,13 @@ import {CertificateService} from "../certificate/certificate-service";
 
 export class WindowManagerService {
     constructor(
-        private certificateService: CertificateService,
+        private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private clientRequestRepository: ClientRequestRepository,
         private proxySettingRepository: ProxySettingRepository,
         private rewriteRuleRepository: RewriteRuleRepository,
         private proxyBypassDomainRepository: ProxyBypassDomainRepository,
+        private certificateService: CertificateService,
     ) {
-    }
-
-    async createMainWindow() {
-        let name = 'mainWindow';
-        if (windowManager.get(name)) {
-            return;
-        }
-        let certificateState = await this.certificateService.getCurrentStatus();
-        let proxySettingStatus = await this.proxySettingRepository.getProxySetting().getCurrentStatus();
-        windowManager.sharedData.set('mainApps', {
-            autoResponderEntries: [],
-            clientRequestEntries: [],
-            certificateState: certificateState,
-            proxySettingStatus: proxySettingStatus,
-        });
-        windowManager.open(name, APPLICATION_NAME, '/index.html', 'default', {
-            file: `${WINDOW_STATE_DIR}main-window-state.json`,
-        });
-        this.registerWindow(name);
     }
 
     load() {
@@ -51,6 +38,28 @@ export class WindowManagerService {
             let entities = allJsons.map((json) => ProxyBypassDomainFactory.fromJSON(json));
             await this.proxyBypassDomainRepository.overwriteAll(entities);
         });
+    }
+
+    async createMainWindow() {
+        let name = 'mainWindow';
+        if (windowManager.get(name)) {
+            return;
+        }
+
+        let autoResponderEntries = await this.autoResponderEntryRepository.resolveAll();
+        let clientRequestEntries = this.clientRequestRepository.resolveAll();
+        let certificateState = await this.certificateService.getCurrentStatus();
+        let proxySettingStatus = await this.proxySettingRepository.getProxySetting().getCurrentStatus();
+        windowManager.sharedData.set('mainApps', {
+            autoResponderEntries: autoResponderEntries.map((entity: AbstractAutoResponderEntryEntity) => entity.json),
+            clientRequestEntries: clientRequestEntries.map((entity: ClientRequestEntity) => entity.json),
+            certificateState: certificateState,
+            proxySettingStatus: proxySettingStatus,
+        });
+        windowManager.open(name, APPLICATION_NAME, '/index.html', 'default', {
+            file: `${WINDOW_STATE_DIR}main-window-state.json`,
+        });
+        this.registerWindow(name);
     }
 
     async openProxyBypassDomainSettingWindow() {
