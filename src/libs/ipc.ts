@@ -8,6 +8,7 @@ interface ElectronIpcMap {
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     setNewCertificateStatus: CertificateStatus;
     setNewProxySettingStatus: ProxySettingStatus;
+    deleteAutoResponderEntryEntity: number;
     addClientRequestEntity: ClientRequestEntityJSON;
     openRewriteRuleSettingWindow: void;
     openProxyBypassDomainSettingWindow: void;

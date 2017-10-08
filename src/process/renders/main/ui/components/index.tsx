@@ -62,7 +62,9 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
             dispatch(Actions.clickProxySettingStatus(proxySettingStatus));
         },
         contextmenuAutoResponderEntry(id: number) {
-            application.contextmenuAutoResponderEntry(new AutoResponderEntryIdentity(id));
+            let autoResponderEntryIdentity = new AutoResponderEntryIdentity(id);
+            application.contextmenuAutoResponderEntry(autoResponderEntryIdentity);
+            dispatch(Actions.deleteAutoResponder(autoResponderEntryIdentity));
         },
         openRewriteRuleSettingWindow() {
             application.openRewriteRuleSettingWindow();

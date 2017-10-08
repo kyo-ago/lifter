@@ -1,5 +1,6 @@
 import {OutgoingHttpHeaders} from 'http';
 import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-entity';
 import {ipc} from '../../libs/ipc';
 import {HTTP_SSL_CA_DIR_PATH} from '../../settings';
@@ -50,6 +51,10 @@ export class Application {
         ipc.subscribe('setNewProxySettingStatus', (): Promise<ProxySettingStatus> => {
             let proxySettingEntity = this.lifecycleContextService.proxySettingRepository.getProxySetting();
             return proxySettingEntity.getNewStatus();
+        });
+        ipc.subscribe('deleteAutoResponderEntryEntity', (event: any, id: number) => {
+            let autoResponderEntryIdentity = new AutoResponderEntryIdentity(id);
+            this.lifecycleContextService.autoResponderEntryRepository.deleteByIdentity(autoResponderEntryIdentity);
         });
         ipc.subscribe(
             'openProxyBypassDomainSettingWindow',

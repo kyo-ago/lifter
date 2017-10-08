@@ -47,8 +47,10 @@ export class Application {
         return ipc.publish("setNewProxySettingStatus");
     }
 
-    contextmenuAutoResponderEntry(id: AutoResponderEntryIdentity) {
-        this.contextMenuService.contextmenuAutoResponderEntry(id);
+    contextmenuAutoResponderEntry(autoResponderEntryIdentity: AutoResponderEntryIdentity) {
+        this.contextMenuService.contextmenuAutoResponderEntry(() => {
+            ipc.publish("deleteAutoResponderEntryEntity", autoResponderEntryIdentity.getValue());
+        });
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {

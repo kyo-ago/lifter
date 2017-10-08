@@ -1,5 +1,4 @@
-import {remote, MenuItemConstructorOptions} from 'electron';
-import {AutoResponderEntryIdentity} from '../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity';
+import {MenuItemConstructorOptions, remote} from 'electron';
 
 const Menu = remote.Menu;
 
@@ -16,13 +15,11 @@ export class ContextMenuService {
         });
     }
 
-    contextmenuAutoResponderEntry(id: AutoResponderEntryIdentity) {
+    contextmenuAutoResponderEntry(callback: () => void) {
         this.show([
             {
                 label: 'delete',
-                click() {
-                    console.log('delete!');
-                }
+                click: callback,
             }
         ])
     }
