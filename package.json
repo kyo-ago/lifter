@@ -67,7 +67,7 @@
       }
     },
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!@foo)"
+      "<rootDir>/node_modules/"
     ],
     "testRegex": "\\/src\\/.+\\.spec\\.(ts|tsx|js)$",
     "testEnvironment": "node",
