@@ -1,4 +1,4 @@
-import {addTrustedCert, deleteCertificate, findCertificate} from '../../../libs/exec-commands';
+import {addTrustedCert, deleteCertificate, findCertificate, importCert} from '../../../libs/exec-commands';
 
 export type CertificateStatus = "missing" | "installed";
 
@@ -40,8 +40,15 @@ export class CertificateService {
     }
 
     private async installCertificate(): Promise<boolean> {
-        let result = await addTrustedCert(this.certificatePath);
-        return !!result;
+        let importResult = await importCert(this.certificatePath);
+        if (!importResult.match(/1 certificate imported\./)) {
+            throw new Error(importResult);
+        }
+        let addResult = await addTrustedCert(this.certificatePath);
+        if (addResult) {
+            throw new Error(addResult);
+        }
+        return true;
     }
 
     private async deleteCertificate(): Promise<true> {

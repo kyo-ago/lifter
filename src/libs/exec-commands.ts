@@ -28,6 +28,10 @@ export function deleteCertificate(certificateName: string) {
     return ExecCommand(SECURITY_COMMAND, ['delete-certificate', '-c', certificateName]);
 }
 
-export function addTrustedCert(certificatePath: string): Promise<string> {
+export function importCert(certificatePath: string): Promise<string> {
     return ExecCommand(SECURITY_COMMAND, ['import', certificatePath]);
+}
+
+export function addTrustedCert(certificatePath: string): Promise<string> {
+    return ExecCommand(SECURITY_COMMAND, ['add-trusted-cert', '-p', 'ssl', certificatePath]);
 }
