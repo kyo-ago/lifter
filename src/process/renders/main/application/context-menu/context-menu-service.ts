@@ -1,32 +1,34 @@
-import {remote} from 'electron';
-import {AutoResponderEntryIdentity} from '../../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity';
+import {MenuItemConstructorOptions, remote} from 'electron';
 
 const Menu = remote.Menu;
-const MenuItem = remote.MenuItem;
 
 export class ContextMenuService {
-    constructor(
-        private menu = new Menu()
-    ) {}
-
     initialize(target: EventTarget) {
-        this.menu.append(new MenuItem({
-            role: 'toggledevtools'
-        }));
-
         target.addEventListener('contextmenu', (evn) => {
             evn.preventDefault();
-            this.menu.popup(remote.getCurrentWindow());
+            let menu = Menu.buildFromTemplate([
+                {
+                    role: 'toggledevtools'
+                },
+            ]);
+            menu.popup(remote.getCurrentWindow());
         });
     }
 
-    contextmenuAutoResponderEntry(id: number) {
-        let autoResponderEntryIdentity = new AutoResponderEntryIdentity(id);
-        this.menu.append(new MenuItem({
-            label: 'delete',
-            click() {
-                console.log('delete!');
+    contextmenuAutoResponderEntry(callback: () => void) {
+        this.show([
+            {
+                label: 'delete',
+                click: callback,
             }
-        }));
+        ])
+    }
+
+    private show(menuTemplate: MenuItemConstructorOptions[]) {
+        menuTemplate.push(            {
+            role: 'toggledevtools'
+        });
+        let menu = Menu.buildFromTemplate(menuTemplate);
+        menu.popup(remote.getCurrentWindow());
     }
 }

@@ -25,6 +25,13 @@ export function reducer(state = initialState, action: any): StateToProps {
                 ...state,
                 autoResponderEntries: state.autoResponderEntries.concat(action.autoResponderEntryEntity),
             };
+        case AppActions.DELETE_AUTO_RESPONDER:
+            return {
+                ...state,
+                autoResponderEntries: state.autoResponderEntries.filter((entity: AbstractAutoResponderEntryEntity) => {
+                    return !entity.getIdentity().equals(action.autoResponderEntryIdentity)
+                }),
+            };
         case AppActions.CLICK_CERTIFICATE_STATUS:
             return {
                 ...state,

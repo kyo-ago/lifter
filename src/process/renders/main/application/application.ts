@@ -2,6 +2,7 @@ import {
     AbstractAutoResponderEntryEntity,
     AutoResponderEntryEntityJSON
 } from '../../../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from "../../../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {AutoResponderEntryFactory} from '../../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory';
 import {
     ClientRequestEntity,
@@ -46,8 +47,10 @@ export class Application {
         return ipc.publish("setNewProxySettingStatus");
     }
 
-    contextmenuAutoResponderEntry(id: number) {
-        this.contextMenuService.contextmenuAutoResponderEntry(id);
+    contextmenuAutoResponderEntry(autoResponderEntryIdentity: AutoResponderEntryIdentity) {
+        this.contextMenuService.contextmenuAutoResponderEntry(() => {
+            ipc.publish("deleteAutoResponderEntryEntity", autoResponderEntryIdentity.getValue());
+        });
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntity: ClientRequestEntity) => void) {
