@@ -25,7 +25,7 @@ export function deleteCertificate(certificateName: string): Promise<string> {
     })[(<any>deleteCertificate).current || ""]();
 }
 
-export function addTrustedCert(certificatePath: string): Promise<string> {
+export function importCert(certificatePath: string): Promise<string> {
     return ({
         "invalid file": () => { throw new Error("security: SecKeychainItemImport: Unknown format in import.\n"); },
         "directory": () => { throw new Error("readFile: short read\nsecurity: Error reading infile /dir: Is a directory\n"); },
@@ -33,5 +33,13 @@ export function addTrustedCert(certificatePath: string): Promise<string> {
         "already exists": () => { throw new Error("security: SecKeychainItemImport: The specified item already exists in the keychain.\n"); },
         "import .key file": () => "1 key imported.\n",
         "": () => "1 certificate imported.\n",
+    })[(<any>importCert).current || ""]();
+}
+
+export function addTrustedCert(certificatePath: string): Promise<string> {
+    return ({
+        "cancel authentication": () => { throw new Error("SecTrustSettingsSetTrustSettings: The authorization was cancelled by the user.\n"); },
+        "no such file or directory": () => { throw new Error("Error reading file /missing"); },
+        "": () => "",
     })[(<any>addTrustedCert).current || ""]();
 }
