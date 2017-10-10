@@ -1,5 +1,5 @@
 import * as execa from 'execa';
-import {ProxySettingDeviceEntity} from '../domains/settings/proxy-setting/proxy-setting-device/proxy-setting-device-entity';
+import {NetworkInterfaceEntity} from '../domains/settings/network-interface/network-interface-entity';
 import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from '../settings';
 import {throwableCommand} from './throwable-command';
 
@@ -12,12 +12,16 @@ export function getListnetworkserviceorder() {
     return ExecCommand(NETWORK_SETUP_COMMAND, ['-listnetworkserviceorder']);
 }
 
-export function getWebproxy(device: ProxySettingDeviceEntity) {
+export function getWebproxy(device: NetworkInterfaceEntity) {
     return ExecCommand(NETWORK_SETUP_COMMAND, ['-getwebproxy', device.serviceName]);
 }
 
-export function getSecureWebproxy(device: ProxySettingDeviceEntity) {
+export function getSecureWebproxy(device: NetworkInterfaceEntity) {
     return ExecCommand(NETWORK_SETUP_COMMAND, ['-getsecurewebproxy', device.serviceName]);
+}
+
+export function getProxyByPassDomains(device: NetworkInterfaceEntity) {
+    return ExecCommand(NETWORK_SETUP_COMMAND, ['-getproxybypassdomains', device.serviceName]);
 }
 
 export function findCertificate(certificateName: string) {

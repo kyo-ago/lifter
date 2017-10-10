@@ -5,34 +5,34 @@ import {ClientRequestFactory} from '../../domains/proxy/client-request/lifecycle
 import {ClientRequestRepository} from '../../domains/proxy/client-request/lifecycle/client-request-repository';
 import {LocalFileResponderFactory} from '../../domains/proxy/local-file-responder/lifecycle/local-file-responder-factory';
 import {ProjectEntity} from "../../domains/proxy/project/project-entity";
-import {ProxyBypassDomainRepository} from '../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
 import {RewriteRuleRepository} from '../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
+import {NetworkInterfaceFactory} from '../../domains/settings/network-interface/lifecycle/network-interface-factory';
+import {NetworkInterfaceRepository} from '../../domains/settings/network-interface/lifecycle/network-interface-repository';
+import {ProxyBypassDomainRepository} from '../../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
 import {ProxySettingFactory} from '../../domains/settings/proxy-setting/lifecycle/proxy-setting-factory';
 import {ProxySettingRepository} from '../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository';
-import {ProxySettingDeviceFactory} from '../../domains/settings/proxy-setting/proxy-setting-device/lifecycle/proxy-setting-device-factory';
-import {ProxySettingDeviceRepository} from '../../domains/settings/proxy-setting/proxy-setting-device/lifecycle/proxy-setting-device-repository';
 
 export class LifecycleContextService {
     public clientRequestRepository = new ClientRequestRepository();
     public clientRequestFactory = new ClientRequestFactory();
     public localFileResponderFactory = new LocalFileResponderFactory();
     public proxySettingFactory = new ProxySettingFactory();
-    public proxySettingDeviceFactory = new ProxySettingDeviceFactory();
+    public networkInterfaceFactory = new NetworkInterfaceFactory();
 
     public autoResponderEntryRepository: AutoResponderEntryRepository;
     public autoResponderEntryFactory: AutoResponderEntryFactory;
     public proxySettingRepository: ProxySettingRepository;
-    public proxySettingDeviceRepository: ProxySettingDeviceRepository;
+    public networkInterfaceRepository: NetworkInterfaceRepository;
     public proxyBypassDomainRepository: ProxyBypassDomainRepository;
     public rewriteRuleRepository: RewriteRuleRepository;
 
     constructor(projectEntity: ProjectEntity) {
-        this.proxySettingDeviceRepository = new ProxySettingDeviceRepository(
-            this.proxySettingDeviceFactory,
+        this.networkInterfaceRepository = new NetworkInterfaceRepository(
+            this.networkInterfaceFactory,
         );
         this.proxySettingRepository = new ProxySettingRepository(
             this.proxySettingFactory,
-            this.proxySettingDeviceRepository,
+            this.networkInterfaceRepository,
         );
 
         this.autoResponderEntryRepository = new AutoResponderEntryRepository(
@@ -40,6 +40,7 @@ export class LifecycleContextService {
             this.localFileResponderFactory,
         );
         this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(
+            this.networkInterfaceRepository,
             this.createDatastore('proxyBypassDomainRepository', projectEntity),
         );
         this.rewriteRuleRepository = new RewriteRuleRepository(

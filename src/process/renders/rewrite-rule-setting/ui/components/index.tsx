@@ -1,7 +1,7 @@
 import {None, Option} from 'monapt';
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {RewriteRuleEntity} from '../../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import {RewriteRuleEntity} from '../../../../../domains/editing/rewrite-rule/rewrite-rule-entity';
 import {ShareRewriteRuleIdentity} from '../../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity';
 import {SubmitForm} from '../../../share/components/submit-form/submit-form';
 import {Application} from '../../application/application';

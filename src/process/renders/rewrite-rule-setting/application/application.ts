@@ -1,5 +1,5 @@
 import {None, Option, Some} from 'monapt';
-import {RewriteRuleEntity} from '../../../../domains/settings/rewrite-rule/rewrite-rule-entity';
+import {RewriteRuleEntity} from '../../../../domains/editing/rewrite-rule/rewrite-rule-entity';
 import {ShareRewriteRuleIdentity} from '../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity';
 import {windowManager} from '../../libs/get-window-manager';
 import {StateToProps} from "../ui/reducer";

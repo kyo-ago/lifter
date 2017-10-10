@@ -1,18 +1,18 @@
-import {getSecureWebproxy, getWebproxy} from '../../../../libs/exec-commands';
-import {NETWORK_HOST_NAME, PROXY_PORT} from '../../../../settings';
-import {BaseEntity} from '../../../share/base/base-entity';
-import {networksetupProxy} from '../networksetup-proxy-command';
-import {ParseGetwebproxyCommand} from '../specs/parse-getwebproxy-command';
-import {ProxySettingDeviceIdentity} from './proxy-setting-device-identity';
+import {getSecureWebproxy, getWebproxy} from '../../../libs/exec-commands';
+import {NETWORK_HOST_NAME, PROXY_PORT} from '../../../settings';
+import {BaseEntity} from '../../share/base/base-entity';
+import {networksetupProxy} from '../lib/networksetup-proxy-command';
+import {ParseGetwebproxyCommand} from '../proxy-setting/specs/parse-getwebproxy-command';
+import {NetworkInterfaceIdentity} from './network-interface-identity';
 import {ChangeProxyCommand} from './specs/change-proxy-command';
-import {ProxySettingDeviceName} from './value-objects/proxy-setting-device-name';
-import {ProxySettingDeviceServiceName} from "./value-objects/proxy-setting-device-service-name";
+import {NetworkInterfaceName} from './value-objects/network-interface-name';
+import {NetworkInterfaceServiceName} from "./value-objects/network-interface-service-name";
 
-export class ProxySettingDeviceEntity extends BaseEntity<ProxySettingDeviceIdentity> {
+export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity> {
     constructor(
-        identity: ProxySettingDeviceIdentity,
-        private _name: ProxySettingDeviceName,
-        private _serviceName: ProxySettingDeviceServiceName,
+        identity: NetworkInterfaceIdentity,
+        private _name: NetworkInterfaceName,
+        private _serviceName: NetworkInterfaceServiceName,
         public enabled: boolean,
     ) {
         super(identity);

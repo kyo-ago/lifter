@@ -1,10 +1,10 @@
 import {IOResult} from 'networksetup-proxy';
-import {getSecureWebproxy, getWebproxy} from '../../../../../libs/exec-commands';
-import {throwableCommand} from '../../../../../libs/throwable-command';
-import {PromisedSetTimeout} from '../../../../libs/promised-set-timeout';
-import {WaitFor} from '../../../../libs/wait-for';
-import {ParseGetwebproxyCommand} from '../../specs/parse-getwebproxy-command';
-import {ProxySettingDeviceEntity} from '../proxy-setting-device-entity';
+import {getSecureWebproxy, getWebproxy} from '../../../../libs/exec-commands';
+import {throwableCommand} from '../../../../libs/throwable-command';
+import {PromisedSetTimeout} from '../../../libs/promised-set-timeout';
+import {WaitFor} from '../../../libs/wait-for';
+import {ParseGetwebproxyCommand} from '../../proxy-setting/specs/parse-getwebproxy-command';
+import {NetworkInterfaceEntity} from '../network-interface-entity';
 
 // export for tests
 export function ChangeProxyCommandExecute(
@@ -22,7 +22,7 @@ export function ChangeProxyCommandExecute(
 }
 
 export async function ChangeProxyCommand(
-    proxySettingDeviceEntity: ProxySettingDeviceEntity,
+    networkInterfaceEntity: NetworkInterfaceEntity,
     setCommand: () => Promise<IOResult>,
     setSecureCommand: () => Promise<IOResult>,
     stdoutResult: boolean,
@@ -30,12 +30,12 @@ export async function ChangeProxyCommand(
     let result = await Promise.all([
         ChangeProxyCommandExecute(
             setCommand,
-            () => getWebproxy(proxySettingDeviceEntity),
+            () => getWebproxy(networkInterfaceEntity),
             (result: string) => ParseGetwebproxyCommand(result) === stdoutResult,
         ),
         ChangeProxyCommandExecute(
             setSecureCommand,
-            () => getSecureWebproxy(proxySettingDeviceEntity),
+            () => getSecureWebproxy(networkInterfaceEntity),
             (result: string) => ParseGetwebproxyCommand(result) === stdoutResult,
         ),
     ]);
