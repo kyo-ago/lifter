@@ -1,6 +1,7 @@
 import {OutgoingHttpHeaders} from 'http';
 import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
 import {AutoResponderEntryIdentity} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import {ProxyBypassDomainService} from "../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import {ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-entity';
 import {ipc} from '../../libs/ipc';
 import {HTTP_SSL_CA_DIR_PATH} from '../../settings';
@@ -12,9 +13,10 @@ import {WindowManagerService} from './window-manager/window-manager-service';
 
 export class Application {
     private proxyService: ProxyService;
-    private windowManagerService: WindowManagerService;
     private certificateService: CertificateService;
     private connectionService: ConnectionService;
+    private proxyBypassDomainService: ProxyBypassDomainService;
+    private windowManagerService: WindowManagerService;
 
     constructor(
         private lifecycleContextService: LifecycleContextService,
@@ -26,19 +28,26 @@ export class Application {
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
         );
+        this.proxyBypassDomainService = new ProxyBypassDomainService(
+            this.lifecycleContextService.proxyBypassDomainFactory,
+            this.lifecycleContextService.proxyBypassDomainRepository,
+            this.lifecycleContextService.networkInterfaceRepository,
+        );
         this.windowManagerService = new WindowManagerService(
             this.lifecycleContextService.autoResponderEntryRepository,
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.proxySettingRepository,
             this.lifecycleContextService.rewriteRuleRepository,
-            this.lifecycleContextService.proxyBypassDomainRepository,
+            this.proxyBypassDomainService,
             this.certificateService,
         );
     }
 
     async load() {
         await this.lifecycleContextService.load();
-        this.windowManagerService.load();
+        await this.proxyBypassDomainService.load();
+        await this.windowManagerService.load();
+
         ipc.subscribe('addAutoResponderEntryEntities', async (event: any, filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
             let autoResponderEntryEntities = await Promise.all(filePromises);

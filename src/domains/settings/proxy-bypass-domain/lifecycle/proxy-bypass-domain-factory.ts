@@ -4,6 +4,15 @@ import {ShareProxyBypassDomainPattern} from '../../../share/share-proxy-bypass-d
 import {ProxyBypassDomainEntity} from '../proxy-bypass-domain-entity';
 
 export class ProxyBypassDomainFactory {
+    private identity = 0;
+
+    create(domainName: string): ProxyBypassDomainEntity {
+        return new ProxyBypassDomainEntity(
+            new ShareProxyBypassDomainIdentity(this.identity++),
+            new ShareProxyBypassDomainPattern(domainName),
+        );
+    }
+
     static fromJSON(json: ShareProxyBypassDomainEntityJSON): ProxyBypassDomainEntity {
         return new ProxyBypassDomainEntity(
             new ShareProxyBypassDomainIdentity(json.id),

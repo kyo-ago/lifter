@@ -1,8 +1,13 @@
+import {getSecureWebproxy, getWebproxy} from "../../../libs/exec-commands";
 import {throwableCommand} from '../../../libs/throwable-command';
+import {NETWORK_HOST_NAME, PROXY_PORT} from "../../../settings";
 import {BaseEntity} from '../../share/base/base-entity';
 import {networksetupProxy} from '../lib/networksetup-proxy-command';
 import {NetworkInterfaceRepository} from '../network-interface/lifecycle/network-interface-repository';
+import {NetworkInterfaceEntity} from "../network-interface/network-interface-entity";
+import {ChangeProxyCommand} from "../network-interface/specs/change-proxy-command";
 import {ProxySettingIdentity} from './proxy-setting-identity';
+import {ParseGetwebproxyCommand} from "./specs/parse-getwebproxy-command";
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 
@@ -50,22 +55,57 @@ export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
 
     private async isProxing(): Promise<boolean> {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllEnableInterface();
-        let results = await Promise.all(networkInterfaceEntities.map((device) => device.proxing()));
+        let results = await Promise.all(networkInterfaceEntities.map(async (networkInterfaceEntity: NetworkInterfaceEntity) => {
+            return networkInterfaceEntity.enabled ? this.isProxingInterface(networkInterfaceEntity) : false;
+        }));
         return results.find((result) => result);
     }
 
     private async enableProxy(): Promise<void[]> {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllEnableInterface();
-        return Promise.all(networkInterfaceEntities.map((device) => device.enableProxy()));
+        return Promise.all(networkInterfaceEntities.map((ni) => this.enableProxyInterface(ni)));
     }
 
     private async disableProxy(): Promise<void[]> {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllEnableInterface();
-        return Promise.all(networkInterfaceEntities.map((device) => device.disableProxy()));
+        return Promise.all(networkInterfaceEntities.map((ni) => this.disableProxyInterface(ni)));
     }
 
     private async clearProxy(): Promise<void[]> {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllEnableInterface();
-        return Promise.all(networkInterfaceEntities.map((device) => device.clearProxy()));
+        return Promise.all(networkInterfaceEntities.map((ni) => this.disableProxyInterface(ni)));
+    }
+
+    private async enableProxyInterface(networkInterfaceEntity: NetworkInterfaceEntity) {
+        if (!networkInterfaceEntity.enabled) return;
+        if (await this.isProxingInterface(networkInterfaceEntity)) return;
+
+        return ChangeProxyCommand(
+            networkInterfaceEntity,
+            () => networksetupProxy.setwebproxy(networkInterfaceEntity.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            () => networksetupProxy.setsecurewebproxy(networkInterfaceEntity.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            true
+        );
+    }
+
+    private async disableProxyInterface(networkInterfaceEntity: NetworkInterfaceEntity) {
+        if (!networkInterfaceEntity.enabled) return;
+        if (!(await this.isProxingInterface(networkInterfaceEntity))) return;
+
+        return ChangeProxyCommand(
+            networkInterfaceEntity,
+            () => networksetupProxy.setwebproxystate(networkInterfaceEntity.serviceName, 'off'),
+            () => networksetupProxy.setsecurewebproxystate(networkInterfaceEntity.serviceName, 'off'),
+            false
+        );
+    }
+
+    private async isProxingInterface(networkInterfaceEntity: NetworkInterfaceEntity): Promise<boolean> {
+        let results: string[] = await Promise.all([
+            getWebproxy(networkInterfaceEntity),
+            getSecureWebproxy(networkInterfaceEntity),
+        ]);
+        let result = results.find((stdout) => ParseGetwebproxyCommand(stdout));
+        return Boolean(result);
     }
 }

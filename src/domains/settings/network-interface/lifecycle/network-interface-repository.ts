@@ -17,17 +17,6 @@ export class NetworkInterfaceRepository extends OnMemoryRepository<NetworkInterf
         super();
     }
 
-    async load() {
-        let [serviceorder, ifconfig] = await Promise.all([
-            getListnetworkserviceorder(),
-            promisedIfconfig(),
-        ]);
-        return ParseNetworkDevices(serviceorder, ifconfig)
-            .map((param: NetworkDeviceParam) => this.networkInterfaceFactory.create(param))
-            .filter((entity) => entity.enabled)
-        ;
-    }
-
     async resolveAllEnableInterface(): Promise<NetworkInterfaceEntity[]> {
         let [serviceorder, ifconfig] = await Promise.all([
             getListnetworkserviceorder(),
