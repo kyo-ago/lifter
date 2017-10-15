@@ -3,12 +3,12 @@ import {AbstractAutoResponderEntryEntity} from "../../../domains/proxy/auto-resp
 import {AutoResponderEntryRepository} from "../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
 import {ClientRequestEntity} from "../../../domains/proxy/client-request/client-request-entity";
 import {ClientRequestRepository} from "../../../domains/proxy/client-request/lifecycle/client-request-repository";
-import {ProxyBypassDomainFactory} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
-import {ProxyBypassDomainRepository} from '../../../domains/proxy/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
-import {ProxyBypassDomainEntity} from '../../../domains/proxy/proxy-bypass-domain/proxy-bypass-domain-entity';
 import {RewriteRuleFactory} from '../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory';
 import {RewriteRuleRepository} from '../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
 import {RewriteRuleEntity} from '../../../domains/proxy/rewrite-rule/rewrite-rule-entity';
+import {ProxyBypassDomainFactory} from '../../../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
+import {ProxyBypassDomainEntity} from '../../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-entity';
+import {ProxyBypassDomainService} from "../../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import {ProxySettingRepository} from "../../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository";
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
@@ -22,12 +22,12 @@ export class WindowManagerService {
         private clientRequestRepository: ClientRequestRepository,
         private proxySettingRepository: ProxySettingRepository,
         private rewriteRuleRepository: RewriteRuleRepository,
-        private proxyBypassDomainRepository: ProxyBypassDomainRepository,
+        private proxyBypassDomainService: ProxyBypassDomainService,
         private certificateService: CertificateService,
     ) {
     }
 
-    load() {
+    async load() {
         windowManager.init(WindowManagerInit);
 
         windowManager.bridge.on('overwriteRewriteRules', async (allJsons: ShareRewriteRuleEntityJSON[]) => {
@@ -36,7 +36,7 @@ export class WindowManagerService {
         });
         windowManager.bridge.on('overwriteProxyBypassDomains', async (allJsons: ShareProxyBypassDomainEntityJSON[]) => {
             let entities = allJsons.map((json) => ProxyBypassDomainFactory.fromJSON(json));
-            await this.proxyBypassDomainRepository.overwriteAll(entities);
+            await this.proxyBypassDomainService.overwriteAll(entities);
         });
     }
 
@@ -63,7 +63,7 @@ export class WindowManagerService {
     }
 
     async openProxyBypassDomainSettingWindow() {
-        let allEntities = await this.proxyBypassDomainRepository.resolveAll();
+        let allEntities = await this.proxyBypassDomainService.resolveAll();
         let allJsons = allEntities.map((entity: ProxyBypassDomainEntity) => entity.json);
 
         windowManager.sharedData.set('mainProxyBypassDomains', allJsons);
