@@ -7,7 +7,7 @@ export class Form extends React.Component<GlobalProps, {}> {
     }
 
     render() {
-        let proxyBypassDomains = this.props.proxyBypassDomains.map((entity) => entity.pattern).join(', ');
+        let proxyBypassDomains = this.props.proxyBypassDomains.map((entity) => entity.name).join(', ');
         return <form>
             <div className="form-group">
                 <label>Proxy bypass domain pattern</label>

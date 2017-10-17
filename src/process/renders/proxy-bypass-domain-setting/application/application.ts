@@ -1,3 +1,4 @@
+import {ProxyBypassDomainEntity} from "../../../../domains/editing/proxy-bypass-domain/proxy-bypass-domain-entity";
 import {windowManager} from '../../libs/get-window-manager';
 import {StateToProps} from "../ui/reducer";
 import {LifecycleContextService} from './lifecycle-context/lifecycle-context-service';
@@ -15,11 +16,20 @@ export class Application {
     }
 
     updateEntities(formText: string) {
+        let proxyBypassDomainEntities = this.lifecycleContextService.ProxyBypassDomainRepository.resolveAll();
+        let proxyBypassDomains = proxyBypassDomainEntities.reduce((base, cur) => {
+            base[cur.name] = cur;
+            return base;
+        }, <{[key: string]: ProxyBypassDomainEntity}>{});
+
         let entities = formText
             .split(/\s+/)
-            .filter((pattern) => pattern)
-            .map((pattern) => this.lifecycleContextService.proxyBypassDomainFactory.create(pattern))
+            .filter((domain) => domain)
+            .map((domain) => {
+                return proxyBypassDomains[domain] || this.lifecycleContextService.proxyBypassDomainFactory.create(domain);
+            })
         ;
+
         this.lifecycleContextService.ProxyBypassDomainRepository.overwriteAll(entities);
         return entities;
     }

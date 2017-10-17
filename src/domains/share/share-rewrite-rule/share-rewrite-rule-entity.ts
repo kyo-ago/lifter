@@ -1,6 +1,6 @@
 import {BaseEntity} from '../base/base-entity';
 import {ShareRewriteRuleIdentity} from './share-rewrite-rule-identity';
-import {ACTION, ShareRewriteRuleAction} from './value-objects/share-rewrite-rule-action';
+import {ShareRewriteRuleAction, Types} from './value-objects/share-rewrite-rule-action';
 import {ShareRewriteRuleHeader} from './value-objects/share-rewrite-rule-header';
 import {ShareRewriteRuleUrlPattern} from './value-objects/share-rewrite-rule-url-pattern';
 import {ShareRewriteRuleValue} from './value-objects/share-rewrite-rule-value';
@@ -28,7 +28,7 @@ export abstract class ShareRewriteRuleEntity extends BaseEntity<ShareRewriteRule
         return this._url.value;
     }
 
-    get action(): ACTION {
+    get action(): Types {
         return this._action.value;
     }
 

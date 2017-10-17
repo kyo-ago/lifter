@@ -29,7 +29,6 @@ export class Application {
             this.lifecycleContextService.rewriteRuleRepository,
         );
         this.proxyBypassDomainService = new ProxyBypassDomainService(
-            this.lifecycleContextService.proxyBypassDomainFactory,
             this.lifecycleContextService.proxyBypassDomainRepository,
             this.lifecycleContextService.networkInterfaceRepository,
         );

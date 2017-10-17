@@ -4,7 +4,7 @@ import {NETWORK_SETUP_COMMAND, SECURITY_COMMAND} from '../settings';
 import {throwableCommand} from './throwable-command';
 
 function ExecCommand(commandPath: string, args: string[]) {
-    let filteredArgs = args.filter((arg) => arg).map((arg) => arg.match(/\s/) ? `"${arg}"` : arg);
+    let filteredArgs = args.filter((arg) => arg).map((arg) => arg.match(/\W/) ? `"${arg}"` : arg);
     return throwableCommand(execa.shell(`${commandPath} ${filteredArgs.join(' ')}`));
 }
 

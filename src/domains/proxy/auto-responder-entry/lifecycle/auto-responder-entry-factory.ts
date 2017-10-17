@@ -1,5 +1,7 @@
 import * as fs from 'fs';
+import * as Datastore from 'nedb';
 import * as Path from 'path';
+import {AsyncOnNedbFactory} from "../../../share/base/async-on-nedb-factory";
 import {ProjectIdentity} from '../../project/project-identity';
 import {AutoResponderEntryDirectoryEntity} from '../auto-responder-entry-directory/auto-responder-entry-directory-entity';
 import {AutoResponderEntryDirectoryPath} from '../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path';
@@ -17,9 +19,13 @@ import {AutoResponderEntryAnyPath} from '../auto-responder-entry-glob/value-obje
 import {AutoResponderEntryGlobPattern} from '../auto-responder-entry-glob/value-objects/auto-responder-entry-glob-pattern';
 import {AutoResponderEntryIdentity} from '../auto-responder-entry-identity';
 
-export class AutoResponderEntryFactory {
-    private identity = 0;
-    constructor(private projectIdentity: ProjectIdentity) {}
+export class AutoResponderEntryFactory extends AsyncOnNedbFactory{
+    constructor(
+        private projectIdentity: ProjectIdentity,
+        datastore: Datastore,
+    ) {
+        super(datastore);
+    }
 
     static fromJSON(autoResponderEntryEntityJSON: AutoResponderEntryEntityJSON) {
         if (autoResponderEntryEntityJSON.type === "File") {
@@ -54,7 +60,7 @@ export class AutoResponderEntryFactory {
     create(type: AutoResponderEntryType, pattern: string, path: string): AbstractAutoResponderEntryEntity {
         if (type === "File") {
             return new AutoResponderEntryFileEntity(
-                new AutoResponderEntryIdentity(this.identity++),
+                new AutoResponderEntryIdentity(this.getNextIdNumber()),
                 "File",
                 new AutoResponderEntryFilePattern(pattern),
                 new AutoResponderEntryFilePath(path),
@@ -62,7 +68,7 @@ export class AutoResponderEntryFactory {
             );
         } else if (type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
-                new AutoResponderEntryIdentity(this.identity++),
+                new AutoResponderEntryIdentity(this.getNextIdNumber()),
                 "Directory",
                 AutoResponderEntryDirectoryPattern.createSafeValue(pattern),
                 new AutoResponderEntryDirectoryPath(path),
@@ -70,7 +76,7 @@ export class AutoResponderEntryFactory {
             );
         } else if (type === "Glob") {
             return new AutoResponderEntryGlobEntity(
-                new AutoResponderEntryIdentity(this.identity++),
+                new AutoResponderEntryIdentity(this.getNextIdNumber()),
                 "Glob",
                 new AutoResponderEntryGlobPattern(pattern),
                 new AutoResponderEntryAnyPath(path),

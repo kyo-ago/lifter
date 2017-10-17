@@ -15,4 +15,14 @@ export class ProjectEntity extends BaseEntity<ProjectIdentity> {
         super(projectIdentity);
         this.path = Option(path);
     }
+    get json() {
+        return {
+            id: this.id,
+            name: this.name.value,
+            baseDir: this.path.match({
+                Some: (path) => path.value,
+                None: () => null,
+            })
+        }
+    }
 }

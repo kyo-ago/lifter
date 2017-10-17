@@ -1,8 +1,8 @@
 import {BaseValueObject} from '../../base/value-objects/base-value-object';
 
-export type ACTION = "ADD" | "MODIFY" | "DELETE";
+export type Types = "ADD" | "MODIFY" | "DELETE";
 
-const StringToAction = (value: string): ACTION => {
+const StringToType = (value: string): Types => {
     if (value === "ADD") {
         return "ADD";
     } else if (value === "MODIFY") {
@@ -10,13 +10,13 @@ const StringToAction = (value: string): ACTION => {
     } else if (value === "DELETE") {
         return "DELETE";
     }
-    throw new Error("Invalid rewrite rule action");
+    throw new Error("Invalid ShareRewriteRuleAction");
 };
 
-export class ShareRewriteRuleAction extends BaseValueObject<ACTION> {
+export class ShareRewriteRuleAction extends BaseValueObject<Types> {
     constructor(
         _value: string,
     ) {
-        super(StringToAction(_value));
+        super(StringToType(_value));
     }
 }
