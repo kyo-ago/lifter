@@ -1,28 +1,28 @@
 import {BaseEntity} from '../base/base-entity';
 import {ShareProxyBypassDomainIdentity} from './share-proxy-bypass-domain-identity';
-import {ShareProxyBypassDomainPattern} from './vaue-objects/share-proxy-bypass-domain-pattern';
+import {ShareProxyBypassDomainName} from './vaue-objects/share-proxy-bypass-domain-name';
 
 export interface ShareProxyBypassDomainEntityJSON {
     id: number;
-    pattern: string;
+    name: string;
 }
 
 export abstract class ShareProxyBypassDomainEntity extends BaseEntity<ShareProxyBypassDomainIdentity> {
     constructor(
         identity: ShareProxyBypassDomainIdentity,
-        private _pattern: ShareProxyBypassDomainPattern,
+        private _name: ShareProxyBypassDomainName,
     ) {
         super(identity);
     }
 
-    get pattern(): string {
-        return this._pattern.value;
+    get name(): string {
+        return this._name.value;
     }
 
     get json(): ShareProxyBypassDomainEntityJSON {
         return {
             id: this.id,
-            pattern: this.pattern,
+            name: this.name,
         };
     }
 }

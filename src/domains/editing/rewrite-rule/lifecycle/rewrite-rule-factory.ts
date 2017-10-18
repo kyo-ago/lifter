@@ -25,6 +25,8 @@ export class RewriteRuleFactory {
     }
 
     fromJSON(json: ShareRewriteRuleEntityJSON): RewriteRuleEntity {
+        this.identity = Math.max(json.id, this.identity);
+
         return new RewriteRuleEntity(
             new ShareRewriteRuleIdentity(json.id),
             new ShareRewriteRuleUrlPattern(json.url),

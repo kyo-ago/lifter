@@ -46,7 +46,7 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
     async store(entity: E): Promise<E> {
         let json = this.mapper.toJSON(entity);
         let id = entity.getIdentity().getValue();
-        await this.update({'id': id}, json, {upsert:true});
+        await this.update({'id': id}, json, {upsert: true});
         this.entities[id] = entity;
         return entity;
     }

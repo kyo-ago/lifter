@@ -8,7 +8,6 @@ import {ProjectEntity} from "../../domains/proxy/project/project-entity";
 import {RewriteRuleRepository} from '../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
 import {NetworkInterfaceFactory} from '../../domains/settings/network-interface/lifecycle/network-interface-factory';
 import {NetworkInterfaceRepository} from '../../domains/settings/network-interface/lifecycle/network-interface-repository';
-import {ProxyBypassDomainFactory} from "../../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
 import {ProxyBypassDomainRepository} from '../../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
 import {ProxySettingFactory} from '../../domains/settings/proxy-setting/lifecycle/proxy-setting-factory';
 import {ProxySettingRepository} from '../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository';
@@ -19,7 +18,6 @@ export class LifecycleContextService {
     public localFileResponderFactory = new LocalFileResponderFactory();
     public proxySettingFactory = new ProxySettingFactory();
     public networkInterfaceFactory = new NetworkInterfaceFactory();
-    public proxyBypassDomainFactory = new ProxyBypassDomainFactory();
 
     public autoResponderEntryRepository: AutoResponderEntryRepository;
     public autoResponderEntryFactory: AutoResponderEntryFactory;
@@ -38,18 +36,19 @@ export class LifecycleContextService {
         );
 
         this.autoResponderEntryRepository = new AutoResponderEntryRepository(
-            this.createDatastore('AutoResponderEntryRepository', projectEntity),
+            this.createDatastore('autoResponderEntryRepository', projectEntity),
             this.localFileResponderFactory,
         );
         this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(
             this.createDatastore('proxyBypassDomainRepository', projectEntity),
         );
         this.rewriteRuleRepository = new RewriteRuleRepository(
-            this.createDatastore('RewriteRuleRepository', projectEntity),
+            this.createDatastore('rewriteRuleRepository', projectEntity),
         );
 
         this.autoResponderEntryFactory = new AutoResponderEntryFactory(
             projectEntity.getIdentity(),
+            this.createDatastore('autoResponderEntryFactory', projectEntity),
         );
     }
 
