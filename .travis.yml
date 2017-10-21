@@ -27,8 +27,7 @@ deploy:
   api_key:
     secure: bpEGBsMYkUqWJVvkRlg52pbf+7IfFHuE8vvBVAsJiLIuO8WsnYy95YuUoD+Z4pLIXhHfrnfl7NWlCqo3l/2B9v/HJ6HU+AERKXSkuFqAQKRBOIWz37fTFTio6PfdZlUwu47E2y9feVEGzvAz5ruQj9ViXBdFrUb5VU9sMe2vrQqrF+4Dq84Ogyi6BAQPxRtS63QRhw5bbZidjfEF51L8FphmAXogjaYS3Y/WTSxRxKmPyIODwkG1xu4WJHaXo0sZt3kVaDV20Ok0aqClUNKYq/BLXTOZ4EZoHp/QjFMieXwK6g0R8m798g04w20Yx05rAWJijS1Bfg9+hgf6iESz0NGvRz0KMewI+Jbi/+71A3w2z/wmpnaaTQtklgWy1K3iVNevOg6Wf8gSH/6Sko+KXCEdSkzepVprhObH/8leoP3TT8hI1H9qEbGv7g7NbrkK6ccL0E4LJ7Pf71O1+WU5cQmAFO4BpwvrxN91yKEA+UDC9brn74rPsHU1TbO/gI/ori+hZ1HrdndPux5VhYYM0zaYTK03wHHIKUk84Ljw8rH6SZO9qqDe1UU7IJ+BHPOnpGVL4NQwbfKFRP/t/vCZmZydD8dYKklWt1rI+IEHQSuLdz7GPLJga/BPN/htlbCL/VAgALZKWN5l3WZILrwsA25idZCn58k4WmorhHbZYoA=
   file_glob: true
-  file:
-    - dist/Lifter Proxy-*-mac.zip
+  file: dist/*-mac.zip
   skip_cleanup: true
   on:
     tags: true
