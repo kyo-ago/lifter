@@ -62,13 +62,6 @@ export class LifecycleContextService {
     }
 
     private createDatastore(name: string, projectEntity: ProjectEntity) {
-        return new Datastore(projectEntity.path.match<Nedb.DataStoreOptions>({
-            Some: (path) => ({
-                filename: `${path.value}/${name}.nedb`,
-            }),
-            None: () => ({
-                inMemoryOnly: true,
-            }),
-        }));
+        return new Datastore(projectEntity.getDataStoreOptions(name));
     }
 }

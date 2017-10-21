@@ -21,11 +21,4 @@ export class ProjectFactory {
             new ProjectBaseDir(projectBaseDir),
         );
     }
-
-    createInMemory(): ProjectEntity {
-        return new ProjectEntity(
-            new ProjectIdentity(this.identity++),
-            new ProjectName('new project'),
-        );
-    }
 }

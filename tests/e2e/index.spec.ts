@@ -4,7 +4,7 @@ import * as Path from "path";
 
 describe('application launch', () => {
     let application: Application;
-    beforeEach(() => {
+    beforeAll(() => {
         application = new Application({
             path: `${Path.join('.', 'node_modules', '.bin', 'electron')}`,
             args: [Path.join('.')],
@@ -12,7 +12,7 @@ describe('application launch', () => {
         return application.start();
     });
 
-    afterEach(() => {
+    afterAll(() => {
         if (application && application.isRunning()) {
             return application.stop();
         }
@@ -21,5 +21,10 @@ describe('application launch', () => {
     it('shows an initial window', async () => {
         let count = await application.client.getWindowCount();
         assert.equal(count, 1);
+    });
+
+    it('get text', async () => {
+        let text = await (<any>application.client).getText('body');
+        assert(text);
     });
 });
