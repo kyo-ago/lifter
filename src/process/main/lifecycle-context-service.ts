@@ -9,19 +9,15 @@ import {RewriteRuleRepository} from '../../domains/proxy/rewrite-rule/lifecycle/
 import {NetworkInterfaceFactory} from '../../domains/settings/network-interface/lifecycle/network-interface-factory';
 import {NetworkInterfaceRepository} from '../../domains/settings/network-interface/lifecycle/network-interface-repository';
 import {ProxyBypassDomainRepository} from '../../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository';
-import {ProxySettingFactory} from '../../domains/settings/proxy-setting/lifecycle/proxy-setting-factory';
-import {ProxySettingRepository} from '../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository';
 
 export class LifecycleContextService {
     public clientRequestRepository = new ClientRequestRepository();
     public clientRequestFactory = new ClientRequestFactory();
     public localFileResponderFactory = new LocalFileResponderFactory();
-    public proxySettingFactory = new ProxySettingFactory();
     public networkInterfaceFactory = new NetworkInterfaceFactory();
 
     public autoResponderEntryRepository: AutoResponderEntryRepository;
     public autoResponderEntryFactory: AutoResponderEntryFactory;
-    public proxySettingRepository: ProxySettingRepository;
     public networkInterfaceRepository: NetworkInterfaceRepository;
     public proxyBypassDomainRepository: ProxyBypassDomainRepository;
     public rewriteRuleRepository: RewriteRuleRepository;
@@ -29,10 +25,6 @@ export class LifecycleContextService {
     constructor(projectEntity: ProjectEntity) {
         this.networkInterfaceRepository = new NetworkInterfaceRepository(
             this.networkInterfaceFactory,
-        );
-        this.proxySettingRepository = new ProxySettingRepository(
-            this.proxySettingFactory,
-            this.networkInterfaceRepository,
         );
 
         this.autoResponderEntryRepository = new AutoResponderEntryRepository(
@@ -57,7 +49,6 @@ export class LifecycleContextService {
             this.autoResponderEntryRepository.load(),
             this.rewriteRuleRepository.load(),
             this.proxyBypassDomainRepository.load(),
-            this.proxySettingRepository.loadEntities(),
         ]);
     }
 

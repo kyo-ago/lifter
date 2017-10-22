@@ -1,23 +1,24 @@
 import {getSecureWebproxy, getWebproxy} from "../../../libs/exec-commands";
 import {throwableCommand} from '../../../libs/throwable-command';
 import {NETWORK_HOST_NAME, PROXY_PORT} from "../../../settings";
-import {BaseEntity} from '../../share/base/base-entity';
 import {networksetupProxy} from '../lib/networksetup-proxy-command';
 import {NetworkInterfaceRepository} from '../network-interface/lifecycle/network-interface-repository';
 import {NetworkInterfaceEntity} from "../network-interface/network-interface-entity";
 import {ChangeProxyCommand} from "../network-interface/specs/change-proxy-command";
-import {ProxySettingIdentity} from './proxy-setting-identity';
 import {ParseGetwebproxyCommand} from "./specs/parse-getwebproxy-command";
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 
-export class ProxySettingEntity extends BaseEntity<ProxySettingIdentity> {
+export class ProxySettingService {
+    public isGranted: boolean;
+
     constructor(
-        identity: ProxySettingIdentity,
         private networkInterfaceRepository: NetworkInterfaceRepository,
-        public isGranted: boolean,
     ) {
-        super(identity);
+    }
+
+    async load() {
+        this.isGranted = await networksetupProxy.hasGrant();
     }
 
     async getCurrentStatus(): Promise<ProxySettingStatus> {

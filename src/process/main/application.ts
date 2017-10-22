@@ -2,7 +2,7 @@ import {OutgoingHttpHeaders} from 'http';
 import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
 import {AutoResponderEntryIdentity} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {ProxyBypassDomainService} from "../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import {ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-entity';
+import {ProxySettingService, ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-service';
 import {ipc} from '../../libs/ipc';
 import {HTTP_SSL_CA_DIR_PATH} from '../../settings';
 import {CertificateService, CertificateStatus} from './certificate/certificate-service';
@@ -14,6 +14,7 @@ import {WindowManagerService} from './window-manager/window-manager-service';
 export class Application {
     private proxyService: ProxyService;
     private certificateService: CertificateService;
+    private proxySettingService: ProxySettingService;
     private connectionService: ConnectionService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private windowManagerService: WindowManagerService;
@@ -23,6 +24,9 @@ export class Application {
     ) {
         this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
+        this.proxySettingService = new ProxySettingService(
+            this.lifecycleContextService.networkInterfaceRepository
+        );
         this.connectionService = new ConnectionService(
             this.lifecycleContextService.autoResponderEntryRepository,
             this.lifecycleContextService.clientRequestRepository,
@@ -35,10 +39,10 @@ export class Application {
         this.windowManagerService = new WindowManagerService(
             this.lifecycleContextService.autoResponderEntryRepository,
             this.lifecycleContextService.clientRequestRepository,
-            this.lifecycleContextService.proxySettingRepository,
             this.lifecycleContextService.rewriteRuleRepository,
             this.proxyBypassDomainService,
             this.certificateService,
+            this.proxySettingService,
         );
     }
 
@@ -46,6 +50,7 @@ export class Application {
         await this.lifecycleContextService.load();
         await this.proxyBypassDomainService.load();
         await this.windowManagerService.load();
+        await this.proxySettingService.load();
 
         ipc.subscribe('addAutoResponderEntryEntities', async (event: any, filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
@@ -57,8 +62,7 @@ export class Application {
             return this.certificateService.getNewStatus();
         });
         ipc.subscribe('setNewProxySettingStatus', (): Promise<ProxySettingStatus> => {
-            let proxySettingEntity = this.lifecycleContextService.proxySettingRepository.getProxySetting();
-            return proxySettingEntity.getNewStatus();
+            return this.proxySettingService.getNewStatus();
         });
         ipc.subscribe('deleteAutoResponderEntryEntity', (event: any, id: number) => {
             let autoResponderEntryIdentity = new AutoResponderEntryIdentity(id);
@@ -95,7 +99,6 @@ export class Application {
     }
 
     stopProxy(): Promise<void> {
-        let proxySettingEntity = this.lifecycleContextService.proxySettingRepository.getProxySetting();
-        return proxySettingEntity.clearProxyState();
+        return this.proxySettingService.clearProxyState();
     }
 }
