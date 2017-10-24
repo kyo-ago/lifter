@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import * as Datastore from 'nedb';
 import * as Path from 'path';
 import {AsyncOnNedbFactory} from "../../../share/base/async-on-nedb-factory";
+import {ProjectEntity} from "../../project/project-entity";
 import {ProjectIdentity} from '../../project/project-identity';
 import {AutoResponderEntryDirectoryEntity} from '../auto-responder-entry-directory/auto-responder-entry-directory-entity';
 import {AutoResponderEntryDirectoryPath} from '../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path';
@@ -20,11 +20,8 @@ import {AutoResponderEntryGlobPattern} from '../auto-responder-entry-glob/value-
 import {AutoResponderEntryIdentity} from '../auto-responder-entry-identity';
 
 export class AutoResponderEntryFactory extends AsyncOnNedbFactory{
-    constructor(
-        private projectIdentity: ProjectIdentity,
-        datastore: Datastore,
-    ) {
-        super(datastore);
+    constructor(private projectEntity: ProjectEntity) {
+        super(projectEntity.getDataStoreOptions("autoResponderEntryFactory"));
     }
 
     static fromJSON(autoResponderEntryEntityJSON: AutoResponderEntryEntityJSON) {
@@ -64,7 +61,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory{
                 "File",
                 new AutoResponderEntryFilePattern(pattern),
                 new AutoResponderEntryFilePath(path),
-                this.projectIdentity,
+                this.projectEntity.getIdentity(),
             );
         } else if (type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
@@ -72,7 +69,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory{
                 "Directory",
                 AutoResponderEntryDirectoryPattern.createSafeValue(pattern),
                 new AutoResponderEntryDirectoryPath(path),
-                this.projectIdentity,
+                this.projectEntity.getIdentity(),
             );
         } else if (type === "Glob") {
             return new AutoResponderEntryGlobEntity(
@@ -80,7 +77,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory{
                 "Glob",
                 new AutoResponderEntryGlobPattern(pattern),
                 new AutoResponderEntryAnyPath(path),
-                this.projectIdentity,
+                this.projectEntity.getIdentity(),
             );
         } else {
             throw new Error(`Invalid type, type = "${type}"`);

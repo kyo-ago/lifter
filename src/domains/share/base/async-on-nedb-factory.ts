@@ -2,6 +2,7 @@ import * as promisify from 'es6-promisify';
 import * as Datastore from 'nedb';
 
 export abstract class AsyncOnNedbFactory {
+    private datastore: Datastore;
     private identity = 0;
     private timeout = 0;
     private keyName = "currentCount";
@@ -10,7 +11,8 @@ export abstract class AsyncOnNedbFactory {
     private update: (query: any, value: any, option: any) => Promise<any>;
     private loadDatabase: () => Promise<void>;
 
-    constructor(private datastore: Datastore) {
+    constructor(dataStoreOptions: Datastore.DataStoreOptions) {
+        this.datastore = new Datastore(dataStoreOptions);
         this.find = promisify(this.datastore.find, this.datastore);
         this.update = promisify(this.datastore.update, this.datastore);
         this.loadDatabase = promisify(this.datastore.loadDatabase, this.datastore);

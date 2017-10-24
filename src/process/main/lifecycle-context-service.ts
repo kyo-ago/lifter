@@ -1,4 +1,3 @@
-import * as Datastore from 'nedb';
 import {AutoResponderEntryFactory} from '../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory';
 import {AutoResponderEntryRepository} from '../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty';
 import {ClientRequestFactory} from '../../domains/proxy/client-request/lifecycle/client-request-factory';
@@ -26,22 +25,13 @@ export class LifecycleContextService {
         this.networkInterfaceRepository = new NetworkInterfaceRepository(
             this.networkInterfaceFactory,
         );
-
         this.autoResponderEntryRepository = new AutoResponderEntryRepository(
-            this.createDatastore('autoResponderEntryRepository', projectEntity),
+            projectEntity,
             this.localFileResponderFactory,
         );
-        this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(
-            this.createDatastore('proxyBypassDomainRepository', projectEntity),
-        );
-        this.rewriteRuleRepository = new RewriteRuleRepository(
-            this.createDatastore('rewriteRuleRepository', projectEntity),
-        );
-
-        this.autoResponderEntryFactory = new AutoResponderEntryFactory(
-            projectEntity.getIdentity(),
-            this.createDatastore('autoResponderEntryFactory', projectEntity),
-        );
+        this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(projectEntity);
+        this.rewriteRuleRepository = new RewriteRuleRepository(projectEntity);
+        this.autoResponderEntryFactory = new AutoResponderEntryFactory(projectEntity);
     }
 
     load() {
@@ -50,9 +40,5 @@ export class LifecycleContextService {
             this.rewriteRuleRepository.load(),
             this.proxyBypassDomainRepository.load(),
         ]);
-    }
-
-    private createDatastore(name: string, projectEntity: ProjectEntity) {
-        return new Datastore(projectEntity.getDataStoreOptions(name));
     }
 }

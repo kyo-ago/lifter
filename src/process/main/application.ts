@@ -1,6 +1,7 @@
 import {OutgoingHttpHeaders} from 'http';
 import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
 import {AutoResponderEntryIdentity} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import {PacFileService} from "../../domains/proxy/pac-file/pac-file-service";
 import {ProxyBypassDomainService} from "../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import {ProxySettingService, ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-service';
 import {ipc} from '../../libs/ipc';
@@ -18,6 +19,7 @@ export class Application {
     private connectionService: ConnectionService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private windowManagerService: WindowManagerService;
+    private pacFileService: PacFileService;
 
     constructor(
         private lifecycleContextService: LifecycleContextService,
@@ -25,7 +27,7 @@ export class Application {
         this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
         this.proxySettingService = new ProxySettingService(
-            this.lifecycleContextService.networkInterfaceRepository
+            this.lifecycleContextService.networkInterfaceRepository,
         );
         this.connectionService = new ConnectionService(
             this.lifecycleContextService.autoResponderEntryRepository,
@@ -44,6 +46,10 @@ export class Application {
             this.certificateService,
             this.proxySettingService,
         );
+        this.pacFileService = new PacFileService(
+            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.networkInterfaceRepository,
+        );
     }
 
     async load() {
@@ -51,6 +57,7 @@ export class Application {
         await this.proxyBypassDomainService.load();
         await this.windowManagerService.load();
         await this.proxySettingService.load();
+        await this.pacFileService.load();
 
         ipc.subscribe('addAutoResponderEntryEntities', async (event: any, filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));

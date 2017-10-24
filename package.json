@@ -17,7 +17,6 @@
     "@kyo-ago/electron-window-manager": "^1.0.5",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
-    "eventemitter2": "^4.1.2",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",
     "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
@@ -30,6 +29,7 @@
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
+    "rxjs": "^5.5.0",
     "typescript-dddbase": "^0.0.4"
   },
   "devDependencies": {
