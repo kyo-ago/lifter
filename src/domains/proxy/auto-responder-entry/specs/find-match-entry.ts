@@ -12,7 +12,7 @@ export class FindMatchEntry {
     async getLocalFileResponder(
         promise: Promise<LocalFileResponderEntity | null>,
         entity: AbstractAutoResponderEntryEntity,
-    ) {
+    ): Promise<LocalFileResponderEntity | null> {
         let result = await promise;
         if (result) return result;
 
