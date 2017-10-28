@@ -17,17 +17,20 @@ describe('AutoResponderEntryFileEntity', () => {
         it('match filename', async () => {
             let filename = Path.basename(__filename);
             let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("File", filename, __filename);
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestFactory.create(`/hgoe/${filename}`));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/hgoe/${filename}`);
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
             expect(result.path).toBe(__filename);
         });
         it('match url', async () => {
             let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("File", 'a', __filename);
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestFactory.create('/a'));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/a`);
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
             expect(result.path).toBe(__filename);
         });
         it('unmatch', async () => {
             let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("File", 'aaaa', __filename);
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestFactory.create('/a'));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/a`);
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
             expect(result).toBeNull();
         });
     });

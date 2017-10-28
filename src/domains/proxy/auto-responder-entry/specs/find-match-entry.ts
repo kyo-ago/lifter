@@ -9,9 +9,9 @@ export class FindMatchEntry {
         private clientRequestEntity: ClientRequestEntity,
     ) { }
 
-    async reduce(
-        entity: AbstractAutoResponderEntryEntity,
+    async getLocalFileResponder(
         promise: Promise<LocalFileResponderEntity | null>,
+        entity: AbstractAutoResponderEntryEntity,
     ) {
         let result = await promise;
         if (result) return result;

@@ -1,4 +1,5 @@
 import {OutgoingHttpHeaders} from 'http';
+import {Url} from "url";
 import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
 import {AutoResponderEntryIdentity} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {PacFileService} from "../../domains/proxy/pac-file/pac-file-service";
@@ -16,10 +17,10 @@ export class Application {
     private proxyService: ProxyService;
     private certificateService: CertificateService;
     private proxySettingService: ProxySettingService;
+    private pacFileService: PacFileService;
     private connectionService: ConnectionService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private windowManagerService: WindowManagerService;
-    private pacFileService: PacFileService;
 
     constructor(
         private lifecycleContextService: LifecycleContextService,
@@ -29,7 +30,12 @@ export class Application {
         this.proxySettingService = new ProxySettingService(
             this.lifecycleContextService.networkInterfaceRepository,
         );
+        this.pacFileService = new PacFileService(
+            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.networkInterfaceRepository,
+        );
         this.connectionService = new ConnectionService(
+            this.pacFileService,
             this.lifecycleContextService.autoResponderEntryRepository,
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
@@ -45,10 +51,6 @@ export class Application {
             this.proxyBypassDomainService,
             this.certificateService,
             this.proxySettingService,
-        );
-        this.pacFileService = new PacFileService(
-            this.lifecycleContextService.autoResponderEntryRepository,
-            this.lifecycleContextService.networkInterfaceRepository,
         );
     }
 
@@ -91,11 +93,11 @@ export class Application {
 
     start() {
         this.proxyService.createServer((
-            href: string,
+            url: Url,
             blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
             passCallback: (error: Error | undefined) => void,
         ) => {
-            let clientRequestEntity = this.lifecycleContextService.clientRequestFactory.create(href);
+            let clientRequestEntity = this.lifecycleContextService.clientRequestFactory.create(url);
             ipc.publish('addClientRequestEntity', clientRequestEntity.json);
             this.connectionService.onRequest(clientRequestEntity, blockCallback, passCallback);
         });
@@ -105,7 +107,10 @@ export class Application {
         return this.windowManagerService.createMainWindow();
     }
 
-    stopProxy(): Promise<void> {
-        return this.proxySettingService.clearProxyState();
+    async quit(): Promise<void> {
+        await Promise.all([
+            this.pacFileService.clearAutoProxyUrl(),
+            this.proxySettingService.clearProxyState(),
+        ]);
     }
 }

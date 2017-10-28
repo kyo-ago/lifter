@@ -1,3 +1,4 @@
+import {EventEmitter} from 'events';
 import {AsyncOnNedbRepository} from "../../base/async-on-nedb-repository";
 import {ClientRequestEntity} from '../../client-request/client-request-entity';
 import {LocalFileResponderFactory} from '../../local-file-responder/lifecycle/local-file-responder-factory';
@@ -7,7 +8,6 @@ import {AbstractAutoResponderEntryEntity} from '../auto-responder-entry-entity';
 import {AutoResponderEntryIdentity} from '../auto-responder-entry-identity';
 import {FindMatchEntry} from '../specs/find-match-entry';
 import {AutoResponderEntryFactory} from "./auto-responder-entry-factory";
-import EventEmitter = NodeJS.EventEmitter;
 
 export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResponderEntryIdentity, AbstractAutoResponderEntryEntity> {
     private event = new EventEmitter();
@@ -33,7 +33,7 @@ export class AutoResponderEntryRepository extends AsyncOnNedbRepository<AutoResp
         let findMatchEntry = new FindMatchEntry(this.localFileResponderFactory, clientRequestEntity);
         let entries = await this.resolveAll();
         return entries.reduce((promise, entity) => {
-            return findMatchEntry.reduce(entity, promise);
+            return findMatchEntry.getLocalFileResponder(promise, entity);
         }, Promise.resolve(<LocalFileResponderEntity | null>null));
     }
 

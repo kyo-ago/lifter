@@ -17,19 +17,22 @@ describe('AutoResponderEntryDirectoryEntity', () => {
     describe('getMatchResponder', () => {
         it('file exist', async () => {
             let url = `/${Path.basename(__dirname)}/${Path.basename(__filename)}`;
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(url);
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
             expect(result.path).toBe(__filename);
         });
 
         it('file not exist', async () => {
             let url = `/${Path.basename(__dirname)}/not_exist.txt`;
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(url);
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
             expect(result).toBeNull();
         });
 
         it('unmatch', async () => {
             let url = `/unknown-dir/${Path.basename(__filename)}`;
-            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(url);
+            let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
             expect(result).toBeNull();
         });
     });

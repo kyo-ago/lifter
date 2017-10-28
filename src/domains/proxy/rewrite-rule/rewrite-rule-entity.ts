@@ -4,7 +4,7 @@ import {ClientRequestEntity} from '../client-request/client-request-entity';
 
 export class RewriteRuleEntity extends ShareRewriteRuleEntity {
     isMatchClientRequest(clientRequestEntity: ClientRequestEntity): boolean {
-        return this.isMatchUrl(clientRequestEntity.url);
+        return this.isMatchUrl(clientRequestEntity.href);
     }
 
     applyHeader(header: OutgoingHttpHeaders): OutgoingHttpHeaders {

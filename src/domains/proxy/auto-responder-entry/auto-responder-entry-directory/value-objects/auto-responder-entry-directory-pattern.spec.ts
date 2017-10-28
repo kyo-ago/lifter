@@ -11,19 +11,23 @@ describe('AutoResponderEntryDirectoryPattern', () => {
 
         it('is root url is unmatch', () => {
             let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestFactory.create('/'))).toBe(false);
+            let clientRequestEntity = clientRequestFactory.createFromString('/');
+            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(false);
         });
         it('is directory url is unmatch', () => {
             let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/hoge/');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestFactory.create('/hoge/'))).toBe(false);
+            let clientRequestEntity = clientRequestFactory.createFromString('/hoge/');
+            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(false);
         });
         it('is match', () => {
             let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/hoge/');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestFactory.create('/hoge/huga'))).toBe(true);
+            let clientRequestEntity = clientRequestFactory.createFromString('/hoge/huga');
+            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(true);
         });
         it('is middle match', () => {
             let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/hoge/');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestFactory.create('/foo/bar/hoge/huga/gege'))).toBe(true);
+            let clientRequestEntity = clientRequestFactory.createFromString('/foo/bar/hoge/huga/gege');
+            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(true);
         });
     });
 });

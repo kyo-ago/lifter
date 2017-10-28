@@ -7,7 +7,7 @@ export class ClientRequestBox extends React.Component<GlobalProps, {}> {
         let entries = (this.props.clientRequestEntries || []).map((entry: ClientRequestEntity) => {
             return (
                 <tr key={entry.id}>
-                    <td>{entry.url}</td>
+                    <td>{entry.href}</td>
                 </tr>
             );
         });

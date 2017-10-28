@@ -1,10 +1,10 @@
 import * as Rx from "rxjs/Rx";
 import {async} from "rxjs/scheduler/async";
+import {LOCAL_PAC_FILE_URL} from "../../../settings";
 import {networksetupProxy} from "../../settings/lib/networksetup-proxy-command";
 import {NetworkInterfaceRepository} from "../../settings/network-interface/lifecycle/network-interface-repository";
-import {AutoResponderEntryRepository} from "../auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
-import {LOCAL_PAC_FILE_URL} from "../../../settings";
 import {NetworkInterfaceEntity} from "../../settings/network-interface/network-interface-entity";
+import {AutoResponderEntryRepository} from "../auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
 
 export class PacFileService {
     constructor(
@@ -17,20 +17,35 @@ export class PacFileService {
         await this.setAutoProxyUrl();
 
         let observable = new Rx.Subject();
+        observable
+            .throttleTime(300, async, {
+                leading: true,
+                trailing: true,
+            })
+            .subscribe(() => this.reload())
+        ;
 
         this.autoResponderEntryRepository.addChangeEvent(() => observable.next());
         let autoResponderEntryEntries = await this.autoResponderEntryRepository.resolveAll();
         if (autoResponderEntryEntries.length) {
             observable.next();
         }
+    }
 
-        observable
-            .throttleTime(300, async, {
-                leading: true,
-                trailing: false,
-            })
-            .subscribe(() => this.reload())
-        ;
+    async clearAutoProxyUrl(): Promise<void> {
+        await this.callAllEnableInterface(async (networkInterfaceEntity) => {
+            await networksetupProxy.setautoproxyurl(networkInterfaceEntity.serviceName, '');
+            await networksetupProxy.setautoproxystate(networkInterfaceEntity.serviceName, "off");
+        });
+        return;
+    }
+
+    async getContent(): Promise<string> {
+        let autoResponderEntryEntries = await this.autoResponderEntryRepository.resolveAll();
+        autoResponderEntryEntries.map(() => {
+
+        });
+        return '';
     }
 
     private setAutoProxyUrl() {

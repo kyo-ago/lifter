@@ -15,32 +15,32 @@ describe('AutoResponderEntryAnyPath', () => {
 
         it('match file', async () => {
             let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__filename);
-            let url = `/${dirname}/${filename}`;
-            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/${dirname}/${filename}`);
+            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(__filename);
         });
         it('match unknown file', async () => {
             let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__filename);
-            let url = `/${dirname}/hoge.txt`;
-            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/${dirname}/hoge.txt`);
+            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(__filename);
         });
         it('match directory', async () => {
             let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__dirname);
-            let url = `/${dirname}/${filename}`;
-            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/${dirname}/${filename}`);
+            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(__filename);
         });
         it('match root directory', async () => {
             let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__dirname);
-            let url = `/${filename}`;
-            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/${filename}`);
+            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(__filename);
         });
         it('unmatch directory', async () => {
             let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__dirname);
-            let url = `/hoge/${filename}`;
-            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/hoge/${filename}`);
+            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result).toBeNull();
         });
     });

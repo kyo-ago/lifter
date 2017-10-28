@@ -4,7 +4,7 @@ import {AutoResponderEntryPattern} from '../../value-objects/auto-responder-entr
 
 export class AutoResponderEntryGlobPattern extends AutoResponderEntryPattern {
     isMatchPath(clientRequestEntity: ClientRequestEntity): boolean {
-        return micromatch.isMatch(clientRequestEntity.url, this.value, {
+        return micromatch.isMatch(clientRequestEntity.href, this.value, {
             matchBase: true,
         });
     }

@@ -4,6 +4,7 @@ import {app} from 'electron';
 let userDataPath = app ? app.getPath('userData') : '.';
 
 export const PROXY_PORT = 8888;
+export const BIND_HOST_NAME = '127.0.0.1';
 export const NETWORK_SETUP_COMMAND = '/usr/sbin/networksetup';
 export const NETWORK_HOST_NAME = 'localhost';
 export const SECURITY_COMMAND = '/usr/bin/security';

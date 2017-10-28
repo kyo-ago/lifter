@@ -11,19 +11,23 @@ describe('AutoResponderEntryFilePattern', () => {
 
         it('unmatch', () => {
             let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern('hoge.txt');
-            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestFactory.create('/'))).toBe(false);
+            let clientRequestEntity = clientRequestFactory.createFromString('/');
+            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity)).toBe(false);
         });
         it('match', () => {
             let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern('hoge.txt');
-            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestFactory.create('/hoge.txt'))).toBe(true);
+            let clientRequestEntity = clientRequestFactory.createFromString('/hoge.txt');
+            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity)).toBe(true);
         });
         it('directory', () => {
             let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern('hoge.txt');
-            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestFactory.create('/huga/hoge.txt'))).toBe(true);
+            let clientRequestEntity = clientRequestFactory.createFromString('/huga/hoge.txt');
+            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity)).toBe(true);
         });
         it('not file url', () => {
             let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern('hoge.txt');
-            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestFactory.create('/huga/hoge.txt/foo/bar'))).toBe(false);
+            let clientRequestEntity = clientRequestFactory.createFromString('/huga/hoge.txt/foo/bar');
+            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity)).toBe(false);
         });
     });
 });

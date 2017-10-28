@@ -5,7 +5,7 @@ import {LifecycleContextService} from './process/main/lifecycle-context-service'
 import {REPOSITORY_BASE_DIR_PATH} from "./settings";
 
 app.on('window-all-closed', async () => {
-    await application.stopProxy();
+    await application.quit();
     app.quit();
 });
 app.on('activate', () => application.createMainWindow());
