@@ -1,6 +1,6 @@
 import * as Rx from "rxjs/Rx";
 import {async} from "rxjs/scheduler/async";
-import {LOCAL_PAC_FILE_URL} from "../../../settings";
+import {LOCAL_PAC_FILE_URL, PROXY_SERVER_NAME} from "../../../settings";
 import {networksetupProxy} from "../../settings/lib/networksetup-proxy-command";
 import {NetworkInterfaceRepository} from "../../settings/network-interface/lifecycle/network-interface-repository";
 import {NetworkInterfaceEntity} from "../../settings/network-interface/network-interface-entity";
@@ -42,10 +42,15 @@ export class PacFileService {
 
     async getContent(): Promise<string> {
         let autoResponderEntryEntries = await this.autoResponderEntryRepository.resolveAll();
-        autoResponderEntryEntries.map(() => {
-
+        let codeSttrings = autoResponderEntryEntries.map((autoResponderEntryEntity) => {
+            return autoResponderEntryEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
         });
-        return '';
+        return `
+            function FindProxyForURL(url, host) {
+                ${codeSttrings.join('\n')}
+            	return "DIRECT";
+            }
+        `;
     }
 
     private setAutoProxyUrl() {

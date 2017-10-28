@@ -3,31 +3,57 @@ import {ClientRequestFactory} from '../../../client-request/lifecycle/client-req
 import {AutoResponderEntryDirectoryPattern} from './auto-responder-entry-directory-pattern';
 
 describe('AutoResponderEntryDirectoryPattern', () => {
-    describe('isMatchPath', () => {
-        let clientRequestFactory: ClientRequestFactory;
-        beforeEach(async () => {
-            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
-        });
+    let clientRequestFactory: ClientRequestFactory;
+    beforeEach(async () => {
+        clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
+    });
+    let testPattern = [
+        {
+            name: 'match',
+            pattern: '/hoge/',
+            path: '/hoge/huga',
+            result: true,
+        },
+        {
+            name: 'middle match',
+            pattern: '/hoge/',
+            path: '/foo/bar/hoge/huga/gege',
+            result: true,
+        },
+    ];
+    let isMatchPathPattern = [
+        {
+            name: 'root url unmatch',
+            pattern: '/',
+            path: '/',
+            result: false,
+        },
+        {
+            name: 'directory url unmatch',
+            pattern: '/hoge/',
+            path: '/hoge/',
+            result: false,
+        },
+    ];
 
-        it('is root url is unmatch', () => {
-            let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/');
-            let clientRequestEntity = clientRequestFactory.createFromString('/');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(false);
+    describe('getMatchCodeString', () => {
+        testPattern.forEach((pattern) => {
+            it(pattern.name, () => {
+                let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue(pattern.pattern);
+                let result = autoResponderEntryDirectoryPattern.getMatchCodeString('match');
+                let code = `((url) => {${result}})("${pattern.path}")`;
+                expect(eval(code)).toBe(pattern.result ? 'match' : undefined);
+            });
         });
-        it('is directory url is unmatch', () => {
-            let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/hoge/');
-            let clientRequestEntity = clientRequestFactory.createFromString('/hoge/');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(false);
-        });
-        it('is match', () => {
-            let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/hoge/');
-            let clientRequestEntity = clientRequestFactory.createFromString('/hoge/huga');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(true);
-        });
-        it('is middle match', () => {
-            let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue('/hoge/');
-            let clientRequestEntity = clientRequestFactory.createFromString('/foo/bar/hoge/huga/gege');
-            expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(true);
+    });
+
+    describe('isMatchPath', () => {
+        testPattern.concat(isMatchPathPattern).forEach((pattern) => {
+            it(pattern.name, () => {
+                let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue(pattern.pattern);
+                let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
+                expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(pattern.result);
+            });
         });
     });
 });

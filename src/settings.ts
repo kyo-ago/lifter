@@ -12,7 +12,8 @@ export const HTTP_SSL_CA_DIR_PATH = `${userDataPath}/http-mitm-proxy`;
 export const REPOSITORY_BASE_DIR_PATH = `${userDataPath}/Repositories`;
 export const APPLICATION_NAME = 'Lifter Proxy';
 export const WINDOW_STATE_DIR = 'WindowStates/';
-export const LOCAL_PAC_FILE_URL = `http://localhost:${PROXY_PORT}/proxy.pac`;
+export const PROXY_SERVER_NAME = `${NETWORK_HOST_NAME}:${PROXY_PORT}`;
+export const LOCAL_PAC_FILE_URL = `http://${PROXY_SERVER_NAME}/proxy.pac`;
 export const WindowManagerInit = {
     appBase: `file://${__dirname}`,
     defaultSetup: {
