@@ -1,5 +1,4 @@
-import {getProxyByPassDomains} from "../../../libs/exec-commands";
-import {networksetupProxy} from "../lib/networksetup-proxy-command";
+import {NetworksetupProxyService} from "../networksetup-proxy-service/networksetup-proxy-service";
 import {NetworkInterfaceRepository} from "../network-interface/lifecycle/network-interface-repository";
 import {ProxyBypassDomainRepository} from "./lifecycle/proxy-bypass-domain-repository";
 import {ProxyBypassDomainEntity} from "./proxy-bypass-domain-entity";
@@ -7,6 +6,7 @@ import {ProxyBypassDomainEntity} from "./proxy-bypass-domain-entity";
 export class ProxyBypassDomainService {
     constructor(
         private proxyBypassDomainRepository: ProxyBypassDomainRepository,
+        private networksetupProxyService: NetworksetupProxyService,
         private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {
     }
@@ -21,25 +21,15 @@ export class ProxyBypassDomainService {
 
     async overwriteAll(proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
         await this.proxyBypassDomainRepository.overwriteAll(proxyBypassDomainEntities);
-        return this.setProxyBypassDomains();
+        return await this.setProxyBypassDomains();
     }
 
     private async setProxyBypassDomains() {
-        let hasGrant = await networksetupProxy.hasGrant();
-        if (!hasGrant) {
-            return;
-        }
-        let proxyBypassDomainEntities = await this.proxyBypassDomainRepository.resolveAll();
-        if (!proxyBypassDomainEntities.length) {
-            return;
-        }
-        let proxyBypassDomains = proxyBypassDomainEntities.map((entity) => entity.name);
-        let resolveAllEnableInterfaces = await this.networkInterfaceRepository.resolveAllEnableInterface();
-        return await Promise.all(resolveAllEnableInterfaces.map(async (enableInterface) => {
-            let domain = await getProxyByPassDomains(enableInterface);
-            let domains = domain.split(/\n/).concat(proxyBypassDomains);
-            let uniqueDomains = Array.from(new Set(domains));
-            return networksetupProxy.setproxybypassdomains(enableInterface.serviceName, uniqueDomains);
-        }));
+        return await this.networksetupProxyService.getNetworksetupProxy().map(async (networksetupProxy) => {
+            let proxyBypassDomainEntities = await this.proxyBypassDomainRepository.resolveAll();
+            let allInterfaces = await this.networkInterfaceRepository.resolveAllInterface();
+            let promises = allInterfaces.map((ni) => ni.setProxyBypassDomains(networksetupProxy, proxyBypassDomainEntities));
+            return await Promise.all(promises);
+        }).getOrElse(() => Promise.resolve(undefined));
     }
 }

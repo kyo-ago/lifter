@@ -3,7 +3,7 @@ import {getSecureWebproxy, getWebproxy} from '../../../../libs/exec-commands';
 import {throwableCommand} from '../../../../libs/throwable-command';
 import {PromisedSetTimeout} from '../../../libs/promised-set-timeout';
 import {WaitFor} from '../../../libs/wait-for';
-import {ParseGetwebproxyCommand} from '../../proxy-setting/specs/parse-getwebproxy-command';
+import {ParseGetwebproxyCommand} from '../../libs/parse-getwebproxy-command';
 import {NetworkInterfaceEntity} from '../network-interface-entity';
 
 // export for tests

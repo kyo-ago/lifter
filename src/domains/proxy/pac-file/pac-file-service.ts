@@ -1,7 +1,7 @@
 import * as Rx from "rxjs/Rx";
 import {async} from "rxjs/scheduler/async";
-import {LOCAL_PAC_FILE_URL, PROXY_SERVER_NAME} from "../../../settings";
-import {networksetupProxy} from "../../settings/lib/networksetup-proxy-command";
+import {PROXY_SERVER_NAME} from "../../../settings";
+import {NetworksetupProxyService} from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
 import {NetworkInterfaceRepository} from "../../settings/network-interface/lifecycle/network-interface-repository";
 import {NetworkInterfaceEntity} from "../../settings/network-interface/network-interface-entity";
 import {AutoResponderEntryRepository} from "../auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
@@ -9,6 +9,7 @@ import {AutoResponderEntryRepository} from "../auto-responder-entry/lifecycle/au
 export class PacFileService {
     constructor(
         private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private networksetupProxyService: NetworksetupProxyService,
         private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {
     }
@@ -32,14 +33,6 @@ export class PacFileService {
         }
     }
 
-    async clearAutoProxyUrl(): Promise<void> {
-        await this.callAllEnableInterface(async (networkInterfaceEntity) => {
-            await networksetupProxy.setautoproxyurl(networkInterfaceEntity.serviceName, '');
-            await networksetupProxy.setautoproxystate(networkInterfaceEntity.serviceName, "off");
-        });
-        return;
-    }
-
     async getContent(): Promise<string> {
         let autoResponderEntryEntries = await this.autoResponderEntryRepository.resolveAll();
         let codeSttrings = autoResponderEntryEntries.map((autoResponderEntryEntity) => {
@@ -53,22 +46,30 @@ export class PacFileService {
         `;
     }
 
+    clearAutoProxyUrl(): Promise<void> {
+        return this.networksetupProxyService.getNetworksetupProxy()
+            .map((networksetupProxy) => this.callAllEnableInterface((ni) => ni.clearAutoProxyUrl(networksetupProxy)))
+            .getOrElse(() => Promise.resolve(undefined))
+        ;
+    }
+
     private setAutoProxyUrl() {
-        return this.callAllEnableInterface((networkInterfaceEntity) => {
-            return networksetupProxy.setautoproxyurl(networkInterfaceEntity.serviceName, LOCAL_PAC_FILE_URL);
-        });
+        return this.networksetupProxyService.getNetworksetupProxy()
+            .map((networksetupProxy) => this.callAllEnableInterface((ni) => ni.setAutoProxyUrl(networksetupProxy)))
+            .getOrElse(() => Promise.resolve(undefined))
+        ;
     }
 
     private reload() {
-        return this.callAllEnableInterface(async (networkInterfaceEntity) => {
-            await networksetupProxy.setautoproxystate(networkInterfaceEntity.serviceName, "off");
-            await networksetupProxy.setautoproxystate(networkInterfaceEntity.serviceName, "on");
-        });
+        return this.networksetupProxyService.getNetworksetupProxy()
+            .map((networksetupProxy) => this.callAllEnableInterface((ni) => ni.reloadAutoProxyUrl(networksetupProxy)))
+            .getOrElse(() => Promise.resolve(undefined))
+        ;
     }
 
     private async callAllEnableInterface(callback: (networkInterfaceEntity: NetworkInterfaceEntity) => Promise<any>) {
-        let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllEnableInterface();
+        let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
         let promises = networkInterfaceEntities.map(callback);
-        return Promise.all(promises);
+        return await Promise.all(promises);
     }
 }

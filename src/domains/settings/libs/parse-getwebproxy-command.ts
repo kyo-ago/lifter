@@ -1,4 +1,4 @@
-import {NETWORK_HOST_NAME, PROXY_PORT} from '../../../../settings';
+import {NETWORK_HOST_NAME, PROXY_PORT} from '../../../settings';
 
 // export for tests
 export interface CommandResult {

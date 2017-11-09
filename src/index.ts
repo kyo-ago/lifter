@@ -10,8 +10,10 @@ app.on('window-all-closed', async () => {
 });
 app.on('activate', () => application.createMainWindow());
 
+let projectEntity = (new ProjectFactory()).create(REPOSITORY_BASE_DIR_PATH);
 let application = new Application(
-    new LifecycleContextService((new ProjectFactory()).create(REPOSITORY_BASE_DIR_PATH)),
+    projectEntity,
+    new LifecycleContextService(projectEntity),
 );
 
 Promise.all([
