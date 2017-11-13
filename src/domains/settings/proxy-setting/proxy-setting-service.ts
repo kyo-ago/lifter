@@ -1,5 +1,6 @@
-import {NetworksetupProxyService} from '../networksetup-proxy-service/networksetup-proxy-service';
+import {UserSettingStorage} from "../../libs/user-setting-storage";
 import {NetworkInterfaceRepository} from '../network-interface/lifecycle/network-interface-repository';
+import {NetworksetupProxyService} from '../networksetup-proxy-service/networksetup-proxy-service';
 
 export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 
@@ -7,7 +8,16 @@ export class ProxySettingService {
     constructor(
         private networksetupProxyService: NetworksetupProxyService,
         private networkInterfaceRepository: NetworkInterfaceRepository,
+        private userSettingStorage: UserSettingStorage,
     ) {
+    }
+
+    async load() {
+        let isGranted = this.networksetupProxyService.isGranted;
+        let noProxy = this.userSettingStorage.resolve("noProxy");
+        if (isGranted && !noProxy) {
+            await this.networksetupProxyService.enableProxy();
+        }
     }
 
     async getCurrentStatus(): Promise<ProxySettingStatus> {
@@ -29,10 +39,16 @@ export class ProxySettingService {
 
         let isProxing = await this.isProxing();
         if (isProxing) {
-            await this.disableProxy();
+            await Promise.all([
+                this.networksetupProxyService.disableProxy(),
+                this.userSettingStorage.store("noProxy", true),
+            ]);
             return "Off";
         }
-        await this.enableProxy();
+        await Promise.all([
+            this.networksetupProxyService.enableProxy(),
+            this.userSettingStorage.store("noProxy", false),
+        ]);
         return "On";
     }
 
@@ -50,23 +66,7 @@ export class ProxySettingService {
         return results.find((result) => result);
     }
 
-    private async enableProxy(): Promise<void> {
-        let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
-        return await this.networksetupProxyService.getNetworksetupProxy()
-            .map((networksetupProxy) => Promise.all(networkInterfaceEntities.map((ni) => ni.enableProxy(networksetupProxy))))
-            .getOrElse(() => Promise.resolve(undefined))
-        ;
-    }
-
-    private async disableProxy(): Promise<void> {
-        let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
-        return await this.networksetupProxyService.getNetworksetupProxy()
-            .map((networksetupProxy) => Promise.all(networkInterfaceEntities.map((ni) => ni.disableProxy(networksetupProxy))))
-            .getOrElse(() => Promise.resolve(undefined))
-        ;
-    }
-
     private clearProxy(): Promise<void> {
-        return this.disableProxy();
+        return this.networksetupProxyService.disableProxy();
     }
 }

@@ -1,9 +1,8 @@
 import {getLifecycleContextService} from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import {ClientRequestFactory} from "../../client-request/lifecycle/client-request-factory";
 import {LocalFileResponderFactory} from "../../local-file-responder/lifecycle/local-file-responder-factory";
-import {FindMatchEntry} from "./find-match-entry";
 import {AutoResponderEntryFactory} from "../lifecycle/auto-responder-entry-factory";
-import {AbstractAutoResponderEntryEntity} from "../auto-responder-entry-entity";
+import {FindMatchEntry} from "./find-match-entry";
 
 describe('FindMatchEntry.getLocalFileResponder', () => {
     let autoResponderEntryFactory: AutoResponderEntryFactory;

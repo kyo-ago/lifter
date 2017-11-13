@@ -1,5 +1,5 @@
-import {NetworksetupProxyService} from "../networksetup-proxy-service/networksetup-proxy-service";
 import {NetworkInterfaceRepository} from "../network-interface/lifecycle/network-interface-repository";
+import {NetworksetupProxyService} from "../networksetup-proxy-service/networksetup-proxy-service";
 import {ProxyBypassDomainRepository} from "./lifecycle/proxy-bypass-domain-repository";
 import {ProxyBypassDomainEntity} from "./proxy-bypass-domain-entity";
 

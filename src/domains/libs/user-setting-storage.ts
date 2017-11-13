@@ -4,9 +4,11 @@ import {ProjectEntity} from "../proxy/project/project-entity";
 
 interface UserSettings {
     noGrant: boolean;
+    noProxy: boolean;
 }
 const DefaultUserSettings: UserSettings = {
     noGrant: false,
+    noProxy: false,
 };
 
 export class UserSettingStorage {

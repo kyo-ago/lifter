@@ -5,7 +5,6 @@ import {BaseEntity} from '../../share/base/base-entity';
 import {ParseGetwebproxyCommand} from "../libs/parse-getwebproxy-command";
 import {ProxyBypassDomainEntity} from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import {NetworkInterfaceIdentity} from './network-interface-identity';
-import {ChangeProxyCommand} from "./specs/change-proxy-command";
 import {NetworkInterfaceName} from './value-objects/network-interface-name';
 import {NetworkInterfaceServiceName} from "./value-objects/network-interface-service-name";
 
@@ -30,22 +29,18 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
     async enableProxy(networksetupProxy: NetworksetupProxy) {
         if (await this.isProxing()) return;
 
-        return await ChangeProxyCommand(
-            this,
-            () => networksetupProxy.setwebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            () => networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            true
-        );
+        await Promise.all([
+            networksetupProxy.setwebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
+        ]);
     }
     async disableProxy(networksetupProxy: NetworksetupProxy) {
         if (!(await this.isProxing())) return;
 
-        return await ChangeProxyCommand(
-            this,
-            () => networksetupProxy.setwebproxystate(this.serviceName, 'off'),
-            () => networksetupProxy.setsecurewebproxystate(this.serviceName, 'off'),
-            false
-        );
+        await Promise.all([
+            networksetupProxy.setwebproxystate(this.serviceName, 'off'),
+            networksetupProxy.setsecurewebproxystate(this.serviceName, 'off'),
+        ]);
     }
 
     async setProxyBypassDomains(networksetupProxy: NetworksetupProxy, proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
@@ -61,28 +56,32 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
 
     async setAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
         if (!this.enabled) {
-            return false;
+            return;
         }
 
-        return networksetupProxy.setautoproxyurl(this.serviceName, LOCAL_PAC_FILE_URL);
+        await networksetupProxy.setautoproxyurl(this.serviceName, LOCAL_PAC_FILE_URL);
     }
 
     async reloadAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
         if (!this.enabled) {
-            return false;
+            return;
         }
 
-        await networksetupProxy.setautoproxystate(this.serviceName, "off");
-        await networksetupProxy.setautoproxystate(this.serviceName, "on");
+        await Promise.all([
+            networksetupProxy.setautoproxystate(this.serviceName, "off"),
+            networksetupProxy.setautoproxystate(this.serviceName, "on"),
+        ]);
     }
 
     async clearAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
         if (!this.enabled) {
-            return false;
+            return;
         }
 
-        await networksetupProxy.setautoproxyurl(this.serviceName, '');
-        await networksetupProxy.setautoproxystate(this.serviceName, "off");
+        await Promise.all([
+            networksetupProxy.setautoproxyurl(this.serviceName, ''),
+            networksetupProxy.setautoproxystate(this.serviceName, "off"),
+        ]);
     }
 
     async isProxing() {

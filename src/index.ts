@@ -22,4 +22,6 @@ Promise.all([
 ]).then(() => {
     application.start();
     return application.createMainWindow();
+}).catch((...args: any[]) => {
+    console.error(args);
 });

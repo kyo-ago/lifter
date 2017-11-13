@@ -21,11 +21,10 @@ export class CertificateService {
         let result = await this.findCertificate();
         if (result) {
             await this.deleteCertificate();
-            return "missing";
         } else {
             await this.installCertificate();
-            return "installed";
         }
+        return this.getCurrentStatus();
     }
 
     private async findCertificate(): Promise<boolean> {
@@ -44,11 +43,8 @@ export class CertificateService {
         if (!importResult.match(/1 certificate imported\./)) {
             throw new Error(importResult);
         }
-        let addResult = await addTrustedCert(this.certificatePath);
-        if (addResult) {
-            throw new Error(addResult);
-        }
-        return true;
+        let addResult = await addTrustedCert(this.certificatePath).catch((e) => e);
+        return addResult instanceof Error;
     }
 
     private async deleteCertificate(): Promise<true> {

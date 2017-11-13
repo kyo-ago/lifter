@@ -1,11 +1,11 @@
 import {OutgoingHttpHeaders} from 'http';
 import {Url} from "url";
-import {NetworksetupProxyService} from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import {UserSettingStorage} from "../../domains/libs/user-setting-storage";
 import {AutoResponderEntryEntityJSON} from '../../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
 import {AutoResponderEntryIdentity} from "../../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import {PacFileService} from "../../domains/proxy/pac-file/pac-file-service";
 import {ProjectEntity} from "../../domains/proxy/project/project-entity";
+import {NetworksetupProxyService} from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import {ProxyBypassDomainService} from "../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import {ProxySettingService, ProxySettingStatus} from '../../domains/settings/proxy-setting/proxy-setting-service';
 import {ipc} from '../../libs/ipc';
@@ -32,17 +32,20 @@ export class Application {
         private lifecycleContextService: LifecycleContextService,
     ) {
         this.userSettingStorage = new UserSettingStorage(projectEntity);
-        this.networksetupProxyService = new NetworksetupProxyService(this.userSettingStorage);
+        this.networksetupProxyService = new NetworksetupProxyService(
+            this.userSettingStorage,
+            this.lifecycleContextService.networkInterfaceRepository,
+        );
         this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
         this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
         this.proxySettingService = new ProxySettingService(
             this.networksetupProxyService,
             this.lifecycleContextService.networkInterfaceRepository,
+            this.userSettingStorage,
         );
         this.pacFileService = new PacFileService(
             this.lifecycleContextService.autoResponderEntryRepository,
             this.networksetupProxyService,
-            this.lifecycleContextService.networkInterfaceRepository,
         );
         this.connectionService = new ConnectionService(
             this.pacFileService,
@@ -74,6 +77,7 @@ export class Application {
         await this.proxyBypassDomainService.load();
         await this.pacFileService.load();
         await this.networksetupProxyService.load();
+        await this.proxySettingService.load();
 
         ipc.subscribe('addAutoResponderEntryEntities', async (event: any, filePaths: string[]): Promise<AutoResponderEntryEntityJSON[]> => {
             let filePromises = filePaths.map((path) => this.lifecycleContextService.autoResponderEntryFactory.createFromPath(path));
@@ -123,7 +127,7 @@ export class Application {
 
     async quit(): Promise<void> {
         await Promise.all([
-            this.pacFileService.clearAutoProxyUrl(),
+            this.networksetupProxyService.clearAutoProxyUrl(),
             this.proxySettingService.clearProxyState(),
         ]);
     }

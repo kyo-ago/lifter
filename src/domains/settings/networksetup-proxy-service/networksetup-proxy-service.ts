@@ -1,20 +1,23 @@
-import * as promisify from 'es6-promisify';
 import * as fs from 'fs';
 import {None, Option, Some} from "monapt";
 import {NetworksetupProxy} from 'networksetup-proxy';
-import {throwableCommand} from "../../../libs/throwable-command";
 import {
     APPLICATION_NAME,
     DEVELOP_PROXY_SETTING_COMMAND_PATH,
     PRODUCTION_PROXY_SETTING_COMMAND_PATH
 } from '../../../settings';
 import {UserSettingStorage} from "../../libs/user-setting-storage";
+import {NetworkInterfaceRepository} from "../network-interface/lifecycle/network-interface-repository";
+import {NetworkInterfaceEntity} from "../network-interface/network-interface-entity";
 
 export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
     private _isGranted: boolean;
 
-    constructor(private userSettingStorage: UserSettingStorage) {
+    constructor(
+        private userSettingStorage: UserSettingStorage,
+        private networkInterfaceRepository: NetworkInterfaceRepository,
+    ) {
     }
 
     get isGranted(): boolean {
@@ -45,18 +48,54 @@ export class NetworksetupProxyService {
     }
 
     async grantProxyCommand(): Promise<boolean> {
-        let result = await throwableCommand(this._networksetupProxy.grant());
-        if (result) {
+        let result = await this._networksetupProxy.grant().catch((e) => e);
+        if (!(result instanceof Error)) {
             this._isGranted = true;
             return true;
         }
-
         await this.userSettingStorage.store("noGrant", true);
         return false;
     }
 
+    enableProxy() {
+        return this.callAllEnableInterface((np, ni) => ni.enableProxy(np))
+    }
+
+    disableProxy() {
+        return this.callAllEnableInterface((np, ni) => ni.disableProxy(np))
+    }
+
+    clearAutoProxyUrl() {
+        return this.callAllEnableInterface((np, ni) => ni.clearAutoProxyUrl(np))
+    }
+
+    setAutoProxyUrl() {
+        return this.callAllEnableInterface((np, ni) => ni.setAutoProxyUrl(np))
+    }
+
+    reloadAutoProxyUrl() {
+        return this.callAllEnableInterface((np, ni) => ni.reloadAutoProxyUrl(np))
+    }
+
+    private async callAllEnableInterface(
+        callback: (
+            networksetupProxy: NetworksetupProxy,
+            networkInterfaceEntity: NetworkInterfaceEntity,
+        ) => Promise<any>
+    ) {
+        let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
+        return await this.getNetworksetupProxy()
+            .map((networksetupProxy) => {
+                return Promise.all(networkInterfaceEntities.map((ni) => {
+                    return callback(networksetupProxy, ni);
+                }));
+            })
+            .getOrElse(() => Promise.resolve(undefined))
+        ;
+    }
+
     private async getCommandPath(): Promise<string> {
-        let fsExists = promisify(fs.exists, fs);
+        let fsExists = (path: string) => new Promise((resolve) => fs.exists(path, resolve));
         if (await fsExists(DEVELOP_PROXY_SETTING_COMMAND_PATH)) {
             return DEVELOP_PROXY_SETTING_COMMAND_PATH;
         }
