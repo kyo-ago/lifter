@@ -1,7 +1,7 @@
 {
   "name": "lifter",
   "description": "Electron Local Proxy for frontend developers",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "@kyo_ago",
   "bugs": {
     "url": "https://github.com/kyo-ago/lifter/issues"
