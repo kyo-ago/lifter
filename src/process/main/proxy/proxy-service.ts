@@ -1,6 +1,7 @@
 import {OutgoingHttpHeaders} from 'http';
 import * as HttpMitmProxy from 'http-mitm-proxy';
-import {PROXY_PORT} from '../../../settings';
+import * as URL from 'url';
+import {BIND_HOST_NAME, PROXY_PORT} from '../../../settings';
 
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
@@ -12,7 +13,7 @@ export class ProxyService {
 
     createServer(
         onRequestCallback: (
-            href: string,
+            href: URL.Url,
             blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
             passCallback: (error: Error | undefined) => void,
         ) => void,
@@ -26,21 +27,20 @@ export class ProxyService {
         this.mitmProxy.onRequest(async (ctx: HttpMitmProxy.IContext, callback: (error: Error | undefined) => void) => {
             let encrypted = (<any>ctx.clientToProxyRequest).client.encrypted;
             let host = ctx.clientToProxyRequest.headers.host;
-            let url = ctx.clientToProxyRequest.url;
-            let href = `http${encrypted ? `s` : ``}://${host}${url}`;
+            let path = ctx.clientToProxyRequest.url;
+            let url = URL.parse(`http${encrypted ? `s` : ``}://${host}${path}`);
 
-            onRequestCallback(href, (header: {[key: string]: string}, body: Buffer | string) => {
+            onRequestCallback(url, (header: {[key: string]: string}, body: Buffer | string) => {
                 ctx.proxyToClientResponse.writeHead(200, header);
                 ctx.proxyToClientResponse.end(body);
             }, callback);
         });
 
-        (this.mitmProxy.listen as any)({
+        this.mitmProxy.listen({
             port: PROXY_PORT,
+            host: BIND_HOST_NAME,
             silent: true,
             sslCaDir: this.sslCaDir
-        }, (err: any) => {
-            if (err) console.error('error: ', err);
         });
     }
 }

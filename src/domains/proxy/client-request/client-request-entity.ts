@@ -4,7 +4,7 @@ import {ClientRequestUrl} from './value-objects/client-request-url';
 
 export interface ClientRequestEntityJSON {
     id: number;
-    url: string;
+    href: string;
 }
 
 export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
@@ -15,18 +15,18 @@ export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
         super(identity);
     }
 
-    get url() {
-        return this._url.value;
+    get href() {
+        return this._url.getHref();
     }
 
     get pathname() {
-        return this._url.value;
+        return this._url.getPathname();
     }
 
     get json(): ClientRequestEntityJSON {
         return {
             id: this.id,
-            url: this._url.value,
+            href: this._url.getHref(),
         };
     }
 }

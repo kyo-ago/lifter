@@ -1,17 +1,18 @@
-import * as Url from 'url';
+import {Url} from "url";
 import {BaseValueObject} from '../../../share/base/value-objects/base-value-object';
 
-export class ClientRequestUrl extends BaseValueObject<string> {
-    private reqestUrl: Url.Url;
-
+export class ClientRequestUrl extends BaseValueObject<Url> {
     constructor(
-        _value: string,
+        private reqestUrl: Url,
     ) {
-        super(_value);
-        this.reqestUrl = Url.parse(_value);
+        super(reqestUrl);
     }
 
     getPathname() {
         return this.reqestUrl.pathname;
+    }
+
+    getHref() {
+        return this.reqestUrl.href;
     }
 }

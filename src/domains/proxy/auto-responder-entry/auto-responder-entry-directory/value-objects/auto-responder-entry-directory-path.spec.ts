@@ -14,20 +14,20 @@ describe('AutoResponderEntryDirectoryPath', () => {
         let filename = Path.basename(__filename);
         it('root url', () => {
             let autoResponderEntryDirectoryPath = new AutoResponderEntryDirectoryPath(__dirname);
-            let url = `/${dirname}/${filename}`;
-            let result = autoResponderEntryDirectoryPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/${dirname}/${filename}`);
+            let result = autoResponderEntryDirectoryPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(__filename);
         });
         it('sub url', () => {
             let autoResponderEntryDirectoryPath = new AutoResponderEntryDirectoryPath(__dirname);
-            let url = `/sub/${dirname}/${filename}`;
-            let result = autoResponderEntryDirectoryPath.getAutoResponderEntryFilePath(clientRequestFactory.create(url));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/sub/${dirname}/${filename}`);
+            let result = autoResponderEntryDirectoryPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(__filename);
         });
         it('unknow file', () => {
             let autoResponderEntryDirectoryPath = new AutoResponderEntryDirectoryPath(__dirname);
-            let file = `/sub/${dirname}/unknow.txt`;
-            let result = autoResponderEntryDirectoryPath.getAutoResponderEntryFilePath(clientRequestFactory.create(file));
+            let clientRequestEntity = clientRequestFactory.createFromString(`/sub/${dirname}/unknow.txt`);
+            let result = autoResponderEntryDirectoryPath.getAutoResponderEntryFilePath(clientRequestEntity);
             expect(result.value).toBe(`${__dirname}/unknow.txt`);
         });
     });

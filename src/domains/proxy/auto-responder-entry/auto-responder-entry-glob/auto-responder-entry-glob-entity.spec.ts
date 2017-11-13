@@ -18,7 +18,7 @@ describe('AutoResponderEntryGlobEntity.getMatchResponder', () => {
 
     it('file path', async () => {
         let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity('/*', __filename);
-        let clientRequestEntity = clientRequestFactory.create('/hoge');
+        let clientRequestEntity = clientRequestFactory.createFromString('/hoge');
         let result = await autoResponderEntryGlobEntity.getMatchResponder(clientRequestEntity);
         expect(result.path).toBe(__filename);
     });
@@ -26,7 +26,7 @@ describe('AutoResponderEntryGlobEntity.getMatchResponder', () => {
     it('directory path', async () => {
         let filename = Path.basename(__filename);
         let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity('/*', __dirname);
-        let clientRequestEntity = clientRequestFactory.create(`/${filename}`);
+        let clientRequestEntity = clientRequestFactory.createFromString(`/${filename}`);
         let result = await autoResponderEntryGlobEntity.getMatchResponder(clientRequestEntity);
         expect(result.path).toBe(__filename);
     });

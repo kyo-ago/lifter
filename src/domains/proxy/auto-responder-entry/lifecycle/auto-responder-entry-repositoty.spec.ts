@@ -17,18 +17,21 @@ describe('AutoResponderEntryRepository', () => {
 
     describe('findMatchEntry', () => {
         it('result is null', async () => {
-            let result = await autoResponderEntryRepository.findMatchEntry(clientRequestFactory.create(''));
+            let clientRequestEntity = clientRequestFactory.createFromString('');
+            let result = await autoResponderEntryRepository.findMatchEntry(clientRequestEntity);
             expect(result).toBeNull();
         });
         it('result is not null', async () => {
             await autoResponderEntryRepository.store(autoResponderEntryFactory.create("File", 'a', __filename));
-            let result = await autoResponderEntryRepository.findMatchEntry(clientRequestFactory.create('/a'));
+            let clientRequestEntity = clientRequestFactory.createFromString('/a');
+            let result = await autoResponderEntryRepository.findMatchEntry(clientRequestEntity);
             expect(result).not.toBeNull();
         });
         it('choose from entities', async () => {
             let entities = Array.from(Array(10)).map((_, index) => autoResponderEntryFactory.create("File", String(index), __filename));
             await autoResponderEntryRepository.storeList(entities);
-            let result = await autoResponderEntryRepository.findMatchEntry(clientRequestFactory.create('/2'));
+            let clientRequestEntity = clientRequestFactory.createFromString('/2');
+            let result = await autoResponderEntryRepository.findMatchEntry(clientRequestEntity);
             expect(result).not.toBeNull();
         });
     });

@@ -9,7 +9,7 @@ import {RewriteRuleEntity} from '../../../domains/proxy/rewrite-rule/rewrite-rul
 import {ProxyBypassDomainFactory} from '../../../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
 import {ProxyBypassDomainEntity} from '../../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-entity';
 import {ProxyBypassDomainService} from "../../../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import {ProxySettingRepository} from "../../../domains/settings/proxy-setting/lifecycle/proxy-setting-repository";
+import {ProxySettingService} from "../../../domains/settings/proxy-setting/proxy-setting-service";
 import {ShareProxyBypassDomainEntityJSON} from '../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity';
 import {ShareRewriteRuleEntityJSON} from '../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity';
 import {ipc} from "../../../libs/ipc";
@@ -20,10 +20,10 @@ export class WindowManagerService {
     constructor(
         private autoResponderEntryRepository: AutoResponderEntryRepository,
         private clientRequestRepository: ClientRequestRepository,
-        private proxySettingRepository: ProxySettingRepository,
         private rewriteRuleRepository: RewriteRuleRepository,
         private proxyBypassDomainService: ProxyBypassDomainService,
         private certificateService: CertificateService,
+        private proxySettingService: ProxySettingService,
     ) {
     }
 
@@ -49,7 +49,7 @@ export class WindowManagerService {
         let autoResponderEntries = await this.autoResponderEntryRepository.resolveAll();
         let clientRequestEntries = this.clientRequestRepository.resolveAll();
         let certificateState = await this.certificateService.getCurrentStatus();
-        let proxySettingStatus = await this.proxySettingRepository.getProxySetting().getCurrentStatus();
+        let proxySettingStatus = await this.proxySettingService.getCurrentStatus();
         windowManager.sharedData.set('mainApps', {
             autoResponderEntries: autoResponderEntries.map((entity: AbstractAutoResponderEntryEntity) => entity.json),
             clientRequestEntries: clientRequestEntries.map((entity: ClientRequestEntity) => entity.json),

@@ -1,3 +1,4 @@
+import {parse, Url} from "url";
 import {ClientRequestEntity, ClientRequestEntityJSON} from '../client-request-entity';
 import {ClientRequestIdentity} from '../client-request-identity';
 import {ClientRequestUrl} from '../value-objects/client-request-url';
@@ -8,14 +9,21 @@ export class ClientRequestFactory {
     static fromJSON(clientRequestEntityJSON: ClientRequestEntityJSON) {
         return new ClientRequestEntity(
             new ClientRequestIdentity(clientRequestEntityJSON.id),
-            new ClientRequestUrl(clientRequestEntityJSON.url),
+            new ClientRequestUrl(parse(clientRequestEntityJSON.href)),
         );
     }
 
-    create(href: string): ClientRequestEntity {
+    create(url: Url): ClientRequestEntity {
         return new ClientRequestEntity(
             new ClientRequestIdentity(this.identity++),
-            new ClientRequestUrl(href),
+            new ClientRequestUrl(url),
+        );
+    }
+
+    createFromString(href: string): ClientRequestEntity {
+        return new ClientRequestEntity(
+            new ClientRequestIdentity(this.identity++),
+            new ClientRequestUrl(parse(href)),
         );
     }
 }

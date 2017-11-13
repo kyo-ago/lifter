@@ -3,36 +3,68 @@ import {ClientRequestFactory} from '../../../client-request/lifecycle/client-req
 import {AutoResponderEntryGlobPattern} from './auto-responder-entry-glob-pattern';
 
 describe('AutoResponderEntryGlobPattern', () => {
-    describe('isMatchPath', () => {
-        let clientRequestFactory: ClientRequestFactory;
-        beforeEach(async () => {
-            clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
-        });
+    let clientRequestFactory: ClientRequestFactory;
+    beforeEach(async () => {
+        clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
+    });
+    let testPattern = [
+        {
+            name: 'match',
+            pattern: '/*',
+            path: '/hoge',
+            result: true,
+        },
+        {
+            name: 'directory match',
+            pattern: '/*/',
+            path: '/hoge/',
+            result: true,
+        },
+        {
+            name: 'multi directory match',
+            pattern: '/**',
+            path: '/hoge/huga.js',
+            result: true,
+        },
+        {
+            name: 'extension match',
+            pattern: '*.js',
+            path: '/hoge/huga.js',
+            result: true,
+        },
+        {
+            name: 'extension match',
+            pattern: '*.js',
+            path: '/hoge/huga.js',
+            result: true,
+        },
+        {
+            name: 'unmatch',
+            pattern: '/hoge/*',
+            path: '/huga',
+            result: false,
+        },
+    ];
 
-        it('match', () => {
-            let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('/*');
-            let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestFactory.create('/hoge'));
-            expect(result).toBe(true);
+    describe('getMatchCodeString', () => {
+        testPattern.forEach((pattern) => {
+            it(pattern.name, () => {
+                let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern(pattern.pattern);
+                let result = autoResponderEntryGlobPattern.getMatchCodeString('match');
+                let code = `((url) => {${result}})("${pattern.path}")`;
+                expect(eval(code)).toBe(pattern.result ? 'match' : undefined);
+            });
         });
-        it('directory match', () => {
-            let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('/*/');
-            let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestFactory.create('/hoge/'));
-            expect(result).toBe(true);
-        });
-        it('multi directory match', () => {
-            let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('/**');
-            let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestFactory.create('/hoge/huga'));
-            expect(result).toBe(true);
-        });
-        it('extension match', () => {
-            let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('*.js');
-            let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestFactory.create('/hoge/huga.js'));
-            expect(result).toBe(true);
-        });
-        it('unmatch', () => {
-            let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern('/hoge/*');
-            let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestFactory.create('/huga'));
-            expect(result).toBe(false);
+    });
+
+    describe('isMatchPath', () => {
+        testPattern.forEach((pattern) => {
+            it(pattern.name, () => {
+                let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern(pattern.pattern);
+                let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
+                let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestEntity);
+                expect(result).toBe(pattern.result);
+            });
         });
     });
 });
