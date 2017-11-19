@@ -1,0 +1,17 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "example": "npm install && node index.js",
+    "postexample": "node postexample.js"
+  },
+  "author": "@kyo_ago",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "mock-require": "^2.0.2",
+    "networksetup-proxy": "file:..",
+    "sinon": "^2.1.0"
+  }
+}

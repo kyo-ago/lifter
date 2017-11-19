@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es2017",
+    "declaration": true,
+    "noEmitOnError": true,
+    "lib": ["es2017"]
+  },
+  "include": [
+    "./global.d.ts",
+    "./index.ts",
+    "./test/test.ts"
+  ],
+  "exclude": [
+    "./node_modules/"
+  ]
+}
