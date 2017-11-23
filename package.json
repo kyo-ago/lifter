@@ -48,6 +48,7 @@
     "bootstrap": "lerna bootstrap",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
+    "postinstall": "cd packages/lifter-app && npm i",
     "precommit": "lint-staged",
     "prepublish": "yarn run bootstrap",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
