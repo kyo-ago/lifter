@@ -49,13 +49,13 @@ export class TopForm extends React.Component<GlobalProps, {}> {
                             className="form-control top-form__input-url"
                             placeholder="http://example.com/**.js"
                             defaultValue={getValue(rewriteRule => rewriteRule.url)}
-                            ref={elem => (this.urlElem = elem)}
+                            ref={(elem: HTMLInputElement) => (this.urlElem = elem)}
                         />
                     </div>
                     <div className="top-form__bottom">
                         <select
                             className="form-control form-table-cell top-form__select-action"
-                            ref={elem => (this.actionElem = elem)}
+                            ref={(elem: HTMLSelectElement) => (this.actionElem = elem)}
                             defaultValue={getValue(rewriteRule => rewriteRule.action)}
                         >
                             <option>Add</option>
@@ -68,7 +68,7 @@ export class TopForm extends React.Component<GlobalProps, {}> {
                                 type="text"
                                 className="form-control top-form__input-header"
                                 placeholder="Content-Type"
-                                ref={elem => (this.headerElem = elem)}
+                                ref={(elem: HTMLInputElement) => (this.headerElem = elem)}
                                 defaultValue={getValue(rewriteRule => rewriteRule.header)}
                             />
                         </label>
@@ -78,7 +78,7 @@ export class TopForm extends React.Component<GlobalProps, {}> {
                                 type="text"
                                 className="form-control top-form__input-value"
                                 placeholder="text/html; charset=utf-8"
-                                ref={elem => (this.valueElem = elem)}
+                                ref={(elem: HTMLInputElement) => (this.valueElem = elem)}
                                 defaultValue={getValue(rewriteRule => rewriteRule.value)}
                             />
                         </label>

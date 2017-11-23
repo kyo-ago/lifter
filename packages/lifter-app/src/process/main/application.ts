@@ -27,7 +27,7 @@ export class Application {
     private proxyBypassDomainService: ProxyBypassDomainService;
     private windowManagerService: WindowManagerService;
 
-    constructor(private projectEntity: ProjectEntity, private lifecycleContextService: LifecycleContextService) {
+    constructor(projectEntity: ProjectEntity, private lifecycleContextService: LifecycleContextService) {
         this.userSettingStorage = new UserSettingStorage(projectEntity);
         this.networksetupProxyService = new NetworksetupProxyService(
             this.userSettingStorage,

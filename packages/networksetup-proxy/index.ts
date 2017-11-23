@@ -1,3 +1,5 @@
+/// <reference path="./global.d.ts" />
+
 import * as execa from "execa";
 import * as fs from "fs";
 import * as path from "path";
@@ -50,7 +52,7 @@ export class NetworksetupProxy {
         password?: string
     ): Promise<IOResult> {
         let args = [port, authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setwebproxy`, [networkservice, domain].concat(args));
+        return this.exec(`-setwebproxy`, [networkservice, domain].concat(<string[]>args));
     }
 
     setsecurewebproxy(
@@ -62,7 +64,7 @@ export class NetworksetupProxy {
         password?: string
     ): Promise<IOResult> {
         let args = [port, authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setsecurewebproxy`, [networkservice, domain].concat(args));
+        return this.exec(`-setsecurewebproxy`, [networkservice, domain].concat(<string[]>args));
     }
 
     setwebproxystate(networkservice: string, enabled: string): Promise<IOResult> {
@@ -86,7 +88,7 @@ export class NetworksetupProxy {
     }
 
     private exec(command: string, params: string[]): Promise<IOResult> {
-        return execa(this.PROXY_SETTING_COMMAND, [].concat(command).concat(this.getSscapedParams(params)));
+        return execa(this.PROXY_SETTING_COMMAND, [command].concat(this.getSscapedParams(params)));
     }
 
     private getSscapedParams(params: string[]): string[] {

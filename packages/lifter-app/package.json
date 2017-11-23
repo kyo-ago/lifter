@@ -30,6 +30,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "rxjs": "^5.5.2",
+    "source-map-support": "^0.5.0",
     "typescript-dddbase": "^0.0.4"
   },
   "devDependencies": {
@@ -93,17 +94,16 @@
     "url": "git+https://github.com/kyo-ago/lifter.git"
   },
   "scripts": {
-    "clean": "rm -rf ./dist ./build ./app",
+    "clean-install": "rimraf node_modules && yarn install",
+    "compile": "electron-webpack",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
-    "dist": "electron-builder",
+    "dist": "yarn clean-install && yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "fix": "fixpack",
-    "pack": "electron-builder --dir",
-    "postinstall": "electron-builder install-app-deps",
-    "prebuild": "rm -fr ./app && cp -a ./template-app ./app",
-    "start": "NODE_ENV='development' && electron ./app --enable-logging",
+    "release": "yarn clean-install && electron-builder --publish always",
+    "start": "run-p dev",
     "test": "NODE_ENV='test' && jest",
-    "test:e2e": "NODE_ENV='test' && jest --testRegex '\\/tests\\/e2e\\/.+\\.spec\\.(ts|tsx|js)$'",
-    "watch": "tsc -p ./tsconfig.json --watch"
+    "test:e2e": "NODE_ENV='test' && jest --testRegex '\\/tests\\/e2e\\/.+\\.spec\\.(ts|tsx|js)$'"
   }
 }

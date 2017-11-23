@@ -1,5 +1,5 @@
-import * as promisify from "es6-promisify";
-import * as Datastore from "nedb";
+import promisify = require("es6-promisify");
+import Datastore = require("nedb");
 import { ProjectEntity } from "../proxy/project/project-entity";
 
 interface UserSettings {

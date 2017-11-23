@@ -1,4 +1,4 @@
-import * as promisify from "es6-promisify";
+import promisify = require("es6-promisify");
 import * as fs from "fs";
 import { BaseValueObject } from "./base-value-object";
 

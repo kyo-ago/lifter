@@ -14,7 +14,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            {
+            <any>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000"
                 },
@@ -47,7 +47,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            {
+            <any>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000"
                 },
@@ -90,7 +90,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            {
+            <any>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000"
                 },

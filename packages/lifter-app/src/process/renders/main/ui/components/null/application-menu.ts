@@ -18,11 +18,11 @@ export class ApplicationMenu extends React.Component<GlobalProps, {}> {
 
     private addAutoResponderEntry() {
         remote.dialog.showOpenDialog(
-            null,
+            <any>null,
             {
                 properties: ["openDirectory", "openFile", "createDirectory"]
             },
-            filePaths => {
+            (filePaths: string[]) => {
                 this.props.selectDialogEntry(filePaths);
             }
         );

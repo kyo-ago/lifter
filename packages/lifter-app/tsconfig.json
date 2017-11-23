@@ -1,21 +1,28 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "outDir": "./app/",
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "outDir": "./lib/",
     "module": "commonjs",
     "target": "es2017",
     "rootDir": "./src/",
+    "sourceMap": true,
+    "skipLibCheck": true,
     "declaration": false,
     "noEmitOnError": true,
     "jsx": "React",
     "lib": ["dom", "es2017", "es2017.object"]
   },
   "include": [
-    "./typings/global.d.ts",
-    "./src/index.ts",
-    "./src/renderer.ts"
+    "src/**/*",
+    "typings/global.d.ts"
   ],
   "exclude": [
-    "./node_modules/"
+    ".git",
+    "node_modules"
   ]
 }

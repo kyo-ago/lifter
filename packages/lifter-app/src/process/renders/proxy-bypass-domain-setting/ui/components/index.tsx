@@ -12,10 +12,7 @@ class AppComponent extends React.Component<GlobalProps, {}> {
         return (
             <div>
                 <Form {...this.props} />
-                <SubmitForm
-                    onClickCancel={(event: any) => this.props.cancelAll()}
-                    onClickSave={(event: any) => this.props.saveAll()}
-                />
+                <SubmitForm onClickCancel={() => this.props.cancelAll()} onClickSave={() => this.props.saveAll()} />
             </div>
         );
     }

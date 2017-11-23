@@ -45,6 +45,11 @@ export class WindowManagerService {
             return;
         }
 
+        const isDevelopment = process.env.NODE_ENV !== "production";
+        const url = isDevelopment
+            ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
+            : `file://${__dirname}/index.html`;
+
         let autoResponderEntries = await this.autoResponderEntryRepository.resolveAll();
         let clientRequestEntries = this.clientRequestRepository.resolveAll();
         let certificateState = await this.certificateService.getCurrentStatus();
@@ -55,9 +60,15 @@ export class WindowManagerService {
             certificateState: certificateState,
             proxySettingStatus: proxySettingStatus
         });
-        windowManager.open(name, APPLICATION_NAME, "/index.html", "default", {
+        windowManager.open(name, APPLICATION_NAME, url, "default", {
             file: `${WINDOW_STATE_DIR}main-window-state.json`
         });
+        if (isDevelopment) {
+            windowManager
+                .get(name)
+                .content()
+                .openDevTools();
+        }
         this.registerWindow(name);
     }
 

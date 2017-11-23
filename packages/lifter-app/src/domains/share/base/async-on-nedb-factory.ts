@@ -1,5 +1,5 @@
-import * as promisify from "es6-promisify";
-import * as Datastore from "nedb";
+import promisify = require("es6-promisify");
+import Datastore = require("nedb");
 
 export abstract class AsyncOnNedbFactory {
     private datastore: Datastore;
