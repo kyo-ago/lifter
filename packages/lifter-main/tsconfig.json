@@ -6,19 +6,22 @@
     "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "outDir": "./lib/",
+    "outDir": "./build/",
     "module": "commonjs",
     "target": "es2017",
     "rootDir": "./src/",
-    "sourceMap": true,
     "skipLibCheck": true,
-    "declaration": false,
+    "declaration": true,
     "noEmitOnError": true,
-    "jsx": "React",
     "lib": ["dom", "es2017", "es2017.object"]
   },
   "include": [
-    "src/**/*",
+    "src/**/*.ts",
     "typings/global.d.ts"
+  ],
+  "exclude": [
+    "tests",
+    "src/**/*.spec.ts",
+    "src/**/__mocks__"
   ]
 }

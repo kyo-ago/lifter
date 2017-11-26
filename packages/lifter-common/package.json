@@ -1,0 +1,17 @@
+{
+  "name": "@kyo-ago/lifter-common",
+  "description": "lifter proxy common modules",
+  "version": "0.0.0",
+  "author": "@kyo_ago",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typescript": "2.5.2"
+  },
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "fix": "fixpack",
+    "test": ""
+  }
+}

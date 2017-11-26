@@ -1,11 +1,8 @@
 {
-  "name": "lifter-app",
-  "description": "Electron Local Proxy for frontend developers",
+  "name": "@kyo-ago/lifter-app",
+  "description": "lifter proxy application",
   "version": "0.0.8",
   "author": "@kyo_ago",
-  "bugs": {
-    "url": "https://github.com/kyo-ago/lifter/issues"
-  },
   "build": {
     "productName": "Lifter Proxy",
     "appId": "com.electron.lifter",
@@ -59,7 +56,6 @@
     "typescript": "2.5.2",
     "webpack": "^3.8.1"
   },
-  "homepage": "https://github.com/kyo-ago/lifter/",
   "jest": {
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
@@ -81,18 +77,9 @@
       "json"
     ]
   },
-  "keywords": [
-    "electron",
-    "local proxy",
-    "proxy"
-  ],
   "license": "GPL-3.0",
   "main": "app/index.js",
   "productName": "Lifter Proxy",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kyo-ago/lifter.git"
-  },
   "scripts": {
     "clean-install": "rimraf node_modules && yarn install",
     "compile": "electron-webpack",
