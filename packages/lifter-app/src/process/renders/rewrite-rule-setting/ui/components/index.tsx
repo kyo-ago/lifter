@@ -1,8 +1,8 @@
 import { None, Option } from "monapt";
 import * as React from "react";
 import { connect } from "react-redux";
-import { RewriteRuleEntity } from "../../../../../domains/editing/rewrite-rule/rewrite-rule-entity";
-import { ShareRewriteRuleIdentity } from "../../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity";
+import { RewriteRuleEntity } from "../../../../../domains/rewrite-rule/rewrite-rule-entity";
+import { RewriteRuleIdentity } from "../../../../../domains/rewrite-rule/rewrite-rule-identity";
 import { SubmitForm } from "../../../share/components/submit-form/submit-form";
 import { Application } from "../../application/application";
 import { LifecycleContextService } from "../../application/lifecycle-context/lifecycle-context-service";
@@ -28,8 +28,8 @@ class AppComponent extends React.Component<GlobalProps, {}> {
 
 interface DispathProps {
     saveRewriteRule: (url: string, action: string, header: string, value: string) => void;
-    deleteRewriteRule: (id: ShareRewriteRuleIdentity) => void;
-    selectRewriteRule: (id: ShareRewriteRuleIdentity) => void;
+    deleteRewriteRule: (id: RewriteRuleIdentity) => void;
+    selectRewriteRule: (id: RewriteRuleIdentity) => void;
     cancelRewriteRule: () => void;
     cancelAllRewriteRule: () => void;
     saveAllRewriteRule: () => void;
@@ -49,12 +49,12 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
             dispatch(Actions.saveRewriteRule(rewriteRule));
         },
 
-        deleteRewriteRule(id: ShareRewriteRuleIdentity) {
+        deleteRewriteRule(id: RewriteRuleIdentity) {
             let rewriteRules: RewriteRuleEntity[] = application.deleteRewriteRule(id);
             dispatch(Actions.updateRewriteRules(rewriteRules));
         },
 
-        selectRewriteRule(id: ShareRewriteRuleIdentity) {
+        selectRewriteRule(id: RewriteRuleIdentity) {
             let rewriteRuleEntity: Option<RewriteRuleEntity> = application.selectRewriteRule(id);
             dispatch(Actions.updateCurrentRewriteRule(rewriteRuleEntity));
         },

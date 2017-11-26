@@ -1,19 +1,19 @@
 import { remote } from "electron";
-import { ShareProxyBypassDomainEntityJSON } from "../../../domains/share/share-proxy-bypass-domain/share-proxy-bypass-domain-entity";
-import { ShareRewriteRuleEntityJSON } from "../../../domains/share/share-rewrite-rule/share-rewrite-rule-entity";
+import { ProxyBypassDomainEntityJSON } from "../../../domains/proxy-bypass-domain/proxy-bypass-domain-entity";
+import { RewriteRuleEntityJSON } from "../../../domains/rewrite-rule/rewrite-rule-entity";
 import { StateToProps } from "../main/ui/reducer";
 
 type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow";
 
 interface StoreDateKeyMap {
     mainApps: StateToProps;
-    mainRewriteRules: ShareRewriteRuleEntityJSON[];
-    mainProxyBypassDomains: ShareProxyBypassDomainEntityJSON[];
+    mainRewriteRules: RewriteRuleEntityJSON[];
+    mainProxyBypassDomains: ProxyBypassDomainEntityJSON[];
 }
 
 interface BridgeDateKeyMap {
-    overwriteRewriteRules: ShareRewriteRuleEntityJSON[];
-    overwriteProxyBypassDomains: ShareProxyBypassDomainEntityJSON[];
+    overwriteRewriteRules: RewriteRuleEntityJSON[];
+    overwriteProxyBypassDomains: ProxyBypassDomainEntityJSON[];
 }
 
 interface WindowManager {

@@ -1,7 +1,7 @@
 import { app } from "electron";
 import { ProjectFactory } from "../domains/proxy/project/lifecycle/project-factory";
-import { Application } from "../process/main/application";
-import { LifecycleContextService } from "../process/main/lifecycle-context-service";
+import { Application } from "../../../lifter-main/src/application/application";
+import { LifecycleContextService } from "../../../lifter-main/src/application/lifecycle-context-service";
 import { REPOSITORY_BASE_DIR_PATH } from "../settings";
 
 app.on("window-all-closed", async () => {

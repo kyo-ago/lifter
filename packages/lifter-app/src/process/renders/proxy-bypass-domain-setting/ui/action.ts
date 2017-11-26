@@ -1,4 +1,4 @@
-import { ProxyBypassDomainEntity } from "../../../../domains/editing/proxy-bypass-domain/proxy-bypass-domain-entity";
+import { ProxyBypassDomainEntity } from "../../../../domains/proxy-bypass-domain/proxy-bypass-domain-entity";
 
 export const UPDATE_PROXY_BYPASS_DOMAINS = "UPDATE_PROXY_BYPASS_DOMAINS";
 

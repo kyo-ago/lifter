@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RewriteRuleEntity } from "../../../../../../domains/editing/rewrite-rule/rewrite-rule-entity";
+import { RewriteRuleEntity } from "../../../../../../domains/rewrite-rule/rewrite-rule-entity";
 import { GlobalProps } from "../index";
 import { RewriteRuleRow } from "./rewrite-rule-row";
 

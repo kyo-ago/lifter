@@ -1,5 +1,5 @@
+import { LifecycleContextService } from "../../../src/application/lifecycle-context-service";
 import { ProjectFactory } from "../../../src/domains/proxy/project/lifecycle/project-factory";
-import { LifecycleContextService } from "../../../src/lifecycle-context-service";
 
 export async function getLifecycleContextService() {
     let projectFactory = new ProjectFactory();

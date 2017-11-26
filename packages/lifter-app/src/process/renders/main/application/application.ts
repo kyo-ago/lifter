@@ -11,7 +11,7 @@ import {
 import { ClientRequestFactory } from "../../../../domains/proxy/client-request/lifecycle/client-request-factory";
 import { ProxySettingStatus } from "../../../../domains/settings/proxy-setting/proxy-setting-service";
 import { ipc } from "../../../../libs/ipc";
-import { CertificateStatus } from "../../../main/certificate/certificate-service";
+import { CertificateStatus } from "../../../../../../lifter-main/src/application/certificate/certificate-service";
 import { StateToProps } from "../ui/reducer";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 

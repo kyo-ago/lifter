@@ -10,7 +10,7 @@
   },
   "license": "GPL-3.0",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
+    "build": "tsc -p .",
     "fix": "fixpack",
     "test": ""
   }

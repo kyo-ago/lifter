@@ -1,6 +1,6 @@
 import { None, Option, Some } from "monapt";
-import { RewriteRuleEntity } from "../../../../domains/editing/rewrite-rule/rewrite-rule-entity";
-import { ShareRewriteRuleIdentity } from "../../../../domains/share/share-rewrite-rule/share-rewrite-rule-identity";
+import { RewriteRuleEntity } from "../../../../domains/rewrite-rule/rewrite-rule-entity";
+import { RewriteRuleIdentity } from "../../../../domains/rewrite-rule/rewrite-rule-identity";
 import { windowManager } from "../../libs/get-window-manager";
 import { StateToProps } from "../ui/reducer";
 import { LifecycleContextService } from "./lifecycle-context/lifecycle-context-service";
@@ -23,13 +23,13 @@ export class Application {
         return rewriteRuleEntity;
     }
 
-    deleteRewriteRule(id: ShareRewriteRuleIdentity): RewriteRuleEntity[] {
+    deleteRewriteRule(id: RewriteRuleIdentity): RewriteRuleEntity[] {
         this.lifecycleContextService.rewriteRuleRepository.deleteByIdentity(id);
         let rewriteRuleEntities = this.lifecycleContextService.rewriteRuleRepository.resolveAll();
         return rewriteRuleEntities;
     }
 
-    selectRewriteRule(id: ShareRewriteRuleIdentity): Option<RewriteRuleEntity> {
+    selectRewriteRule(id: RewriteRuleIdentity): Option<RewriteRuleEntity> {
         this.clearSelectedRule();
 
         let rewriteRule = this.lifecycleContextService.rewriteRuleRepository.resolve(id);

@@ -1,5 +1,5 @@
 import { None, Option } from "monapt";
-import { RewriteRuleEntity } from "../../../../domains/editing/rewrite-rule/rewrite-rule-entity";
+import { RewriteRuleEntity } from "../../../../domains/rewrite-rule/rewrite-rule-entity";
 import * as AppActions from "./action";
 
 export interface StateToProps {

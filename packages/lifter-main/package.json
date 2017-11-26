@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "author": "@kyo_ago",
   "dependencies": {
+    "@kyo-ago/electron-window-manager": "^1.0.5",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",
@@ -54,7 +55,7 @@
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "clean-install": "rm -fr node_modules && yarn install",
+    "clean-install": "rm -fr node_modules build && yarn install",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "fix": "fixpack",
     "test": "NODE_ENV='test' && jest"

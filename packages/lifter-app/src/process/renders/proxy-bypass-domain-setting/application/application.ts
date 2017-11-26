@@ -1,4 +1,4 @@
-import { ProxyBypassDomainEntity } from "../../../../domains/editing/proxy-bypass-domain/proxy-bypass-domain-entity";
+import { ProxyBypassDomainEntity } from "../../../../domains/proxy-bypass-domain/proxy-bypass-domain-entity";
 import { windowManager } from "../../libs/get-window-manager";
 import { StateToProps } from "../ui/reducer";
 import { LifecycleContextService } from "./lifecycle-context/lifecycle-context-service";
