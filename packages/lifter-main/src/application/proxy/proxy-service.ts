@@ -1,7 +1,7 @@
 import { OutgoingHttpHeaders } from "http";
 import * as HttpMitmProxy from "http-mitm-proxy";
 import * as URL from "url";
-import { BIND_HOST_NAME, PROXY_PORT } from "../../../../lifter-app/src/settings";
+import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();

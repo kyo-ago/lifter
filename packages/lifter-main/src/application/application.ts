@@ -1,10 +1,9 @@
 import { OutgoingHttpHeaders } from "http";
 import { Url } from "url";
-import { ipc } from "../../../lifter-app/src/libs/ipc";
-import { HTTP_SSL_CA_DIR_PATH } from "../../../lifter-app/src/settings";
 import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderEntryEntityJSON } from "../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import { AutoResponderEntryIdentity } from "../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
@@ -12,9 +11,9 @@ import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domai
 import { ProxySettingService, ProxySettingStatus } from "../domains/settings/proxy-setting/proxy-setting-service";
 import { CertificateService, CertificateStatus } from "./certificate/certificate-service";
 import { ConnectionService } from "./connection/connection-service";
+import { ipc } from "./lib/ipc";
 import { LifecycleContextService } from "./lifecycle-context-service";
 import { ProxyService } from "./proxy/proxy-service";
-import { WindowManagerService } from "./window-manager/window-manager-service";
 
 export class Application {
     private userSettingStorage: UserSettingStorage;
@@ -25,16 +24,19 @@ export class Application {
     private pacFileService: PacFileService;
     private connectionService: ConnectionService;
     private proxyBypassDomainService: ProxyBypassDomainService;
-    private windowManagerService: WindowManagerService;
 
-    constructor(projectEntity: ProjectEntity, private lifecycleContextService: LifecycleContextService) {
+    constructor(
+        httpSslCaDirPath: string,
+        projectEntity: ProjectEntity,
+        private lifecycleContextService: LifecycleContextService
+    ) {
         this.userSettingStorage = new UserSettingStorage(projectEntity);
         this.networksetupProxyService = new NetworksetupProxyService(
             this.userSettingStorage,
             this.lifecycleContextService.networkInterfaceRepository
         );
-        this.proxyService = new ProxyService(HTTP_SSL_CA_DIR_PATH);
-        this.certificateService = new CertificateService(HTTP_SSL_CA_DIR_PATH);
+        this.proxyService = new ProxyService(httpSslCaDirPath);
+        this.certificateService = new CertificateService(httpSslCaDirPath);
         this.proxySettingService = new ProxySettingService(
             this.networksetupProxyService,
             this.lifecycleContextService.networkInterfaceRepository,
@@ -55,22 +57,10 @@ export class Application {
             this.networksetupProxyService,
             this.lifecycleContextService.networkInterfaceRepository
         );
-        this.windowManagerService = new WindowManagerService(
-            this.lifecycleContextService.autoResponderEntryRepository,
-            this.lifecycleContextService.clientRequestRepository,
-            this.lifecycleContextService.rewriteRuleRepository,
-            this.proxyBypassDomainService,
-            this.certificateService,
-            this.proxySettingService
-        );
     }
 
     async load() {
-        await Promise.all([
-            this.userSettingStorage.load(),
-            this.lifecycleContextService.load(),
-            this.windowManagerService.load()
-        ]);
+        await Promise.all([this.userSettingStorage.load(), this.lifecycleContextService.load()]);
         await this.proxyBypassDomainService.load();
         await this.pacFileService.load();
         await this.networksetupProxyService.load();
@@ -96,15 +86,9 @@ export class Application {
             let autoResponderEntryIdentity = new AutoResponderEntryIdentity(id);
             this.lifecycleContextService.autoResponderEntryRepository.deleteByIdentity(autoResponderEntryIdentity);
         });
-        ipc.subscribe("openProxyBypassDomainSettingWindow", () => {
-            this.windowManagerService.openProxyBypassDomainSettingWindow();
-        });
-        ipc.subscribe("openRewriteRuleSettingWindow", () => {
-            this.windowManagerService.openRewriteRuleSettingWindow();
-        });
     }
 
-    start() {
+    start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
         this.proxyService.createServer(
             (
                 url: Url,
@@ -112,14 +96,10 @@ export class Application {
                 passCallback: (error: Error | undefined) => void
             ) => {
                 let clientRequestEntity = this.lifecycleContextService.clientRequestFactory.create(url);
-                ipc.publish("addClientRequestEntity", clientRequestEntity.json);
+                callback(clientRequestEntity);
                 this.connectionService.onRequest(clientRequestEntity, blockCallback, passCallback);
             }
         );
-    }
-
-    createMainWindow() {
-        return this.windowManagerService.createMainWindow();
     }
 
     async quit(): Promise<void> {

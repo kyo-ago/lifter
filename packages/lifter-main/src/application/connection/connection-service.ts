@@ -1,11 +1,11 @@
 import { OutgoingHttpHeaders } from "http";
-import { LOCAL_PAC_FILE_URL } from "../../../../lifter-app/src/settings";
-import { AutoResponderEntryRepository } from "../../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
-import { ClientRequestEntity } from "../../../domains/proxy/client-request/client-request-entity";
-import { ClientRequestRepository } from "../../../domains/proxy/client-request/lifecycle/client-request-repository";
-import { LocalFileResponderEntity } from "../../../domains/proxy/local-file-responder/local-file-responder-entity";
-import { PacFileService } from "../../../domains/proxy/pac-file/pac-file-service";
-import { RewriteRuleRepository } from "../../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
+import { AutoResponderEntryRepository } from "../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
+import { ClientRequestEntity } from "../../domains/proxy/client-request/client-request-entity";
+import { ClientRequestRepository } from "../../domains/proxy/client-request/lifecycle/client-request-repository";
+import { LocalFileResponderEntity } from "../../domains/proxy/local-file-responder/local-file-responder-entity";
+import { PacFileService } from "../../domains/proxy/pac-file/pac-file-service";
+import { RewriteRuleRepository } from "../../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
+import { LOCAL_PAC_FILE_URL } from "../../settings";
 
 export class ConnectionService {
     constructor(

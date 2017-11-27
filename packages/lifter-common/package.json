@@ -3,11 +3,8 @@
   "description": "lifter proxy common modules",
   "version": "0.0.0",
   "author": "@kyo_ago",
-  "dependencies": {
-  },
-  "devDependencies": {
-    "typescript": "2.5.2"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc -p .",

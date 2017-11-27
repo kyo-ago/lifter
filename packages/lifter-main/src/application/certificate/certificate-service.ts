@@ -1,9 +1,4 @@
-import {
-    addTrustedCert,
-    deleteCertificate,
-    findCertificate,
-    importCert
-} from "../../../../lifter-app/src/libs/exec-commands";
+import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../lib/exec-commands";
 
 export type CertificateStatus = "missing" | "installed";
 
@@ -46,8 +41,12 @@ export class CertificateService {
         if (!importResult.match(/1 certificate imported\./)) {
             throw new Error(importResult);
         }
-        let addResult = await addTrustedCert(this.certificatePath).catch(e => e);
-        return addResult instanceof Error;
+        try {
+            await addTrustedCert(this.certificatePath);
+            return false;
+        } catch (e) {
+            return true;
+        }
     }
 
     private async deleteCertificate(): Promise<true> {

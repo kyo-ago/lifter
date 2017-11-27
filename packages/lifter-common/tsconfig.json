@@ -14,7 +14,7 @@
     "lib": ["es2017", "es2017.object"]
   },
   "include": [
-    "./global.d.ts",
+    "./typings/global.d.ts",
     "./index.ts"
   ]
 }

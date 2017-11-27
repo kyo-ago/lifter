@@ -1,5 +1,5 @@
-jest.mock("../../../libs/exec-commands");
-import { findCertificate } from "../../../../lifter-app/src/libs/exec-commands";
+jest.mock("../lib/exec-commands");
+import { findCertificate } from "../lib/exec-commands";
 import { CertificateService } from "./certificate-service";
 
 describe("CertificateService", () => {

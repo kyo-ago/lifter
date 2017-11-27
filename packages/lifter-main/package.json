@@ -5,6 +5,7 @@
   "author": "@kyo_ago",
   "dependencies": {
     "@kyo-ago/electron-window-manager": "^1.0.5",
+    "@kyo-ago/lifter-common": "^0.0.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",
@@ -25,7 +26,6 @@
     "@types/node": "^8.0.47",
     "@types/sinon": "^2.3.7",
     "dependency-cruiser": "^2.7.0",
-    "fixpack": "^2.3.1",
     "jest": "^21.2.1",
     "testdouble": "^3.2.6",
     "ts-jest": "^21.1.4",
