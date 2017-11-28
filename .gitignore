@@ -81,7 +81,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 
-
 packages/*/build/
 packages/*/dist/
 packages/*/yarn.lock
