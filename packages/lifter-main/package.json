@@ -1,11 +1,12 @@
 {
   "name": "@kyo-ago/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "author": "@kyo_ago",
   "dependencies": {
     "@kyo-ago/electron-window-manager": "^1.0.5",
     "@kyo-ago/lifter-common": "^0.0.0",
+    "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",
