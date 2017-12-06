@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@kyo-ago/electron-window-manager": "^1.0.5",
-    "@kyo-ago/lifter-main": "^0.0.0",
+    "@kyo-ago/lifter-main": "^0.0.3",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",

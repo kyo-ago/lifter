@@ -3,6 +3,9 @@ import { ProjectFactory } from "../domains/proxy/project/lifecycle/project-facto
 import { Application } from "../../../lifter-main/src/application/application";
 import { LifecycleContextService } from "../../../lifter-main/src/application/lifecycle-context-service";
 import { REPOSITORY_BASE_DIR_PATH } from "../settings";
+import {createApplication} from '@kyo-ago/lifter-main';
+
+let application = createApplication();
 
 app.on("window-all-closed", async () => {
     await application.quit();
