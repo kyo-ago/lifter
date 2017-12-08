@@ -1,24 +1,25 @@
-import * as windowManager from "@kyo-ago/electron-window-manager";
-import { ipc } from "../../libs/ipc";
-import { AutoResponderEntryRepository } from "../../../../lifter-main/src/domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
-import { ClientRequestRepository } from "../../../../lifter-main/src/domains/proxy/client-request/lifecycle/client-request-repository";
-import { RewriteRuleRepository } from "../../../../lifter-main/src/domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
-import { ProxyBypassDomainService } from "../../../../lifter-main/src/domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import { CertificateService } from "../../../../lifter-main/src/application/certificate/certificate-service";
-import { ProxySettingService } from "../../../../lifter-main/src/domains/settings/proxy-setting/proxy-setting-service";
-import { WINDOW_STATE_DIR, WindowManagerInit } from "../../settings";
-import { RewriteRuleEntityJSON } from "../../../../lifter-main/src/domains/proxy/rewrite-rule/rewrite-rule-entity";
+import * as windowManager from '@kyo-ago/electron-window-manager';
+import {CertificateService} from '@kyo-ago/lifter-main/src/application/certificate/certificate-service';
+import {AbstractAutoResponderEntryEntity} from '@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {AutoResponderEntryRepository} from '@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty';
+import {ClientRequestEntity} from '@kyo-ago/lifter-main/src/domains/proxy/client-request/client-request-entity';
+import {ClientRequestRepository} from '@kyo-ago/lifter-main/src/domains/proxy/client-request/lifecycle/client-request-repository';
+import {RewriteRuleFactory} from '@kyo-ago/lifter-main/src/domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory';
+import {RewriteRuleRepository} from '@kyo-ago/lifter-main/src/domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository';
+import {RewriteRuleEntityJSON} from '@kyo-ago/lifter-main/src/domains/proxy/rewrite-rule/rewrite-rule-entity';
+import {ProxyBypassDomainFactory} from '@kyo-ago/lifter-main/src/domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory';
 import {
     ProxyBypassDomainEntity,
     ProxyBypassDomainEntityJSON
-} from "../../../../lifter-main/src/domains/settings/proxy-bypass-domain/proxy-bypass-domain-entity";
-import { RewriteRuleFactory } from "../../../../lifter-main/src/domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
-import { ProxyBypassDomainFactory } from "../../../../lifter-main/src/domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
-import { AbstractAutoResponderEntryEntity } from "../../../../lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { ClientRequestEntity } from "../../../../lifter-main/src/domains/proxy/client-request/client-request-entity";
-import { APPLICATION_NAME } from "../../../../lifter-main/src/settings";
+} from '@kyo-ago/lifter-main/src/domains/settings/proxy-bypass-domain/proxy-bypass-domain-entity';
+import {ProxyBypassDomainService} from '@kyo-ago/lifter-main/src/domains/settings/proxy-bypass-domain/proxy-bypass-domain-service';
+import {ProxySettingService} from '@kyo-ago/lifter-main/src/domains/settings/proxy-setting/proxy-setting-service';
+import {APPLICATION_NAME} from '@kyo-ago/lifter-main/src/settings';
+import {RewriteRuleEntity} from '../domains/rewrite-rule/rewrite-rule-entity';
+import {ipc} from '../libs/ipc';
+import {WINDOW_STATE_DIR, WindowManagerInit} from '../settings';
 
-export class WindowManagerService {
+export class WindowManager {
     constructor(
         private autoResponderEntryRepository: AutoResponderEntryRepository,
         private clientRequestRepository: ClientRequestRepository,

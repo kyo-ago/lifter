@@ -1,19 +1,22 @@
-import { OutgoingHttpHeaders } from "http";
-import { Url } from "url";
-import { UserSettingStorage } from "../domains/libs/user-setting-storage";
-import { AutoResponderEntryEntityJSON } from "../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { AutoResponderEntryIdentity } from "../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
-import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
-import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
-import { ProjectEntity } from "../domains/proxy/project/project-entity";
-import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
-import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import { ProxySettingService, ProxySettingStatus } from "../domains/settings/proxy-setting/proxy-setting-service";
-import { CertificateService, CertificateStatus } from "./certificate/certificate-service";
-import { ConnectionService } from "./connection/connection-service";
-import { ipc } from "./lib/ipc";
-import { LifecycleContextService } from "./lifecycle-context-service";
-import { ProxyService } from "./proxy/proxy-service";
+import {OutgoingHttpHeaders} from 'http';
+import {Url} from 'url';
+import {UserSettingStorage} from '../domains/libs/user-setting-storage';
+import {
+    AutoResponderEntryEntity,
+    AutoResponderEntryEntityJSON
+} from '../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
+import {AutoResponderEntryIdentity} from '../domains/proxy/auto-responder-entry/auto-responder-entry-identity';
+import {ClientRequestEntity} from '../domains/proxy/client-request/client-request-entity';
+import {PacFileService} from '../domains/proxy/pac-file/pac-file-service';
+import {ProjectEntity} from '../domains/proxy/project/project-entity';
+import {NetworksetupProxyService} from '../domains/settings/networksetup-proxy-service/networksetup-proxy-service';
+import {ProxyBypassDomainService} from '../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service';
+import {ProxySettingService, ProxySettingStatus} from '../domains/settings/proxy-setting/proxy-setting-service';
+import {CertificateService, CertificateStatus} from './certificate/certificate-service';
+import {ConnectionService} from './connection/connection-service';
+import {ipc} from './lib/ipc';
+import {LifecycleContextService} from './lifecycle-context-service';
+import {ProxyService} from './proxy/proxy-service';
 
 export class Application {
     private userSettingStorage: UserSettingStorage;
@@ -74,7 +77,7 @@ export class Application {
             );
             let autoResponderEntryEntities = await Promise.all(filePromises);
             await this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
-            return autoResponderEntryEntities.map(autoResponderEntryEntity => autoResponderEntryEntity.json);
+            return autoResponderEntryEntities.map((autoResponderEntryEntity: AutoResponderEntryEntity) => autoResponderEntryEntity.json);
         });
         ipc.subscribe("setNewCertificateStatus", (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
