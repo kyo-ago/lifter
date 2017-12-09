@@ -1,11 +1,11 @@
 {
   "name": "@kyo-ago/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "author": "@kyo_ago",
   "dependencies": {
     "@kyo-ago/electron-window-manager": "^1.0.5",
-    "@kyo-ago/lifter-common": "^0.0.0",
+    "@kyo-ago/lifter-common": "^0.0.3",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
@@ -15,22 +15,21 @@
     "mime": "^2.0.3",
     "nedb": "^1.8.0",
     "networksetup-proxy": "^0.2.3",
-    "rxjs": "^5.5.2",
+    "rxjs": "^5.5.5",
     "typescript-dddbase": "^0.0.4"
   },
   "devDependencies": {
-    "@types/execa": "^0.7.2",
-    "@types/jest": "^21.1.5",
+    "@types/execa": "^0.8.0",
+    "@types/jest": "^21.1.8",
     "@types/micromatch": "^2.3.29",
     "@types/mime": "2.0.0",
     "@types/nedb": "^1.8.5",
-    "@types/node": "^8.0.47",
-    "@types/sinon": "^2.3.7",
-    "dependency-cruiser": "^2.7.0",
+    "@types/node": "^8.0.57",
+    "dependency-cruiser": "^2.9.0",
     "jest": "^21.2.1",
     "testdouble": "^3.2.6",
-    "ts-jest": "^21.1.4",
-    "typescript": "2.5.2"
+    "ts-jest": "^21.2.4",
+    "typescript": "^2.6.2"
   },
   "jest": {
     "transform": {

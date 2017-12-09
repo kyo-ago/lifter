@@ -1,37 +1,44 @@
-import {OutgoingHttpHeaders} from 'http';
-import {Url} from 'url';
-import {UserSettingStorage} from '../domains/libs/user-setting-storage';
 import {
-    AutoResponderEntryEntity,
-    AutoResponderEntryEntityJSON
-} from '../domains/proxy/auto-responder-entry/auto-responder-entry-entity';
-import {AutoResponderEntryIdentity} from '../domains/proxy/auto-responder-entry/auto-responder-entry-identity';
-import {ClientRequestEntity} from '../domains/proxy/client-request/client-request-entity';
-import {PacFileService} from '../domains/proxy/pac-file/pac-file-service';
-import {ProjectEntity} from '../domains/proxy/project/project-entity';
-import {NetworksetupProxyService} from '../domains/settings/networksetup-proxy-service/networksetup-proxy-service';
-import {ProxyBypassDomainService} from '../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service';
-import {ProxySettingService, ProxySettingStatus} from '../domains/settings/proxy-setting/proxy-setting-service';
-import {CertificateService, CertificateStatus} from './certificate/certificate-service';
-import {ConnectionService} from './connection/connection-service';
-import {ipc} from './lib/ipc';
-import {LifecycleContextService} from './lifecycle-context-service';
-import {ProxyService} from './proxy/proxy-service';
+    AutoResponderEntryEntityJSON,
+    CertificateStatus,
+    ClientRequestEntityJSON,
+    ProxyBypassDomainEntityJSON,
+    ProxySettingStatus,
+    RewriteRuleEntityJSON
+} from "@kyo-ago/lifter-common";
+import { OutgoingHttpHeaders } from "http";
+import { Url } from "url";
+import { UserSettingStorage } from "../domains/libs/user-setting-storage";
+import { AutoResponderEntryIdentity } from "../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
+import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
+import { ProjectEntity } from "../domains/proxy/project/project-entity";
+import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
+import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
+import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
+import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
+import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
+import { CertificateService } from "./certificate/certificate-service";
+import { ConnectionService } from "./connection/connection-service";
+import { ipc } from "./lib/ipc";
+import { LifecycleContextService } from "./lifecycle-context-service";
+import { ProxyService } from "./proxy/proxy-service";
 
 export class Application {
+    public networksetupProxyService: NetworksetupProxyService;
+    public proxyService: ProxyService;
+    public certificateService: CertificateService;
+    public proxySettingService: ProxySettingService;
+    public pacFileService: PacFileService;
+    public connectionService: ConnectionService;
+    public proxyBypassDomainService: ProxyBypassDomainService;
+
     private userSettingStorage: UserSettingStorage;
-    private networksetupProxyService: NetworksetupProxyService;
-    private proxyService: ProxyService;
-    private certificateService: CertificateService;
-    private proxySettingService: ProxySettingService;
-    private pacFileService: PacFileService;
-    private connectionService: ConnectionService;
-    private proxyBypassDomainService: ProxyBypassDomainService;
 
     constructor(
         httpSslCaDirPath: string,
         projectEntity: ProjectEntity,
-        private lifecycleContextService: LifecycleContextService
+        public lifecycleContextService: LifecycleContextService
     ) {
         this.userSettingStorage = new UserSettingStorage(projectEntity);
         this.networksetupProxyService = new NetworksetupProxyService(
@@ -77,7 +84,7 @@ export class Application {
             );
             let autoResponderEntryEntities = await Promise.all(filePromises);
             await this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
-            return autoResponderEntryEntities.map((autoResponderEntryEntity: AutoResponderEntryEntity) => autoResponderEntryEntity.json);
+            return autoResponderEntryEntities.map(autoResponderEntryEntity => autoResponderEntryEntity.json);
         });
         ipc.subscribe("setNewCertificateStatus", (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
@@ -110,5 +117,36 @@ export class Application {
             this.networksetupProxyService.clearAutoProxyUrl(),
             this.proxySettingService.clearProxyState()
         ]);
+    }
+
+    async getMainState() {
+        let autoResponderEntries = await this.lifecycleContextService.autoResponderEntryRepository.resolveAll();
+        let clientRequestEntries = this.lifecycleContextService.clientRequestRepository.resolveAll();
+        let certificateState = await this.certificateService.getCurrentStatus();
+        let proxySettingStatus = await this.proxySettingService.getCurrentStatus();
+        return {
+            autoResponderEntries: autoResponderEntries.map((entity): AutoResponderEntryEntityJSON => entity.json),
+            clientRequestEntries: clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json),
+            certificateState: certificateState,
+            proxySettingStatus: proxySettingStatus
+        };
+    }
+
+    async getProxyBypassDomains(): Promise<ProxyBypassDomainEntityJSON[]> {
+        let allEntities = await this.proxyBypassDomainService.resolveAll();
+        return allEntities.map(entity => entity.json);
+    }
+    saveProxyBypassDomainJSON(allJsons: ProxyBypassDomainEntityJSON[]): Promise<void> {
+        let entities = allJsons.map(json => ProxyBypassDomainFactory.fromJSON(json));
+        return this.proxyBypassDomainService.overwriteAll(entities).then(() => {});
+    }
+
+    async getRewriteRules(): Promise<RewriteRuleEntityJSON[]> {
+        let allEntities = await this.lifecycleContextService.rewriteRuleRepository.resolveAll();
+        return allEntities.map(entity => entity.json);
+    }
+    saveRewriteRuleJSON(allJsons: RewriteRuleEntityJSON[]): Promise<void> {
+        let entities = allJsons.map(json => RewriteRuleFactory.fromJSON(json));
+        return this.lifecycleContextService.rewriteRuleRepository.overwriteAll(entities).then(() => {});
     }
 }

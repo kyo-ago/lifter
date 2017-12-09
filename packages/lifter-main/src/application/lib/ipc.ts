@@ -1,7 +1,5 @@
+import { AutoResponderEntryEntityJSON, CertificateStatus, ProxySettingStatus } from "@kyo-ago/lifter-common";
 import * as Ipc from "electron-ipc";
-import { AutoResponderEntryEntityJSON } from "../../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { CertificateStatus } from "../certificate/certificate-service";
-import { ProxySettingStatus } from "../../domains/settings/proxy-setting/proxy-setting-service";
 
 export interface ElectronIpcMap {
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];

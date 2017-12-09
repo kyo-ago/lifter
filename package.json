@@ -46,6 +46,7 @@
   "scripts": {
     "app": "lerna run dev --scope lifter-app",
     "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
     "postinstall": "cd packages/lifter-app && npm i",

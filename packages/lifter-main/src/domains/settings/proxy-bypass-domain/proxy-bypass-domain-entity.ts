@@ -1,11 +1,7 @@
+import { ProxyBypassDomainEntityJSON } from "@kyo-ago/lifter-common";
 import { BaseEntity } from "../../base/base-entity";
 import { ProxyBypassDomainIdentity } from "./proxy-bypass-domain-identity";
 import { ProxyBypassDomainName } from "./vaue-objects/proxy-bypass-domain-name";
-
-export interface ProxyBypassDomainEntityJSON {
-    id: number;
-    name: string;
-}
 
 export class ProxyBypassDomainEntity extends BaseEntity<ProxyBypassDomainIdentity> {
     constructor(identity: ProxyBypassDomainIdentity, private _name: ProxyBypassDomainName) {

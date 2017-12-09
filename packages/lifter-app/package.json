@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@kyo-ago/electron-window-manager": "^1.0.5",
-    "@kyo-ago/lifter-main": "^0.0.3",
+    "@kyo-ago/lifter-common": "^0.0.3",
+    "@kyo-ago/lifter-main": "^0.0.5",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
@@ -42,7 +43,6 @@
     "@types/react-dom": "^16.0.2",
     "@types/react-redux": "^5.0.12",
     "@types/redux": "^3.6.31",
-    "@types/sinon": "^2.3.7",
     "@types/when": "^2.4.29",
     "dependency-cruiser": "^2.7.0",
     "electron": "^1.7.9",
@@ -81,6 +81,7 @@
   "main": "app/index.js",
   "productName": "Lifter Proxy",
   "scripts": {
+    "build": "tsc -p .",
     "clean-install": "rimraf node_modules && yarn install",
     "compile": "electron-webpack",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",

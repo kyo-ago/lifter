@@ -11,6 +11,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
+    "build": "",
     "fix": "fixpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   }

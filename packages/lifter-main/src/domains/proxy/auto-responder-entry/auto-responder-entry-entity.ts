@@ -1,4 +1,5 @@
 import * as mime from "mime";
+import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@kyo-ago/lifter-common";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponderParam } from "../local-file-responder/lifecycle/local-file-responder-factory";
@@ -8,20 +9,10 @@ import { AutoResponderEntryIdentity } from "./auto-responder-entry-identity";
 import { AutoResponderEntryPath } from "./value-objects/auto-responder-entry-path";
 import { AutoResponderEntryPattern } from "./value-objects/auto-responder-entry-pattern";
 
-export type AutoResponderEntryType = "File" | "Directory" | "Glob";
-
 export type AbstractAutoResponderEntryEntity = AutoResponderEntryEntity<
     AutoResponderEntryPattern,
     AutoResponderEntryPath
 >;
-
-export interface AutoResponderEntryEntityJSON {
-    id: number;
-    type: AutoResponderEntryType;
-    pattern: string;
-    path: string;
-    projectId: number;
-}
 
 export abstract class AutoResponderEntryEntity<
     Pattern extends AutoResponderEntryPattern,

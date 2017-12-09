@@ -1,8 +1,7 @@
+import { RewriteRuleActionType } from "@kyo-ago/lifter-common";
 import { BaseValueObject } from "../../base/value-objects/base-value-object";
 
-export type Types = "ADD" | "MODIFY" | "DELETE";
-
-const StringToType = (value: string): Types => {
+const StringToType = (value: string): RewriteRuleActionType => {
     if (value === "ADD") {
         return "ADD";
     } else if (value === "MODIFY") {
@@ -13,7 +12,7 @@ const StringToType = (value: string): Types => {
     throw new Error("Invalid ShareRewriteRuleAction");
 };
 
-export class RewriteRuleAction extends BaseValueObject<Types> {
+export class RewriteRuleAction extends BaseValueObject<RewriteRuleActionType> {
     constructor(_value: string) {
         super(StringToType(_value));
     }

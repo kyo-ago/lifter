@@ -1,8 +1,7 @@
+import { ProxySettingStatus } from "@kyo-ago/lifter-common";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
 import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
-
-export type ProxySettingStatus = "NoPermission" | "On" | "Off";
 
 export class ProxySettingService {
     constructor(

@@ -1,11 +1,7 @@
+import { ClientRequestEntityJSON } from "@kyo-ago/lifter-common";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestIdentity } from "./client-request-identity";
 import { ClientRequestUrl } from "./value-objects/client-request-url";
-
-export interface ClientRequestEntityJSON {
-    id: number;
-    href: string;
-}
 
 export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
     constructor(identity: ClientRequestIdentity, private _url: ClientRequestUrl) {

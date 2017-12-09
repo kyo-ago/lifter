@@ -12,9 +12,7 @@
     "@types/execa": "^0.7.0",
     "@types/node": "^8.0.22",
     "@types/stat-mode": "^0.2.0",
-    "fixpack": "^2.3.1",
-    "mocha": "^4.0.1",
-    "typescript": "^2.6.1"
+    "mocha": "^4.0.1"
   },
   "license": "GPL-3.0",
   "scripts": {

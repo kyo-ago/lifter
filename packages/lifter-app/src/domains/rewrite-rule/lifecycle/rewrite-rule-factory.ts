@@ -1,4 +1,5 @@
-import { RewriteRuleEntity, RewriteRuleEntityJSON } from "../rewrite-rule-entity";
+import { RewriteRuleEntityJSON } from "@kyo-ago/lifter-common";
+import { RewriteRuleEntity } from "../rewrite-rule-entity";
 import { RewriteRuleIdentity } from "../rewrite-rule-identity";
 import { RewriteRuleAction } from "../value-objects/rewrite-rule-action";
 import { RewriteRuleHeader } from "../value-objects/rewrite-rule-header";

@@ -1,8 +1,10 @@
+import {
+    AutoResponderEntryEntityJSON,
+    CertificateStatus,
+    ClientRequestEntityJSON,
+    ProxySettingStatus
+} from "@kyo-ago/lifter-common";
 import * as Ipc from "electron-ipc";
-import { AutoResponderEntryEntityJSON } from "../domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { ClientRequestEntityJSON } from "../domains/proxy/client-request/client-request-entity";
-import { ProxySettingStatus } from "../domains/settings/proxy-setting/proxy-setting-service";
-import { CertificateStatus } from "../../../lifter-main/src/application/certificate/certificate-service";
 
 interface ElectronIpcMap {
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];

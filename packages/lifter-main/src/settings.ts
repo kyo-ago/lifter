@@ -3,7 +3,6 @@ export const NETWORK_SETUP_COMMAND = "/usr/sbin/networksetup";
 export const NETWORK_HOST_NAME = "localhost";
 export const BIND_HOST_NAME = "127.0.0.1";
 export const SECURITY_COMMAND = "/usr/bin/security";
-export const APPLICATION_NAME = "Lifter Proxy";
 export const HTTP_SSL_CA_DIR_NAME = `http-mitm-proxy`;
 export const PROXY_SERVER_NAME = `${NETWORK_HOST_NAME}:${PROXY_PORT}`;
 export const LOCAL_PAC_FILE_URL = `http://${PROXY_SERVER_NAME}/proxy.pac`;

@@ -1,3 +1,4 @@
+import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@kyo-ago/lifter-common";
 import * as fs from "fs";
 import * as Path from "path";
 import { AsyncOnNedbFactory } from "../../../base/async-on-nedb-factory";
@@ -6,11 +7,7 @@ import { ProjectIdentity } from "../../project/project-identity";
 import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
 import { AutoResponderEntryDirectoryPath } from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path";
 import { AutoResponderEntryDirectoryPattern } from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-pattern";
-import {
-    AbstractAutoResponderEntryEntity,
-    AutoResponderEntryEntityJSON,
-    AutoResponderEntryType
-} from "../auto-responder-entry-entity";
+import { AbstractAutoResponderEntryEntity } from "../auto-responder-entry-entity";
 import { AutoResponderEntryFileEntity } from "../auto-responder-entry-file/auto-responder-entry-file-entity";
 import { AutoResponderEntryFilePath } from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
 import { AutoResponderEntryFilePattern } from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-pattern";

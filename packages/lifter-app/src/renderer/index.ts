@@ -1,6 +1,6 @@
-import { render as appRender } from "../process/renders/main/ui/render";
-import { render as proxyBypassDomainSettingWindowRender } from "../process/renders/proxy-bypass-domain-setting/ui/render";
-import { render as rewriteRuleSettingWindowRender } from "../process/renders/rewrite-rule-setting/ui/render";
+import { render as appRender } from "./main/ui/render";
+import { render as proxyBypassDomainSettingWindowRender } from "./proxy-bypass-domain-setting/ui/render";
+import { render as rewriteRuleSettingWindowRender } from "./rewrite-rule-setting/ui/render";
 
 function requireAll(r: any) {
     r.keys().forEach(r);

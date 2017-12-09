@@ -1,6 +1,7 @@
+import { ProxyBypassDomainEntityJSON } from "@kyo-ago/lifter-common";
+import { ProxyBypassDomainEntity } from "../proxy-bypass-domain-entity";
 import { ProxyBypassDomainIdentity } from "../proxy-bypass-domain-identity";
 import { ProxyBypassDomainName } from "../vaue-objects/proxy-bypass-domain-name";
-import { ProxyBypassDomainEntity, ProxyBypassDomainEntityJSON } from "../proxy-bypass-domain-entity";
 
 export class ProxyBypassDomainFactory {
     private identity = 0;

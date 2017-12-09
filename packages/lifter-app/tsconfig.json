@@ -19,6 +19,6 @@
   },
   "include": [
     "src/**/*",
-    "../lifter-common/typings/global.d.ts"
+    "typings/global.d.ts"
   ]
 }

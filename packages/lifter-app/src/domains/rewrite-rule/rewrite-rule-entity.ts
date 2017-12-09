@@ -1,17 +1,10 @@
+import { RewriteRuleActionType, RewriteRuleEntityJSON } from "@kyo-ago/lifter-common";
 import { BaseEntity } from "../base/base-entity";
 import { RewriteRuleIdentity } from "./rewrite-rule-identity";
-import { RewriteRuleAction, Types } from "./value-objects/rewrite-rule-action";
+import { RewriteRuleAction } from "./value-objects/rewrite-rule-action";
 import { RewriteRuleHeader } from "./value-objects/rewrite-rule-header";
 import { RewriteRuleUrlPattern } from "./value-objects/rewrite-rule-url-pattern";
 import { RewriteRuleValue } from "./value-objects/rewrite-rule-value";
-
-export interface RewriteRuleEntityJSON {
-    id: number;
-    url: string;
-    action: string;
-    header: string;
-    value: string;
-}
 
 export class RewriteRuleEntity extends BaseEntity<RewriteRuleIdentity> {
     public selected: boolean = false;
@@ -30,7 +23,7 @@ export class RewriteRuleEntity extends BaseEntity<RewriteRuleIdentity> {
         return this._url.value;
     }
 
-    get action(): Types {
+    get action(): RewriteRuleActionType {
         return this._action.value;
     }
 
