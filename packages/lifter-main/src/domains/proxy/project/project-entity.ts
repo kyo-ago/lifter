@@ -1,5 +1,5 @@
+import { BaseEntity } from "@kyo-ago/lifter-common";
 import { DataStoreOptions } from "nedb";
-import { BaseEntity } from "../../base/base-entity";
 import { ProjectIdentity } from "./project-identity";
 import { ProjectBaseDir } from "./value-objects/project-base-dir";
 import { ProjectName } from "./value-objects/project-name";

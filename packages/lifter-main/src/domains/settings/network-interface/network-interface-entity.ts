@@ -1,6 +1,6 @@
+import { BaseEntity } from "@kyo-ago/lifter-common";
 import { NetworksetupProxy } from "networksetup-proxy";
 import { LOCAL_PAC_FILE_URL, NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
-import { BaseEntity } from "../../base/base-entity";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../libs/exec-commands";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";

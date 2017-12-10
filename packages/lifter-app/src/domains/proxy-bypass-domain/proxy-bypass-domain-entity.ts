@@ -1,5 +1,4 @@
-import { ProxyBypassDomainEntityJSON } from "@kyo-ago/lifter-common";
-import { BaseEntity } from "../base/base-entity";
+import { BaseEntity, ProxyBypassDomainEntityJSON } from "@kyo-ago/lifter-common";
 import { ProxyBypassDomainIdentity } from "./proxy-bypass-domain-identity";
 import { ProxyBypassDomainName } from "./vaue-objects/proxy-bypass-domain-name";
 

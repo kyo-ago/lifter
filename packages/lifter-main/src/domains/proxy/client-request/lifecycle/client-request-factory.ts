@@ -1,5 +1,5 @@
-import { parse, Url } from "url";
 import { ClientRequestEntityJSON } from "@kyo-ago/lifter-common";
+import { parse, Url } from "url";
 import { ClientRequestEntity } from "../client-request-entity";
 import { ClientRequestIdentity } from "../client-request-identity";
 import { ClientRequestUrl } from "../value-objects/client-request-url";

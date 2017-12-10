@@ -1,6 +1,6 @@
+import { createApplication } from "@kyo-ago/lifter-main/src/";
 import { app } from "electron";
 import { REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH } from "../settings";
-import { createApplication } from "@kyo-ago/lifter-main/src/";
 import { WindowManager } from "./window-manager";
 
 let application = createApplication(REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH);

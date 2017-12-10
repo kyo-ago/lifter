@@ -1,7 +1,7 @@
+import { ResolveAll } from "@kyo-ago/lifter-common";
 import { OnMemoryRepository } from "typescript-dddbase";
-import { ResolveAll } from "../../libs/resolve-all";
-import { ProxyBypassDomainIdentity } from "../proxy-bypass-domain-identity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain-entity";
+import { ProxyBypassDomainIdentity } from "../proxy-bypass-domain-identity";
 
 type E = {
     [key: string]: ProxyBypassDomainEntity;

@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "target": "es2017",
+    "outDir": "./build/",
     "skipLibCheck": true,
     "declaration": true,
     "noEmitOnError": true,
@@ -15,6 +16,6 @@
   },
   "include": [
     "./typings/global.d.ts",
-    "./index.ts"
+    "./src/index.ts"
   ]
 }

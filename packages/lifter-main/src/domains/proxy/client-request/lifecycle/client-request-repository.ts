@@ -1,5 +1,5 @@
+import { ResolveAll } from "@kyo-ago/lifter-common";
 import { OnMemoryRepository } from "typescript-dddbase";
-import { ResolveAll } from "../../../libs/resolve-all";
 import { ClientRequestEntity } from "../client-request-entity";
 import { ClientRequestIdentity } from "../client-request-identity";
 

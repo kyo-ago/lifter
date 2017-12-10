@@ -1,4 +1,4 @@
-import { BaseValueObject } from "../../../base/value-objects/base-value-object";
+import { BaseValueObject } from "@kyo-ago/lifter-common";
 
 /**
  * This is the return value of the "networksetup - listNetworkserviceorder" command.

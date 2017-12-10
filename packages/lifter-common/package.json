@@ -3,10 +3,14 @@
   "description": "lifter proxy common modules",
   "version": "0.0.3",
   "author": "@kyo_ago",
-  "dependencies": {},
+  "dependencies": {
+    "typescript-dddbase": "0.0.4"
+  },
   "devDependencies": {
     "typescript": "^2.6.2"
   },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc -p .",

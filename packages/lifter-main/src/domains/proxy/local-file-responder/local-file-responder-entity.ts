@@ -1,6 +1,6 @@
+import { BaseEntity } from "@kyo-ago/lifter-common";
 import { OutgoingHttpHeaders } from "http";
 import * as mime from "mime";
-import { BaseEntity } from "../../base/base-entity";
 import { LocalFileResponderIdentity } from "./local-file-responder-identity";
 import { LocalFileResponderPath } from "./value-objects/local-file-responder-path";
 import { LocalFileResponderSize } from "./value-objects/local-file-responder-size";

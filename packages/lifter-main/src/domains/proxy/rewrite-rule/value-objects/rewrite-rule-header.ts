@@ -1,4 +1,4 @@
-import { BaseValueObject } from "../../../base/value-objects/base-value-object";
+import { BaseValueObject } from "@kyo-ago/lifter-common";
 
 export class RewriteRuleHeader extends BaseValueObject<string> {
     constructor(value: string) {
