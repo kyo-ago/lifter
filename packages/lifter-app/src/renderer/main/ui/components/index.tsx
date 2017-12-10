@@ -31,6 +31,7 @@ interface DispathProps {
     contextmenuAutoResponderEntry: (id: number) => void;
     openRewriteRuleSettingWindow: () => void;
     openProxyBypassDomainSettingWindow: () => void;
+    openPreferencesWindow: () => void;
 }
 
 export type GlobalProps = DispathProps & StateToProps;
@@ -73,6 +74,9 @@ function mapDispatchToProps(dispatch: Dispath): DispathProps {
         },
         openProxyBypassDomainSettingWindow() {
             application.openProxyBypassDomainSettingWindow();
+        },
+        openPreferencesWindow() {
+            application.openPreferencesWindow();
         }
     };
 }

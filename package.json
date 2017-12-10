@@ -44,7 +44,7 @@
     "url": "https://github.com/kyo-ago/lifter.git"
   },
   "scripts": {
-    "app": "lerna run dev --scope lifter-app",
+    "app": "lerna run dev --scope @kyo-ago/lifter-app",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "fix": "lerna run fix && yarn run fixpack",

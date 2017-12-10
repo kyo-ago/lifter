@@ -14,6 +14,7 @@ interface ElectronIpcMap {
     addClientRequestEntity: ClientRequestEntityJSON;
     openRewriteRuleSettingWindow: void;
     openProxyBypassDomainSettingWindow: void;
+    openPreferencesWindow: void;
 }
 
 export const ipc = class {

@@ -16,6 +16,12 @@ export class WindowManager {
             "overwriteProxyBypassDomains",
             this.application.saveProxyBypassDomainJSON.bind(this.application)
         );
+
+        ipc.subscribe("openRewriteRuleSettingWindow", this.openRewriteRuleSettingWindow.bind(this));
+
+        ipc.subscribe("openProxyBypassDomainSettingWindow", this.openProxyBypassDomainSettingWindow.bind(this));
+
+        ipc.subscribe("openPreferencesWindow", () => {});
     }
 
     async createMainWindow() {
@@ -43,7 +49,7 @@ export class WindowManager {
         this.registerWindow(name);
     }
 
-    async openProxyBypassDomainSettingWindow() {
+    private async openProxyBypassDomainSettingWindow() {
         let allJsons = await this.application.getProxyBypassDomains();
         windowManager.sharedData.set("mainProxyBypassDomains", allJsons);
         let name = "proxyBypassDomainSettingWindow";
@@ -54,7 +60,7 @@ export class WindowManager {
         this.registerWindow(name);
     }
 
-    async openRewriteRuleSettingWindow() {
+    private async openRewriteRuleSettingWindow() {
         let allJsons = await this.application.getRewriteRules();
         windowManager.sharedData.set("mainRewriteRules", allJsons);
         let name = "rewriteRuleSettingWindow";

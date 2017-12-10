@@ -67,6 +67,10 @@ export class Application {
         ipc.publish("openProxyBypassDomainSettingWindow");
     }
 
+    openPreferencesWindow() {
+        ipc.publish("openPreferencesWindow");
+    }
+
     initialize(global: Window) {
         global.addEventListener("dragover", e => e.preventDefault());
         global.addEventListener("dragleave", e => e.preventDefault());

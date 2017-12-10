@@ -12,7 +12,7 @@ app.on("window-all-closed", async () => {
 });
 app.on("activate", () => windowManager.createMainWindow());
 
-Promise.all([application.load(), new Promise(resolve => app.on("ready", resolve))])
+Promise.all([application.load(), windowManager.load(), new Promise(resolve => app.on("ready", resolve))])
     .then(() => {
         application.start(() => {});
         return windowManager.createMainWindow();

@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { windowManager } from "../../libs/get-window-manager";
-import { Index, JSONToPreloadedState } from "./components/index";
+import { Index, JSONToPreloadedState } from "./components";
 import { configureStore } from "./store";
 
 export async function render(container: Element | null) {

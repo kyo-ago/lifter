@@ -121,8 +121,8 @@ export class ApplicationMenu extends React.Component<GlobalProps, {}> {
                 separator,
                 {
                     label: "Preferences",
-                    accelerator: "CmdOrCtrl+,"
-                    //                    click: () => this.props.openPreferencesWindow(),
+                    accelerator: "CmdOrCtrl+,",
+                    click: this.props.openPreferencesWindow
                 },
                 separator,
                 {
