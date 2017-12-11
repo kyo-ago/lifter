@@ -8,6 +8,7 @@ import {
 } from "@kyo-ago/lifter-common";
 import { OutgoingHttpHeaders } from "http";
 import { Url } from "url";
+import { PreferencesJSON } from "../../../lifter-common/src";
 import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderEntryIdentity } from "../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
 import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
@@ -149,4 +150,7 @@ export class Application {
         let entities = allJsons.map(json => RewriteRuleFactory.fromJSON(json));
         return this.lifecycleContextService.rewriteRuleRepository.overwriteAll(entities).then(() => {});
     }
+
+    async getPreferences(): Promise<PreferencesJSON[]> {}
+    savegetPreferencesJSON(allJsons: PreferencesJSON[]): Promise<void> {}
 }

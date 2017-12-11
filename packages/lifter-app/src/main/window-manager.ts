@@ -21,7 +21,7 @@ export class WindowManager {
 
         ipc.subscribe("openProxyBypassDomainSettingWindow", this.openProxyBypassDomainSettingWindow.bind(this));
 
-        ipc.subscribe("openPreferencesWindow", () => {});
+        ipc.subscribe("openPreferencesWindow", this.openPreferencesWindow.bind(this));
     }
 
     async createMainWindow() {
@@ -66,6 +66,17 @@ export class WindowManager {
         let name = "rewriteRuleSettingWindow";
         windowManager.open(name, "Rewrite rule setting", "/rewrite-rule-setting-window.html", "default", {
             file: `${WINDOW_STATE_DIR}rewrite-rule-setting-window-state.json`,
+            parent: windowManager.get("mainWindow")
+        });
+        this.registerWindow(name);
+    }
+
+    private async openPreferencesWindow() {
+        let allJsons = await this.application.getPreferences();
+        windowManager.sharedData.set("mainPreferences", allJsons);
+        let name = "preferencesWindow";
+        windowManager.open(name, "Preferences", "/preferences-window.html", "default", {
+            file: `${WINDOW_STATE_DIR}preferences-window-state.json`,
             parent: windowManager.get("mainWindow")
         });
         this.registerWindow(name);
