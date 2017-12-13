@@ -2,12 +2,13 @@ import { ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@kyo-ago/lif
 import { remote } from "electron";
 import { StateToProps } from "../main/ui/reducer";
 
-type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow";
+type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow" | "preferencesWindow";
 
 interface StoreDateKeyMap {
     mainApps: StateToProps;
     mainRewriteRules: RewriteRuleEntityJSON[];
     mainProxyBypassDomains: ProxyBypassDomainEntityJSON[];
+    mainPreferences: any;
 }
 
 interface BridgeDateKeyMap {

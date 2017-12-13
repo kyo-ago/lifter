@@ -72,14 +72,14 @@ export class WindowManager {
     }
 
     private async openPreferencesWindow() {
-        let allJsons = await this.application.getPreferences();
-        windowManager.sharedData.set("mainPreferences", allJsons);
-        let name = "preferencesWindow";
-        windowManager.open(name, "Preferences", "/preferences-window.html", "default", {
-            file: `${WINDOW_STATE_DIR}preferences-window-state.json`,
-            parent: windowManager.get("mainWindow")
-        });
-        this.registerWindow(name);
+        // let allJsons = await this.application.getPreferences();
+        // windowManager.sharedData.set("mainPreferences", allJsons);
+        // let name = "preferencesWindow";
+        // windowManager.open(name, "Preferences", "/preferences-window.html", "default", {
+        //     file: `${WINDOW_STATE_DIR}preferences-window-state.json`,
+        //     parent: windowManager.get("mainWindow")
+        // });
+        // this.registerWindow(name);
     }
 
     private registerWindow(name: string) {

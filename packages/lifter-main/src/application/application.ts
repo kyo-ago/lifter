@@ -151,6 +151,10 @@ export class Application {
         return this.lifecycleContextService.rewriteRuleRepository.overwriteAll(entities).then(() => {});
     }
 
-    async getPreferences(): Promise<PreferencesJSON[]> {}
-    savegetPreferencesJSON(allJsons: PreferencesJSON[]): Promise<void> {}
+    async getPreferences(): Promise<PreferencesJSON[]> {
+        return;
+    }
+    savegetPreferencesJSON(allJsons: PreferencesJSON[]): Promise<void> {
+        return;
+    }
 }
