@@ -8,14 +8,13 @@
   },
   "devDependencies": {
     "@types/mocha": "^2.2.44",
-    "dotenv-cli": "^1.4.0",
     "fixpack": "^2.3.1",
     "lerna": "^2.5.1",
     "lint-staged": "^4.3.0",
     "mocha": "^4.0.1",
     "prettier": "^1.8.1",
     "ts-node": "^3.3.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.2"
   },
   "files": [
     "bin/",
@@ -44,17 +43,17 @@
     "url": "https://github.com/kyo-ago/lifter.git"
   },
   "scripts": {
-    "app": "lerna run dev --scope @kyo-ago/lifter-app",
+    "app": "NODE_ENV=development lerna run dev --scope @kyo-ago/lifter-app",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "compile": "lerna run compile --scope @kyo-ago/lifter-app",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
-    "postinstall": "cd packages/lifter-app && npm i",
     "precommit": "lint-staged",
     "prepublish": "yarn run bootstrap",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "publish": "lerna publish && yarn run publish:app",
-    "publish:app": "dotenv lerna run release --stream --scope @kyo-ago/lifter-app",
+    "publish:app": "lerna run release --stream --scope @kyo-ago/lifter-app",
     "test": "lerna run test"
   }
 }

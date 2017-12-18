@@ -2,28 +2,28 @@ import {
     AutoResponderEntryEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    PreferencesJSON,
     ProxyBypassDomainEntityJSON,
     ProxySettingStatus,
     RewriteRuleEntityJSON
 } from "@kyo-ago/lifter-common";
-import { OutgoingHttpHeaders } from "http";
-import { Url } from "url";
-import { PreferencesJSON } from "../../../lifter-common/src";
-import { UserSettingStorage } from "../domains/libs/user-setting-storage";
-import { AutoResponderEntryIdentity } from "../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
-import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
-import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
-import { ProjectEntity } from "../domains/proxy/project/project-entity";
-import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
-import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
-import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
-import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
-import { CertificateService } from "./certificate/certificate-service";
-import { ConnectionService } from "./connection/connection-service";
-import { ipc } from "./lib/ipc";
-import { LifecycleContextService } from "./lifecycle-context-service";
-import { ProxyService } from "./proxy/proxy-service";
+import {OutgoingHttpHeaders} from "http";
+import {Url} from "url";
+import {UserSettingStorage} from "../domains/libs/user-setting-storage";
+import {AutoResponderEntryIdentity} from "../domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import {ClientRequestEntity} from "../domains/proxy/client-request/client-request-entity";
+import {PacFileService} from "../domains/proxy/pac-file/pac-file-service";
+import {ProjectEntity} from "../domains/proxy/project/project-entity";
+import {RewriteRuleFactory} from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
+import {NetworksetupProxyService} from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
+import {ProxyBypassDomainFactory} from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
+import {ProxyBypassDomainService} from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
+import {ProxySettingService} from "../domains/settings/proxy-setting/proxy-setting-service";
+import {CertificateService} from "./certificate/certificate-service";
+import {ConnectionService} from "./connection/connection-service";
+import {ipc} from "./lib/ipc";
+import {LifecycleContextService} from "./lifecycle-context-service";
+import {ProxyService} from "./proxy/proxy-service";
 
 export class Application {
     public networksetupProxyService: NetworksetupProxyService;
