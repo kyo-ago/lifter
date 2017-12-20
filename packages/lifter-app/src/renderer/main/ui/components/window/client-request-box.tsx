@@ -1,4 +1,4 @@
-import { ClientRequestEntity } from "@kyo-ago/lifter-main/src/domains/proxy/client-request/client-request-entity";
+import { ClientRequestEntity } from "@kyo-ago/lifter-main/build/domains/proxy/client-request/client-request-entity";
 import * as React from "react";
 import { GlobalProps } from "../index";
 

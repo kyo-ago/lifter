@@ -1,6 +1,6 @@
 import * as windowManager from "@kyo-ago/electron-window-manager";
 import { APPLICATION_NAME } from "@kyo-ago/lifter-common";
-import { Application } from "@kyo-ago/lifter-main/src/Application/Application";
+import { Application } from "@kyo-ago/lifter-main/build/Application/Application";
 import { ipc } from "../libs/ipc";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
 

@@ -1,5 +1,5 @@
-import { AutoResponderEntryIdentity } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-identity";
-import { ClientRequestEntity } from "@kyo-ago/lifter-main/src/domains/proxy/client-request/client-request-entity";
+import { AutoResponderEntryIdentity } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import { ClientRequestEntity } from "@kyo-ago/lifter-main/build/domains/proxy/client-request/client-request-entity";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Application } from "../../application/application";

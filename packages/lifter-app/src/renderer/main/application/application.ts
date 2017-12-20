@@ -4,11 +4,11 @@ import {
     ClientRequestEntityJSON,
     ProxySettingStatus
 } from "@kyo-ago/lifter-common";
-import { AbstractAutoResponderEntryEntity } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { AutoResponderEntryIdentity } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-identity";
-import { AutoResponderEntryFactory } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory";
-import { ClientRequestEntity } from "@kyo-ago/lifter-main/src/domains/proxy/client-request/client-request-entity";
-import { ClientRequestFactory } from "@kyo-ago/lifter-main/src/domains/proxy/client-request/lifecycle/client-request-factory";
+import { AbstractAutoResponderEntryEntity } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import { AutoResponderEntryIdentity } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import { AutoResponderEntryFactory } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory";
+import { ClientRequestEntity } from "@kyo-ago/lifter-main/build/domains/proxy/client-request/client-request-entity";
+import { ClientRequestFactory } from "@kyo-ago/lifter-main/build/domains/proxy/client-request/lifecycle/client-request-factory";
 import { ipc } from "../../../libs/ipc";
 import { StateToProps } from "../ui/reducer";
 import { ContextMenuService } from "./context-menu/context-menu-service";

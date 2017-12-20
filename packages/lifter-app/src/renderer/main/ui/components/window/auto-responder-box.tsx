@@ -1,4 +1,4 @@
-import { AbstractAutoResponderEntryEntity } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import { AbstractAutoResponderEntryEntity } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import * as React from "react";
 import { GlobalProps } from "../index";
 

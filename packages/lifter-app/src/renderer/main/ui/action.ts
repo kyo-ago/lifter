@@ -1,7 +1,7 @@
 import { CertificateStatus, ProxySettingStatus } from "@kyo-ago/lifter-common";
-import { AbstractAutoResponderEntryEntity } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { AutoResponderEntryIdentity } from "@kyo-ago/lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-identity";
-import { ClientRequestEntity } from "@kyo-ago/lifter-main/src/domains/proxy/client-request/client-request-entity";
+import { AbstractAutoResponderEntryEntity } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import { AutoResponderEntryIdentity } from "@kyo-ago/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-identity";
+import { ClientRequestEntity } from "@kyo-ago/lifter-main/build/domains/proxy/client-request/client-request-entity";
 
 export const ADD_AUTO_RESPONDER = "ADD_AUTO_RESPONDER";
 export const DELETE_AUTO_RESPONDER = "DELETE_AUTO_RESPONDER";
