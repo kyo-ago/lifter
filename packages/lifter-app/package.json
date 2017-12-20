@@ -1,7 +1,7 @@
 {
   "name": "@kyo-ago/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.0.8",
+  "version": "0.1.6",
   "author": "@kyo_ago",
   "build": {
     "productName": "Lifter Proxy",
@@ -11,9 +11,9 @@
     }
   },
   "dependencies": {
-    "@kyo-ago/electron-window-manager": "^1.0.5",
-    "@kyo-ago/lifter-common": "^0.0.4",
-    "@kyo-ago/lifter-main": "^0.0.6",
+    "@kyo-ago/electron-window-manager": "^0.1.6",
+    "@kyo-ago/lifter-common": "^0.1.6",
+    "@kyo-ago/lifter-main": "^0.1.6",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
@@ -23,7 +23,7 @@
     "mime": "^2.0.3",
     "monapt": "^1.0.4",
     "nedb": "^1.8.0",
-    "networksetup-proxy": "^0.2.3",
+    "networksetup-proxy": "^0.1.6",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -83,7 +83,7 @@
   "scripts": {
     "build": "tsc -p .",
     "clean-install": "rimraf node_modules && yarn install",
-    "compile": "electron-webpack",
+    "compile": "electron-webpack --env production",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
     "dist": "yarn clean-install && yarn compile && electron-builder",
