@@ -13,6 +13,7 @@
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p .",
+    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
     "fix": "fixpack",
     "test": ""
   },

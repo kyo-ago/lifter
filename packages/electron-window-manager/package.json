@@ -12,6 +12,7 @@
   "main": "index.js",
   "scripts": {
     "build": "",
+    "clean": "rm -fr package-lock.json yarn.lock node_modules",
     "fix": "fixpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   }

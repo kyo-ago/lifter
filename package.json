@@ -46,6 +46,7 @@
     "app": "NODE_ENV=development lerna run dev --scope @kyo-ago/lifter-app",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "clean": "lerna run clean && rm -fr lerna-debug.log package-lock.json yarn.lock node_modules app dist",
     "compile": "lerna run compile --scope @kyo-ago/lifter-app",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",

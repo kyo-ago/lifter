@@ -82,7 +82,8 @@
   "productName": "Lifter Proxy",
   "scripts": {
     "build": "tsc -p .",
-    "clean-install": "rimraf node_modules && yarn install",
+    "clean": "rm -fr package-lock.json yarn.lock node_modules dist lib",
+    "clean-install": "rm -fr node_modules && yarn install",
     "compile": "electron-webpack --env production",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",

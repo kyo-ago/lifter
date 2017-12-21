@@ -55,6 +55,7 @@
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p .",
+    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
     "clean-install": "rm -fr node_modules build && yarn install",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "fix": "fixpack",
