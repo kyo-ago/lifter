@@ -1,6 +1,6 @@
 {
   "name": "networksetup-proxy",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "@kyo_ago",
   "dependencies": {
     "es6-promisify": "^5.0.0",

@@ -1,7 +1,7 @@
 {
   "name": "@kyo-ago/lifter-common",
   "description": "lifter proxy common modules",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "@kyo_ago",
   "dependencies": {
     "typescript-dddbase": "0.0.4"
