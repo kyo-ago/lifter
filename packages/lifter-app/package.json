@@ -80,11 +80,14 @@
   "license": "GPL-3.0",
   "main": "app/index.js",
   "productName": "Lifter Proxy",
+  "resolutions": {
+    "webpack-sources": "1.0.1"
+  },
   "scripts": {
     "build": "tsc -p .",
     "clean": "rm -fr package-lock.json yarn.lock node_modules dist lib",
     "clean-install": "rm -fr node_modules && yarn install",
-    "compile": "electron-webpack --env production",
+    "compile": "electron-webpack --env.production",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
     "dist": "yarn clean-install && yarn compile && electron-builder",
