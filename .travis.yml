@@ -1,33 +1,3 @@
-osx_image: xcode8.3
-dist: trusty
 sudo: false
 language: node_js
-node_js: "8"
-env:
-  global:
-    - ELECTRON_CACHE=$HOME/.cache/electron
-    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-os:
-  - osx
-cache:
-  directories:
-  - node_modules
-  - $HOME/.cache/electron
-  - $HOME/.cache/electron-builder
-  - $HOME/.npm/_prebuilds
-notifications:
-  email: false
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
-script:
-  - npm run build
-  - npm run dist -- --mac
-deploy:
-  provider: releases
-  api_key:
-    secure: bpEGBsMYkUqWJVvkRlg52pbf+7IfFHuE8vvBVAsJiLIuO8WsnYy95YuUoD+Z4pLIXhHfrnfl7NWlCqo3l/2B9v/HJ6HU+AERKXSkuFqAQKRBOIWz37fTFTio6PfdZlUwu47E2y9feVEGzvAz5ruQj9ViXBdFrUb5VU9sMe2vrQqrF+4Dq84Ogyi6BAQPxRtS63QRhw5bbZidjfEF51L8FphmAXogjaYS3Y/WTSxRxKmPyIODwkG1xu4WJHaXo0sZt3kVaDV20Ok0aqClUNKYq/BLXTOZ4EZoHp/QjFMieXwK6g0R8m798g04w20Yx05rAWJijS1Bfg9+hgf6iESz0NGvRz0KMewI+Jbi/+71A3w2z/wmpnaaTQtklgWy1K3iVNevOg6Wf8gSH/6Sko+KXCEdSkzepVprhObH/8leoP3TT8hI1H9qEbGv7g7NbrkK6ccL0E4LJ7Pf71O1+WU5cQmAFO4BpwvrxN91yKEA+UDC9brn74rPsHU1TbO/gI/ori+hZ1HrdndPux5VhYYM0zaYTK03wHHIKUk84Ljw8rH6SZO9qqDe1UU7IJ+BHPOnpGVL4NQwbfKFRP/t/vCZmZydD8dYKklWt1rI+IEHQSuLdz7GPLJga/BPN/htlbCL/VAgALZKWN5l3WZILrwsA25idZCn58k4WmorhHbZYoA=
-  file_glob: true
-  file: dist/*-mac.zip
-  skip_cleanup: true
-  on:
-    tags: true
+node_js: "stable"

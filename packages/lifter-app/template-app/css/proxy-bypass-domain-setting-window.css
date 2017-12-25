@@ -1,0 +1,56 @@
+@import url("../../static/photon.css");
+
+.top-form {
+    background-color: #ddd;
+}
+
+.form-table {
+    display: table;
+    width: 100%;
+}
+
+.form-table-cell {
+    display: table-cell;
+}
+
+.form-bottom {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.top-form__top {
+    display: table-row;
+}
+
+.top-form__bottom {
+    display: table-row;
+}
+
+.top-form__select-action {
+    margin-left: 7px;
+    width: 5em;
+}
+
+.top-form__input-header {
+    width: 85%;
+}
+
+.top-form__input-value {
+    width: 85%;
+}
+
+.top-form__btn-block {
+    display: flex;
+    text-align: right;
+}
+
+.top-form__btn-primary {
+    margin-right: 7px;
+    margin-bottom: 2px;
+}
+
+.rewrite-rule-row__selected {
+    color: #fff;
+    background-color: #116cd6 !important;
+}

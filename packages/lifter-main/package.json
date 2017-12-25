@@ -1,0 +1,65 @@
+{
+  "name": "@kyo-ago/lifter-main",
+  "description": "lifter proxy main process",
+  "version": "0.1.7",
+  "author": "@kyo_ago",
+  "dependencies": {
+    "@kyo-ago/electron-window-manager": "^0.1.7",
+    "@kyo-ago/lifter-common": "^0.1.7",
+    "electron-ipc": "^0.3.0",
+    "es6-promisify": "^5.0.0",
+    "execa": "^0.8.0",
+    "http-mitm-proxy": "^0.6.0",
+    "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
+    "micromatch": "^3.1.4",
+    "mime": "^2.0.3",
+    "nedb": "^1.8.0",
+    "networksetup-proxy": "^0.1.7",
+    "rxjs": "^5.5.5",
+    "typescript-dddbase": "^0.0.4"
+  },
+  "devDependencies": {
+    "@types/execa": "^0.8.0",
+    "@types/jest": "^21.1.8",
+    "@types/micromatch": "^2.3.29",
+    "@types/mime": "2.0.0",
+    "@types/nedb": "^1.8.5",
+    "@types/node": "^8.0.57",
+    "dependency-cruiser": "^2.9.0",
+    "jest": "^21.2.1",
+    "testdouble": "^3.2.6",
+    "ts-jest": "^21.2.4",
+    "typescript": "^2.6.2"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "testRegex": "\\/src\\/.+\\.spec\\.(ts|js)$",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json"
+    ]
+  },
+  "license": "GPL-3.0",
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
+    "clean-install": "rm -fr node_modules build && yarn install",
+    "depcruise": "depcruise --validate .dependency-cruiser.json src",
+    "fix": "fixpack",
+    "test": "NODE_ENV='test' && jest"
+  },
+  "types": "./build/index.d.ts"
+}

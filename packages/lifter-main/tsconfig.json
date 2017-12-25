@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "outDir": "./build/",
+    "module": "commonjs",
+    "target": "es2017",
+    "rootDir": "./src/",
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmitOnError": true,
+    "lib": ["dom", "es2017", "es2017.object"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "typings/global.d.ts"
+  ],
+  "exclude": [
+    "tests",
+    "src/**/*.spec.ts",
+    "src/**/__mocks__"
+  ]
+}

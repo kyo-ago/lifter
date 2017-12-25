@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "outDir": "./lib/",
+    "module": "commonjs",
+    "target": "es2017",
+    "rootDir": "./src/",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "declaration": false,
+    "noEmitOnError": true,
+    "jsx": "React",
+    "lib": ["dom", "es2017", "es2017.object"]
+  },
+  "include": [
+    "src/**/*",
+    "typings/global.d.ts"
+  ]
+}

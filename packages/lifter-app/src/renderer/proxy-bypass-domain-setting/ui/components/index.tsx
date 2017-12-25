@@ -1,0 +1,53 @@
+import * as React from "react";
+import { connect } from "react-redux";
+import { SubmitForm } from "../../../share/components/submit-form/submit-form";
+import { Application } from "../../application/application";
+import { LifecycleContextService } from "../../application/lifecycle-context/lifecycle-context-service";
+import { Actions } from "../action";
+import { StateToProps } from "../reducer";
+import { Form } from "./form";
+
+class AppComponent extends React.Component<GlobalProps, {}> {
+    render() {
+        return (
+            <div>
+                <Form {...this.props} />
+                <SubmitForm onClickCancel={() => this.props.cancelAll()} onClickSave={() => this.props.saveAll()} />
+            </div>
+        );
+    }
+}
+
+interface DispathProps {
+    updateEntities: (formText: string) => void;
+    cancelAll: () => void;
+    saveAll: () => void;
+}
+
+let lifecycleContextService = new LifecycleContextService();
+let application = new Application(lifecycleContextService);
+export const App = application;
+(window as any).application = application;
+
+export const JSONToPreloadedState = (json: any) => application.JSONToPreloadedState(json);
+
+function mapDispatchToProps(dispatch: Dispath): DispathProps {
+    return {
+        updateEntities(formText: string) {
+            let entities = application.updateEntities(formText);
+            dispatch(Actions.updateProxyBypassDomains(entities));
+        },
+
+        cancelAll() {
+            application.cancelAll();
+        },
+
+        saveAll() {
+            application.saveAll();
+        }
+    };
+}
+
+export const Index = connect((state: StateToProps) => state, mapDispatchToProps)(AppComponent);
+
+export interface GlobalProps extends DispathProps, StateToProps {}

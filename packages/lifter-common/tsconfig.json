@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es2017",
+    "outDir": "./build/",
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmitOnError": true,
+    "lib": ["es2017", "es2017.object"]
+  },
+  "include": [
+    "./typings/global.d.ts",
+    "./src/index.ts"
+  ]
+}

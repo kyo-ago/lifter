@@ -1,0 +1,21 @@
+{
+  "name": "@kyo-ago/lifter-common",
+  "description": "lifter proxy common modules",
+  "version": "0.1.7",
+  "author": "@kyo_ago",
+  "dependencies": {
+    "typescript-dddbase": "0.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  },
+  "license": "GPL-3.0",
+  "main": "./build/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
+    "fix": "fixpack",
+    "test": "tsc -p ."
+  },
+  "types": "./build/index.d.ts"
+}
