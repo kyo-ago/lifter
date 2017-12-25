@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "example": "npm install && node index.js",
+    "example": "node index.js",
     "postexample": "node postexample.js"
   },
   "author": "@kyo_ago",
