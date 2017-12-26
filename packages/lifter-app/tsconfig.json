@@ -7,16 +7,19 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "outDir": "./lib/",
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es2017",
     "rootDir": "./src/",
     "sourceMap": true,
     "skipLibCheck": true,
     "declaration": false,
     "noEmitOnError": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "jsx": "React",
     "lib": ["dom", "es2017", "es2017.object"]
   },
+  "extends": "./node_modules/electron-webpack/tsconfig-base.json",
   "include": [
     "src/**/*",
     "typings/global.d.ts"
