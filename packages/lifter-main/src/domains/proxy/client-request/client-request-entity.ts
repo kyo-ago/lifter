@@ -1,4 +1,5 @@
-import { BaseEntity, ClientRequestEntityJSON } from "@kyo-ago/lifter-common";
+import { ClientRequestEntityJSON } from "@kyo-ago/lifter-common";
+import {BaseEntity} from "../../base/base-entity";
 import { ClientRequestIdentity } from "./client-request-identity";
 import { ClientRequestUrl } from "./value-objects/client-request-url";
 

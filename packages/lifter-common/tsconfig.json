@@ -9,7 +9,6 @@
     "module": "commonjs",
     "target": "es2017",
     "outDir": "./build/",
-    "skipLibCheck": true,
     "declaration": true,
     "noEmitOnError": true,
     "lib": ["es2017", "es2017.object"]

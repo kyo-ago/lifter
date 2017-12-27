@@ -7,7 +7,6 @@
     "url": "https://github.com/kyo-ago/lifter/issues"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.44",
     "fixpack": "^2.3.1",
     "lerna": "^2.5.1",
     "lint-staged": "^4.3.0",
@@ -44,10 +43,10 @@
   },
   "scripts": {
     "app": "NODE_ENV=development lerna run dev --scope @kyo-ago/lifter-app",
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap && yarn run build && yarn run compile",
     "build": "lerna run build",
     "clean": "lerna run clean && rm -fr lerna-debug.log package-lock.json yarn.lock node_modules app dist",
-    "compile": "lerna run compile --scope @kyo-ago/lifter-app",
+    "compile": "yarn run build && lerna run compile --scope @kyo-ago/lifter-app",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
     "precommit": "lint-staged",

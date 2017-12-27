@@ -1,5 +1,5 @@
-import { BaseValueObject } from "@kyo-ago/lifter-common";
 import * as micromatch from "micromatch";
+import {BaseValueObject} from "../../base/value-objects/base-value-object";
 
 export class RewriteRuleUrlPattern extends BaseValueObject<string> {
     isMatchUrl(url: string): boolean {

@@ -1,10 +1,10 @@
 import * as ifconfig from "ifconfig";
-import { OnMemoryRepository } from "typescript-dddbase";
-import { getListnetworkserviceorder } from "../../../libs/exec-commands";
-import { NetworkInterfaceEntity } from "../network-interface-entity";
-import { NetworkInterfaceIdentity } from "../network-interface-identity";
-import { ParseNetworkDevices } from "../specs/parse-network-devices";
-import { NetworkInterfaceFactory } from "./network-interface-factory";
+import {OnMemoryRepository} from "typescript-dddbase";
+import {getListnetworkserviceorder} from "../../../../libs/exec-commands";
+import {NetworkInterfaceEntity} from "../network-interface-entity";
+import {NetworkInterfaceIdentity} from "../network-interface-identity";
+import {ParseNetworkDevices} from "../specs/parse-network-devices";
+import {NetworkDeviceParam, NetworkInterfaceFactory} from "./network-interface-factory";
 
 function promisedIfconfig(): Promise<Ifconfig> {
     return new Promise((resolve, reject) =>

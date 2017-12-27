@@ -1,5 +1,6 @@
-import { BaseEntity, RewriteRuleEntityJSON } from "@kyo-ago/lifter-common";
+import { RewriteRuleEntityJSON } from "@kyo-ago/lifter-common";
 import { OutgoingHttpHeaders } from "http";
+import {BaseEntity} from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { RewriteRuleIdentity } from "./rewrite-rule-identity";
 import { RewriteRuleAction, Types } from "./value-objects/rewrite-rule-action";

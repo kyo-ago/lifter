@@ -1,4 +1,5 @@
-import { BaseValueObject, RewriteRuleActionType } from "@kyo-ago/lifter-common";
+import { RewriteRuleActionType } from "@kyo-ago/lifter-common";
+import {BaseValueObject} from "../../base/value-objects/base-value-object";
 
 const StringToType = (value: string): RewriteRuleActionType => {
     if (value === "ADD") {

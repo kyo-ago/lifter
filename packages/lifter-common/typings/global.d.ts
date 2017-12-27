@@ -10,9 +10,3 @@ interface Dispath {
         }
     ): void;
 }
-
-interface NetworkDeviceParam {
-    name: string;
-    serviceName: string;
-    enable: boolean;
-}

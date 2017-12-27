@@ -1,5 +1,6 @@
-import { AutoResponderEntryEntityJSON, AutoResponderEntryType, BaseEntity } from "@kyo-ago/lifter-common";
+import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@kyo-ago/lifter-common";
 import * as mime from "mime";
+import {BaseEntity} from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponderParam } from "../local-file-responder/lifecycle/local-file-responder-factory";
 import { ProjectIdentity } from "../project/project-identity";

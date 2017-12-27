@@ -1,5 +1,5 @@
-import { BaseValueObject } from "@kyo-ago/lifter-common";
 import { Url } from "url";
+import {BaseValueObject} from "../../../base/value-objects/base-value-object";
 
 export class ClientRequestUrl extends BaseValueObject<Url> {
     constructor(private reqestUrl: Url) {

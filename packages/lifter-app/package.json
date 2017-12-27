@@ -1,7 +1,7 @@
 {
   "name": "@kyo-ago/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.1.7",
+  "version": "0.0.9",
   "author": "@kyo_ago",
   "build": {
     "productName": "Lifter Proxy",
@@ -11,9 +11,9 @@
     }
   },
   "dependencies": {
-    "@kyo-ago/electron-window-manager": "^0.1.7",
-    "@kyo-ago/lifter-common": "^0.1.7",
-    "@kyo-ago/lifter-main": "^0.1.7",
+    "@kyo-ago/electron-window-manager": "^0.0.9",
+    "@kyo-ago/lifter-common": "^0.0.9",
+    "@kyo-ago/lifter-main": "^0.0.9",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
@@ -23,14 +23,14 @@
     "mime": "^2.0.3",
     "monapt": "^1.0.4",
     "nedb": "^1.8.0",
-    "networksetup-proxy": "^0.1.7",
+    "networksetup-proxy": "^0.0.9",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "rxjs": "^5.5.5",
     "source-map-support": "^0.5.0",
-    "typescript-dddbase": "^0.0.4"
+    "typescript-dddbase": "^0.0.5"
   },
   "devDependencies": {
     "@types/execa": "^0.8.0",
@@ -39,7 +39,6 @@
     "@types/mime": "2.0.0",
     "@types/nedb": "^1.8.5",
     "@types/node": "^8.0.58",
-    "@types/react": "16.0.29",
     "@types/react-dom": "^16.0.3",
     "@types/react-redux": "^5.0.14",
     "@types/redux": "^3.6.31",
@@ -54,7 +53,8 @@
     "testdouble": "^3.2.6",
     "ts-jest": "^21.2.4",
     "typescript": "2.5.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-sources": "1.0.1"
   },
   "jest": {
     "transform": {
@@ -93,6 +93,7 @@
     "dist": "yarn clean-install && yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "fix": "fixpack",
+    "postinstall": "rm -fr ./node_modules/babel-minify-webpack-plugin/node_modules/",
     "release": "yarn clean-install && electron-builder --publish always",
     "start": "run-p dev",
     "test": "NODE_ENV='test' && jest",
