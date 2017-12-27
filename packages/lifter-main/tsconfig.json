@@ -10,7 +10,6 @@
     "module": "commonjs",
     "target": "es2017",
     "rootDir": "./src/",
-    "skipLibCheck": true,
     "declaration": true,
     "noEmitOnError": true,
     "lib": ["dom", "es2017", "es2017.object"]

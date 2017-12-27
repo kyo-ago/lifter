@@ -1,9 +1,8 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es2017",
-    "skipLibCheck": true,
     "declaration": true,
     "noEmitOnError": true,
     "lib": ["es2017"]

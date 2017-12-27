@@ -1,4 +1,4 @@
-import { BaseValueObject } from "@kyo-ago/lifter-common";
+import {BaseValueObject} from "../../../base/value-objects/base-value-object";
 
 export type Types = "ADD" | "MODIFY" | "DELETE";
 

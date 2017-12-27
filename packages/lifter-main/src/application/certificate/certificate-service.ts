@@ -1,5 +1,5 @@
 import { CertificateStatus } from "@kyo-ago/lifter-common";
-import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../lib/exec-commands";
+import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../libs/exec-commands";
 
 export class CertificateService {
     private certificatePath: string;

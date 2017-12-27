@@ -1,13 +1,3 @@
-import { BaseEntity as BaseEntity_ } from "./domains/base/base-entity";
-import { BaseValueObject as BaseValueObject_ } from "./domains/base/value-objects/base-value-object";
-import { ResolveAll as ResolveAll_ } from "./lib/resolve-all";
-
-export const ResolveAll = ResolveAll_;
-
-export const BaseEntity = BaseEntity_;
-
-export const BaseValueObject = BaseValueObject_;
-
 export const APPLICATION_NAME = "Lifter Proxy";
 
 export type AutoResponderEntryType = "File" | "Directory" | "Glob";

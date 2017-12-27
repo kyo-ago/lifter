@@ -1,5 +1,5 @@
-jest.mock("../lib/exec-commands");
-import { findCertificate } from "../lib/exec-commands";
+jest.mock("../../libs/exec-commands");
+import {findCertificate} from "../../libs/exec-commands";
 import { CertificateService } from "./certificate-service";
 
 describe("CertificateService", () => {

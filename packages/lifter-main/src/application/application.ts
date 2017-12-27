@@ -21,7 +21,7 @@ import {ProxyBypassDomainService} from "../domains/settings/proxy-bypass-domain/
 import {ProxySettingService} from "../domains/settings/proxy-setting/proxy-setting-service";
 import {CertificateService} from "./certificate/certificate-service";
 import {ConnectionService} from "./connection/connection-service";
-import {ipc} from "./lib/ipc";
+import {ipc} from "./libs/ipc";
 import {LifecycleContextService} from "./lifecycle-context-service";
 import {ProxyService} from "./proxy/proxy-service";
 

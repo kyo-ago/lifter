@@ -1,7 +1,7 @@
 import promisify = require("es6-promisify");
 import Datastore = require("nedb");
-import { ResolveAll } from "@kyo-ago/lifter-common";
 import { Entity, Identity } from "typescript-dddbase";
+import {ResolveAll} from "../libs/resolve-all";
 
 export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {
     toEntity(json: any): E;

@@ -1,3 +1,5 @@
+import {NetworkDeviceParam} from "../lifecycle/network-interface-factory";
+
 interface Device {
     ServiceName: string;
     Device: string;
