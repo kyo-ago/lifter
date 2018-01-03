@@ -1,7 +1,1 @@
-interface Dispath {
-    (
-        action: {
-            type: string;
-        }
-    ): void;
-}
+/// <reference path="./vue-shims/vue-shims.d.ts" />

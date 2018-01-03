@@ -6,7 +6,7 @@ import {
     ProxyBypassDomainEntityJSON,
     ProxySettingStatus,
     RewriteRuleEntityJSON
-} from "@kyo-ago/lifter-common";
+} from "@lifter/lifter-common";
 import {OutgoingHttpHeaders} from "http";
 import {Url} from "url";
 import {UserSettingStorage} from "../domains/libs/user-setting-storage";

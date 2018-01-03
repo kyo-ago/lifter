@@ -3,7 +3,7 @@ import {
     CertificateStatus,
     ClientRequestEntityJSON,
     ProxySettingStatus
-} from "@kyo-ago/lifter-common";
+} from "@lifter/lifter-common";
 import * as Ipc from "electron-ipc";
 
 interface ElectronIpcMap {

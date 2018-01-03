@@ -1,11 +1,10 @@
-import { ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@kyo-ago/lifter-common";
+import { ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@lifter/lifter-common";
 import { remote } from "electron";
-import { StateToProps } from "../main/ui/reducer";
 
 type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow" | "preferencesWindow";
 
 interface StoreDateKeyMap {
-    mainApps: StateToProps;
+    mainApps: any;
     mainRewriteRules: RewriteRuleEntityJSON[];
     mainProxyBypassDomains: ProxyBypassDomainEntityJSON[];
     mainPreferences: any;
@@ -30,4 +29,4 @@ interface WindowManager {
     get: (windowId: WindowId) => any;
 }
 
-export const windowManager: WindowManager = remote.require("@kyo-ago/electron-window-manager");
+export const windowManager: WindowManager = remote.require("@lifter/electron-window-manager");

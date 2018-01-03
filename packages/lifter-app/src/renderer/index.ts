@@ -1,6 +1,10 @@
-import { render as appRender } from "./main/ui/render";
-import { render as proxyBypassDomainSettingWindowRender } from "./proxy-bypass-domain-setting/ui/render";
-import { render as rewriteRuleSettingWindowRender } from "./rewrite-rule-setting/ui/render";
+import Vue from 'vue';
+import Element from 'element-ui';
+import Index from './ui/index.vue';
+import 'element-ui/lib/theme-chalk/index.css'
+import locale from 'element-ui/lib/locale/lang/ja';
+
+Vue.use(Element, { locale });
 
 function requireAll(r: any) {
     r.keys().forEach(r);
@@ -9,19 +13,7 @@ function requireAll(r: any) {
 requireAll(require.context("./", true, /\.css$/));
 require("./index.css");
 
-document.addEventListener("DOMContentLoaded", () => {
-    [
-        {
-            elem: document.querySelector("#app"),
-            render: appRender
-        },
-        {
-            elem: document.querySelector("#rewriteRuleSettingApp"),
-            render: rewriteRuleSettingWindowRender
-        },
-        {
-            elem: document.querySelector("#proxyBypassDomainSettingApp"),
-            render: proxyBypassDomainSettingWindowRender
-        }
-    ].forEach(setting => setting.elem && setting.render(setting.elem));
-});
+new Vue({
+    components: { Index },
+    template: '<Index />'
+}).$mount('#app');

@@ -1,11 +1,12 @@
 {
-  "name": "@kyo-ago/lifter-main",
+  "name": "@lifter/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "author": "@kyo_ago",
   "dependencies": {
-    "@kyo-ago/electron-window-manager": "^0.0.9",
-    "@kyo-ago/lifter-common": "^0.0.9",
+    "@lifter/electron-window-manager": "^0.1.0",
+    "@lifter/lifter-common": "^0.1.0",
+    "@lifter/networksetup-proxy": "^0.1.0",
     "electron-ipc": "^0.3.0",
     "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
@@ -14,7 +15,6 @@
     "micromatch": "^3.1.4",
     "mime": "^2.0.3",
     "nedb": "^1.8.0",
-    "networksetup-proxy": "^0.0.9",
     "rxjs": "^5.5.5",
     "typescript-dddbase": "^0.0.5"
   },

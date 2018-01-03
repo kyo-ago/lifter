@@ -1,4 +1,4 @@
-import { AutoResponderEntryType } from "@kyo-ago/lifter-common";
+import { AutoResponderEntryType } from "@lifter/lifter-common";
 import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
 import { AutoResponderEntryFileEntity } from "../auto-responder-entry-file/auto-responder-entry-file-entity";
