@@ -43,6 +43,8 @@
     "electron-webpack-ts": "^1.2.0",
     "electron-webpack-vue": "^1.1.0",
     "jest": "^21.2.1",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
     "spectron": "^3.7.2",
     "testdouble": "^3.2.6",
     "ts-jest": "^21.2.4",
