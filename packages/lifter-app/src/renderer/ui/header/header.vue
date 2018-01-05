@@ -12,7 +12,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import LeftToolbar from "./left-toolbar.vue";
     import RightToolbar from "./right-toolbar.vue";
     import TabContents from "./tab-contents.vue";

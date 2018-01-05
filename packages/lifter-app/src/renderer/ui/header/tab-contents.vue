@@ -1,25 +1,54 @@
 <template>
     <div class="tabbed-pane-header-tabs" role="tablist" aria-label="Panels">
-        <div class="tabbed-pane-header-tab__selected" role="tab">
+        <div
+                class="tabbed-pane-header-tab"
+                role="tab"
+                v-on:click="select(0)"
+                :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === 0}"
+        >
             <span class="tabbed-pane-header-tab-title">Auto responder</span>
         </div>
-        <div class="tabbed-pane-header-tab" role="tab">
+        <div
+                class="tabbed-pane-header-tab"
+                role="tab"
+                v-on:click="select(1)"
+                :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === 1}"
+        >
             <span class="tabbed-pane-header-tab-title">Rewrite rule</span>
         </div>
-        <div class="tabbed-pane-header-tab" role="tab">
+        <div
+                class="tabbed-pane-header-tab"
+                role="tab"
+                v-on:click="select(2)"
+                :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === 2}"
+        >
             <span class="tabbed-pane-header-tab-title">Proxy bypass domain</span>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
     export default {
-        name: "tab-contents"
+        name: "tab-contents",
+        data() {
+            return {
+                selectedTabIndex: 0,
+            };
+        },
+        methods: {
+            select(selected: number) {
+                this.selectedTabIndex = selected;
+            }
+        }
     }
 </script>
 
 <style scoped lang="scss">
-    @mixin tab() {
+    .tabbed-pane-header-tabs {
+        display: flex;
+    }
+
+    .tabbed-pane-header-tab {
         pointer-events: initial;
         float: left;
         line-height: 15px;
@@ -38,27 +67,16 @@
             color: #333;
             background-color: #e5e5e5;
         }
-    }
-
-    .tabbed-pane-header-tabs {
-        display: flex;
-    }
-
-    .tabbed-pane-header-tab {
-        @include tab;
 
         &__selected {
-            @include tab;
-            border-width: 0 2px 0 2px;
             height: 26px;
             margin: 0;
-            border-left: 2px solid transparent;
-            border-right: 2px solid transparent;
             color: #333;
 
-            border-bottom-color: #3E82F7;
-            border-bottom-style: solid;
-            border-bottom-width: 1.4px;
+            border-top-width: 0;
+            border-right: 2px solid transparent;
+            border-bottom: 1.4px solid #3E82F7;
+            border-left: 2px solid transparent;
         }
     }
 

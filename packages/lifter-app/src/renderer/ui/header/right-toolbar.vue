@@ -1,11 +1,21 @@
 <template>
     <div class="toolbar-shadow">
         <div class="toolbar-divider toolbar-item"></div>
-        <span class="icon">&#xFE19;</span>
+        <el-dropdown
+            trigger="click"
+            size="small"
+            v-bind:show-timeout="0"
+            v-bind:hide-timeout="0"
+        >
+            <span class="icon">&#xFE19;</span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>Action 1</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
     </div>
 </template>
 
-<script>
+<script lang="ts">
     export default {
         name: "right-toolbar",
     }
