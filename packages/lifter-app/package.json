@@ -27,7 +27,8 @@
     "nedb": "^1.8.0",
     "rxjs": "^5.5.5",
     "source-map-support": "^0.5.0",
-    "typescript-dddbase": "^0.0.5"
+    "typescript-dddbase": "^0.0.5",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@types/execa": "^0.8.0",
@@ -93,6 +94,7 @@
     "postinstall": "rm -fr ./node_modules/babel-minify-webpack-plugin/node_modules/",
     "release": "yarn clean-install && electron-builder --publish always",
     "start": "run-p dev",
+    "locallink": "npm link @lifter/electron-window-manager @lifter/lifter-common @lifter/lifter-main @lifter/networksetup-proxy",
     "test": "NODE_ENV='test' && jest",
     "test:e2e": "NODE_ENV='test' && jest --testRegex '\\/tests\\/e2e\\/.+\\.spec\\.(ts|tsx|js)$'"
   }

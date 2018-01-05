@@ -23,7 +23,7 @@
             RightToolbar,
             TabContents,
         },
-    }
+    };
 </script>
 
 <style scoped lang="scss">

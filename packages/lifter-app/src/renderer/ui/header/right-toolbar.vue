@@ -6,10 +6,11 @@
             size="small"
             v-bind:show-timeout="0"
             v-bind:hide-timeout="0"
+            @command="handleCommand"
         >
             <span class="icon">&#xFE19;</span>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>Action 1</el-dropdown-item>
+                <el-dropdown-item command="settings">Settings...</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
     </div>
@@ -18,7 +19,14 @@
 <script lang="ts">
     export default {
         name: "right-toolbar",
-    }
+        methods: {
+            handleCommand(command: string) {
+                if (command === "settings") {
+                    this.$store.commit('showSettingModalPage');
+                }
+            }
+        }
+    };
 </script>
 
 <style scoped lang="scss">

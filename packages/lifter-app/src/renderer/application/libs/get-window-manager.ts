@@ -1,7 +1,7 @@
 import { ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@lifter/lifter-common";
 import { remote } from "electron";
 
-type WindowId = "mainWindow" | "rewriteRuleSettingWindow" | "proxyBypassDomainSettingWindow" | "preferencesWindow";
+type WindowId = "mainWindow";
 
 interface StoreDateKeyMap {
     mainApps: any;
@@ -11,8 +11,6 @@ interface StoreDateKeyMap {
 }
 
 interface BridgeDateKeyMap {
-    overwriteRewriteRules: RewriteRuleEntityJSON[];
-    overwriteProxyBypassDomains: ProxyBypassDomainEntityJSON[];
 }
 
 interface WindowManager {

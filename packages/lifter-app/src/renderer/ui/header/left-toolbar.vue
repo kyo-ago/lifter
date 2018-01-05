@@ -1,14 +1,39 @@
 <template>
     <div class="toolbar-shadow">
-        <el-button icon="el-icon-view" size="mini"></el-button>
+        <el-button
+            icon="el-icon-view"
+            size="mini"
+            v-bind:type="buttonType"
+            @click="changeProxyState"
+        />
         <div class="toolbar-divider toolbar-item"></div>
     </div>
 </template>
 
 <script lang="ts">
+    import { mapActions } from 'vuex';
     export default {
         name: "left-toolbar",
-    }
+        computed: {
+            buttonType() {
+                if (this.$store.state.proxyState === "NoPermission") {
+                    return "info";
+                }
+                if (this.$store.state.proxyState === "On") {
+                    return "danger";
+                }
+                if (this.$store.state.proxyState === "Off") {
+                    return "primary";
+                }
+                return "";
+            },
+        },
+        methods: {
+            ...mapActions([
+                'changeProxyState',
+            ]),
+        },
+    };
 </script>
 
 <style scoped lang="scss">
@@ -25,7 +50,6 @@
 
     .el-button--mini {
         padding: 7px 8px;
-        background: transparent;
         border: none;
     }
 

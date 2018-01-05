@@ -1,28 +1,13 @@
 <template>
     <div class="tabbed-pane-header-tabs" role="tablist" aria-label="Panels">
         <div
-                class="tabbed-pane-header-tab"
-                role="tab"
-                v-on:click="select(0)"
-                :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === 0}"
+            v-for="(name, index) in ['Auto responder', 'Rewrite rule', 'Proxy bypass domain']"
+            class="tabbed-pane-header-tab"
+            role="tab"
+            :class="{'tabbed-pane-header-tab__selected': tabIndex === index}"
+            @click="select(index)"
         >
-            <span class="tabbed-pane-header-tab-title">Auto responder</span>
-        </div>
-        <div
-                class="tabbed-pane-header-tab"
-                role="tab"
-                v-on:click="select(1)"
-                :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === 1}"
-        >
-            <span class="tabbed-pane-header-tab-title">Rewrite rule</span>
-        </div>
-        <div
-                class="tabbed-pane-header-tab"
-                role="tab"
-                v-on:click="select(2)"
-                :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === 2}"
-        >
-            <span class="tabbed-pane-header-tab-title">Proxy bypass domain</span>
+            <span class="tabbed-pane-header-tab-title">{{name}}</span>
         </div>
     </div>
 </template>
@@ -30,17 +15,17 @@
 <script lang="ts">
     export default {
         name: "tab-contents",
-        data() {
-            return {
-                selectedTabIndex: 0,
-            };
+        computed: {
+            tabIndex() {
+                return this.$store.state.selectedTabIndex;
+            },
         },
         methods: {
             select(selected: number) {
-                this.selectedTabIndex = selected;
-            }
-        }
-    }
+                this.$store.commit('changeSelectedTabIndex', selected);
+            },
+        },
+    };
 </script>
 
 <style scoped lang="scss">
