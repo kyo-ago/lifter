@@ -1,7 +1,7 @@
 <template>
     <div class="tabbed-pane-header-tabs" role="tablist" aria-label="Panels">
         <div
-            v-for="(name, index) in ['Auto responder', 'Rewrite rule', 'Proxy bypass domain']"
+            v-for="(name, index) in ['Connection', 'Auto responder', 'Rewrite rule', 'Proxy bypass domain']"
             class="tabbed-pane-header-tab"
             role="tab"
             :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === index}"
@@ -56,7 +56,6 @@
         }
 
         &__selected {
-            height: 26px;
             margin: 0;
             color: #333;
 

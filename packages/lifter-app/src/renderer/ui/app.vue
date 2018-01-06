@@ -6,8 +6,8 @@
             <li-header />
         </el-header>
         <el-main>
-            <setting-dialog />
         </el-main>
+        <setting-dialog />
     </el-container>
 </template>
 
