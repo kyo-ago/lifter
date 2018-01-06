@@ -1,6 +1,6 @@
 <template>
-    <div class="toolbar-shadow">
-        <div class="toolbar-divider toolbar-item"></div>
+    <div class="toolbar">
+        <divider />
         <el-dropdown
             trigger="click"
             size="small"
@@ -17,6 +17,7 @@
 </template>
 
 <script lang="ts">
+    import Divider from "./divider.vue";
     export default {
         name: "right-toolbar",
         methods: {
@@ -25,43 +26,26 @@
                     this.$store.commit('showSettingModalPage');
                 }
             }
-        }
+        },
+        components: {
+            Divider,
+        },
     };
 </script>
 
 <style scoped lang="scss">
-    .toolbar-shadow {
-        z-index: 12;
+    .toolbar {
         display: flex;
-        flex: none;
-        align-items: center;
+        align-self: flex-end;
     }
 
     .icon {
-        display: flex;
+        display: inline-flex;
         width: 28px;
         justify-content: center;
         flex-direction: column;
         align-items: center;
         cursor: default;
-    }
-
-    .toolbar-item {
-        position: relative;
-        display: flex;
-        background-color: transparent;
-        flex: none;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        border: none;
-        color: #5a5a5a;
-    }
-
-    .toolbar-divider {
-        background-color: #ccc;
-        width: 1px;
-        margin: 5px 4px;
-        height: 16px;
+        height: 100%;
     }
 </style>

@@ -1,17 +1,18 @@
 <template>
-    <div class="toolbar-shadow">
+    <div class="toolbar">
         <el-button
             icon="el-icon-view"
             size="mini"
             v-bind:type="buttonType"
             @click="changeProxyState"
         />
-        <div class="toolbar-divider toolbar-item"></div>
+        <divider />
     </div>
 </template>
 
 <script lang="ts">
     import { mapActions } from 'vuex';
+    import Divider from "./divider.vue";
     export default {
         name: "left-toolbar",
         computed: {
@@ -33,38 +34,20 @@
                 'changeProxyState',
             ]),
         },
+        components: {
+            Divider,
+        },
     };
 </script>
 
 <style scoped lang="scss">
-    .toolbar-shadow {
-        z-index: 12;
+    .toolbar {
         display: flex;
-        flex: none;
-        align-items: center;
+        align-self: flex-end;
     }
 
     .el-button--mini {
         padding: 7px 8px;
         border: none;
-    }
-
-    .toolbar-item {
-        position: relative;
-        display: flex;
-        background-color: transparent;
-        flex: none;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        border: none;
-        color: #5a5a5a;
-    }
-
-    .toolbar-divider {
-        background-color: #ccc;
-        width: 1px;
-        margin: 5px 4px;
-        height: 16px;
     }
 </style>

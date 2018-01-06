@@ -1,14 +1,12 @@
 <template>
-    <div class="tabbed-pane-header-tabs" role="tablist" aria-label="Panels">
+    <div class="tab-contents" role="tablist" aria-label="Panels">
         <div
             v-for="(name, index) in ['Connection', 'Auto responder', 'Rewrite rule', 'Proxy bypass domain']"
-            class="tabbed-pane-header-tab"
+            class="tab-content"
             role="tab"
-            :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === index}"
+            :class="{'tab-content__selected': selectedTabIndex === index}"
             @click="changeSelectedTabIndex(index)"
-        >
-            <span class="tabbed-pane-header-tab-title">{{name}}</span>
-        </div>
+        >{{name}}</div>
     </div>
 </template>
 
@@ -31,23 +29,22 @@
 </script>
 
 <style scoped lang="scss">
-    .tabbed-pane-header-tabs {
+    .tab-contents {
         display: flex;
+        flex-grow: 1;
+        flex-basis: 0;
+        overflow: hidden;
     }
 
-    .tabbed-pane-header-tab {
-        pointer-events: initial;
-        float: left;
+    .tab-content {
         line-height: 15px;
         white-space: nowrap;
-        display: flex;
-        align-items: center;
         color: #5a5a5a;
         cursor: pointer;
         background: #f3f3f3;
         border: none;
         padding: 2px 0.8em;
-        height: 26px;
+        height: 100%;
         margin: 0;
 
         &:hover {
@@ -64,10 +61,5 @@
             border-bottom: 1.4px solid #3E82F7;
             border-left: 2px solid transparent;
         }
-    }
-
-    .tabbed-pane-header-tab-title {
-        text-overflow: ellipsis;
-        overflow: hidden;
     }
 </style>
