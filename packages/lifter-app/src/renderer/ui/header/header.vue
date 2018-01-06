@@ -29,7 +29,6 @@
 <style scoped lang="scss">
     .tabbed-pane-header {
         display: flex;
-        flex: 0 0 27px;
         border-bottom: 1px solid #ccc;
         overflow: visible;
         width: 100%;

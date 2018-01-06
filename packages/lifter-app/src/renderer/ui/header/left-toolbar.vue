@@ -38,10 +38,6 @@
 
 <style scoped lang="scss">
     .toolbar-shadow {
-        position: relative;
-        white-space: nowrap;
-        height: 26px;
-        overflow: hidden;
         z-index: 12;
         display: flex;
         flex: none;
@@ -61,7 +57,6 @@
         align-items: center;
         justify-content: center;
         padding: 0;
-        height: 26px;
         border: none;
         color: #5a5a5a;
     }

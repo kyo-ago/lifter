@@ -1,4 +1,4 @@
-import {ProxySettingStatus} from "@lifter/lifter-common";
+import {ProxySettingStatus, CertificateStatus} from "@lifter/lifter-common";
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {Application} from '../application/application';
@@ -10,6 +10,7 @@ export default function (application: Application) {
             selectedTabIndex: 0,
             viewSettingModalPageState: false,
             proxyState: "NoPermission",
+            certificateStatus: "missing",
         },
         mutations: {
             changeSelectedTabIndex(state, index: number) {
@@ -24,11 +25,20 @@ export default function (application: Application) {
             changeProxyState(state, newState: ProxySettingStatus) {
                 state.proxyState = newState;
             },
+            changeCertificateStatus(state, newState: CertificateStatus) {
+                state.certificateStatus = newState;
+            },
         },
         actions: {
-            async changeProxyState(context) {
+            async changeProxyState({ commit }) {
                 let newState = await application.clickProxySettingStatus();
-                context.commit('changeProxyState', newState);
+                commit('changeProxyState', newState);
+                return newState;
+            },
+            async changeCertificateStatus({ commit }) {
+                let newState = await application.clickCertificateStatus();
+                commit('changeCertificateStatus', newState);
+                return newState;
             },
         },
     });

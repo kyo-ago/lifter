@@ -4,8 +4,8 @@
             v-for="(name, index) in ['Auto responder', 'Rewrite rule', 'Proxy bypass domain']"
             class="tabbed-pane-header-tab"
             role="tab"
-            :class="{'tabbed-pane-header-tab__selected': tabIndex === index}"
-            @click="select(index)"
+            :class="{'tabbed-pane-header-tab__selected': selectedTabIndex === index}"
+            @click="changeSelectedTabIndex(index)"
         >
             <span class="tabbed-pane-header-tab-title">{{name}}</span>
         </div>
@@ -13,17 +13,19 @@
 </template>
 
 <script lang="ts">
+    import {mapMutations, mapState} from 'vuex';
+
     export default {
         name: "tab-contents",
         computed: {
-            tabIndex() {
-                return this.$store.state.selectedTabIndex;
-            },
+            ...mapState([
+                'selectedTabIndex',
+            ]),
         },
         methods: {
-            select(selected: number) {
-                this.$store.commit('changeSelectedTabIndex', selected);
-            },
+            ...mapMutations([
+                'changeSelectedTabIndex',
+            ]),
         },
     };
 </script>

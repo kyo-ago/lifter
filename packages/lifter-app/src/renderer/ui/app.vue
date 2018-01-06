@@ -1,8 +1,14 @@
 <template>
-    <div>
-        <li-header />
-        <setting-dialog />
-    </div>
+    <el-container>
+        <el-header
+            height="26px"
+        >
+            <li-header />
+        </el-header>
+        <el-main>
+            <setting-dialog />
+        </el-main>
+    </el-container>
 </template>
 
 <script lang="ts">
@@ -18,4 +24,7 @@
 </script>
 
 <style scoped lang="scss">
+    .el-header {
+        padding: 0;
+    }
 </style>

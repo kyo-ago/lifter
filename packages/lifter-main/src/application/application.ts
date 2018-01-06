@@ -33,8 +33,7 @@ export class Application {
     public pacFileService: PacFileService;
     public connectionService: ConnectionService;
     public proxyBypassDomainService: ProxyBypassDomainService;
-
-    private userSettingStorage: UserSettingStorage;
+    public userSettingStorage: UserSettingStorage;
 
     constructor(
         httpSslCaDirPath: string,

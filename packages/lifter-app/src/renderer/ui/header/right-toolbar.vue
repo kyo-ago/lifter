@@ -6,7 +6,7 @@
             size="small"
             v-bind:show-timeout="0"
             v-bind:hide-timeout="0"
-            @command="handleCommand"
+            @command="showSettingModalPage"
         >
             <span class="icon">&#xFE19;</span>
             <el-dropdown-menu slot="dropdown">
@@ -20,7 +20,7 @@
     export default {
         name: "right-toolbar",
         methods: {
-            handleCommand(command: string) {
+            showSettingModalPage(command: string) {
                 if (command === "settings") {
                     this.$store.commit('showSettingModalPage');
                 }
@@ -31,10 +31,6 @@
 
 <style scoped lang="scss">
     .toolbar-shadow {
-        position: relative;
-        white-space: nowrap;
-        height: 26px;
-        overflow: hidden;
         z-index: 12;
         display: flex;
         flex: none;
@@ -44,7 +40,6 @@
     .icon {
         display: flex;
         width: 28px;
-        height: 26px;
         justify-content: center;
         flex-direction: column;
         align-items: center;
@@ -59,7 +54,6 @@
         align-items: center;
         justify-content: center;
         padding: 0;
-        height: 26px;
         border: none;
         color: #5a5a5a;
     }
