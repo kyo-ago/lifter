@@ -7,8 +7,22 @@ import {AutoResponderEntryFactory} from "@lifter/lifter-main/build/domains/proxy
 import {ClientRequestEntity} from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
 import {ClientRequestFactory} from "@lifter/lifter-main/build/domains/proxy/client-request/lifecycle/client-request-factory";
 import {ipc} from "../../libs/ipc";
+import {windowManager} from "./libs/get-window-manager";
 
 export class Application {
+    getCurrentState() {
+        let json = windowManager.sharedData.fetch("mainApps");
+        windowManager.sharedData.set("mainApps", {} as any);
+        return {
+            autoResponderEntries: json.autoResponderEntries.map((json: any) =>
+                AutoResponderEntryFactory.fromJSON(json)
+            ),
+            clientRequestEntries: json.clientRequestEntries.map((json: any) => ClientRequestFactory.fromJSON(json)),
+            certificateState: json.certificateState,
+            proxySettingStatus: json.proxySettingStatus
+        };
+    }
+
     async addDropFiles(files: File[]): Promise<AbstractAutoResponderEntryEntity[]> {
         let paths = files.map(file => (<any>file).path);
         let jsons: AutoResponderEntryEntityJSON[] = await ipc.publish("addAutoResponderEntryEntities", paths);

@@ -1,6 +1,7 @@
 import {ProxySettingStatus, CertificateStatus} from "@lifter/lifter-common";
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {ClientRequestEntity} from "@lifter/lifter-main/src/domains/proxy/client-request/client-request-entity";
 import {Application} from '../application/application';
 import App from './app.vue';
 
@@ -9,8 +10,8 @@ export default function (application: Application) {
         state: {
             selectedTabIndex: 0,
             viewSettingModalPageState: false,
-            proxyState: "NoPermission",
-            certificateStatus: "missing",
+            isAutoResponderFileDropPage: false,
+            ...application.getCurrentState(),
         },
         mutations: {
             changeSelectedTabIndex(state, index: number) {
@@ -22,25 +23,38 @@ export default function (application: Application) {
             hideSettingModalPage(state) {
                 state.viewSettingModalPageState = false;
             },
-            changeProxyState(state, newState: ProxySettingStatus) {
-                state.proxyState = newState;
+            setAutoResponderFileDropPage(state) {
+                state.isAutoResponderFileDropPage = true;
             },
-            changeCertificateStatus(state, newState: CertificateStatus) {
-                state.certificateStatus = newState;
+            unsetAutoResponderFileDropPage(state) {
+                state.isAutoResponderFileDropPage = false;
+            },
+            changeProxySettingStatus(state, newState: ProxySettingStatus) {
+                state.proxySettingStatus = newState;
+            },
+            changeCertificateState(state, newState: CertificateStatus) {
+                state.certificateState = newState;
+            },
+            addClientRequestEntries(state, clientRequestEntity: ClientRequestEntity) {
+                state.clientRequestEntries.push(clientRequestEntity);
             },
         },
         actions: {
-            async changeProxyState({ commit }) {
+            async changeProxySettingStatus({ commit }) {
                 let newState = await application.clickProxySettingStatus();
-                commit('changeProxyState', newState);
+                commit('changeProxySettingStatus', newState);
                 return newState;
             },
-            async changeCertificateStatus({ commit }) {
+            async changeCertificateState({ commit }) {
                 let newState = await application.clickCertificateStatus();
-                commit('changeCertificateStatus', newState);
+                commit('changeCertificateState', newState);
                 return newState;
             },
         },
+    });
+
+    application.setOnUpdateClientRequestEntityEvent((clientRequestEntity) => {
+        store.commit("addClientRequestEntries", clientRequestEntity);
     });
 
     new Vue({

@@ -3,42 +3,43 @@
         title="Settings"
         :visible="viewSettingModalPageState"
         v-bind:fullscreen="true"
+        v-bind:modal="false"
         width="95%"
         @close="hideSettingModalPage"
     >
         <div>
             <el-switch
-                v-model="currentCertificateStatus"
-                @change="changeCertificateStatus"
+                v-model="currentCertificateState"
+                @change="changeCertificateState"
             ></el-switch>
-            Current lifter proxy certification is {{certificateStatus}}
+            Current lifter proxy certification is {{certificateState}}
         </div>
     </el-dialog>
 </template>
 
 <script lang="ts">
-    import { mapActions, mapMutations, mapState } from 'vuex';
-    let getCurrentCertificateStatus = () => {}
+    import {mapMutations, mapState} from 'vuex';
+
     export default {
         name: "setting-dialog",
         data() {
             return {
-                currentCertificateStatus: this.$store.state.certificateStatus === "installed",
+                currentCertificateState: this.$store.state.certificateState === "installed",
             };
         },
         computed: {
             ...mapState([
                 'viewSettingModalPageState',
-                'certificateStatus',
+                'certificateState',
             ]),
         },
         methods: {
             ...mapMutations([
                 'hideSettingModalPage',
             ]),
-            async changeCertificateStatus(...args) {
-                await this.$store.dispatch('changeCertificateStatus');
-                this.$data.currentCertificateStatus = this.$store.state.certificateStatus === "installed";
+            async changeCertificateState() {
+                await this.$store.dispatch('changeCertificateState');
+                this.$data.currentCertificateState = this.$store.state.certificateState === "installed";
             },
         },
     };

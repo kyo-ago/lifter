@@ -6,25 +6,32 @@
             <li-header />
         </el-header>
         <el-main>
+            <li-main />
+            <li-dialog />
         </el-main>
-        <setting-dialog />
     </el-container>
 </template>
 
 <script lang="ts">
-    import LiHeader from "./header/header.vue";
-    import SettingDialog from "./dialog/setting-dialog.vue";
+    import LiHeader from "./li-header/li-header.vue";
+    import LiMain from "./li-main/li-main.vue";
+    import LiDialog from "./li-dialog/li-dialog.vue";
     export default {
         name: "App",
         components: {
             LiHeader,
-            SettingDialog,
+            LiMain,
+            LiDialog,
         },
     };
 </script>
 
 <style scoped lang="scss">
     .el-header {
+        padding: 0;
+    }
+
+    .el-main {
         padding: 0;
     }
 </style>

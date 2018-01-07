@@ -4,7 +4,7 @@
             icon="el-icon-view"
             size="mini"
             v-bind:type="buttonType"
-            @click="changeProxyState"
+            @click="changeProxySettingStatus"
         />
         <divider />
     </div>
@@ -17,13 +17,13 @@
         name: "left-toolbar",
         computed: {
             buttonType() {
-                if (this.$store.state.proxyState === "NoPermission") {
+                if (this.$store.state.proxySettingStatus === "NoPermission") {
                     return "info";
                 }
-                if (this.$store.state.proxyState === "On") {
+                if (this.$store.state.proxySettingStatus === "On") {
                     return "danger";
                 }
-                if (this.$store.state.proxyState === "Off") {
+                if (this.$store.state.proxySettingStatus === "Off") {
                     return "primary";
                 }
                 return "";
@@ -31,7 +31,7 @@
         },
         methods: {
             ...mapActions([
-                'changeProxyState',
+                'changeProxySettingStatus',
             ]),
         },
         components: {

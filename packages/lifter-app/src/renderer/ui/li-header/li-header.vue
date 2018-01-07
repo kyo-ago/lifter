@@ -10,8 +10,9 @@
     import LeftToolbar from "./left-toolbar.vue";
     import RightToolbar from "./right-toolbar.vue";
     import TabContents from "./tab-contents.vue";
+
     export default {
-        name: "Header",
+        name: "LiHeader",
         components: {
             LeftToolbar,
             RightToolbar,
