@@ -48,10 +48,28 @@ export class Application {
         });
     }
 
-    initialize(global: Window) {
+    setOnFileDropEvent(
+        global: Window,
+        dragenter: () => void,
+        dragleave: () => void,
+        drop: (files: File[]) => void,
+    ) {
         global.addEventListener("dragover", e => e.preventDefault());
-        global.addEventListener("dragleave", e => e.preventDefault());
-        global.addEventListener("drop", e => e.preventDefault());
-        global.document.body.addEventListener("dragend", e => e.preventDefault());
+        global.addEventListener("dragenter", (event) => {
+            console.log(event);
+            dragenter();
+        });
+        global.addEventListener("dragleave", (event) => {
+            console.log(event);
+            dragleave();
+        });
+        global.addEventListener("drop", (event) => {
+            event.preventDefault();
+            if (!event.dataTransfer || !event.dataTransfer.files.length) {
+                dragleave();
+                return;
+            }
+            drop(Array.from(event.dataTransfer.files));
+        });
     }
 }

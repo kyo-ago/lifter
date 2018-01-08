@@ -31,12 +31,6 @@
                 'autoResponderEntries',
             ]),
         },
-        mounted() {
-            this.$store.commit('setAutoResponderFileDropPage');
-        },
-        beforeDestroy() {
-            this.$store.commit('unsetAutoResponderFileDropPage');
-        },
     };
 </script>
 

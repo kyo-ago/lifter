@@ -1,6 +1,6 @@
 <template>
     <el-dialog
-        title="Settings"
+        title="Add auto responder"
         :visible="isAutoResponderFileDropPage"
         v-bind:fullscreen="true"
         v-bind:modal="false"

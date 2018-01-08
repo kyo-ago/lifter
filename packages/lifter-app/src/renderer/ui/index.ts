@@ -2,6 +2,7 @@ import {ProxySettingStatus, CertificateStatus} from "@lifter/lifter-common";
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {ClientRequestEntity} from "@lifter/lifter-main/src/domains/proxy/client-request/client-request-entity";
+import {AbstractAutoResponderEntryEntity} from "../../../../lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import {Application} from '../application/application';
 import App from './app.vue';
 
@@ -38,6 +39,9 @@ export default function (application: Application) {
             addClientRequestEntries(state, clientRequestEntity: ClientRequestEntity) {
                 state.clientRequestEntries.push(clientRequestEntity);
             },
+            addAutoResponderEntries(state, autoResponderEntries: AbstractAutoResponderEntryEntity[]) {
+                state.autoResponderEntries = autoResponderEntries.concat(state.autoResponderEntries);
+            },
         },
         actions: {
             async changeProxySettingStatus({ commit }) {
@@ -50,7 +54,22 @@ export default function (application: Application) {
                 commit('changeCertificateState', newState);
                 return newState;
             },
+            async addDropFiles({ commit, state }, files: File[]) {
+                if (!state.isAutoResponderFileDropPage) {
+                    return;
+                }
+                let autoResponderEntries = await application.addDropFiles(files);
+                commit('addAutoResponderEntries', autoResponderEntries);
+            },
         },
+    });
+
+    application.setOnFileDropEvent(window, () => {
+        store.commit("setAutoResponderFileDropPage");
+    }, () => {
+        store.commit("unsetAutoResponderFileDropPage");
+    }, (files: File[]) => {
+        store.dispatch('addDropFiles', files);
     });
 
     application.setOnUpdateClientRequestEntityEvent((clientRequestEntity) => {

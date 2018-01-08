@@ -16,5 +16,4 @@ function requireAll(r: any) {
 requireAll(require.context("./", true, /\.css$/));
 require("./index.css");
 let application = new Application();
-application.initialize(window);
 render(application);
