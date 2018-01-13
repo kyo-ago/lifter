@@ -1,4 +1,4 @@
-import { ClientRequestEntityJSON } from "@kyo-ago/lifter-common";
+import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import { parse, Url } from "url";
 import { ClientRequestEntity } from "../client-request-entity";
 import { ClientRequestIdentity } from "../client-request-identity";

@@ -1,4 +1,4 @@
-import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@kyo-ago/lifter-common";
+import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@lifter/lifter-common";
 import * as fs from "fs";
 import * as Path from "path";
 import { AsyncOnNedbFactory } from "../../../base/async-on-nedb-factory";

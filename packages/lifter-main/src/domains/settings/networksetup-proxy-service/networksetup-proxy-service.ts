@@ -1,6 +1,6 @@
-import { APPLICATION_NAME } from "@kyo-ago/lifter-common";
+import { APPLICATION_NAME } from "@lifter/lifter-common";
 import * as fs from "fs";
-import { NetworksetupProxy } from "networksetup-proxy";
+import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../settings";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";

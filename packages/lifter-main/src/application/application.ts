@@ -6,7 +6,7 @@ import {
     ProxyBypassDomainEntityJSON,
     ProxySettingStatus,
     RewriteRuleEntityJSON
-} from "@kyo-ago/lifter-common";
+} from "@lifter/lifter-common";
 import {OutgoingHttpHeaders} from "http";
 import {Url} from "url";
 import {UserSettingStorage} from "../domains/libs/user-setting-storage";
@@ -33,8 +33,7 @@ export class Application {
     public pacFileService: PacFileService;
     public connectionService: ConnectionService;
     public proxyBypassDomainService: ProxyBypassDomainService;
-
-    private userSettingStorage: UserSettingStorage;
+    public userSettingStorage: UserSettingStorage;
 
     constructor(
         httpSslCaDirPath: string,
@@ -87,15 +86,22 @@ export class Application {
             await this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
             return autoResponderEntryEntities.map(autoResponderEntryEntity => autoResponderEntryEntity.json);
         });
+        ipc.subscribe("fetchAutoResponderEntryEntities", async (): Promise<AutoResponderEntryEntityJSON[]> => {
+            let autoResponderEntryEntities = await this.lifecycleContextService.autoResponderEntryRepository.resolveAll();
+            return autoResponderEntryEntities.map(autoResponderEntryEntity => autoResponderEntryEntity.json);
+        });
         ipc.subscribe("setNewCertificateStatus", (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
         });
         ipc.subscribe("setNewProxySettingStatus", (): Promise<ProxySettingStatus> => {
             return this.proxySettingService.getNewStatus();
         });
-        ipc.subscribe("deleteAutoResponderEntryEntity", (event: any, id: number) => {
-            let autoResponderEntryIdentity = new AutoResponderEntryIdentity(id);
-            this.lifecycleContextService.autoResponderEntryRepository.deleteByIdentity(autoResponderEntryIdentity);
+        ipc.subscribe("deleteAutoResponderEntryEntities", async (event: any, ids: number[]) => {
+            await Promise.all(ids
+                .map((id) => new AutoResponderEntryIdentity(id))
+                .map((autoResponderEntryIdentity) => this.lifecycleContextService.autoResponderEntryRepository.deleteByIdentity(autoResponderEntryIdentity))
+            );
+            return;
         });
     }
 

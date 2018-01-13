@@ -1,4 +1,4 @@
-import { createApplication } from "@kyo-ago/lifter-main/build/";
+import { createApplication } from "@lifter/lifter-main/build/";
 import { app } from "electron";
 import { REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH } from "../settings";
 import { WindowManager } from "./window-manager";

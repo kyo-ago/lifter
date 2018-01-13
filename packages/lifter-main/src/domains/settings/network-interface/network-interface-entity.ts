@@ -1,4 +1,4 @@
-import { NetworksetupProxy } from "networksetup-proxy";
+import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { LOCAL_PAC_FILE_URL, NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
 import {BaseEntity} from "../../base/base-entity";

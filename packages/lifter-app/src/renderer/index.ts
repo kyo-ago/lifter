@@ -1,6 +1,13 @@
-import { render as appRender } from "./main/ui/render";
-import { render as proxyBypassDomainSettingWindowRender } from "./proxy-bypass-domain-setting/ui/render";
-import { render as rewriteRuleSettingWindowRender } from "./rewrite-rule-setting/ui/render";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import Element from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css'
+import locale from 'element-ui/lib/locale/lang/ja';
+import {Application} from "./application/application";
+import render from './ui/index';
+
+Vue.use(Vuex);
+Vue.use(Element, { locale });
 
 function requireAll(r: any) {
     r.keys().forEach(r);
@@ -8,20 +15,5 @@ function requireAll(r: any) {
 
 requireAll(require.context("./", true, /\.css$/));
 require("./index.css");
-
-document.addEventListener("DOMContentLoaded", () => {
-    [
-        {
-            elem: document.querySelector("#app"),
-            render: appRender
-        },
-        {
-            elem: document.querySelector("#rewriteRuleSettingApp"),
-            render: rewriteRuleSettingWindowRender
-        },
-        {
-            elem: document.querySelector("#proxyBypassDomainSettingApp"),
-            render: proxyBypassDomainSettingWindowRender
-        }
-    ].forEach(setting => setting.elem && setting.render(setting.elem));
-});
+let application = new Application();
+render(application);

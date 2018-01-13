@@ -1,7 +1,7 @@
 {
-  "name": "lifter",
+  "name": "@lifter/lifter",
   "description": "Local Proxy for frontend developers",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "author": "kyo_ago",
   "bugs": {
     "url": "https://github.com/kyo-ago/lifter/issues"

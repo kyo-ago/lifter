@@ -1,4 +1,4 @@
-import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@kyo-ago/lifter-common";
+import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@lifter/lifter-common";
 import * as mime from "mime";
 import {BaseEntity} from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";

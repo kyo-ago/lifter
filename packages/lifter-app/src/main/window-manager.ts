@@ -1,6 +1,6 @@
-import * as windowManager from "@kyo-ago/electron-window-manager";
-import { APPLICATION_NAME } from "@kyo-ago/lifter-common";
-import { Application } from "@kyo-ago/lifter-main/build/Application/Application";
+import * as windowManager from "@lifter/electron-window-manager";
+import { APPLICATION_NAME } from "@lifter/lifter-common";
+import { Application } from "@lifter/lifter-main/build/Application/Application";
 import { ipc } from "../libs/ipc";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
 
@@ -16,12 +16,6 @@ export class WindowManager {
             "overwriteProxyBypassDomains",
             this.application.saveProxyBypassDomainJSON.bind(this.application)
         );
-
-        ipc.subscribe("openRewriteRuleSettingWindow", this.openRewriteRuleSettingWindow.bind(this));
-
-        ipc.subscribe("openProxyBypassDomainSettingWindow", this.openProxyBypassDomainSettingWindow.bind(this));
-
-        ipc.subscribe("openPreferencesWindow", this.openPreferencesWindow.bind(this));
     }
 
     async createMainWindow() {
@@ -47,39 +41,6 @@ export class WindowManager {
                 .openDevTools();
         }
         this.registerWindow(name);
-    }
-
-    private async openProxyBypassDomainSettingWindow() {
-        let allJsons = await this.application.getProxyBypassDomains();
-        windowManager.sharedData.set("mainProxyBypassDomains", allJsons);
-        let name = "proxyBypassDomainSettingWindow";
-        windowManager.open(name, "Proxy bypass domain setting", "/proxy-bypass-domain-setting-window.html", "default", {
-            file: `${WINDOW_STATE_DIR}proxy-bypass-domain-setting-window-state.json`,
-            parent: windowManager.get("mainWindow")
-        });
-        this.registerWindow(name);
-    }
-
-    private async openRewriteRuleSettingWindow() {
-        let allJsons = await this.application.getRewriteRules();
-        windowManager.sharedData.set("mainRewriteRules", allJsons);
-        let name = "rewriteRuleSettingWindow";
-        windowManager.open(name, "Rewrite rule setting", "/rewrite-rule-setting-window.html", "default", {
-            file: `${WINDOW_STATE_DIR}rewrite-rule-setting-window-state.json`,
-            parent: windowManager.get("mainWindow")
-        });
-        this.registerWindow(name);
-    }
-
-    private async openPreferencesWindow() {
-        // let allJsons = await this.application.getPreferences();
-        // windowManager.sharedData.set("mainPreferences", allJsons);
-        // let name = "preferencesWindow";
-        // windowManager.open(name, "Preferences", "/preferences-window.html", "default", {
-        //     file: `${WINDOW_STATE_DIR}preferences-window-state.json`,
-        //     parent: windowManager.get("mainWindow")
-        // });
-        // this.registerWindow(name);
     }
 
     private registerWindow(name: string) {

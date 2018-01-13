@@ -3,18 +3,16 @@ import {
     CertificateStatus,
     ClientRequestEntityJSON,
     ProxySettingStatus
-} from "@kyo-ago/lifter-common";
+} from "@lifter/lifter-common";
 import * as Ipc from "electron-ipc";
 
 interface ElectronIpcMap {
+    fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     setNewCertificateStatus: CertificateStatus;
     setNewProxySettingStatus: ProxySettingStatus;
-    deleteAutoResponderEntryEntity: number;
+    deleteAutoResponderEntryEntities: void;
     addClientRequestEntity: ClientRequestEntityJSON;
-    openRewriteRuleSettingWindow: void;
-    openProxyBypassDomainSettingWindow: void;
-    openPreferencesWindow: void;
 }
 
 export const ipc = class {
