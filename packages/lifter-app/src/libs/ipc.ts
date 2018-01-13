@@ -7,10 +7,11 @@ import {
 import * as Ipc from "electron-ipc";
 
 interface ElectronIpcMap {
+    fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     setNewCertificateStatus: CertificateStatus;
     setNewProxySettingStatus: ProxySettingStatus;
-    deleteAutoResponderEntryEntity: number;
+    deleteAutoResponderEntryEntities: void;
     addClientRequestEntity: ClientRequestEntityJSON;
 }
 

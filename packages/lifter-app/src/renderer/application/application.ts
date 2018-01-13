@@ -25,13 +25,22 @@ export class Application {
 
     async addDropFiles(files: File[]): Promise<AbstractAutoResponderEntryEntity[]> {
         let paths = files.map(file => (<any>file).path);
-        let jsons: AutoResponderEntryEntityJSON[] = await ipc.publish("addAutoResponderEntryEntities", paths);
+        let jsons = await ipc.publish("addAutoResponderEntryEntities", paths);
         return jsons.map(json => AutoResponderEntryFactory.fromJSON(json));
     }
 
     async selectDialogEntry(fileNames: string[]): Promise<AbstractAutoResponderEntryEntity[]> {
-        let jsons: AutoResponderEntryEntityJSON[] = await ipc.publish("addAutoResponderEntryEntities", fileNames);
+        let jsons = await ipc.publish("addAutoResponderEntryEntities", fileNames);
         return jsons.map(json => AutoResponderEntryFactory.fromJSON(json));
+    }
+
+    async fetchAutoResponderEntities(): Promise<AbstractAutoResponderEntryEntity[]> {
+        let jsons = await ipc.publish("fetchAutoResponderEntryEntities");
+        return jsons.map(json => AutoResponderEntryFactory.fromJSON(json));
+    }
+
+    async deleteAutoResponderEntities(autoResponderEntryEntities: AbstractAutoResponderEntryEntity[]): Promise<void> {
+        await ipc.publish("deleteAutoResponderEntryEntities", autoResponderEntryEntities.map((entity) => entity.id))
     }
 
     clickCertificateStatus(): Promise<CertificateStatus> {
@@ -55,12 +64,11 @@ export class Application {
         drop: (files: File[]) => void,
     ) {
         global.addEventListener("dragover", e => e.preventDefault());
-        global.addEventListener("dragenter", (event) => {
-            console.log(event);
-            dragenter();
-        });
+        global.addEventListener("dragenter", dragenter);
         global.addEventListener("dragleave", (event) => {
-            console.log(event);
+            if (event.clientX && event.clientY && event.offsetX && event.offsetY) {
+                return;
+            }
             dragleave();
         });
         global.addEventListener("drop", (event) => {
@@ -70,6 +78,7 @@ export class Application {
                 return;
             }
             drop(Array.from(event.dataTransfer.files));
+            dragleave();
         });
     }
 }

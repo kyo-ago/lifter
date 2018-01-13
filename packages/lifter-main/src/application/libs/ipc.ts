@@ -2,10 +2,11 @@ import { AutoResponderEntryEntityJSON, CertificateStatus, ProxySettingStatus } f
 import * as Ipc from "electron-ipc";
 
 export interface ElectronIpcMap {
+    fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     setNewCertificateStatus: CertificateStatus;
     setNewProxySettingStatus: ProxySettingStatus;
-    deleteAutoResponderEntryEntity: number;
+    deleteAutoResponderEntryEntities: void;
 }
 
 export const ipc = class {

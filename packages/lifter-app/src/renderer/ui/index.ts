@@ -1,8 +1,8 @@
 import {ProxySettingStatus, CertificateStatus} from "@lifter/lifter-common";
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {ClientRequestEntity} from "@lifter/lifter-main/src/domains/proxy/client-request/client-request-entity";
-import {AbstractAutoResponderEntryEntity} from "../../../../lifter-main/src/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import {ClientRequestEntity} from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
+import {AbstractAutoResponderEntryEntity} from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import {Application} from '../application/application';
 import App from './app.vue';
 
@@ -17,6 +17,9 @@ export default function (application: Application) {
         mutations: {
             changeSelectedTabIndex(state, index: number) {
                 state.selectedTabIndex = index;
+            },
+            selectAutoResponderTab(state) {
+                state.selectedTabIndex = 1;
             },
             showSettingModalPage(state) {
                 state.viewSettingModalPageState = true;
@@ -42,6 +45,9 @@ export default function (application: Application) {
             addAutoResponderEntries(state, autoResponderEntries: AbstractAutoResponderEntryEntity[]) {
                 state.autoResponderEntries = autoResponderEntries.concat(state.autoResponderEntries);
             },
+            overwriteAutoResponderEntries(state, autoResponderEntries: AbstractAutoResponderEntryEntity[]) {
+                state.autoResponderEntries = autoResponderEntries;
+            },
         },
         actions: {
             async changeProxySettingStatus({ commit }) {
@@ -60,6 +66,13 @@ export default function (application: Application) {
                 }
                 let autoResponderEntries = await application.addDropFiles(files);
                 commit('addAutoResponderEntries', autoResponderEntries);
+                commit('selectAutoResponderTab');
+            },
+            async deleteAutoResponderEntries({ commit }, targetAutoResponderEntries: AbstractAutoResponderEntryEntity[]) {
+                console.log(targetAutoResponderEntries);
+                await application.deleteAutoResponderEntities(targetAutoResponderEntries);
+                let autoResponderEntries = await application.fetchAutoResponderEntities();
+                commit('overwriteAutoResponderEntries', autoResponderEntries);
             },
         },
     });

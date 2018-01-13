@@ -36,6 +36,7 @@
     "@types/micromatch": "^2.3.29",
     "@types/mime": "2.0.0",
     "@types/nedb": "^1.8.5",
+    "@types/node": "^9.3.0",
     "@types/when": "^2.4.29",
     "dependency-cruiser": "^2.9.0",
     "electron": "^1.7.9",
@@ -91,10 +92,10 @@
     "dist": "yarn clean-install && yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "fix": "fixpack",
+    "locallink": "npm link @lifter/electron-window-manager @lifter/lifter-common @lifter/lifter-main @lifter/networksetup-proxy",
     "postinstall": "rm -fr ./node_modules/babel-minify-webpack-plugin/node_modules/",
     "release": "yarn clean-install && electron-builder --publish always",
     "start": "run-p dev",
-    "locallink": "npm link @lifter/electron-window-manager @lifter/lifter-common @lifter/lifter-main @lifter/networksetup-proxy",
     "test": "NODE_ENV='test' && jest",
     "test:e2e": "NODE_ENV='test' && jest --testRegex '\\/tests\\/e2e\\/.+\\.spec\\.(ts|tsx|js)$'"
   }
