@@ -1,6 +1,5 @@
 rust/proxy-setting.rs
 index.ts
-global.d.ts
 tsconfig.json
 example/
 package-lock.json

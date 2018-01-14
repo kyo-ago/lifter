@@ -1,3 +1,5 @@
+/// <reference path="../../typings/global.d.ts" />
+
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Element from 'element-ui';

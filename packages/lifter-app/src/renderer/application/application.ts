@@ -1,7 +1,4 @@
-import {
-    AutoResponderEntryEntityJSON, CertificateStatus, ClientRequestEntityJSON,
-    ProxySettingStatus
-} from "@lifter/lifter-common";
+import {CertificateStatus, ClientRequestEntityJSON, ProxySettingStatus} from "@lifter/lifter-common";
 import {AbstractAutoResponderEntryEntity} from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
 import {AutoResponderEntryFactory} from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-factory";
 import {ClientRequestEntity} from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
@@ -9,8 +6,15 @@ import {ClientRequestFactory} from "@lifter/lifter-main/build/domains/proxy/clie
 import {ipc} from "../../libs/ipc";
 import {windowManager} from "./libs/get-window-manager";
 
+export interface ApplicationState {
+    autoResponderEntries: AbstractAutoResponderEntryEntity[];
+    clientRequestEntries: ClientRequestEntity[];
+    certificateState: CertificateStatus;
+    proxySettingStatus: ProxySettingStatus;
+}
+
 export class Application {
-    getCurrentState() {
+    getCurrentState(): ApplicationState {
         let json = windowManager.sharedData.fetch("mainApps");
         windowManager.sharedData.set("mainApps", {} as any);
         return {

@@ -11,8 +11,10 @@
 </template>
 
 <script lang="ts">
-    import { mapActions } from 'vuex';
+    import {mapActions} from 'vuex';
+    import {VueComponent} from "../index";
     import Divider from "./divider.vue";
+
     export default {
         name: "left-toolbar",
         computed: {
@@ -37,7 +39,7 @@
         components: {
             Divider,
         },
-    };
+    } as VueComponent;
 </script>
 
 <style scoped lang="scss">

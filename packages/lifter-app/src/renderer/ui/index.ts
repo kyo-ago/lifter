@@ -1,13 +1,35 @@
 import {ProxySettingStatus, CertificateStatus} from "@lifter/lifter-common";
-import Vue from 'vue';
+import Vue, { ComponentOptions } from 'vue';
 import Vuex from 'vuex';
 import {ClientRequestEntity} from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
 import {AbstractAutoResponderEntryEntity} from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import {Application} from '../application/application';
+import {Application, ApplicationState} from '../application/application';
 import App from './app.vue';
 
+export interface VueComponent extends ComponentOptions<Vue>{
+    data?: object | ((this: any) => object);
+    computed?:{ [key: string]: (this: any, ...args: any[]) => any };
+    methods?:{ [key: string]: (this: any, ...args: any[]) => any };
+    created?(this: any): void;
+    beforeDestroy?(this: any): void;
+    destroyed?(this: any): void;
+    beforeMount?(this: any): void;
+    mounted?(this: any): void;
+    beforeUpdate?(this: any): void;
+    updated?(this: any): void;
+    activated?(this: any): void;
+    deactivated?(this: any): void;
+    errorCaptured?(this: any): boolean | void;
+}
+
+interface UIState extends ApplicationState {
+    selectedTabIndex: number;
+    viewSettingModalPageState: boolean;
+    isAutoResponderFileDropPage: boolean;
+}
+
 export default function (application: Application) {
-    const store = new Vuex.Store({
+    const store = new Vuex.Store<UIState>({
         state: {
             selectedTabIndex: 0,
             viewSettingModalPageState: false,

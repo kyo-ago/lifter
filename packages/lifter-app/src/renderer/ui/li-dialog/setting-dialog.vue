@@ -19,6 +19,7 @@
 
 <script lang="ts">
     import {mapMutations, mapState} from 'vuex';
+    import {VueComponent} from "../index";
 
     export default {
         name: "setting-dialog",
@@ -42,7 +43,7 @@
                 this.$data.currentCertificateState = this.$store.state.certificateState === "installed";
             },
         },
-    };
+    } as VueComponent;
 </script>
 
 <style scoped lang="scss">

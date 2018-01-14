@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter",
   "description": "Local Proxy for frontend developers",
-  "version": "0.1.0",
+  "version": "0.0.9",
   "author": "kyo_ago",
   "bugs": {
     "url": "https://github.com/kyo-ago/lifter/issues"
@@ -42,18 +42,18 @@
     "url": "https://github.com/kyo-ago/lifter.git"
   },
   "scripts": {
-    "app": "NODE_ENV=development lerna run dev --scope @kyo-ago/lifter-app",
+    "app": "NODE_ENV=development lerna run dev --scope @lifter/lifter-app",
     "bootstrap": "lerna bootstrap && yarn run build && yarn run compile",
     "build": "lerna run build",
     "clean": "lerna run clean && rm -fr lerna-debug.log package-lock.json yarn.lock node_modules app dist",
-    "compile": "yarn run build && lerna run compile --scope @kyo-ago/lifter-app",
+    "compile": "yarn run build && lerna run compile --scope @lifter/lifter-app",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
     "precommit": "lint-staged",
     "prepublish": "yarn run bootstrap",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "publish": "lerna publish && yarn run publish:app",
-    "publish:app": "lerna run release --stream --scope @kyo-ago/lifter-app",
+    "publish:app": "lerna run release --stream --scope @lifter/lifter-app",
     "test": "lerna run test"
   }
 }

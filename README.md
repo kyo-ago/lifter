@@ -27,4 +27,4 @@ Install devDependencies and Run `npm test`:
 
 ## License
 
-MIT © kyo-ago
+GPL-3.0 © kyo-ago

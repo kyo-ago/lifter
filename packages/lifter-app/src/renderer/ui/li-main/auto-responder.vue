@@ -36,6 +36,7 @@
 <script lang="ts">
     import Rx from 'rxjs/Rx';
     import {mapState} from 'vuex';
+    import {VueComponent} from "../index";
 
     export default {
         name: "auto-responder",
@@ -76,7 +77,7 @@
                 this.$data.shortcutHandler.unsubscribe();
             }
         },
-    };
+    } as VueComponent;
 </script>
 
 <style scoped lang="scss">
