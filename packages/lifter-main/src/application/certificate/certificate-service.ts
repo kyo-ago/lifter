@@ -21,7 +21,7 @@ export class CertificateService {
             return "missing";
         } else {
             await this.installCertificate();
-            return "installed";
+            return await this.getCurrentStatus();
         }
     }
 
@@ -31,9 +31,11 @@ export class CertificateService {
             return !!result;
         } catch (e) {
             // missing Certificate
-            if (!e.message.match(/SecKeychainSearchCopyNext/)) throw e;
+            if (e.message.match(/SecKeychainSearchCopyNext/)) {
+                return false;
+            }
+            throw e;
         }
-        return false;
     }
 
     private async installCertificate(): Promise<boolean> {
@@ -43,19 +45,27 @@ export class CertificateService {
         }
         try {
             await addTrustedCert(this.certificatePath);
-            return false;
-        } catch (e) {
             return true;
+        } catch (e) {
+            // user cancel
+            if (e.stderr.match(/SecTrustSettingsSetTrustSettings/)) {
+                await deleteCertificate(this.certificateName);
+                return false;
+            }
+            throw e;
         }
     }
 
-    private async deleteCertificate(): Promise<true> {
+    private async deleteCertificate(): Promise<boolean> {
         try {
             await deleteCertificate(this.certificateName);
+            return true;
         } catch (e) {
             // missing Certificate
-            if (!e.message.match(/Unable to delete certificate matching/)) throw e;
+            if (e.message.match(/Unable to delete certificate matching/)) {
+                return false;
+            }
+            throw e;
         }
-        return true;
     }
 }
