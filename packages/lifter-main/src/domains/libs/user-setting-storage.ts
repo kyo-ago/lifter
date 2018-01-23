@@ -3,12 +3,12 @@ import Datastore = require("nedb");
 import { ProjectEntity } from "../proxy/project/project-entity";
 
 export interface UserSettings {
-    noGrant: boolean;
-    noProxy: boolean;
+    noAutoGrantRequest: boolean;
+    noAutoEnableProxy: boolean;
 }
 const DefaultUserSettings: UserSettings = {
-    noGrant: false,
-    noProxy: false
+    noAutoGrantRequest: false,
+    noAutoEnableProxy: false
 };
 
 export class UserSettingStorage {
@@ -59,5 +59,9 @@ export class UserSettingStorage {
     async delete<S extends keyof UserSettings>(name: S) {
         await this.remove({ name: name }, {});
         this.userSettings[name] = DefaultUserSettings[name];
+    }
+
+    toggle<S extends keyof UserSettings>(name: S): Promise<UserSettings[S]> {
+        return this.store(name, !this.userSettings[name]);
     }
 }

@@ -8,11 +8,27 @@
         @close="hideSettingModalPage"
     >
         <div>
-            <el-switch
-                v-model="currentCertificateState"
-                @change="changeCertificateState"
-            ></el-switch>
-            Current lifter proxy certification is {{certificateState}}
+            <div>
+                <el-switch
+                    v-model="currentCertificateState"
+                    @change="changeCertificateState"
+                ></el-switch>
+                Current lifter proxy certification is {{certificateState}}
+            </div>
+            <div>
+                <el-switch
+                    v-model="currentNoAutoGrantRequestSetting"
+                    @change="changeNoAutoGrantRequestSetting"
+                ></el-switch>
+                Current auto grant request setting is {{!noAutoGrantRequestSetting}}
+            </div>
+            <div>
+                <el-switch
+                    v-model="currentNoAutoEnableProxySetting"
+                    @change="changeNoAutoEnableProxySetting"
+                ></el-switch>
+                Current auto enable proxy setting is {{!noAutoEnableProxySetting}}
+            </div>
         </div>
     </el-dialog>
 </template>
@@ -26,12 +42,16 @@
         data() {
             return {
                 currentCertificateState: this.$store.state.certificateState === "installed",
+                currentNoAutoGrantRequestSetting: !this.$store.state.noAutoGrantRequestSetting,
+                currentNoAutoEnableProxySetting: !this.$store.state.noAutoEnableProxySetting,
             };
         },
         computed: {
             ...mapState([
                 'viewSettingModalPageState',
                 'certificateState',
+                'noAutoGrantRequestSetting',
+                'noAutoEnableProxySetting',
             ]),
         },
         methods: {
@@ -41,6 +61,14 @@
             async changeCertificateState() {
                 await this.$store.dispatch('changeCertificateState');
                 this.$data.currentCertificateState = this.$store.state.certificateState === "installed";
+            },
+            async changeNoAutoGrantRequestSetting() {
+                await this.$store.dispatch('changeNoAutoGrantRequestSetting');
+                this.$data.currentNoAutoGrantRequestSetting = this.$store.state.noAutoGrantRequestSetting;
+            },
+            async changeNoAutoEnableProxySetting() {
+                await this.$store.dispatch('changeNoAutoEnableProxySetting');
+                this.$data.currentNoAutoEnableProxySetting = this.$store.state.noAutoEnableProxySetting;
             },
         },
     } as VueComponent;

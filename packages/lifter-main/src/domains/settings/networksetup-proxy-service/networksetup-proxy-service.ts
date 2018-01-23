@@ -26,13 +26,13 @@ export class NetworksetupProxyService {
     }
 
     async startProxy() {
-        let noGrant = this.userSettingStorage.resolve("noGrant");
-        if (!this.isGranted && !noGrant) {
+        let noAutoGrantRequest = this.userSettingStorage.resolve("noAutoGrantRequest");
+        if (!this.isGranted && !noAutoGrantRequest) {
             await this.grantProxyCommand();
         }
 
-        let noProxy = this.userSettingStorage.resolve("noProxy");
-        if (this.isGranted && !noProxy) {
+        let noAutoEnableProxy = this.userSettingStorage.resolve("noAutoEnableProxy");
+        if (this.isGranted && !noAutoEnableProxy) {
             await this.enableProxy();
         }
     }
@@ -45,9 +45,10 @@ export class NetworksetupProxyService {
         let result = await this._networksetupProxy.grant().catch(e => e);
         if (!(result instanceof Error)) {
             this._isGranted = true;
+            await this.userSettingStorage.store("noAutoGrantRequest", false);
             return true;
         }
-        await this.userSettingStorage.store("noGrant", true);
+        await this.userSettingStorage.store("noAutoGrantRequest", true);
         return false;
     }
 

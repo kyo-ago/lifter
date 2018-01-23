@@ -31,13 +31,13 @@ export class ProxySettingService {
         if (isProxing) {
             await Promise.all([
                 this.networksetupProxyService.disableProxy(),
-                this.userSettingStorage.store("noProxy", true)
+                this.userSettingStorage.store("noAutoEnableProxy", true)
             ]);
             return "Off";
         }
         await Promise.all([
             this.networksetupProxyService.enableProxy(),
-            this.userSettingStorage.store("noProxy", false)
+            this.userSettingStorage.store("noAutoEnableProxy", false)
         ]);
         return "On";
     }

@@ -92,6 +92,12 @@ export class Application {
         ipc.subscribe("setNewCertificateStatus", (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
         });
+        ipc.subscribe("changeNoAutoGrantRequestSetting", (): Promise<boolean> => {
+            return this.userSettingStorage.toggle("noAutoGrantRequest");
+        });
+        ipc.subscribe("changeNoAutoEnableProxySetting", (): Promise<boolean> => {
+            return this.userSettingStorage.toggle("noAutoEnableProxy");
+        });
         ipc.subscribe("setNewProxySettingStatus", (): Promise<ProxySettingStatus> => {
             return this.proxySettingService.getNewStatus();
         });
@@ -131,15 +137,15 @@ export class Application {
         let clientRequestEntries = this.lifecycleContextService.clientRequestRepository.resolveAll();
         let certificateState = await this.certificateService.getCurrentStatus();
         let proxySettingStatus = await this.proxySettingService.getCurrentStatus();
-        let noGrantSetting = this.userSettingStorage.resolve("noGrant");
-        let noProxySetting = this.userSettingStorage.resolve("noProxy");
+        let noAutoGrantRequestSetting = this.userSettingStorage.resolve("noAutoGrantRequest");
+        let noAutoEnableProxySetting = this.userSettingStorage.resolve("noAutoEnableProxy");
         return {
             autoResponderEntries: autoResponderEntries.map((entity): AutoResponderEntryEntityJSON => entity.json),
             clientRequestEntries: clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json),
             certificateState: certificateState,
             proxySettingStatus: proxySettingStatus,
-            noGrantSetting: noGrantSetting,
-            noProxySetting: noProxySetting,
+            noAutoGrantRequestSetting: noAutoGrantRequestSetting,
+            noAutoEnableProxySetting: noAutoEnableProxySetting,
         };
     }
 

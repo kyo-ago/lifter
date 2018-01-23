@@ -10,6 +10,8 @@ interface ElectronIpcMap {
     fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
     setNewCertificateStatus: CertificateStatus;
+    changeNoAutoGrantRequestSetting: boolean;
+    changeNoAutoEnableProxySetting: boolean;
     setNewProxySettingStatus: ProxySettingStatus;
     deleteAutoResponderEntryEntities: void;
     addClientRequestEntity: ClientRequestEntityJSON;
