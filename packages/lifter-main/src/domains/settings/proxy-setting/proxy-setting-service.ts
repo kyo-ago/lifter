@@ -10,14 +10,6 @@ export class ProxySettingService {
         private userSettingStorage: UserSettingStorage
     ) {}
 
-    async load() {
-        let isGranted = this.networksetupProxyService.isGranted;
-        let noProxy = this.userSettingStorage.resolve("noProxy");
-        if (isGranted && !noProxy) {
-            await this.networksetupProxyService.enableProxy();
-        }
-    }
-
     async getCurrentStatus(): Promise<ProxySettingStatus> {
         if (!this.networksetupProxyService.isGranted) {
             return "NoPermission";

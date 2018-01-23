@@ -23,16 +23,18 @@ export class NetworksetupProxyService {
         let path = await this.getCommandPath();
         this._networksetupProxy = new NetworksetupProxy(`${APPLICATION_NAME} sudo prompt`, path);
         this._isGranted = await this._networksetupProxy.hasGrant();
-        if (this._isGranted) {
-            return;
-        }
+    }
 
+    async startProxy() {
         let noGrant = this.userSettingStorage.resolve("noGrant");
-        if (noGrant) {
-            return;
+        if (!this.isGranted && !noGrant) {
+            await this.grantProxyCommand();
         }
 
-        return await this.grantProxyCommand();
+        let noProxy = this.userSettingStorage.resolve("noProxy");
+        if (this.isGranted && !noProxy) {
+            await this.enableProxy();
+        }
     }
 
     getNetworksetupProxy(): NetworksetupProxy | null {

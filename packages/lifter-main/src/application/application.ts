@@ -74,7 +74,6 @@ export class Application {
         await this.proxyBypassDomainService.load();
         await this.pacFileService.load();
         await this.networksetupProxyService.load();
-        await this.proxySettingService.load();
 
         ipc.subscribe("addAutoResponderEntryEntities", async (event: any, filePaths: string[]): Promise<
             AutoResponderEntryEntityJSON[]
@@ -105,7 +104,8 @@ export class Application {
         });
     }
 
-    start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
+    async start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
+        await this.networksetupProxyService.startProxy();
         this.proxyService.createServer(
             (
                 url: Url,
@@ -131,11 +131,15 @@ export class Application {
         let clientRequestEntries = this.lifecycleContextService.clientRequestRepository.resolveAll();
         let certificateState = await this.certificateService.getCurrentStatus();
         let proxySettingStatus = await this.proxySettingService.getCurrentStatus();
+        let noGrantSetting = this.userSettingStorage.resolve("noGrant");
+        let noProxySetting = this.userSettingStorage.resolve("noProxy");
         return {
             autoResponderEntries: autoResponderEntries.map((entity): AutoResponderEntryEntityJSON => entity.json),
             clientRequestEntries: clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json),
             certificateState: certificateState,
-            proxySettingStatus: proxySettingStatus
+            proxySettingStatus: proxySettingStatus,
+            noGrantSetting: noGrantSetting,
+            noProxySetting: noProxySetting,
         };
     }
 

@@ -11,6 +11,8 @@ export interface ApplicationState {
     clientRequestEntries: ClientRequestEntity[];
     certificateState: CertificateStatus;
     proxySettingStatus: ProxySettingStatus;
+    noGrantSetting: boolean;
+    noProxySetting: boolean;
 }
 
 export class Application {
@@ -23,7 +25,9 @@ export class Application {
             ),
             clientRequestEntries: json.clientRequestEntries.map((json: any) => ClientRequestFactory.fromJSON(json)),
             certificateState: json.certificateState,
-            proxySettingStatus: json.proxySettingStatus
+            proxySettingStatus: json.proxySettingStatus,
+            noGrantSetting: json.noGrantSetting,
+            noProxySetting: json.noProxySetting,
         };
     }
 

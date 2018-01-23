@@ -22,14 +22,14 @@ describe("CertificateService", () => {
     });
 
     describe("getNewStatus", () => {
-        it("installed", async () => {
-            let result = await certificateService.getNewStatus();
-            expect(result).toBe("missing");
-        });
-        it("missing", async () => {
-            (<any>findCertificate).current = "missing certificate";
+        it("missing to installed", async () => {
             let result = await certificateService.getNewStatus();
             expect(result).toBe("installed");
+        });
+        it("installed to missing", async () => {
+            (<any>findCertificate).current = "missing certificate";
+            let result = await certificateService.getNewStatus();
+            expect(result).toBe("missing");
         });
     });
 });

@@ -18,11 +18,10 @@ export class CertificateService {
         let result = await this.findCertificate();
         if (result) {
             await this.deleteCertificate();
-            return "missing";
         } else {
             await this.installCertificate();
-            return await this.getCurrentStatus();
         }
+        return await this.getCurrentStatus();
     }
 
     private async findCertificate(): Promise<boolean> {
