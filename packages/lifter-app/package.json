@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "author": "@kyo_ago",
   "build": {
     "productName": "Lifter Proxy",

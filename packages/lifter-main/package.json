@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "author": "@kyo_ago",
   "dependencies": {
     "@lifter/electron-window-manager": "^0.0.9",
