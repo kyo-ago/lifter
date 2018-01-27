@@ -67,6 +67,9 @@ export default function (application: Application) {
             changeNoAutoEnableProxySetting(state, newState: boolean) {
                 state.noAutoEnableProxySetting = newState;
             },
+            changeNoPacFileProxySetting(state, newState: boolean) {
+                state.noPacFileProxySetting = newState;
+            },
             addClientRequestEntries(state, clientRequestEntity: ClientRequestEntity) {
                 state.clientRequestEntries.push(clientRequestEntity);
             },
@@ -96,6 +99,11 @@ export default function (application: Application) {
             async changeNoAutoEnableProxySetting({ commit }) {
                 let newState = await application.changeNoAutoEnableProxySetting();
                 commit('changeNoAutoEnableProxySetting', newState);
+                return newState;
+            },
+            async changeNoPacFileProxySetting({ commit }) {
+                let newState = await application.changeNoPacFileProxySetting();
+                commit('changeNoPacFileProxySetting', newState);
                 return newState;
             },
             async addDropFiles({ commit, state }, files: File[]) {

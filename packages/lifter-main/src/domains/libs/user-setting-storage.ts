@@ -5,10 +5,12 @@ import { ProjectEntity } from "../proxy/project/project-entity";
 export interface UserSettings {
     noAutoGrantRequest: boolean;
     noAutoEnableProxy: boolean;
+    noPacFileProxy: boolean;
 }
 const DefaultUserSettings: UserSettings = {
     noAutoGrantRequest: false,
-    noAutoEnableProxy: false
+    noAutoEnableProxy: false,
+    noPacFileProxy: false
 };
 
 export class UserSettingStorage {

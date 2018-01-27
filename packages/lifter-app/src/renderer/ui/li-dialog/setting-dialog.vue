@@ -29,6 +29,13 @@
                 ></el-switch>
                 Current auto enable proxy setting is {{!noAutoEnableProxySetting}}
             </div>
+            <div>
+                <el-switch
+                    v-model="currentNoPacFileProxySetting"
+                    @change="changeNoPacFileProxySetting"
+                ></el-switch>
+                Current pac file proxy setting is {{!noPacFileProxySetting}}
+            </div>
         </div>
     </el-dialog>
 </template>
@@ -44,14 +51,18 @@
                 currentCertificateState: this.$store.state.certificateState === "installed",
                 currentNoAutoGrantRequestSetting: !this.$store.state.noAutoGrantRequestSetting,
                 currentNoAutoEnableProxySetting: !this.$store.state.noAutoEnableProxySetting,
+                currentNoPacFileProxySetting: !this.$store.state.noPacFileProxySetting,
             };
         },
         computed: {
+            ...mapState({
+                noAutoGrantRequestSetting: state => state.noAutoGrantRequestSetting,
+                noAutoEnableProxySetting: state => state.noAutoEnableProxySetting,
+                noPacFileProxySetting: state => state.noPacFileProxySetting,
+            }),
             ...mapState([
                 'viewSettingModalPageState',
                 'certificateState',
-                'noAutoGrantRequestSetting',
-                'noAutoEnableProxySetting',
             ]),
         },
         methods: {
@@ -64,11 +75,15 @@
             },
             async changeNoAutoGrantRequestSetting() {
                 await this.$store.dispatch('changeNoAutoGrantRequestSetting');
-                this.$data.currentNoAutoGrantRequestSetting = this.$store.state.noAutoGrantRequestSetting;
+                this.$data.currentNoAutoGrantRequestSetting = !this.$store.state.noAutoGrantRequestSetting;
             },
             async changeNoAutoEnableProxySetting() {
                 await this.$store.dispatch('changeNoAutoEnableProxySetting');
-                this.$data.currentNoAutoEnableProxySetting = this.$store.state.noAutoEnableProxySetting;
+                this.$data.currentNoAutoEnableProxySetting = !this.$store.state.noAutoEnableProxySetting;
+            },
+            async changeNoPacFileProxySetting() {
+                await this.$store.dispatch('changeNoPacFileProxySetting');
+                this.$data.currentNoPacFileProxySetting = !this.$store.state.noPacFileProxySetting;
             },
         },
     } as VueComponent;

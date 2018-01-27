@@ -54,7 +54,8 @@ export class Application {
         );
         this.pacFileService = new PacFileService(
             this.lifecycleContextService.autoResponderEntryRepository,
-            this.networksetupProxyService
+            this.networksetupProxyService,
+            this.userSettingStorage
         );
         this.connectionService = new ConnectionService(
             this.pacFileService,
@@ -98,6 +99,9 @@ export class Application {
         ipc.subscribe("changeNoAutoEnableProxySetting", (): Promise<boolean> => {
             return this.userSettingStorage.toggle("noAutoEnableProxy");
         });
+        ipc.subscribe("changeNoPacFileProxySetting", (): Promise<boolean> => {
+            return this.userSettingStorage.toggle("noPacFileProxy");
+        });
         ipc.subscribe("setNewProxySettingStatus", (): Promise<ProxySettingStatus> => {
             return this.proxySettingService.getNewStatus();
         });
@@ -139,6 +143,7 @@ export class Application {
         let proxySettingStatus = await this.proxySettingService.getCurrentStatus();
         let noAutoGrantRequestSetting = this.userSettingStorage.resolve("noAutoGrantRequest");
         let noAutoEnableProxySetting = this.userSettingStorage.resolve("noAutoEnableProxy");
+        let noPacFileProxySetting = this.userSettingStorage.resolve("noPacFileProxy");
         return {
             autoResponderEntries: autoResponderEntries.map((entity): AutoResponderEntryEntityJSON => entity.json),
             clientRequestEntries: clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json),
@@ -146,6 +151,7 @@ export class Application {
             proxySettingStatus: proxySettingStatus,
             noAutoGrantRequestSetting: noAutoGrantRequestSetting,
             noAutoEnableProxySetting: noAutoEnableProxySetting,
+            noPacFileProxySetting: noPacFileProxySetting,
         };
     }
 

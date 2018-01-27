@@ -7,6 +7,7 @@ export interface ElectronIpcMap {
     setNewCertificateStatus: CertificateStatus;
     changeNoAutoGrantRequestSetting: boolean;
     changeNoAutoEnableProxySetting: boolean;
+    changeNoPacFileProxySetting: boolean;
     setNewProxySettingStatus: ProxySettingStatus;
     deleteAutoResponderEntryEntities: void;
 }

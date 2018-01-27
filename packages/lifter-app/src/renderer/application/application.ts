@@ -13,6 +13,7 @@ export interface ApplicationState {
     proxySettingStatus: ProxySettingStatus;
     noAutoGrantRequestSetting: boolean;
     noAutoEnableProxySetting: boolean;
+    noPacFileProxySetting: boolean;
 }
 
 export class Application {
@@ -28,6 +29,7 @@ export class Application {
             proxySettingStatus: json.proxySettingStatus,
             noAutoGrantRequestSetting: json.noAutoGrantRequestSetting,
             noAutoEnableProxySetting: json.noAutoEnableProxySetting,
+            noPacFileProxySetting: json.noPacFileProxySetting,
         };
     }
 
@@ -61,6 +63,10 @@ export class Application {
 
     changeNoAutoEnableProxySetting(): Promise<boolean> {
         return ipc.publish("changeNoAutoEnableProxySetting");
+    }
+
+    changeNoPacFileProxySetting(): Promise<boolean> {
+        return ipc.publish("changeNoPacFileProxySetting");
     }
 
     clickProxySettingStatus(): Promise<ProxySettingStatus> {
