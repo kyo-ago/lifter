@@ -55,11 +55,15 @@
             };
         },
         computed: {
-            ...mapState({
-                noAutoGrantRequestSetting: state => state.noAutoGrantRequestSetting,
-                noAutoEnableProxySetting: state => state.noAutoEnableProxySetting,
-                noPacFileProxySetting: state => state.noPacFileProxySetting,
-            }),
+            noAutoGrantRequestSetting () {
+                return this.$store.state.noAutoGrantRequestSetting;
+            },
+            noAutoEnableProxySetting () {
+                return this.$store.state.noAutoEnableProxySetting;
+            },
+            noPacFileProxySetting () {
+                return this.$store.state.noPacFileProxySetting;
+            },
             ...mapState([
                 'viewSettingModalPageState',
                 'certificateState',
