@@ -10,14 +10,6 @@ export class ProxySettingService {
         private userSettingStorage: UserSettingStorage
     ) {}
 
-    async load() {
-        let isGranted = this.networksetupProxyService.isGranted;
-        let noProxy = this.userSettingStorage.resolve("noProxy");
-        if (isGranted && !noProxy) {
-            await this.networksetupProxyService.enableProxy();
-        }
-    }
-
     async getCurrentStatus(): Promise<ProxySettingStatus> {
         if (!this.networksetupProxyService.isGranted) {
             return "NoPermission";
@@ -39,13 +31,13 @@ export class ProxySettingService {
         if (isProxing) {
             await Promise.all([
                 this.networksetupProxyService.disableProxy(),
-                this.userSettingStorage.store("noProxy", true)
+                this.userSettingStorage.store("noAutoEnableProxy", true)
             ]);
             return "Off";
         }
         await Promise.all([
             this.networksetupProxyService.enableProxy(),
-            this.userSettingStorage.store("noProxy", false)
+            this.userSettingStorage.store("noAutoEnableProxy", false)
         ]);
         return "On";
     }

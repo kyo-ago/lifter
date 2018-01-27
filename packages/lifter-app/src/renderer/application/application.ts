@@ -11,6 +11,9 @@ export interface ApplicationState {
     clientRequestEntries: ClientRequestEntity[];
     certificateState: CertificateStatus;
     proxySettingStatus: ProxySettingStatus;
+    noAutoGrantRequestSetting: boolean;
+    noAutoEnableProxySetting: boolean;
+    noPacFileProxySetting: boolean;
 }
 
 export class Application {
@@ -23,7 +26,10 @@ export class Application {
             ),
             clientRequestEntries: json.clientRequestEntries.map((json: any) => ClientRequestFactory.fromJSON(json)),
             certificateState: json.certificateState,
-            proxySettingStatus: json.proxySettingStatus
+            proxySettingStatus: json.proxySettingStatus,
+            noAutoGrantRequestSetting: json.noAutoGrantRequestSetting,
+            noAutoEnableProxySetting: json.noAutoEnableProxySetting,
+            noPacFileProxySetting: json.noPacFileProxySetting,
         };
     }
 
@@ -49,6 +55,18 @@ export class Application {
 
     clickCertificateStatus(): Promise<CertificateStatus> {
         return ipc.publish("setNewCertificateStatus");
+    }
+
+    changeNoAutoGrantRequestSetting(): Promise<boolean> {
+        return ipc.publish("changeNoAutoGrantRequestSetting");
+    }
+
+    changeNoAutoEnableProxySetting(): Promise<boolean> {
+        return ipc.publish("changeNoAutoEnableProxySetting");
+    }
+
+    changeNoPacFileProxySetting(): Promise<boolean> {
+        return ipc.publish("changeNoPacFileProxySetting");
     }
 
     clickProxySettingStatus(): Promise<ProxySettingStatus> {

@@ -61,6 +61,15 @@ export default function (application: Application) {
             changeCertificateState(state, newState: CertificateStatus) {
                 state.certificateState = newState;
             },
+            changeNoAutoGrantRequestSetting(state, newState: boolean) {
+                state.noAutoGrantRequestSetting = newState;
+            },
+            changeNoAutoEnableProxySetting(state, newState: boolean) {
+                state.noAutoEnableProxySetting = newState;
+            },
+            changeNoPacFileProxySetting(state, newState: boolean) {
+                state.noPacFileProxySetting = newState;
+            },
             addClientRequestEntries(state, clientRequestEntity: ClientRequestEntity) {
                 state.clientRequestEntries.push(clientRequestEntity);
             },
@@ -80,6 +89,21 @@ export default function (application: Application) {
             async changeCertificateState({ commit }) {
                 let newState = await application.clickCertificateStatus();
                 commit('changeCertificateState', newState);
+                return newState;
+            },
+            async changeNoAutoGrantRequestSetting({ commit }) {
+                let newState = await application.changeNoAutoGrantRequestSetting();
+                commit('changeNoAutoGrantRequestSetting', newState);
+                return newState;
+            },
+            async changeNoAutoEnableProxySetting({ commit }) {
+                let newState = await application.changeNoAutoEnableProxySetting();
+                commit('changeNoAutoEnableProxySetting', newState);
+                return newState;
+            },
+            async changeNoPacFileProxySetting({ commit }) {
+                let newState = await application.changeNoPacFileProxySetting();
+                commit('changeNoPacFileProxySetting', newState);
                 return newState;
             },
             async addDropFiles({ commit, state }, files: File[]) {

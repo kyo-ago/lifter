@@ -23,16 +23,18 @@ export class NetworksetupProxyService {
         let path = await this.getCommandPath();
         this._networksetupProxy = new NetworksetupProxy(`${APPLICATION_NAME} sudo prompt`, path);
         this._isGranted = await this._networksetupProxy.hasGrant();
-        if (this._isGranted) {
-            return;
+    }
+
+    async startProxy() {
+        let noAutoGrantRequest = this.userSettingStorage.resolve("noAutoGrantRequest");
+        if (!this.isGranted && !noAutoGrantRequest) {
+            await this.grantProxyCommand();
         }
 
-        let noGrant = this.userSettingStorage.resolve("noGrant");
-        if (noGrant) {
-            return;
+        let noAutoEnableProxy = this.userSettingStorage.resolve("noAutoEnableProxy");
+        if (this.isGranted && !noAutoEnableProxy) {
+            await this.enableProxy();
         }
-
-        return await this.grantProxyCommand();
     }
 
     getNetworksetupProxy(): NetworksetupProxy | null {
@@ -43,9 +45,10 @@ export class NetworksetupProxyService {
         let result = await this._networksetupProxy.grant().catch(e => e);
         if (!(result instanceof Error)) {
             this._isGranted = true;
+            await this.userSettingStorage.store("noAutoGrantRequest", false);
             return true;
         }
-        await this.userSettingStorage.store("noGrant", true);
+        await this.userSettingStorage.store("noAutoGrantRequest", true);
         return false;
     }
 
