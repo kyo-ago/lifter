@@ -1,16 +1,14 @@
-import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
-import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
-import { ProxyBypassDomainRepository } from "./lifecycle/proxy-bypass-domain-repository";
-import { ProxyBypassDomainEntity } from "./proxy-bypass-domain-entity";
+import {NetworksetupProxyService} from "../networksetup-proxy-service/networksetup-proxy-service";
+import {ProxyBypassDomainRepository} from "./lifecycle/proxy-bypass-domain-repository";
+import {ProxyBypassDomainEntity} from "./proxy-bypass-domain-entity";
 
 export class ProxyBypassDomainService {
     constructor(
         private proxyBypassDomainRepository: ProxyBypassDomainRepository,
         private networksetupProxyService: NetworksetupProxyService,
-        private networkInterfaceRepository: NetworkInterfaceRepository
     ) {}
 
-    load() {
+    load(): Promise<void> {
         return this.setProxyBypassDomains();
     }
 
@@ -18,19 +16,13 @@ export class ProxyBypassDomainService {
         return this.proxyBypassDomainRepository.resolveAll();
     }
 
-    async overwriteAll(proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
+    async overwriteAll(proxyBypassDomainEntities: ProxyBypassDomainEntity[]): Promise<void> {
         await this.proxyBypassDomainRepository.overwriteAll(proxyBypassDomainEntities);
         return await this.setProxyBypassDomains();
     }
 
-    private async setProxyBypassDomains() {
-        let networksetupProxy = this.networksetupProxyService.getNetworksetupProxy();
-        if (!networksetupProxy) {
-            return;
-        }
+    private async setProxyBypassDomains(): Promise<void> {
         let proxyBypassDomainEntities = await this.proxyBypassDomainRepository.resolveAll();
-        let allInterfaces = await this.networkInterfaceRepository.resolveAllInterface();
-        let promises = allInterfaces.map(ni => ni.setProxyBypassDomains(networksetupProxy, proxyBypassDomainEntities));
-        return await Promise.all(promises);
+        return await this.networksetupProxyService.setProxyBypassDomains(proxyBypassDomainEntities);
     }
 }

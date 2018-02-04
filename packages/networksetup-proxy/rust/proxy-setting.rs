@@ -3,17 +3,26 @@ use std::process::Command;
 
 fn main() {
     use std::os::unix::process::CommandExt;
-    let mut command = Command::new("/usr/sbin/networksetup");
 
     let mut args = env::args();
     args.next();
 
     let param = args.next().unwrap();
 
-    match param.as_ref() {
-        "-setwebproxy" | "-setsecurewebproxy" | "-setwebproxystate" | "-setsecurewebproxystate" | "-setproxybypassdomains" | "-setautoproxyurl" | "-setautoproxystate" => (),
+    let mut command = match param.as_ref() {
+        "-setwebproxy"
+        | "-setsecurewebproxy"
+        | "-setwebproxystate"
+        | "-setsecurewebproxystate"
+        | "-setproxybypassdomains"
+        | "-setautoproxyurl"
+        | "-setautoproxystate"
+            => Command::new("/usr/sbin/networksetup"),
+        "add-trusted-cert"
+        | "delete-certificate"
+            => Command::new("/usr/bin/security"),
         _ => panic!("Unknown parameter: {}", param),
-    }
+    };
 
     command.arg(param);
     for arg in args {

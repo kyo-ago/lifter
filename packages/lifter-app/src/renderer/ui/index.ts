@@ -61,8 +61,8 @@ export default function (application: Application) {
             changeCertificateState(state, newState: CertificateStatus) {
                 state.certificateState = newState;
             },
-            changeNoAutoGrantRequestSetting(state, newState: boolean) {
-                state.noAutoGrantRequestSetting = newState;
+            changeNetworkProxyCommandGranted(state, newState: boolean) {
+                state.isNetworkProxyCommandGranted = newState;
             },
             changeNoAutoEnableProxySetting(state, newState: boolean) {
                 state.noAutoEnableProxySetting = newState;
@@ -91,9 +91,9 @@ export default function (application: Application) {
                 commit('changeCertificateState', newState);
                 return newState;
             },
-            async changeNoAutoGrantRequestSetting({ commit }) {
-                let newState = await application.changeNoAutoGrantRequestSetting();
-                commit('changeNoAutoGrantRequestSetting', newState);
+            async changeNetworkProxyCommandGranted({ commit }) {
+                let newState = await application.changeNetworkProxyCommandGranted();
+                commit('changeNetworkProxyCommandGranted', newState);
                 return newState;
             },
             async changeNoAutoEnableProxySetting({ commit }) {

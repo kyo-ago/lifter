@@ -12,3 +12,5 @@ export const PRODUCTION_PROXY_SETTING_COMMAND_PATH = __dirname.replace(
     `app.asar.unpacked/node_modules/@lifter/networksetup-proxy/rust/proxy-setting`
 );
 export const DEVELOP_PROXY_SETTING_COMMAND_PATH = "./node_modules/@lifter/networksetup-proxy/rust/proxy-setting";
+
+export const CERTIFICATE_NAME = `NodeMITMProxyCA`;

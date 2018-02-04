@@ -1,10 +1,15 @@
-import { APPLICATION_NAME } from "@lifter/lifter-common";
+import {APPLICATION_NAME} from "@lifter/lifter-common";
+import {NetworksetupProxy} from "@lifter/networksetup-proxy";
 import * as fs from "fs";
-import { NetworksetupProxy } from "@lifter/networksetup-proxy";
-import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../settings";
-import { UserSettingStorage } from "../../libs/user-setting-storage";
-import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
-import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
+import {
+    CERTIFICATE_NAME,
+    DEVELOP_PROXY_SETTING_COMMAND_PATH,
+    PRODUCTION_PROXY_SETTING_COMMAND_PATH
+} from "../../../settings";
+import {UserSettingStorage} from "../../libs/user-setting-storage";
+import {NetworkInterfaceRepository} from "../network-interface/lifecycle/network-interface-repository";
+import {NetworkInterfaceEntity} from "../network-interface/network-interface-entity";
+import {ProxyBypassDomainEntity} from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 
 export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
@@ -52,6 +57,14 @@ export class NetworksetupProxyService {
         return false;
     }
 
+    async addTrustedCert(certificatePath: string): Promise<void> {
+        await this._networksetupProxy.addtrustedcert(certificatePath);
+    }
+
+    async deleteCertificate(): Promise<void> {
+        await this._networksetupProxy.deletecertificate(CERTIFICATE_NAME);
+    }
+
     enableProxy() {
         return this.callAllEnableInterface((np, ni) => ni.enableProxy(np));
     }
@@ -70,6 +83,10 @@ export class NetworksetupProxyService {
 
     reloadAutoProxyUrl() {
         return this.callAllEnableInterface((np, ni) => ni.reloadAutoProxyUrl(np));
+    }
+
+    setProxyBypassDomains(proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
+        return this.callAllEnableInterface((np, ni) => ni.setProxyBypassDomains(np, proxyBypassDomainEntities));
     }
 
     private async callAllEnableInterface(

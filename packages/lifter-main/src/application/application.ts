@@ -46,7 +46,10 @@ export class Application {
             this.lifecycleContextService.networkInterfaceRepository
         );
         this.proxyService = new ProxyService(httpSslCaDirPath);
-        this.certificateService = new CertificateService(httpSslCaDirPath);
+        this.certificateService = new CertificateService(
+            httpSslCaDirPath,
+            this.networksetupProxyService,
+        );
         this.proxySettingService = new ProxySettingService(
             this.networksetupProxyService,
             this.lifecycleContextService.networkInterfaceRepository,
@@ -66,7 +69,6 @@ export class Application {
         this.proxyBypassDomainService = new ProxyBypassDomainService(
             this.lifecycleContextService.proxyBypassDomainRepository,
             this.networksetupProxyService,
-            this.lifecycleContextService.networkInterfaceRepository
         );
     }
 
@@ -93,8 +95,8 @@ export class Application {
         ipc.subscribe("setNewCertificateStatus", (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
         });
-        ipc.subscribe("changeNoAutoGrantRequestSetting", (): Promise<boolean> => {
-            return this.userSettingStorage.toggle("noAutoGrantRequest");
+        ipc.subscribe("changeNetworkProxyCommandGranted", (): Promise<boolean> => {
+            return this.networksetupProxyService.grantProxyCommand();
         });
         ipc.subscribe("changeNoAutoEnableProxySetting", (): Promise<boolean> => {
             return this.userSettingStorage.toggle("noAutoEnableProxy");
@@ -141,7 +143,7 @@ export class Application {
         let clientRequestEntries = this.lifecycleContextService.clientRequestRepository.resolveAll();
         let certificateState = await this.certificateService.getCurrentStatus();
         let proxySettingStatus = await this.proxySettingService.getCurrentStatus();
-        let noAutoGrantRequestSetting = this.userSettingStorage.resolve("noAutoGrantRequest");
+        let isNetworkProxyCommandGranted = this.networksetupProxyService.isGranted;
         let noAutoEnableProxySetting = this.userSettingStorage.resolve("noAutoEnableProxy");
         let noPacFileProxySetting = this.userSettingStorage.resolve("noPacFileProxy");
         return {
@@ -149,7 +151,7 @@ export class Application {
             clientRequestEntries: clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json),
             certificateState: certificateState,
             proxySettingStatus: proxySettingStatus,
-            noAutoGrantRequestSetting: noAutoGrantRequestSetting,
+            isNetworkProxyCommandGranted: isNetworkProxyCommandGranted,
             noAutoEnableProxySetting: noAutoEnableProxySetting,
             noPacFileProxySetting: noPacFileProxySetting,
         };

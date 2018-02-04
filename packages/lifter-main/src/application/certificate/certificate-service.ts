@@ -1,11 +1,15 @@
-import { CertificateStatus } from "@lifter/lifter-common";
-import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../libs/exec-commands";
+import {CertificateStatus} from "@lifter/lifter-common";
+import {NetworksetupProxyService} from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
+import {findCertificate, importCert} from "../../libs/exec-commands";
+import {CERTIFICATE_NAME} from "../../settings";
 
 export class CertificateService {
     private certificatePath: string;
-    private certificateName = "NodeMITMProxyCA";
 
-    constructor(sslCaDir: string) {
+    constructor(
+        sslCaDir: string,
+        private networksetupProxyService: NetworksetupProxyService,
+    ) {
         this.certificatePath = `${sslCaDir}/certs/ca.pem`;
     }
 
@@ -26,7 +30,7 @@ export class CertificateService {
 
     private async findCertificate(): Promise<boolean> {
         try {
-            let result = await findCertificate(this.certificateName);
+            let result = await findCertificate(CERTIFICATE_NAME);
             return !!result;
         } catch (e) {
             // missing Certificate
@@ -43,12 +47,12 @@ export class CertificateService {
             throw new Error(importResult);
         }
         try {
-            await addTrustedCert(this.certificatePath);
+            await this.networksetupProxyService.addTrustedCert(this.certificatePath);
             return true;
         } catch (e) {
             // user cancel
             if (e.stderr.match(/SecTrustSettingsSetTrustSettings/)) {
-                await deleteCertificate(this.certificateName);
+                await this.networksetupProxyService.deleteCertificate();
                 return false;
             }
             throw e;
@@ -57,7 +61,7 @@ export class CertificateService {
 
     private async deleteCertificate(): Promise<boolean> {
         try {
-            await deleteCertificate(this.certificateName);
+            await this.networksetupProxyService.deleteCertificate();
             return true;
         } catch (e) {
             // missing Certificate

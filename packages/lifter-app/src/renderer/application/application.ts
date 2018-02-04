@@ -11,7 +11,7 @@ export interface ApplicationState {
     clientRequestEntries: ClientRequestEntity[];
     certificateState: CertificateStatus;
     proxySettingStatus: ProxySettingStatus;
-    noAutoGrantRequestSetting: boolean;
+    isNetworkProxyCommandGranted: boolean;
     noAutoEnableProxySetting: boolean;
     noPacFileProxySetting: boolean;
 }
@@ -19,7 +19,7 @@ export interface ApplicationState {
 export class Application {
     getCurrentState(): ApplicationState {
         let json = windowManager.sharedData.fetch("mainApps");
-        windowManager.sharedData.set("mainApps", {} as any);
+        windowManager.sharedData.set("mainApps", <any>{});
         return {
             autoResponderEntries: json.autoResponderEntries.map((json: any) =>
                 AutoResponderEntryFactory.fromJSON(json)
@@ -27,7 +27,7 @@ export class Application {
             clientRequestEntries: json.clientRequestEntries.map((json: any) => ClientRequestFactory.fromJSON(json)),
             certificateState: json.certificateState,
             proxySettingStatus: json.proxySettingStatus,
-            noAutoGrantRequestSetting: json.noAutoGrantRequestSetting,
+            isNetworkProxyCommandGranted: json.isNetworkProxyCommandGranted,
             noAutoEnableProxySetting: json.noAutoEnableProxySetting,
             noPacFileProxySetting: json.noPacFileProxySetting,
         };
@@ -57,8 +57,8 @@ export class Application {
         return ipc.publish("setNewCertificateStatus");
     }
 
-    changeNoAutoGrantRequestSetting(): Promise<boolean> {
-        return ipc.publish("changeNoAutoGrantRequestSetting");
+    changeNetworkProxyCommandGranted(): Promise<boolean> {
+        return ipc.publish("changeNetworkProxyCommandGranted");
     }
 
     changeNoAutoEnableProxySetting(): Promise<boolean> {

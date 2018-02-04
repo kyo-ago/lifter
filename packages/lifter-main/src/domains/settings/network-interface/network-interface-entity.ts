@@ -34,6 +34,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT))
         ]);
     }
+
     async disableProxy(networksetupProxy: NetworksetupProxy) {
         if (!await this.isProxing()) return;
 
@@ -70,10 +71,8 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await Promise.all([
-            networksetupProxy.setautoproxystate(this.serviceName, "off"),
-            networksetupProxy.setautoproxystate(this.serviceName, "on")
-        ]);
+        await networksetupProxy.setautoproxystate(this.serviceName, "off");
+        await networksetupProxy.setautoproxystate(this.serviceName, "on");
     }
 
     async clearAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
@@ -81,10 +80,8 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await Promise.all([
-            networksetupProxy.setautoproxyurl(this.serviceName, ""),
-            networksetupProxy.setautoproxystate(this.serviceName, "off")
-        ]);
+        await networksetupProxy.setautoproxyurl(this.serviceName, "");
+        await networksetupProxy.setautoproxystate(this.serviceName, "off");
     }
 
     async isProxing() {

@@ -17,10 +17,10 @@
             </div>
             <div>
                 <el-switch
-                    v-model="currentNoAutoGrantRequestSetting"
-                    @change="changeNoAutoGrantRequestSetting"
+                    v-model="currentNetworkProxyCommandGranted"
+                    @change="changeNetworkProxyCommandGranted"
                 ></el-switch>
-                Current auto grant request setting is {{!noAutoGrantRequestSetting}}
+                Network proxy command grant is {{isNetworkProxyCommandGranted}}
             </div>
             <div>
                 <el-switch
@@ -49,17 +49,14 @@
         data() {
             return {
                 currentCertificateState: this.$store.state.certificateState === "installed",
-                currentNoAutoGrantRequestSetting: !this.$store.state.noAutoGrantRequestSetting,
+                currentNetworkProxyCommandGranted: this.$store.state.isNetworkProxyCommandGranted,
                 currentNoAutoEnableProxySetting: !this.$store.state.noAutoEnableProxySetting,
                 currentNoPacFileProxySetting: !this.$store.state.noPacFileProxySetting,
             };
         },
         computed: {
-            noAutoGrantRequestSetting () {
-                return this.$store.state.noAutoGrantRequestSetting;
-            },
-            noAutoEnableProxySetting () {
-                return this.$store.state.noAutoEnableProxySetting;
+            isNetworkProxyCommandGranted () {
+                return this.$store.state.isNetworkProxyCommandGranted;
             },
             noPacFileProxySetting () {
                 return this.$store.state.noPacFileProxySetting;
@@ -67,6 +64,7 @@
             ...mapState([
                 'viewSettingModalPageState',
                 'certificateState',
+                'noAutoEnableProxySetting',
             ]),
         },
         methods: {
@@ -77,9 +75,9 @@
                 await this.$store.dispatch('changeCertificateState');
                 this.$data.currentCertificateState = this.$store.state.certificateState === "installed";
             },
-            async changeNoAutoGrantRequestSetting() {
-                await this.$store.dispatch('changeNoAutoGrantRequestSetting');
-                this.$data.currentNoAutoGrantRequestSetting = !this.$store.state.noAutoGrantRequestSetting;
+            async changeNetworkProxyCommandGranted() {
+                await this.$store.dispatch('changeNetworkProxyCommandGranted');
+                this.$data.currentNetworkProxyCommandGranted = this.$store.state.isNetworkProxyCommandGranted;
             },
             async changeNoAutoEnableProxySetting() {
                 await this.$store.dispatch('changeNoAutoEnableProxySetting');
