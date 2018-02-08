@@ -5,8 +5,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as Mode from "stat-mode";
 import * as sudo from "sudo-prompt";
-import * as promisify from "es6-promisify";
-import * as crypto from "crypto";
+
+const promisify = require("es6-promisify");
 
 export type IOResult = {
     stdout: string;
@@ -85,14 +85,6 @@ export class NetworksetupProxy {
 
     setautoproxystate(networkservice: string, enabled: string): Promise<IOResult> {
         return this.exec(`-setautoproxystate`, [networkservice, enabled]);
-    }
-
-    addtrustedcert(certificatePath: string): Promise<IOResult> {
-        return this.exec(`add-trusted-cert`, ["-p", "ssl", certificatePath]);
-    }
-
-    deletecertificate(certificateName: string): Promise<IOResult> {
-        return this.exec(`delete-certificate`, ["-c", certificateName]);
     }
 
     private exec(command: string, params: string[]): Promise<IOResult> {
