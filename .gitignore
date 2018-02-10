@@ -87,3 +87,4 @@ packages/**/yarn.lock
 package-lock.json
 
 testRepositories/
+.http-mitm-proxy/

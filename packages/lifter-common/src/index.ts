@@ -33,5 +33,3 @@ export interface RewriteRuleEntityJSON {
     header: string;
     value: string;
 }
-
-export interface PreferencesJSON {}

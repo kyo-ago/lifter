@@ -1,5 +1,6 @@
+import "mocha";
 import * as assert from "assert";
-import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
+import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";
 import { AutoResponderEntryFactory } from "../lifecycle/auto-responder-entry-factory";
@@ -10,7 +11,7 @@ describe("FindMatchEntry.getLocalFileResponder", () => {
     let localFileResponderFactory: LocalFileResponderFactory;
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
-        let lifecycleContextService = await getLifecycleContextService();
+        let lifecycleContextService = await createLifecycleContextService();
         autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
         localFileResponderFactory = lifecycleContextService.localFileResponderFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;

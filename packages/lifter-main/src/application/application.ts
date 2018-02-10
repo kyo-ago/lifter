@@ -70,7 +70,10 @@ export class Application {
     }
 
     async load() {
-        await Promise.all([this.userSettingStorage.load(), this.lifecycleContextService.load()]);
+        await Promise.all([
+            this.userSettingStorage.load(),
+            this.lifecycleContextService.load(),
+        ]);
         await this.proxyBypassDomainService.load();
         await this.pacFileService.load();
         await this.networksetupProxyService.load();
@@ -85,25 +88,32 @@ export class Application {
             await this.lifecycleContextService.autoResponderEntryRepository.storeList(autoResponderEntryEntities);
             return autoResponderEntryEntities.map(autoResponderEntryEntity => autoResponderEntryEntity.json);
         });
+
         ipc.subscribe("fetchAutoResponderEntryEntities", async (): Promise<AutoResponderEntryEntityJSON[]> => {
             let autoResponderEntryEntities = await this.lifecycleContextService.autoResponderEntryRepository.resolveAll();
             return autoResponderEntryEntities.map(autoResponderEntryEntity => autoResponderEntryEntity.json);
         });
+
         ipc.subscribe("setNewCertificateStatus", (): Promise<CertificateStatus> => {
             return this.certificateService.getNewStatus();
         });
+
         ipc.subscribe("changeNetworkProxyCommandGranted", (): Promise<boolean> => {
             return this.networksetupProxyService.grantProxyCommand();
         });
+
         ipc.subscribe("changeNoAutoEnableProxySetting", (): Promise<boolean> => {
             return this.userSettingStorage.toggle("noAutoEnableProxy");
         });
+
         ipc.subscribe("changeNoPacFileProxySetting", (): Promise<boolean> => {
             return this.userSettingStorage.toggle("noPacFileProxy");
         });
+
         ipc.subscribe("setNewProxySettingStatus", (): Promise<ProxySettingStatus> => {
             return this.proxySettingService.getNewStatus();
         });
+
         ipc.subscribe("deleteAutoResponderEntryEntities", async (event: any, ids: number[]) => {
             await Promise.all(
                 ids
@@ -175,12 +185,5 @@ export class Application {
     saveRewriteRuleJSON(allJsons: RewriteRuleEntityJSON[]): Promise<void> {
         let entities = allJsons.map(json => RewriteRuleFactory.fromJSON(json));
         return this.lifecycleContextService.rewriteRuleRepository.overwriteAll(entities).then(() => {});
-    }
-
-    async getPreferences(): Promise<PreferencesJSON[]> {
-        return;
-    }
-    savegetPreferencesJSON(allJsons: PreferencesJSON[]): Promise<void> {
-        return;
     }
 }

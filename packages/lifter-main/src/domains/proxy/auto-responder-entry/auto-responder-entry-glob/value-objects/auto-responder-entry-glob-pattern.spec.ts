@@ -1,12 +1,13 @@
+import "mocha";
 import * as assert from "assert";
-import { getLifecycleContextService } from "../../../../../../tests/mocks/main-window/get-lifecycle-context-service";
+import { createLifecycleContextService } from "../../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderEntryGlobPattern } from "./auto-responder-entry-glob-pattern";
 
 describe("AutoResponderEntryGlobPattern", () => {
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
-        clientRequestFactory = (await getLifecycleContextService()).clientRequestFactory;
+        clientRequestFactory = (await createLifecycleContextService()).clientRequestFactory;
     });
     let testPattern = [
         {

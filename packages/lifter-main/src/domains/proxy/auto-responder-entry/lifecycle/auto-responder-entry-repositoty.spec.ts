@@ -1,5 +1,6 @@
+import "mocha";
 import * as assert from "assert";
-import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
+import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { AutoResponderEntryFactory } from "./auto-responder-entry-factory";
 import { AutoResponderEntryRepository } from "./auto-responder-entry-repositoty";
@@ -10,7 +11,7 @@ describe("AutoResponderEntryRepository", () => {
     let clientRequestFactory: ClientRequestFactory;
 
     beforeEach(async () => {
-        let lifecycleContextService = await getLifecycleContextService();
+        let lifecycleContextService = await createLifecycleContextService();
         autoResponderEntryRepository = lifecycleContextService.autoResponderEntryRepository;
         autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;

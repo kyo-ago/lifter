@@ -1,3 +1,4 @@
+import "mocha";
 import * as assert from "assert";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../../settings";
 import { CommandResult, ParseGetwebproxyCommand } from "./parse-getwebproxy-command";

@@ -1,6 +1,7 @@
+import "mocha";
 import * as assert from "assert";
 import { AutoResponderEntryType } from "@lifter/lifter-common";
-import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
+import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
 import { AutoResponderEntryFileEntity } from "../auto-responder-entry-file/auto-responder-entry-file-entity";
 import { AutoResponderEntryGlobEntity } from "../auto-responder-entry-glob/auto-responder-entry-glob-entity";
@@ -10,7 +11,7 @@ describe("AutoResponderEntryFactory", () => {
     let autoResponderEntryFactory: AutoResponderEntryFactory;
 
     beforeEach(async () => {
-        let lifecycleContextService = await getLifecycleContextService();
+        let lifecycleContextService = await createLifecycleContextService();
         autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
     });
 
