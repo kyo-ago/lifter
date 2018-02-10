@@ -85,3 +85,5 @@ packages/*/build/
 packages/*/dist/
 packages/**/yarn.lock
 package-lock.json
+
+testRepositories/
