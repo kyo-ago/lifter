@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { ParseNetworkDevices } from "./parse-network-devices";
 
 describe("ParseNetworkDevices", () => {
@@ -14,7 +15,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            <any>{
+            <Ifconfig>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000"
                 },
@@ -25,7 +26,7 @@ describe("ParseNetworkDevices", () => {
                 }
             }
         );
-        expect(results).toEqual([
+        assert.deepEqual(results, [
             {
                 name: "en0",
                 serviceName: "Wi Fi",
@@ -47,7 +48,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            <any>{
+            <Ifconfig>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000"
                 },
@@ -63,7 +64,7 @@ describe("ParseNetworkDevices", () => {
                 }
             }
         );
-        expect(results).toEqual([
+        assert.deepEqual(results, [
             {
                 name: "en0",
                 serviceName: "Wi-Fi",
@@ -90,7 +91,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            <any>{
+            <Ifconfig>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000"
                 },
@@ -101,7 +102,7 @@ describe("ParseNetworkDevices", () => {
                 }
             }
         );
-        expect(results).toEqual([
+        assert.deepEqual(results, [
             {
                 name: "en0",
                 serviceName: "Wi-Fi",

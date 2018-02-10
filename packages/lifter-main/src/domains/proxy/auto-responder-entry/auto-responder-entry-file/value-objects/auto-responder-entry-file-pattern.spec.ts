@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { getLifecycleContextService } from "../../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderEntryFilePattern } from "./auto-responder-entry-file-pattern";
@@ -40,7 +41,7 @@ describe("AutoResponderEntryFilePattern", () => {
                 let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern(pattern.pattern);
                 let result = autoResponderEntryFilePattern.getMatchCodeString("match");
                 let code = `((url) => {${result}})("${pattern.path}")`;
-                expect(eval(code)).toBe(pattern.result ? "match" : undefined);
+                assert(eval(code) === (pattern.result ? "match" : undefined));
             });
         });
         it("not file url", () => {
@@ -48,7 +49,7 @@ describe("AutoResponderEntryFilePattern", () => {
             let result = autoResponderEntryFilePattern.getMatchCodeString("match");
             let code = `((url) => {${result}})("/huga/hoge.txt/foo/bar")`;
             // this is a pre filter
-            expect(eval(code)).toBe("match");
+            assert(eval(code) === "match");
         });
     });
 
@@ -57,13 +58,13 @@ describe("AutoResponderEntryFilePattern", () => {
             it(pattern.name, () => {
                 let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern(pattern.pattern);
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
-                expect(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity)).toBe(pattern.result);
+                assert(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity) === pattern.result);
             });
         });
         it("not file url", () => {
             let autoResponderEntryFilePattern = new AutoResponderEntryFilePattern("hoge.txt");
             let clientRequestEntity = clientRequestFactory.createFromString("/huga/hoge.txt/foo/bar");
-            expect(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity)).toBe(false);
+            assert(autoResponderEntryFilePattern.isMatchPath(clientRequestEntity) === false);
         });
     });
 });

@@ -20,36 +20,19 @@
   },
   "devDependencies": {
     "@types/execa": "^0.8.0",
-    "@types/jest": "^21.1.8",
     "@types/micromatch": "^2.3.29",
     "@types/mime": "2.0.0",
+    "@types/mocha": "^2.2.48",
     "@types/nedb": "^1.8.5",
     "@types/node": "^8.0.57",
     "dependency-cruiser": "^2.9.0",
-    "jest": "^21.2.1",
-    "testdouble": "^3.2.6",
-    "ts-jest": "^21.2.4",
+    "mocha": "^5.0.0",
+    "sinon": "^4.2.2",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "testRegex": "\\/src\\/.+\\.spec\\.(ts|js)$",
-    "testEnvironment": "node",
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json"
-    ]
+  "directories": {
+    "test": "src/"
   },
   "license": "GPL-3.0",
   "main": "./build/index.js",
@@ -59,7 +42,7 @@
     "clean-install": "rm -fr node_modules build && yarn install",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "fix": "fixpack",
-    "test": "NODE_ENV='test' && jest"
+    "test": "mocha --compilers ts-node/register src/**/*.spec.ts"
   },
   "types": "./build/index.d.ts"
 }

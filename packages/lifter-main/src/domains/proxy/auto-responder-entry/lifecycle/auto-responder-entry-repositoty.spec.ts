@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { AutoResponderEntryFactory } from "./auto-responder-entry-factory";
@@ -19,13 +20,13 @@ describe("AutoResponderEntryRepository", () => {
         it("result is null", async () => {
             let clientRequestEntity = clientRequestFactory.createFromString("");
             let result = await autoResponderEntryRepository.findMatchEntry(clientRequestEntity);
-            expect(result).toBeNull();
+            assert(!result);
         });
         it("result is not null", async () => {
             await autoResponderEntryRepository.store(autoResponderEntryFactory.create("File", "a", __filename));
             let clientRequestEntity = clientRequestFactory.createFromString("/a");
             let result = await autoResponderEntryRepository.findMatchEntry(clientRequestEntity);
-            expect(result).not.toBeNull();
+            assert(result);
         });
         it("choose from entities", async () => {
             let entities = Array.from(Array(10)).map((_, index) =>
@@ -34,7 +35,7 @@ describe("AutoResponderEntryRepository", () => {
             await autoResponderEntryRepository.storeList(entities);
             let clientRequestEntity = clientRequestFactory.createFromString("/2");
             let result = await autoResponderEntryRepository.findMatchEntry(clientRequestEntity);
-            expect(result).not.toBeNull();
+            assert(result);
         });
     });
 });

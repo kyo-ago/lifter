@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { AutoResponderEntryType } from "@lifter/lifter-common";
 import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
@@ -34,7 +35,7 @@ describe("AutoResponderEntryFactory", () => {
                     "auto-responder-entry-factory.spec.ts",
                     "./auto-responder-entry-factory.spec.ts"
                 );
-                expect(autoResponderEntryFileEntity).toBeInstanceOf(param.instance);
+                assert(autoResponderEntryFileEntity instanceof param.instance);
             });
         });
     });

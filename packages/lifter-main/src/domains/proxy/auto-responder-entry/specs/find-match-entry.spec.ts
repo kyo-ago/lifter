@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";
@@ -25,7 +26,7 @@ describe("FindMatchEntry.getLocalFileResponder", () => {
             Promise.resolve(null),
             abstractAutoResponderEntryEntity
         );
-        expect(localFileResponderEntity).not.toBeNull();
+        assert(localFileResponderEntity);
     });
 
     it("failed", async () => {
@@ -38,6 +39,6 @@ describe("FindMatchEntry.getLocalFileResponder", () => {
             Promise.resolve(null),
             abstractAutoResponderEntryEntity
         );
-        expect(localFileResponderEntity).toBeNull();
+        assert(!localFileResponderEntity);
     });
 });

@@ -46,10 +46,7 @@ export class Application {
             this.lifecycleContextService.networkInterfaceRepository
         );
         this.proxyService = new ProxyService(httpSslCaDirPath);
-        this.certificateService = new CertificateService(
-            httpSslCaDirPath,
-            this.networksetupProxyService,
-        );
+        this.certificateService = new CertificateService(httpSslCaDirPath);
         this.proxySettingService = new ProxySettingService(
             this.networksetupProxyService,
             this.lifecycleContextService.networkInterfaceRepository,

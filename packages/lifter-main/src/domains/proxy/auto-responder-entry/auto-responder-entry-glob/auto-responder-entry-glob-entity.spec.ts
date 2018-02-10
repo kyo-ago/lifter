@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import * as Path from "path";
 import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
@@ -20,7 +21,7 @@ describe("AutoResponderEntryGlobEntity.getMatchResponder", () => {
         let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity("/*", __filename);
         let clientRequestEntity = clientRequestFactory.createFromString("/hoge");
         let result = await autoResponderEntryGlobEntity.getMatchResponder(clientRequestEntity);
-        expect(result.path).toBe(__filename);
+        assert(result.path === __filename);
     });
 
     it("directory path", async () => {
@@ -28,6 +29,6 @@ describe("AutoResponderEntryGlobEntity.getMatchResponder", () => {
         let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity("/*", __dirname);
         let clientRequestEntity = clientRequestFactory.createFromString(`/${filename}`);
         let result = await autoResponderEntryGlobEntity.getMatchResponder(clientRequestEntity);
-        expect(result.path).toBe(__filename);
+        assert(result.path === __filename);
     });
 });

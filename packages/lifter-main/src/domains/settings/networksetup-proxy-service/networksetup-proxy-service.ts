@@ -1,11 +1,7 @@
 import {APPLICATION_NAME} from "@lifter/lifter-common";
 import {NetworksetupProxy} from "@lifter/networksetup-proxy";
 import * as fs from "fs";
-import {
-    CERTIFICATE_NAME,
-    DEVELOP_PROXY_SETTING_COMMAND_PATH,
-    PRODUCTION_PROXY_SETTING_COMMAND_PATH
-} from "../../../settings";
+import {DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH} from "../../../settings";
 import {UserSettingStorage} from "../../libs/user-setting-storage";
 import {NetworkInterfaceRepository} from "../network-interface/lifecycle/network-interface-repository";
 import {NetworkInterfaceEntity} from "../network-interface/network-interface-entity";
@@ -55,14 +51,6 @@ export class NetworksetupProxyService {
         }
         await this.userSettingStorage.store("noAutoGrantRequest", true);
         return false;
-    }
-
-    async addTrustedCert(certificatePath: string): Promise<void> {
-        await this._networksetupProxy.addtrustedcert(certificatePath);
-    }
-
-    async deleteCertificate(): Promise<void> {
-        await this._networksetupProxy.deletecertificate(CERTIFICATE_NAME);
     }
 
     enableProxy() {

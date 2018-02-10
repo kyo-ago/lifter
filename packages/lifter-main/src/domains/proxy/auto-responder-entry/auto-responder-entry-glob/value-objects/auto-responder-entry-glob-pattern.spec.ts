@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { getLifecycleContextService } from "../../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderEntryGlobPattern } from "./auto-responder-entry-glob-pattern";
@@ -52,7 +53,7 @@ describe("AutoResponderEntryGlobPattern", () => {
                 let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern(pattern.pattern);
                 let result = autoResponderEntryGlobPattern.getMatchCodeString("match");
                 let code = `((url) => {${result}})("${pattern.path}")`;
-                expect(eval(code)).toBe(pattern.result ? "match" : undefined);
+                assert(eval(code) === (pattern.result ? "match" : undefined));
             });
         });
     });
@@ -63,7 +64,7 @@ describe("AutoResponderEntryGlobPattern", () => {
                 let autoResponderEntryGlobPattern = new AutoResponderEntryGlobPattern(pattern.pattern);
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
                 let result = autoResponderEntryGlobPattern.isMatchPath(clientRequestEntity);
-                expect(result).toBe(pattern.result);
+                assert(result === pattern.result);
             });
         });
     });

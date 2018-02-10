@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import * as Path from "path";
 import { getLifecycleContextService } from "../../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
@@ -43,7 +44,7 @@ describe("AutoResponderEntryAnyPath", () => {
                 let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(pattern.path);
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.request);
                 let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
-                expect(result.value).toBe(pattern.result);
+                assert(result.value === pattern.result);
             });
         });
 
@@ -51,7 +52,7 @@ describe("AutoResponderEntryAnyPath", () => {
             let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__dirname);
             let clientRequestEntity = clientRequestFactory.createFromString(`/hoge/${filename}`);
             let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
-            expect(result).toBe(null);
+            assert(result === null);
         });
     });
 });

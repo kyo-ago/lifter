@@ -1,15 +1,11 @@
 import {CertificateStatus} from "@lifter/lifter-common";
-import {NetworksetupProxyService} from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
-import {findCertificate, importCert} from "../../libs/exec-commands";
+import {addTrustedCert, deleteCertificate, findCertificate, importCert} from "../../libs/exec-commands";
 import {CERTIFICATE_NAME} from "../../settings";
 
 export class CertificateService {
     private certificatePath: string;
 
-    constructor(
-        sslCaDir: string,
-        private networksetupProxyService: NetworksetupProxyService,
-    ) {
+    constructor(sslCaDir: string) {
         this.certificatePath = `${sslCaDir}/certs/ca.pem`;
     }
 
@@ -47,12 +43,12 @@ export class CertificateService {
             throw new Error(importResult);
         }
         try {
-            await this.networksetupProxyService.addTrustedCert(this.certificatePath);
+            await addTrustedCert(this.certificatePath);
             return true;
         } catch (e) {
             // user cancel
             if (e.stderr.match(/SecTrustSettingsSetTrustSettings/)) {
-                await this.networksetupProxyService.deleteCertificate();
+                await deleteCertificate(CERTIFICATE_NAME);
                 return false;
             }
             throw e;
@@ -61,7 +57,7 @@ export class CertificateService {
 
     private async deleteCertificate(): Promise<boolean> {
         try {
-            await this.networksetupProxyService.deleteCertificate();
+            await deleteCertificate(CERTIFICATE_NAME);
             return true;
         } catch (e) {
             // missing Certificate

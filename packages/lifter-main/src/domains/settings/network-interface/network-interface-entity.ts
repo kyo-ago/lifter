@@ -1,5 +1,5 @@
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
-import { LOCAL_PAC_FILE_URL, NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
+import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
 import {BaseEntity} from "../../base/base-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
@@ -63,7 +63,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await networksetupProxy.setautoproxyurl(this.serviceName, LOCAL_PAC_FILE_URL);
+        await networksetupProxy.setautoproxyurl(this.serviceName, String(PROXY_PORT));
     }
 
     async reloadAutoProxyUrl(networksetupProxy: NetworksetupProxy) {

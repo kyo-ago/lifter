@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { getLifecycleContextService } from "../../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderEntryDirectoryPattern } from "./auto-responder-entry-directory-pattern";
@@ -44,7 +45,7 @@ describe("AutoResponderEntryDirectoryPattern", () => {
                 );
                 let result = autoResponderEntryDirectoryPattern.getMatchCodeString("match");
                 let code = `((url) => {${result}})("${pattern.path}")`;
-                expect(eval(code)).toBe(pattern.result ? "match" : undefined);
+                assert(eval(code) === (pattern.result ? "match" : undefined));
             });
         });
     });
@@ -56,7 +57,7 @@ describe("AutoResponderEntryDirectoryPattern", () => {
                     pattern.pattern
                 );
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
-                expect(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity)).toBe(pattern.result);
+                assert(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity) === pattern.result);
             });
         });
     });

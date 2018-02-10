@@ -8,6 +8,9 @@ export class AutoResponderEntryFilePattern extends AutoResponderEntryPattern {
     }
 
     isMatchPath(clientRequestEntity: ClientRequestEntity): boolean {
+        // missing pathname
+        if (!clientRequestEntity.pathname) return false;
+
         let splitted = clientRequestEntity.pathname.split(this.value);
 
         // unmatch

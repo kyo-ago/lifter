@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import * as Path from "path";
 import { getLifecycleContextService } from "../../../../../tests/mocks/main-window/get-lifecycle-context-service";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
@@ -19,19 +20,19 @@ describe("AutoResponderEntryFileEntity", () => {
             let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("File", filename, __filename);
             let clientRequestEntity = clientRequestFactory.createFromString(`/hgoe/${filename}`);
             let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
-            expect(result.path).toBe(__filename);
+            assert(result.path === __filename);
         });
         it("match url", async () => {
             let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("File", "a", __filename);
             let clientRequestEntity = clientRequestFactory.createFromString(`/a`);
             let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
-            expect(result.path).toBe(__filename);
+            assert(result.path === __filename);
         });
         it("unmatch", async () => {
             let autoResponderEntryDirectoryEntity = autoResponderEntryFactory.create("File", "aaaa", __filename);
             let clientRequestEntity = clientRequestFactory.createFromString(`/a`);
             let result = await autoResponderEntryDirectoryEntity.getMatchResponder(clientRequestEntity);
-            expect(result).toBeNull();
+            assert(!result);
         });
     });
 });

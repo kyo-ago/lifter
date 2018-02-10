@@ -1,3 +1,4 @@
+import * as assert from "assert";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../../settings";
 import { CommandResult, ParseGetwebproxyCommand } from "./parse-getwebproxy-command";
 
@@ -37,7 +38,7 @@ Authenticated Proxy Enabled: 0
                 },
                 command.param
             );
-            expect(testCommand(<any>param)).toBe(command.result);
+            assert(testCommand(<CommandResult>param) === command.result);
         });
     });
 });
