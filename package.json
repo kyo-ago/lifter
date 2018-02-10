@@ -9,10 +9,7 @@
   "devDependencies": {
     "fixpack": "^2.3.1",
     "lerna": "^2.5.1",
-    "lint-staged": "^4.3.0",
-    "mocha": "^4.0.1",
     "prettier": "^1.8.1",
-    "ts-node": "^3.3.0",
     "typescript": "^2.6.2"
   },
   "files": [
@@ -49,7 +46,6 @@
     "compile": "yarn run build && lerna run compile --scope @lifter/lifter-app",
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
-    "precommit": "lint-staged",
     "prepublish": "yarn run bootstrap",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
     "publish": "lerna publish && yarn run publish:app",
