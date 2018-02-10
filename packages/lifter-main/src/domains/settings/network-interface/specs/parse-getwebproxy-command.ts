@@ -18,7 +18,7 @@ export function ParseGetwebproxyCommand(stdout: string): boolean {
                 (<any>base)[key.trim()] = val.trim();
                 return base;
             },
-            <Partial<CommandResult>>{}
+            <Partial<CommandResult>>{},
         );
 
     if (result.Enabled !== "Yes") {

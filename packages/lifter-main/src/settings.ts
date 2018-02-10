@@ -9,7 +9,7 @@ export const LOCAL_PAC_FILE_URL = `http://${PROXY_SERVER_NAME}/proxy.pac`;
 
 export const PRODUCTION_PROXY_SETTING_COMMAND_PATH = __dirname.replace(
     /app\.asar\/.+/,
-    `app.asar.unpacked/node_modules/@lifter/networksetup-proxy/rust/proxy-setting`
+    `app.asar.unpacked/node_modules/@lifter/networksetup-proxy/rust/proxy-setting`,
 );
 export const DEVELOP_PROXY_SETTING_COMMAND_PATH = "./node_modules/@lifter/networksetup-proxy/rust/proxy-setting";
 

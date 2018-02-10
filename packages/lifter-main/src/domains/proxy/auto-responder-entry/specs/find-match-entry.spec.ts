@@ -20,11 +20,11 @@ describe("FindMatchEntry.getLocalFileResponder", () => {
         let abstractAutoResponderEntryEntity = await autoResponderEntryFactory.create("File", "/hoge", __filename);
         let findMatchEntry = new FindMatchEntry(
             localFileResponderFactory,
-            clientRequestFactory.createFromString("/hoge")
+            clientRequestFactory.createFromString("/hoge"),
         );
         let localFileResponderEntity = await findMatchEntry.getLocalFileResponder(
             Promise.resolve(null),
-            abstractAutoResponderEntryEntity
+            abstractAutoResponderEntryEntity,
         );
         assert(localFileResponderEntity);
     });
@@ -33,11 +33,11 @@ describe("FindMatchEntry.getLocalFileResponder", () => {
         let abstractAutoResponderEntryEntity = await autoResponderEntryFactory.create("File", "/hoge", __filename);
         let findMatchEntry = new FindMatchEntry(
             localFileResponderFactory,
-            clientRequestFactory.createFromString("/huga")
+            clientRequestFactory.createFromString("/huga"),
         );
         let localFileResponderEntity = await findMatchEntry.getLocalFileResponder(
             Promise.resolve(null),
-            abstractAutoResponderEntryEntity
+            abstractAutoResponderEntryEntity,
         );
         assert(!localFileResponderEntity);
     });

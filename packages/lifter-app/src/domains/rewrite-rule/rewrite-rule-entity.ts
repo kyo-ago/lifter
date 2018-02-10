@@ -1,5 +1,5 @@
 import { RewriteRuleActionType, RewriteRuleEntityJSON } from "@lifter/lifter-common";
-import {BaseEntity} from "../base/base-entity";
+import { BaseEntity } from "../base/base-entity";
 import { RewriteRuleIdentity } from "./rewrite-rule-identity";
 import { RewriteRuleAction } from "./value-objects/rewrite-rule-action";
 import { RewriteRuleHeader } from "./value-objects/rewrite-rule-header";
@@ -14,7 +14,7 @@ export class RewriteRuleEntity extends BaseEntity<RewriteRuleIdentity> {
         private _url: RewriteRuleUrlPattern,
         private _action: RewriteRuleAction,
         private _header: RewriteRuleHeader,
-        private _value: RewriteRuleValue
+        private _value: RewriteRuleValue,
     ) {
         super(identity);
     }
@@ -41,7 +41,7 @@ export class RewriteRuleEntity extends BaseEntity<RewriteRuleIdentity> {
             url: this.url,
             action: this.action,
             header: this.header,
-            value: this.value
+            value: this.value,
         };
     }
 

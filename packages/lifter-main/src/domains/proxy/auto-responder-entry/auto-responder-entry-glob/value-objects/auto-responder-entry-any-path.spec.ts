@@ -19,26 +19,26 @@ describe("AutoResponderEntryAnyPath", () => {
                 name: "match file",
                 path: __filename,
                 request: `/${dirname}/${filename}`,
-                result: __filename
+                result: __filename,
             },
             {
                 name: "match unknown file",
                 path: __filename,
                 request: `/${dirname}/hoge.txt`,
-                result: __filename
+                result: __filename,
             },
             {
                 name: "match directory",
                 path: __dirname,
                 request: `/${dirname}/${filename}`,
-                result: __filename
+                result: __filename,
             },
             {
                 name: "match root directory",
                 path: __dirname,
                 request: `/${filename}`,
-                result: __filename
-            }
+                result: __filename,
+            },
         ].forEach(pattern => {
             it(pattern.name, async () => {
                 let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(pattern.path);

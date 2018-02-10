@@ -1,6 +1,6 @@
 import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@lifter/lifter-common";
 import * as mime from "mime";
-import {BaseEntity} from "../../base/base-entity";
+import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponderParam } from "../local-file-responder/lifecycle/local-file-responder-factory";
 import { ProjectIdentity } from "../project/project-identity";
@@ -23,7 +23,7 @@ export abstract class AutoResponderEntryEntity<
         public type: AutoResponderEntryType,
         public pattern: Pattern,
         public path: Path,
-        public projectIdentity: ProjectIdentity
+        public projectIdentity: ProjectIdentity,
     ) {
         super(identity);
     }
@@ -36,12 +36,12 @@ export abstract class AutoResponderEntryEntity<
             type: this.type,
             pattern: this.pattern.value,
             path: this.path.value,
-            projectId: this.projectIdentity.getValue()
+            projectId: this.projectIdentity.getValue(),
         };
     }
 
     protected async filePathToLocalFileResponderParam(
-        filePath: AutoResponderEntryFilePath
+        filePath: AutoResponderEntryFilePath,
     ): Promise<LocalFileResponderParam | null> {
         let stats;
         try {
@@ -53,7 +53,7 @@ export abstract class AutoResponderEntryEntity<
         return {
             path: filePath.value,
             type: mime.getType(filePath.value),
-            size: stats.size
+            size: stats.size,
         };
     }
 }

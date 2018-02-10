@@ -15,7 +15,7 @@ describe("AutoResponderEntryDirectoryEntity", () => {
         autoResponderEntryDirectoryEntity = <AutoResponderEntryDirectoryEntity>autoResponderEntryFactory.create(
             "Directory",
             Path.basename(__dirname),
-            __dirname
+            __dirname,
         );
     });
 

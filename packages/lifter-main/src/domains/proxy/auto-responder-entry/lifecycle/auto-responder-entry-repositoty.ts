@@ -24,7 +24,7 @@ export class AutoResponderEntryRepository extends AsyncOnNedbRepository<
             },
             toJSON: (entity: AbstractAutoResponderEntryEntity): any => {
                 return entity.json;
-            }
+            },
         });
     }
 

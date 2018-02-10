@@ -18,22 +18,22 @@ describe("AutoResponderEntryFactory", () => {
         [
             {
                 type: "File",
-                instance: AutoResponderEntryFileEntity
+                instance: AutoResponderEntryFileEntity,
             },
             {
                 type: "Directory",
-                instance: AutoResponderEntryDirectoryEntity
+                instance: AutoResponderEntryDirectoryEntity,
             },
             {
                 type: "Glob",
-                instance: AutoResponderEntryGlobEntity
-            }
+                instance: AutoResponderEntryGlobEntity,
+            },
         ].forEach((param: { type: AutoResponderEntryType; instance: any }) => {
             it(param.type, () => {
                 let autoResponderEntryFileEntity = autoResponderEntryFactory.create(
                     param.type,
                     "auto-responder-entry-factory.spec.ts",
-                    "./auto-responder-entry-factory.spec.ts"
+                    "./auto-responder-entry-factory.spec.ts",
                 );
                 assert(autoResponderEntryFileEntity instanceof param.instance);
             });

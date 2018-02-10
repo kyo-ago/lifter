@@ -5,7 +5,7 @@ import { AutoResponderEntryPath } from "../../value-objects/auto-responder-entry
 
 export class AutoResponderEntryAnyPath extends AutoResponderEntryPath {
     async getAutoResponderEntryFilePath(
-        clientRequestEntity: ClientRequestEntity
+        clientRequestEntity: ClientRequestEntity,
     ): Promise<AutoResponderEntryFilePath | null> {
         let stat = await this.getState();
         if (stat.isFile()) {

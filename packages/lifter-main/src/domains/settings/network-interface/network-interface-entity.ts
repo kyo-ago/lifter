@@ -1,7 +1,7 @@
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
-import {BaseEntity} from "../../base/base-entity";
+import { BaseEntity } from "../../base/base-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";
 import { ParseGetwebproxyCommand } from "./specs/parse-getwebproxy-command";
@@ -13,7 +13,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
         identity: NetworkInterfaceIdentity,
         private _name: NetworkInterfaceName,
         private _serviceName: NetworkInterfaceServiceName,
-        public enabled: boolean
+        public enabled: boolean,
     ) {
         super(identity);
     }
@@ -31,7 +31,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
 
         await Promise.all([
             networksetupProxy.setwebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT))
+            networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
         ]);
     }
 
@@ -40,13 +40,13 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
 
         await Promise.all([
             networksetupProxy.setwebproxystate(this.serviceName, "off"),
-            networksetupProxy.setsecurewebproxystate(this.serviceName, "off")
+            networksetupProxy.setsecurewebproxystate(this.serviceName, "off"),
         ]);
     }
 
     async setProxyBypassDomains(
         networksetupProxy: NetworksetupProxy,
-        proxyBypassDomainEntities: ProxyBypassDomainEntity[]
+        proxyBypassDomainEntities: ProxyBypassDomainEntity[],
     ) {
         if (!await this.isProxing()) return;
 

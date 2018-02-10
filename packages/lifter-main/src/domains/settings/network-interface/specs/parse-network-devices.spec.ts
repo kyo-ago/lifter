@@ -17,21 +17,21 @@ describe("ParseNetworkDevices", () => {
 `,
             <Ifconfig>{
                 lo0: {
-                    inet: "127.0.0.1 netmask 0xff000000"
+                    inet: "127.0.0.1 netmask 0xff000000",
                 },
                 en0: {
                     ether: "ff:ff:ff:ff:ff:ff",
                     inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
-                    status: "active"
-                }
-            }
+                    status: "active",
+                },
+            },
         );
         assert.deepEqual(results, [
             {
                 name: "en0",
                 serviceName: "Wi Fi",
-                enable: true
-            }
+                enable: true,
+            },
         ]);
     });
 
@@ -50,31 +50,31 @@ describe("ParseNetworkDevices", () => {
 `,
             <Ifconfig>{
                 lo0: {
-                    inet: "127.0.0.1 netmask 0xff000000"
+                    inet: "127.0.0.1 netmask 0xff000000",
                 },
                 en0: {
                     ether: "ff:ff:ff:ff:ff:ff",
                     inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
-                    status: "active"
+                    status: "active",
                 },
                 en1: {
                     ether: "ff:ff:ff:ff:ff:ff",
                     inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
-                    status: "active"
-                }
-            }
+                    status: "active",
+                },
+            },
         );
         assert.deepEqual(results, [
             {
                 name: "en0",
                 serviceName: "Wi-Fi",
-                enable: true
+                enable: true,
             },
             {
                 name: "en1",
                 serviceName: "Bluetooth PAN",
-                enable: true
-            }
+                enable: true,
+            },
         ]);
     });
 
@@ -93,21 +93,21 @@ describe("ParseNetworkDevices", () => {
 `,
             <Ifconfig>{
                 lo0: {
-                    inet: "127.0.0.1 netmask 0xff000000"
+                    inet: "127.0.0.1 netmask 0xff000000",
                 },
                 en0: {
                     ether: "ff:ff:ff:ff:ff:ff",
                     inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
-                    status: "inactive"
-                }
-            }
+                    status: "inactive",
+                },
+            },
         );
         assert.deepEqual(results, [
             {
                 name: "en0",
                 serviceName: "Wi-Fi",
-                enable: false
-            }
+                enable: false,
+            },
         ]);
     });
 });

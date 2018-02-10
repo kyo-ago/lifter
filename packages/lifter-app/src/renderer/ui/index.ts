@@ -1,15 +1,15 @@
-import {ProxySettingStatus, CertificateStatus} from "@lifter/lifter-common";
-import Vue, { ComponentOptions } from 'vue';
-import Vuex from 'vuex';
-import {ClientRequestEntity} from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
-import {AbstractAutoResponderEntryEntity} from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import {Application, ApplicationState} from '../application/application';
-import App from './app.vue';
+import { ProxySettingStatus, CertificateStatus } from "@lifter/lifter-common";
+import Vue, { ComponentOptions } from "vue";
+import Vuex from "vuex";
+import { ClientRequestEntity } from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
+import { AbstractAutoResponderEntryEntity } from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
+import { Application, ApplicationState } from "../application/application";
+import App from "./app.vue";
 
-export interface VueComponent extends ComponentOptions<Vue>{
+export interface VueComponent extends ComponentOptions<Vue> {
     data?: object | ((this: any) => object);
-    computed?:{ [key: string]: (this: any, ...args: any[]) => any };
-    methods?:{ [key: string]: (this: any, ...args: any[]) => any };
+    computed?: { [key: string]: (this: any, ...args: any[]) => any };
+    methods?: { [key: string]: (this: any, ...args: any[]) => any };
     created?(this: any): void;
     beforeDestroy?(this: any): void;
     destroyed?(this: any): void;
@@ -28,7 +28,7 @@ interface UIState extends ApplicationState {
     isAutoResponderFileDropPage: boolean;
 }
 
-export default function (application: Application) {
+export default function(application: Application) {
     const store = new Vuex.Store<UIState>({
         state: {
             selectedTabIndex: 0,
@@ -83,27 +83,27 @@ export default function (application: Application) {
         actions: {
             async changeProxySettingStatus({ commit }) {
                 let newState = await application.clickProxySettingStatus();
-                commit('changeProxySettingStatus', newState);
+                commit("changeProxySettingStatus", newState);
                 return newState;
             },
             async changeCertificateState({ commit }) {
                 let newState = await application.clickCertificateStatus();
-                commit('changeCertificateState', newState);
+                commit("changeCertificateState", newState);
                 return newState;
             },
             async changeNetworkProxyCommandGranted({ commit }) {
                 let newState = await application.changeNetworkProxyCommandGranted();
-                commit('changeNetworkProxyCommandGranted', newState);
+                commit("changeNetworkProxyCommandGranted", newState);
                 return newState;
             },
             async changeNoAutoEnableProxySetting({ commit }) {
                 let newState = await application.changeNoAutoEnableProxySetting();
-                commit('changeNoAutoEnableProxySetting', newState);
+                commit("changeNoAutoEnableProxySetting", newState);
                 return newState;
             },
             async changeNoPacFileProxySetting({ commit }) {
                 let newState = await application.changeNoPacFileProxySetting();
-                commit('changeNoPacFileProxySetting', newState);
+                commit("changeNoPacFileProxySetting", newState);
                 return newState;
             },
             async addDropFiles({ commit, state }, files: File[]) {
@@ -111,33 +111,41 @@ export default function (application: Application) {
                     return;
                 }
                 let autoResponderEntries = await application.addDropFiles(files);
-                commit('addAutoResponderEntries', autoResponderEntries);
-                commit('selectAutoResponderTab');
+                commit("addAutoResponderEntries", autoResponderEntries);
+                commit("selectAutoResponderTab");
             },
-            async deleteAutoResponderEntries({ commit }, targetAutoResponderEntries: AbstractAutoResponderEntryEntity[]) {
+            async deleteAutoResponderEntries(
+                { commit },
+                targetAutoResponderEntries: AbstractAutoResponderEntryEntity[],
+            ) {
                 console.log(targetAutoResponderEntries);
                 await application.deleteAutoResponderEntities(targetAutoResponderEntries);
                 let autoResponderEntries = await application.fetchAutoResponderEntities();
-                commit('overwriteAutoResponderEntries', autoResponderEntries);
+                commit("overwriteAutoResponderEntries", autoResponderEntries);
             },
         },
     });
 
-    application.setOnFileDropEvent(window, () => {
-        store.commit("setAutoResponderFileDropPage");
-    }, () => {
-        store.commit("unsetAutoResponderFileDropPage");
-    }, (files: File[]) => {
-        store.dispatch('addDropFiles', files);
-    });
+    application.setOnFileDropEvent(
+        window,
+        () => {
+            store.commit("setAutoResponderFileDropPage");
+        },
+        () => {
+            store.commit("unsetAutoResponderFileDropPage");
+        },
+        (files: File[]) => {
+            store.dispatch("addDropFiles", files);
+        },
+    );
 
-    application.setOnUpdateClientRequestEntityEvent((clientRequestEntity) => {
+    application.setOnUpdateClientRequestEntityEvent(clientRequestEntity => {
         store.commit("addClientRequestEntries", clientRequestEntity);
     });
 
     new Vue({
         store,
         components: { App },
-        template: '<App />',
-    }).$mount('#app');
+        template: "<App />",
+    }).$mount("#app");
 }

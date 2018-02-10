@@ -1,11 +1,11 @@
-import {APPLICATION_NAME} from "@lifter/lifter-common";
-import {NetworksetupProxy} from "@lifter/networksetup-proxy";
+import { APPLICATION_NAME } from "@lifter/lifter-common";
+import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import * as fs from "fs";
-import {DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH} from "../../../settings";
-import {UserSettingStorage} from "../../libs/user-setting-storage";
-import {NetworkInterfaceRepository} from "../network-interface/lifecycle/network-interface-repository";
-import {NetworkInterfaceEntity} from "../network-interface/network-interface-entity";
-import {ProxyBypassDomainEntity} from "../proxy-bypass-domain/proxy-bypass-domain-entity";
+import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../settings";
+import { UserSettingStorage } from "../../libs/user-setting-storage";
+import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
+import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
+import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 
 export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
@@ -13,7 +13,7 @@ export class NetworksetupProxyService {
 
     constructor(
         private userSettingStorage: UserSettingStorage,
-        private networkInterfaceRepository: NetworkInterfaceRepository
+        private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {}
 
     get isGranted(): boolean {
@@ -78,7 +78,10 @@ export class NetworksetupProxyService {
     }
 
     private async callAllEnableInterface(
-        callback: (networksetupProxy: NetworksetupProxy, networkInterfaceEntity: NetworkInterfaceEntity) => Promise<any>
+        callback: (
+            networksetupProxy: NetworksetupProxy,
+            networkInterfaceEntity: NetworkInterfaceEntity,
+        ) => Promise<any>,
     ) {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
         let networksetupProxy = this.getNetworksetupProxy();
@@ -88,7 +91,7 @@ export class NetworksetupProxyService {
         await Promise.all(
             networkInterfaceEntities.map(ni => {
                 return callback(networksetupProxy, ni);
-            })
+            }),
         );
     }
 

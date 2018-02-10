@@ -8,6 +8,6 @@ export function createApplication(projectBaseDir: string, userDataPath: string):
     return new Application(
         `${userDataPath}/${HTTP_SSL_CA_DIR_NAME}`,
         projectEntity,
-        new LifecycleContextService(projectEntity)
+        new LifecycleContextService(projectEntity),
     );
 }

@@ -1,7 +1,7 @@
 import promisify = require("es6-promisify");
 import Datastore = require("nedb");
 import { Entity, Identity } from "typescript-dddbase";
-import {ResolveAll} from "../libs/resolve-all";
+import { ResolveAll } from "../libs/resolve-all";
 
 export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {
     toEntity(json: any): E;
@@ -33,7 +33,7 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
                 base[String(cur.getIdentity().getValue())] = cur;
                 return base;
             },
-            <{ [key: string]: E }>{}
+            <{ [key: string]: E }>{},
         );
     }
 

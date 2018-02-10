@@ -1,7 +1,7 @@
 import * as Rx from "rxjs/Rx";
 import { async } from "rxjs/scheduler/async";
 import { PROXY_SERVER_NAME } from "../../../settings";
-import {UserSettingStorage} from "../../libs/user-setting-storage";
+import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
 import { AutoResponderEntryRepository } from "../auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
 
@@ -9,11 +9,11 @@ export class PacFileService {
     constructor(
         private autoResponderEntryRepository: AutoResponderEntryRepository,
         private networksetupProxyService: NetworksetupProxyService,
-        private userSettingStorage: UserSettingStorage
+        private userSettingStorage: UserSettingStorage,
     ) {}
 
     async load() {
-        if (this.userSettingStorage.resolve('noPacFileProxy')) {
+        if (this.userSettingStorage.resolve("noPacFileProxy")) {
             return;
         }
 
@@ -23,7 +23,7 @@ export class PacFileService {
         observable
             .throttleTime(300, async, {
                 leading: true,
-                trailing: true
+                trailing: true,
             })
             .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl());
 

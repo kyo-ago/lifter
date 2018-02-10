@@ -13,35 +13,35 @@ describe("AutoResponderEntryDirectoryPattern", () => {
             name: "match",
             pattern: "/hoge/",
             path: "/hoge/huga",
-            result: true
+            result: true,
         },
         {
             name: "middle match",
             pattern: "/hoge/",
             path: "/foo/bar/hoge/huga/gege",
-            result: true
-        }
+            result: true,
+        },
     ];
     let isMatchPathPattern = [
         {
             name: "root url unmatch",
             pattern: "/",
             path: "/",
-            result: false
+            result: false,
         },
         {
             name: "directory url unmatch",
             pattern: "/hoge/",
             path: "/hoge/",
-            result: false
-        }
+            result: false,
+        },
     ];
 
     describe("getMatchCodeString", () => {
         testPattern.forEach(pattern => {
             it(pattern.name, () => {
                 let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue(
-                    pattern.pattern
+                    pattern.pattern,
                 );
                 let result = autoResponderEntryDirectoryPattern.getMatchCodeString("match");
                 let code = `((url) => {${result}})("${pattern.path}")`;
@@ -54,7 +54,7 @@ describe("AutoResponderEntryDirectoryPattern", () => {
         testPattern.concat(isMatchPathPattern).forEach(pattern => {
             it(pattern.name, () => {
                 let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue(
-                    pattern.pattern
+                    pattern.pattern,
                 );
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
                 assert(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity) === pattern.result);

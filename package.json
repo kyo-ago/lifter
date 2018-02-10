@@ -47,7 +47,7 @@
     "fix": "lerna run fix && yarn run fixpack",
     "postcommit": "git reset",
     "prepublish": "yarn run bootstrap",
-    "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,css}'",
+    "prettier": "prettier --trailing-comma all --write '**/*.{js,jsx,ts,tsx,css}'",
     "publish": "lerna publish && yarn run publish:app",
     "publish:app": "lerna run release --stream --scope @lifter/lifter-app",
     "test": "lerna run test"

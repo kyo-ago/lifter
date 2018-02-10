@@ -1,6 +1,6 @@
 import promisify = require("es6-promisify");
 import * as fs from "fs";
-import {BaseValueObject} from "./base-value-object";
+import { BaseValueObject } from "./base-value-object";
 
 const promisedFsStat = promisify(fs.stat, fs);
 const promisedFsReadFile = promisify(fs.readFile, fs);

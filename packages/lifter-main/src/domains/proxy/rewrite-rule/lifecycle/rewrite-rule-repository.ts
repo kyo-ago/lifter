@@ -13,7 +13,7 @@ export class RewriteRuleRepository extends AsyncOnNedbRepository<RewriteRuleIden
             },
             toJSON: (entity: RewriteRuleEntity): any => {
                 return entity.json;
-            }
+            },
         });
     }
 

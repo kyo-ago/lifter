@@ -13,38 +13,38 @@ describe("AutoResponderEntryGlobPattern", () => {
             name: "match",
             pattern: "/*",
             path: "/hoge",
-            result: true
+            result: true,
         },
         {
             name: "directory match",
             pattern: "/*/",
             path: "/hoge/",
-            result: true
+            result: true,
         },
         {
             name: "multi directory match",
             pattern: "/**",
             path: "/hoge/huga.js",
-            result: true
+            result: true,
         },
         {
             name: "extension match",
             pattern: "*.js",
             path: "/hoge/huga.js",
-            result: true
+            result: true,
         },
         {
             name: "extension match",
             pattern: "*.js",
             path: "/hoge/huga.js",
-            result: true
+            result: true,
         },
         {
             name: "unmatch",
             pattern: "/hoge/*",
             path: "/huga",
-            result: false
-        }
+            result: false,
+        },
     ];
 
     describe("getMatchCodeString", () => {

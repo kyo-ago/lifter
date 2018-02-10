@@ -1,5 +1,5 @@
 import { ClientRequestEntityJSON } from "@lifter/lifter-common";
-import {BaseEntity} from "../../base/base-entity";
+import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestIdentity } from "./client-request-identity";
 import { ClientRequestUrl } from "./value-objects/client-request-url";
 
@@ -19,7 +19,7 @@ export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
     get json(): ClientRequestEntityJSON {
         return {
             id: this.id,
-            href: this._url.getHref()
+            href: this._url.getHref(),
         };
     }
 }

@@ -28,7 +28,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
                 "File",
                 new AutoResponderEntryFilePattern(autoResponderEntryEntityJSON.pattern),
                 new AutoResponderEntryFilePath(autoResponderEntryEntityJSON.path),
-                new ProjectIdentity(autoResponderEntryEntityJSON.projectId)
+                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
             );
         } else if (autoResponderEntryEntityJSON.type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
@@ -36,7 +36,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
                 "Directory",
                 AutoResponderEntryDirectoryPattern.createSafeValue(autoResponderEntryEntityJSON.pattern),
                 new AutoResponderEntryDirectoryPath(autoResponderEntryEntityJSON.path),
-                new ProjectIdentity(autoResponderEntryEntityJSON.projectId)
+                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
             );
         } else if (autoResponderEntryEntityJSON.type === "Glob") {
             return new AutoResponderEntryGlobEntity(
@@ -44,7 +44,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
                 "Glob",
                 new AutoResponderEntryGlobPattern(autoResponderEntryEntityJSON.pattern),
                 new AutoResponderEntryAnyPath(autoResponderEntryEntityJSON.path),
-                new ProjectIdentity(autoResponderEntryEntityJSON.projectId)
+                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
             );
         } else {
             throw new Error(`Invalid type, type = "${autoResponderEntryEntityJSON.type}"`);
@@ -58,7 +58,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
                 "File",
                 new AutoResponderEntryFilePattern(pattern),
                 new AutoResponderEntryFilePath(path),
-                this.projectEntity.getIdentity()
+                this.projectEntity.getIdentity(),
             );
         } else if (type === "Directory") {
             return new AutoResponderEntryDirectoryEntity(
@@ -66,7 +66,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
                 "Directory",
                 AutoResponderEntryDirectoryPattern.createSafeValue(pattern),
                 new AutoResponderEntryDirectoryPath(path),
-                this.projectEntity.getIdentity()
+                this.projectEntity.getIdentity(),
             );
         } else if (type === "Glob") {
             return new AutoResponderEntryGlobEntity(
@@ -74,7 +74,7 @@ export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
                 "Glob",
                 new AutoResponderEntryGlobPattern(pattern),
                 new AutoResponderEntryAnyPath(path),
-                this.projectEntity.getIdentity()
+                this.projectEntity.getIdentity(),
             );
         } else {
             throw new Error(`Invalid type, type = "${type}"`);

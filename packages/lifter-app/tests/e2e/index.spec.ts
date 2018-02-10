@@ -7,7 +7,7 @@ describe("application launch", () => {
     beforeAll(() => {
         application = new Application({
             path: `${Path.join(".", "node_modules", ".bin", "electron")}`,
-            args: [Path.join(".")]
+            args: [Path.join(".")],
         });
         return application.start();
     });

@@ -1,6 +1,6 @@
-import {NetworksetupProxyService} from "../networksetup-proxy-service/networksetup-proxy-service";
-import {ProxyBypassDomainRepository} from "./lifecycle/proxy-bypass-domain-repository";
-import {ProxyBypassDomainEntity} from "./proxy-bypass-domain-entity";
+import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
+import { ProxyBypassDomainRepository } from "./lifecycle/proxy-bypass-domain-repository";
+import { ProxyBypassDomainEntity } from "./proxy-bypass-domain-entity";
 
 export class ProxyBypassDomainService {
     constructor(

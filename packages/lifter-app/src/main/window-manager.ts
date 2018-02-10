@@ -14,7 +14,7 @@ export class WindowManager {
 
         windowManager.bridge.on(
             "overwriteProxyBypassDomains",
-            this.application.saveProxyBypassDomainJSON.bind(this.application)
+            this.application.saveProxyBypassDomainJSON.bind(this.application),
         );
     }
 
@@ -32,7 +32,7 @@ export class WindowManager {
         let state = await this.application.getMainState();
         windowManager.sharedData.set("mainApps", state);
         windowManager.open(name, APPLICATION_NAME, url, "default", {
-            file: `${WINDOW_STATE_DIR}main-window-state.json`
+            file: `${WINDOW_STATE_DIR}main-window-state.json`,
         });
         if (isDevelopment) {
             windowManager

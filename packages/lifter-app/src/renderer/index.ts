@@ -1,12 +1,12 @@
 /// <reference path="../../typings/global.d.ts" />
 
-import Vue from 'vue';
-import Vuex from 'vuex';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/ja';
-import {Application} from "./application/application";
-import render from './ui/index';
+import Vue from "vue";
+import Vuex from "vuex";
+import Element from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+import locale from "element-ui/lib/locale/lang/ja";
+import { Application } from "./application/application";
+import render from "./ui/index";
 
 Vue.use(Vuex);
 Vue.use(Element, { locale });

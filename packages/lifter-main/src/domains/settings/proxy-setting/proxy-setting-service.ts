@@ -7,7 +7,7 @@ export class ProxySettingService {
     constructor(
         private networksetupProxyService: NetworksetupProxyService,
         private networkInterfaceRepository: NetworkInterfaceRepository,
-        private userSettingStorage: UserSettingStorage
+        private userSettingStorage: UserSettingStorage,
     ) {}
 
     async getCurrentStatus(): Promise<ProxySettingStatus> {
@@ -31,13 +31,13 @@ export class ProxySettingService {
         if (isProxing) {
             await Promise.all([
                 this.networksetupProxyService.disableProxy(),
-                this.userSettingStorage.store("noAutoEnableProxy", true)
+                this.userSettingStorage.store("noAutoEnableProxy", true),
             ]);
             return "Off";
         }
         await Promise.all([
             this.networksetupProxyService.enableProxy(),
-            this.userSettingStorage.store("noAutoEnableProxy", false)
+            this.userSettingStorage.store("noAutoEnableProxy", false),
         ]);
         return "On";
     }

@@ -1,4 +1,4 @@
-import {NetworkDeviceParam} from "../lifecycle/network-interface-factory";
+import { NetworkDeviceParam } from "../lifecycle/network-interface-factory";
 
 interface Device {
     ServiceName: string;
@@ -19,7 +19,7 @@ export function ParseNetworkDevices(serviceorder: string, ifconfig: Ifconfig): N
             let [serviceName, device] = line.split(/\n/);
             return <Device>{
                 ServiceName: serviceName.replace(/^\(\d+\)/, "").trim(),
-                Device: device.match(/,\s*Device:\s*(.+?)\)/i).pop()
+                Device: device.match(/,\s*Device:\s*(.+?)\)/i).pop(),
             };
         });
 
@@ -28,7 +28,7 @@ export function ParseNetworkDevices(serviceorder: string, ifconfig: Ifconfig): N
         return {
             name: device["Device"],
             serviceName: device["ServiceName"],
-            enable: conf.status === "active"
+            enable: conf.status === "active",
         };
     });
 }

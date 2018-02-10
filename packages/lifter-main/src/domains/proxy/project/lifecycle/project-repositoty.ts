@@ -12,7 +12,7 @@ export class ProjectRepository extends AsyncOnNedbRepository<ProjectIdentity, Pr
             },
             toJSON: (entity: ProjectEntity): any => {
                 return entity.json;
-            }
+            },
         });
     }
 }

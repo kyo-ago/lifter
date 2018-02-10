@@ -30,7 +30,7 @@ describe("AutoResponderEntryRepository", () => {
         });
         it("choose from entities", async () => {
             let entities = Array.from(Array(10)).map((_, index) =>
-                autoResponderEntryFactory.create("File", String(index), __filename)
+                autoResponderEntryFactory.create("File", String(index), __filename),
             );
             await autoResponderEntryRepository.storeList(entities);
             let clientRequestEntity = clientRequestFactory.createFromString("/2");

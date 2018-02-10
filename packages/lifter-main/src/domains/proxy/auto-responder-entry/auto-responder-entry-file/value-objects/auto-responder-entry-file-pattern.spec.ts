@@ -13,26 +13,26 @@ describe("AutoResponderEntryFilePattern", () => {
             name: "match",
             pattern: "hoge.txt",
             path: "/hoge.txt",
-            result: true
+            result: true,
         },
         {
             name: "unmatch",
             pattern: "hoge.txt",
             path: "/",
-            result: false
+            result: false,
         },
         {
             name: "directory",
             pattern: "hoge.txt",
             path: "/huga/hoge.txt",
-            result: true
+            result: true,
         },
         {
             name: "regexp charactor",
             pattern: ".",
             path: "/",
-            result: false
-        }
+            result: false,
+        },
     ];
 
     describe("getMatchCodeString", () => {

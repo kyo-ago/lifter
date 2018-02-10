@@ -42,9 +42,9 @@ export abstract class AsyncOnNedbFactory {
                 { name: this.keyName },
                 {
                     name: this.keyName,
-                    count: this.identity
+                    count: this.identity,
                 },
-                { upsert: true }
+                { upsert: true },
             );
         });
     }

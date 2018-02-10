@@ -10,7 +10,7 @@ export interface UserSettings {
 const DefaultUserSettings: UserSettings = {
     noAutoGrantRequest: false,
     noAutoEnableProxy: false,
-    noPacFileProxy: false
+    noPacFileProxy: false,
 };
 
 export class UserSettingStorage {
@@ -50,9 +50,9 @@ export class UserSettingStorage {
             { name: name },
             {
                 name: name,
-                value: value
+                value: value,
             },
-            { upsert: true }
+            { upsert: true },
         );
         this.userSettings[name] = value;
         return value;

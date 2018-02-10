@@ -16,21 +16,21 @@ export type IOResult = {
 const promisedFsStat = promisify(fs.stat, fs);
 const promisedSudoExec = promisify(sudo.exec, {
     thisArg: sudo,
-    multiArgs: true
+    multiArgs: true,
 });
 
 export class NetworksetupProxy {
     constructor(
         private sudoApplicationName: string = "electron sudo application",
-        private PROXY_SETTING_COMMAND = path.join(__dirname, `./rust/proxy-setting`)
+        private PROXY_SETTING_COMMAND = path.join(__dirname, `./rust/proxy-setting`),
     ) {}
 
     async grant(): Promise<IOResult> {
         let [stdout, stderr]: string[] = await promisedSudoExec(
             `chown 0:0 "${this.PROXY_SETTING_COMMAND}" && chmod 4755 "${this.PROXY_SETTING_COMMAND}"`,
             {
-                name: this.sudoApplicationName
-            }
+                name: this.sudoApplicationName,
+            },
         );
         return { stdout, stderr };
     }
@@ -49,7 +49,7 @@ export class NetworksetupProxy {
         port?: string,
         authenticated?: string,
         username?: string,
-        password?: string
+        password?: string,
     ): Promise<IOResult> {
         let args = [port, authenticated, username, password].filter(arg => arg);
         return this.exec(`-setwebproxy`, [networkservice].concat(<string[]>args));
@@ -61,7 +61,7 @@ export class NetworksetupProxy {
         port?: string,
         authenticated?: string,
         username?: string,
-        password?: string
+        password?: string,
     ): Promise<IOResult> {
         let args = [port, authenticated, username, password].filter(arg => arg);
         return this.exec(`-setsecurewebproxy`, [networkservice, domain].concat(<string[]>args));

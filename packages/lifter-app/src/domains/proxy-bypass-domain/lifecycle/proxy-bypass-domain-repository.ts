@@ -1,5 +1,5 @@
 import { OnMemoryRepository } from "typescript-dddbase";
-import {ResolveAll} from "../../../libs/resolve-all";
+import { ResolveAll } from "../../../libs/resolve-all";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain-entity";
 import { ProxyBypassDomainIdentity } from "../proxy-bypass-domain-identity";
 
@@ -17,7 +17,7 @@ export class ProxyBypassDomainRepository extends OnMemoryRepository<
                 base[cur.id] = cur;
                 return base;
             },
-            <E>{}
+            <E>{},
         );
     }
 

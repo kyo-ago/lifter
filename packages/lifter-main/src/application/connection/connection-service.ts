@@ -12,13 +12,13 @@ export class ConnectionService {
         private pacFileService: PacFileService,
         private autoResponderEntryRepository: AutoResponderEntryRepository,
         private clientRequestRepository: ClientRequestRepository,
-        private rewriteRuleRepository: RewriteRuleRepository
+        private rewriteRuleRepository: RewriteRuleRepository,
     ) {}
 
     async onRequest(
         clientRequestEntity: ClientRequestEntity,
         blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
-        passCallback: (error: Error | undefined) => void
+        passCallback: (error: Error | undefined) => void,
     ): Promise<void> {
         this.clientRequestRepository.store(clientRequestEntity);
 
@@ -27,7 +27,7 @@ export class ConnectionService {
         }
 
         let localFileResponderEntity: LocalFileResponderEntity | null = await this.autoResponderEntryRepository.findMatchEntry(
-            clientRequestEntity
+            clientRequestEntity,
         );
 
         if (!localFileResponderEntity) {
@@ -43,15 +43,15 @@ export class ConnectionService {
     }
 
     private async responsePacFile(
-        blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void
+        blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
     ): Promise<void> {
         let content = await this.pacFileService.getContent();
         blockCallback(
             {
                 "content-length": content.length,
-                "content-type": "application/x-ns-proxy-autoconfig"
+                "content-type": "application/x-ns-proxy-autoconfig",
             },
-            content
+            content,
         );
     }
 }

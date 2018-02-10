@@ -10,8 +10,7 @@ interface StoreDateKeyMap {
     mainPreferences: any;
 }
 
-interface BridgeDateKeyMap {
-}
+interface BridgeDateKeyMap {}
 
 interface WindowManager {
     sharedData: {

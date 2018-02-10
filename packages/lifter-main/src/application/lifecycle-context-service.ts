@@ -25,7 +25,7 @@ export class LifecycleContextService {
         this.networkInterfaceRepository = new NetworkInterfaceRepository(this.networkInterfaceFactory);
         this.autoResponderEntryRepository = new AutoResponderEntryRepository(
             projectEntity,
-            this.localFileResponderFactory
+            this.localFileResponderFactory,
         );
         this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(projectEntity);
         this.rewriteRuleRepository = new RewriteRuleRepository(projectEntity);
@@ -36,7 +36,7 @@ export class LifecycleContextService {
         return Promise.all([
             this.autoResponderEntryRepository.load(),
             this.rewriteRuleRepository.load(),
-            this.proxyBypassDomainRepository.load()
+            this.proxyBypassDomainRepository.load(),
         ]);
     }
 }

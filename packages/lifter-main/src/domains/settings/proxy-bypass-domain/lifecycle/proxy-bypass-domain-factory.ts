@@ -6,7 +6,7 @@ export class ProxyBypassDomainFactory {
     static fromJSON(json: any): ProxyBypassDomainEntity {
         return new ProxyBypassDomainEntity(
             new ProxyBypassDomainIdentity(json.id),
-            new ProxyBypassDomainName(json.pattern)
+            new ProxyBypassDomainName(json.pattern),
         );
     }
 }
