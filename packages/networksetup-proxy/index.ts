@@ -52,7 +52,7 @@ export class NetworksetupProxy {
         password?: string
     ): Promise<IOResult> {
         let args = [port, authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setwebproxy`, [networkservice, domain].concat(<string[]>args));
+        return this.exec(`-setwebproxy`, [networkservice].concat(<string[]>args));
     }
 
     setsecurewebproxy(
@@ -79,8 +79,8 @@ export class NetworksetupProxy {
         return this.exec(`-setproxybypassdomains`, [networkservice].concat(domains));
     }
 
-    setautoproxyurl(networkservice: string, url: string): Promise<IOResult> {
-        return this.exec(`-setautoproxyurl`, [networkservice, url]);
+    setautoproxyurl(networkservice: string, post: string): Promise<IOResult> {
+        return this.exec(`-setautoproxyurl`, [networkservice, post]);
     }
 
     setautoproxystate(networkservice: string, enabled: string): Promise<IOResult> {

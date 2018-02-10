@@ -11,12 +11,9 @@ fn main() {
     let param = args.next().unwrap();
 
     match param.as_ref() {
-        "-setwebproxy"
-        | "-setsecurewebproxy"
-        | "-setwebproxystate"
+        "-setwebproxystate"
         | "-setsecurewebproxystate"
         | "-setproxybypassdomains"
-        | "-setautoproxyurl"
         | "-setautoproxystate"
         => {
             command.arg(param);
@@ -26,17 +23,20 @@ fn main() {
         },
         "-setwebproxy"
         | "-setsecurewebproxy"
-        | "-setwebproxystate"
-        | "-setsecurewebproxystate"
-        | "-setproxybypassdomains"
-        | "-setautoproxyurl"
-        | "-setautoproxystate"
         => {
-            let mut command = Command::new("/usr/sbin/networksetup");
             command.arg(param);
-            for arg in args {
-                command.arg(arg);
-            }
+            command.arg(args.next().unwrap()); // networkservice
+            command.arg("127.0.0.1"); // domain
+            command.arg(args.next().unwrap()); // port
+            command.arg(args.next().unwrap()); // authenticated
+            command.arg(args.next().unwrap()); // username
+            command.arg(args.next().unwrap()); // password
+        },
+        "-setautoproxyurl"
+        => {
+            command.arg(param);
+            command.arg(args.next().unwrap());
+            command.arg(format!("http://127.0.0.1:{}/proxy.pac", args.next().unwrap()));
         },
         _ => panic!("Unknown parameter: {}", param),
     };

@@ -24,7 +24,7 @@
     "grant": "sudo chown 0:0 ./rust/proxy-setting && sudo chmod 4755 ./rust/proxy-setting",
     "prepublish": "npm run build",
     "pretest": "npm run build",
-    "rust-build": "rustc -Copt-level=3 -o ./rust/proxy-setting ./rust/proxy-setting.rs && strip rust/proxy-setting",
+    "rust-build": "rm -f rust/proxy-setting && rustc -Copt-level=3 -o ./rust/proxy-setting ./rust/proxy-setting.rs && strip rust/proxy-setting",
     "rust-install": "curl -sSf https://static.rust-lang.org/rustup.sh | sh",
     "test": "mocha && npm run build && sh ./example/run.sh"
   }
