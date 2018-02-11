@@ -1,24 +1,10 @@
-import * as sinon from "sinon";
-import * as mockRequire from "mock-require";
+import "./require-mocks/@lifter/networksetup-proxy";
+import "./require-mocks/electron-ipc";
+import "./require-mocks/exec-commands";
+import "./require-mocks/http-mitm-proxy";
+import { NetworkMockStateEvent } from "./network-mock-state-event";
 
-mockRequire("electron-ipc", {
-    subscribe: sinon.spy((...args) => undefined),
-});
-
-mockRequire("@lifter/networksetup-proxy", {
-    NetworksetupProxy: class {
-        hasGrant() {
-            return new Promise((resolve) => resolve(false));
-        }
-    }
-});
-
-mockRequire("http-mitm-proxy", () => {
-    return {
-        onError: sinon.spy((...args) => undefined),
-        onRequest: sinon.spy((...args) => undefined),
-        listen: sinon.spy((...args) => undefined),
-    };
-});
+NetworkMockStateEvent.emit("updateCertificateState", "missing");
+NetworkMockStateEvent.emit("updateProxyingState", "NoPermission");
 
 export function RequireMocks() {}

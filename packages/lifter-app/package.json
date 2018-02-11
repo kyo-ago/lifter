@@ -17,7 +17,6 @@
     "@lifter/networksetup-proxy": "^0.0.10",
     "electron-ipc": "^0.3.0",
     "element-ui": "^2.0.10",
-    "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",
     "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",

@@ -1,6 +1,5 @@
 import { CertificateStatus } from "@lifter/lifter-common";
 import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../libs/exec-commands";
-import { CERTIFICATE_NAME } from "../../settings";
 
 export class CertificateService {
     private certificatePath: string;
@@ -26,7 +25,7 @@ export class CertificateService {
 
     private async findCertificate(): Promise<boolean> {
         try {
-            let result = await findCertificate(CERTIFICATE_NAME);
+            let result = await findCertificate();
             return !!result;
         } catch (e) {
             // missing Certificate
@@ -48,7 +47,7 @@ export class CertificateService {
         } catch (e) {
             // user cancel
             if (e.stderr.match(/SecTrustSettingsSetTrustSettings/)) {
-                await deleteCertificate(CERTIFICATE_NAME);
+                await deleteCertificate();
                 return false;
             }
             throw e;
@@ -57,7 +56,7 @@ export class CertificateService {
 
     private async deleteCertificate(): Promise<boolean> {
         try {
-            await deleteCertificate(CERTIFICATE_NAME);
+            await deleteCertificate();
             return true;
         } catch (e) {
             // missing Certificate

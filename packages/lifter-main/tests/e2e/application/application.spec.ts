@@ -15,21 +15,21 @@ describe("Application", () => {
         );
     };
 
-    it("new", () => {
-        assert(createApplication());
-    });
-
-    it("load", async () => {
-        assert.doesNotThrow(async () => {
-            await createApplication().load();
-        });
-    });
-
-    it("start", async () => {
-        assert.doesNotThrow(async () => {
+    it.skip("start -> quit", async () => {
+        try {
             let application = createApplication();
             await application.load();
             await application.start(() => { });
-        });
+            await application.quit();
+        } catch (e) {
+            assert.fail(e);
+        }
+    });
+
+    it("getMainState", async () => {
+        let application = createApplication();
+        await application.load();
+        let mainState = await application.getMainState();
+        assert(mainState);
     });
 });

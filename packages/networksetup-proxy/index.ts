@@ -4,20 +4,18 @@ import * as execa from "execa";
 import * as fs from "fs";
 import * as path from "path";
 import * as Mode from "stat-mode";
-import * as sudo from "sudo-prompt";
-
-const promisify = require("es6-promisify");
+import { exec } from "sudo-prompt";
+import { promisify } from "util";
 
 export type IOResult = {
     stdout: string;
     stderr: string;
 };
 
-const promisedFsStat = promisify(fs.stat, fs);
-const promisedSudoExec = promisify(sudo.exec, {
-    thisArg: sudo,
-    multiArgs: true,
-});
+export type Enabled = "on" | "off";
+
+const promisedFsStat = promisify(fs.stat);
+const promisedSudoExec = promisify(exec);
 
 export class NetworksetupProxy {
     constructor(
@@ -46,32 +44,32 @@ export class NetworksetupProxy {
     setwebproxy(
         networkservice: string,
         domain: string,
-        port?: string,
+        port: string,
         authenticated?: string,
         username?: string,
         password?: string,
     ): Promise<IOResult> {
-        let args = [port, authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setwebproxy`, [networkservice].concat(<string[]>args));
+        let args = [authenticated, username, password].filter(arg => arg);
+        return this.exec(`-setwebproxy`, [networkservice, port].concat(<string[]>args));
     }
 
     setsecurewebproxy(
         networkservice: string,
         domain: string,
-        port?: string,
+        port: string,
         authenticated?: string,
         username?: string,
         password?: string,
     ): Promise<IOResult> {
-        let args = [port, authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setsecurewebproxy`, [networkservice, domain].concat(<string[]>args));
+        let args = [authenticated, username, password].filter(arg => arg);
+        return this.exec(`-setsecurewebproxy`, [networkservice, port].concat(<string[]>args));
     }
 
-    setwebproxystate(networkservice: string, enabled: string): Promise<IOResult> {
+    setwebproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {
         return this.exec(`-setwebproxystate`, [networkservice, enabled]);
     }
 
-    setsecurewebproxystate(networkservice: string, enabled: string): Promise<IOResult> {
+    setsecurewebproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {
         return this.exec(`-setsecurewebproxystate`, [networkservice, enabled]);
     }
 
@@ -83,7 +81,7 @@ export class NetworksetupProxy {
         return this.exec(`-setautoproxyurl`, [networkservice, post]);
     }
 
-    setautoproxystate(networkservice: string, enabled: string): Promise<IOResult> {
+    setautoproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {
         return this.exec(`-setautoproxystate`, [networkservice, enabled]);
     }
 

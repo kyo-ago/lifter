@@ -1,3 +1,5 @@
+import * as rimraf from "rimraf";
+import {promisify} from "util";
 import { LifecycleContextService } from "../../src/application/lifecycle-context-service";
 import { ProjectFactory } from "../../src/domains/proxy/project/lifecycle/project-factory";
 
@@ -11,3 +13,11 @@ export async function createLifecycleContextService() {
     await lifecycleContextService.load();
     return lifecycleContextService;
 }
+
+afterEach(async () => {
+    await promisify(rimraf)("./testRepositories");
+});
+
+after(async () => {
+    await promisify(rimraf)("./.http-mitm-proxy");
+});

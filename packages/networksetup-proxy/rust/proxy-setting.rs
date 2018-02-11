@@ -26,11 +26,11 @@ fn main() {
         => {
             command.arg(param);
             command.arg(args.next().unwrap()); // networkservice
-            command.arg("127.0.0.1"); // domain
+            command.arg("localhost"); // domain
             command.arg(args.next().unwrap()); // port
-            command.arg(args.next().unwrap()); // authenticated
-            command.arg(args.next().unwrap()); // username
-            command.arg(args.next().unwrap()); // password
+            for arg in args {
+                command.arg(arg);
+            }
         },
         "-setautoproxyurl"
         => {

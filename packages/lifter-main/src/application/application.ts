@@ -2,7 +2,6 @@ import {
     AutoResponderEntryEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
-    PreferencesJSON,
     ProxyBypassDomainEntityJSON,
     ProxySettingStatus,
     RewriteRuleEntityJSON,

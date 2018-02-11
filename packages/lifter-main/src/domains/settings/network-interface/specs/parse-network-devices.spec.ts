@@ -1,22 +1,13 @@
 import "mocha";
 import * as assert from "assert";
+import { MockNetworksetupResult } from "../../../../../tests/mocks/require-mocks/exec-commands";
 import { ParseNetworkDevices } from "./parse-network-devices";
 
 describe("ParseNetworkDevices", () => {
     it("filtering enable devices", () => {
         let results = ParseNetworkDevices(
-            `An asterisk (*) denotes that a network service is disabled.
-(1) iPhone USB
-(Hardware Port: iPhone USB, Device: en2)
-
-(2) Wi Fi
-(Hardware Port: Wi-Fi, Device: en0)
-
-(3) Bluetooth PAN
-(Hardware Port: Bluetooth PAN, Device: en1)
-
-`,
-            <Ifconfig>{
+            MockNetworksetupResult,
+            <any>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000",
                 },
@@ -49,7 +40,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            <Ifconfig>{
+            <any>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000",
                 },
@@ -92,7 +83,7 @@ describe("ParseNetworkDevices", () => {
 (Hardware Port: Bluetooth PAN, Device: en1)
 
 `,
-            <Ifconfig>{
+            <any>{
                 lo0: {
                     inet: "127.0.0.1 netmask 0xff000000",
                 },

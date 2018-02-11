@@ -3,7 +3,6 @@
   "version": "0.0.10",
   "author": "@kyo_ago",
   "dependencies": {
-    "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "stat-mode": "^0.2.2",
     "sudo-prompt": "^8.0.0"

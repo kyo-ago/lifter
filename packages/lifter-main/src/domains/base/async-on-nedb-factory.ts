@@ -1,5 +1,5 @@
-import promisify = require("es6-promisify");
-import Datastore = require("nedb");
+import {promisify} from "util";
+import * as Datastore from "nedb";
 
 export abstract class AsyncOnNedbFactory {
     private datastore: Datastore;
@@ -13,9 +13,9 @@ export abstract class AsyncOnNedbFactory {
 
     constructor(dataStoreOptions: Datastore.DataStoreOptions) {
         this.datastore = new Datastore(dataStoreOptions);
-        this.find = promisify(this.datastore.find, this.datastore);
-        this.update = promisify(this.datastore.update, this.datastore);
-        this.loadDatabase = promisify(this.datastore.loadDatabase, this.datastore);
+        this.find = promisify(this.datastore.find.bind(this.datastore));
+        this.update = promisify(this.datastore.update.bind(this.datastore));
+        this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
     }
 
     async load() {

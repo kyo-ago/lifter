@@ -1,5 +1,5 @@
 import * as execa from "execa";
-import { NETWORK_SETUP_COMMAND, SECURITY_COMMAND } from "../settings";
+import { CERTIFICATE_NAME, NETWORK_SETUP_COMMAND, SECURITY_COMMAND } from "../settings";
 import { NetworkInterfaceEntity } from "../domains/settings/network-interface/network-interface-entity";
 import { throwableCommand } from "./throwable-command";
 
@@ -24,12 +24,12 @@ export function getProxyByPassDomains(device: NetworkInterfaceEntity) {
     return ExecCommand(NETWORK_SETUP_COMMAND, ["-getproxybypassdomains", device.serviceName]);
 }
 
-export function findCertificate(certificateName: string) {
-    return ExecCommand(SECURITY_COMMAND, ["find-certificate", "-c", certificateName]);
+export function findCertificate() {
+    return ExecCommand(SECURITY_COMMAND, ["find-certificate", "-c", CERTIFICATE_NAME]);
 }
 
-export function deleteCertificate(certificateName: string) {
-    return ExecCommand(SECURITY_COMMAND, ["delete-certificate", "-c", certificateName]);
+export function deleteCertificate() {
+    return ExecCommand(SECURITY_COMMAND, ["delete-certificate", "-c", CERTIFICATE_NAME]);
 }
 
 export function importCert(certificatePath: string): Promise<string> {
