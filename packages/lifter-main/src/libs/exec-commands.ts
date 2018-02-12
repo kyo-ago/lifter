@@ -1,6 +1,6 @@
 import * as execa from "execa";
-import { CERTIFICATE_NAME, NETWORK_SETUP_COMMAND, SECURITY_COMMAND } from "../settings";
 import { NetworkInterfaceEntity } from "../domains/settings/network-interface/network-interface-entity";
+import { CERTIFICATE_NAME, NETWORK_SETUP_COMMAND, SECURITY_COMMAND } from "../settings";
 import { throwableCommand } from "./throwable-command";
 
 function ExecCommand(commandPath: string, args: string[]) {

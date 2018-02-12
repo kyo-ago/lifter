@@ -1,5 +1,6 @@
 import { ProxySettingStatus } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
+import "mocha";
 import * as mockRequire from "mock-require";
 import * as sinon from "sinon";
 import { SinonStub, SinonStubbedInstance } from "sinon";
@@ -25,11 +26,11 @@ mockRequire("@lifter/networksetup-proxy", {
 NetworkMockStateEvent.on("updateProxyingState", (newState) => {
     if (newState === "CancelGrant") {
         stub.grant.rejects(new Error("User did not grant permission."));
-        setNoPermissionState(stub);
+        setUnknownState(stub);
     }
-    if (newState === "NoPermission") {
+    if (newState === "Unknown") {
         stub.grant.callsFake(setProxyState("Off")).resolves(grantSuccessResult);
-        setNoPermissionState(stub);
+        setUnknownState(stub);
     }
     if (newState === "On") {
         setPermittedState(stub);
@@ -39,7 +40,7 @@ NetworkMockStateEvent.on("updateProxyingState", (newState) => {
     }
 });
 
-let setNoPermissionState = (stub: SinonStubbedInstance<NetworksetupProxy>) => {
+let setUnknownState = (stub: SinonStubbedInstance<NetworksetupProxy>) => {
     stub.hasGrant.resolves(false);
     [
         [stub.setwebproxy, `-setwebproxy "Wi-Fi" 8888`],

@@ -1,5 +1,5 @@
-import {promisify} from "util";
 import * as fs from "fs";
+import { promisify } from "util";
 import { BaseValueObject } from "./base-value-object";
 
 const promisedFsStat = promisify(fs.stat);

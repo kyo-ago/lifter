@@ -19,16 +19,13 @@
         name: "left-toolbar",
         computed: {
             buttonType() {
-                if (this.$store.state.proxySettingStatus === "NoPermission") {
-                    return "info";
-                }
                 if (this.$store.state.proxySettingStatus === "On") {
-                    return "danger";
-                }
-                if (this.$store.state.proxySettingStatus === "Off") {
                     return "primary";
                 }
-                return "";
+                if (this.$store.state.proxySettingStatus === "Off") {
+                    return "info";
+                }
+                console.error(`invalid proxySettingStatus "${this.$store.state.proxySettingStatus}"`);
             },
         },
         methods: {

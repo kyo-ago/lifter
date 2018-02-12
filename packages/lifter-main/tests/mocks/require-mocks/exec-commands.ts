@@ -45,7 +45,7 @@ NetworkMockStateEvent.on("updateCertificateState", (newState: CertificateStatus)
 });
 
 NetworkMockStateEvent.on("updateProxyingState", (newState: ProxySettingStatus) => {
-    if (newState === "NoPermission") {
+    if (newState === "Unknown") {
         setNoWebProxyState(stub);
     }
     if (newState === "On") {

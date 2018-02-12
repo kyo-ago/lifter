@@ -1,5 +1,5 @@
-import "mocha";
 import * as assert from "assert";
+import "mocha";
 import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";

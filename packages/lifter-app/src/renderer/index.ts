@@ -1,21 +1,31 @@
 /// <reference path="../../typings/global.d.ts" />
 
+import { ApplicationMainStateJSON } from "@lifter/lifter-common";
+import Element from "element-ui";
+import locale from "element-ui/lib/locale/lang/ja";
+import "element-ui/lib/theme-chalk/index.css";
 import Vue from "vue";
 import Vuex from "vuex";
-import Element from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
-import locale from "element-ui/lib/locale/lang/ja";
 import { Application } from "./application/application";
-import render from "./ui/index";
+import { render } from "./components";
+import { getStore } from "./store";
 
-Vue.use(Vuex);
-Vue.use(Element, { locale });
+export interface UIState extends ApplicationMainStateJSON {
+    selectedTabIndex: number;
+    viewSettingModalPageState: boolean;
+    isAutoResponderFileDropPage: boolean;
+}
 
 function requireAll(r: any) {
     r.keys().forEach(r);
 }
-
 requireAll(require.context("./", true, /\.css$/));
 require("./index.css");
+
+Vue.use(Vuex);
+Vue.use(Element, { locale });
+
 let application = new Application();
-render(application);
+let store = getStore(application);
+
+render(store);

@@ -1,35 +1,16 @@
-import { ProxySettingStatus, CertificateStatus } from "@lifter/lifter-common";
-import Vue, { ComponentOptions } from "vue";
-import Vuex from "vuex";
-import { ClientRequestEntity } from "@lifter/lifter-main/build/domains/proxy/client-request/client-request-entity";
-import { AbstractAutoResponderEntryEntity } from "@lifter/lifter-main/build/domains/proxy/auto-responder-entry/auto-responder-entry-entity";
-import { Application, ApplicationState } from "../application/application";
-import App from "./app.vue";
+import {
+    AutoResponderEntryEntityJSON,
+    CertificateStatus,
+    ClientRequestEntityJSON,
+    ProxyCommandGrantStatus,
+    ProxySettingStatus,
+} from "@lifter/lifter-common";
+import { Store } from "vuex";
+import { Application } from "../application/application";
+import { UIState } from "../index";
 
-export interface VueComponent extends ComponentOptions<Vue> {
-    data?: object | ((this: any) => object);
-    computed?: { [key: string]: (this: any, ...args: any[]) => any };
-    methods?: { [key: string]: (this: any, ...args: any[]) => any };
-    created?(this: any): void;
-    beforeDestroy?(this: any): void;
-    destroyed?(this: any): void;
-    beforeMount?(this: any): void;
-    mounted?(this: any): void;
-    beforeUpdate?(this: any): void;
-    updated?(this: any): void;
-    activated?(this: any): void;
-    deactivated?(this: any): void;
-    errorCaptured?(this: any): boolean | void;
-}
-
-interface UIState extends ApplicationState {
-    selectedTabIndex: number;
-    viewSettingModalPageState: boolean;
-    isAutoResponderFileDropPage: boolean;
-}
-
-export default function(application: Application) {
-    const store = new Vuex.Store<UIState>({
+export function getStore(application: Application): Store<UIState> {
+    const store = new Store<UIState>({
         state: {
             selectedTabIndex: 0,
             viewSettingModalPageState: false,
@@ -61,8 +42,8 @@ export default function(application: Application) {
             changeCertificateState(state, newState: CertificateStatus) {
                 state.certificateState = newState;
             },
-            changeNetworkProxyCommandGranted(state, newState: boolean) {
-                state.isNetworkProxyCommandGranted = newState;
+            changeProxyCommandGrantStatus(state, newState: ProxyCommandGrantStatus) {
+                state.proxyCommandGrantStatus = newState;
             },
             changeNoAutoEnableProxySetting(state, newState: boolean) {
                 state.noAutoEnableProxySetting = newState;
@@ -70,30 +51,30 @@ export default function(application: Application) {
             changeNoPacFileProxySetting(state, newState: boolean) {
                 state.noPacFileProxySetting = newState;
             },
-            addClientRequestEntries(state, clientRequestEntity: ClientRequestEntity) {
-                state.clientRequestEntries.push(clientRequestEntity);
+            addClientRequestEntries(state, clientRequestEntityJSON: ClientRequestEntityJSON) {
+                state.clientRequestEntries.push(clientRequestEntityJSON);
             },
-            addAutoResponderEntries(state, autoResponderEntries: AbstractAutoResponderEntryEntity[]) {
+            addAutoResponderEntries(state, autoResponderEntries: AutoResponderEntryEntityJSON[]) {
                 state.autoResponderEntries = autoResponderEntries.concat(state.autoResponderEntries);
             },
-            overwriteAutoResponderEntries(state, autoResponderEntries: AbstractAutoResponderEntryEntity[]) {
+            overwriteAutoResponderEntries(state, autoResponderEntries: AutoResponderEntryEntityJSON[]) {
                 state.autoResponderEntries = autoResponderEntries;
             },
         },
         actions: {
             async changeProxySettingStatus({ commit }) {
-                let newState = await application.clickProxySettingStatus();
+                let newState = await application.changeProxySettingStatus();
                 commit("changeProxySettingStatus", newState);
                 return newState;
             },
             async changeCertificateState({ commit }) {
-                let newState = await application.clickCertificateStatus();
+                let newState = await application.changeCertificateStatus();
                 commit("changeCertificateState", newState);
                 return newState;
             },
-            async changeNetworkProxyCommandGranted({ commit }) {
-                let newState = await application.changeNetworkProxyCommandGranted();
-                commit("changeNetworkProxyCommandGranted", newState);
+            async changeProxyCommandGrantStatus({ commit }) {
+                let newState = await application.changeProxyCommandGrantStatus();
+                commit("changeProxyCommandGrantStatus", newState);
                 return newState;
             },
             async changeNoAutoEnableProxySetting({ commit }) {
@@ -116,9 +97,8 @@ export default function(application: Application) {
             },
             async deleteAutoResponderEntries(
                 { commit },
-                targetAutoResponderEntries: AbstractAutoResponderEntryEntity[],
+                targetAutoResponderEntries: AutoResponderEntryEntityJSON[],
             ) {
-                console.log(targetAutoResponderEntries);
                 await application.deleteAutoResponderEntities(targetAutoResponderEntries);
                 let autoResponderEntries = await application.fetchAutoResponderEntities();
                 commit("overwriteAutoResponderEntries", autoResponderEntries);
@@ -143,9 +123,5 @@ export default function(application: Application) {
         store.commit("addClientRequestEntries", clientRequestEntity);
     });
 
-    new Vue({
-        store,
-        components: { App },
-        template: "<App />",
-    }).$mount("#app");
+    return store;
 }

@@ -1,5 +1,5 @@
-import "mocha";
 import * as assert from "assert";
+import "mocha";
 import { MockNetworksetupResult } from "../../../../../tests/mocks/require-mocks/exec-commands";
 import { ParseNetworkDevices } from "./parse-network-devices";
 

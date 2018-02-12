@@ -1,4 +1,4 @@
-import { createApplication } from "@lifter/lifter-main/build/";
+import { createApplication } from "@lifter/lifter-main";
 import { app } from "electron";
 import * as loadDevtool from "electron-load-devtool";
 import { REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH } from "../settings";

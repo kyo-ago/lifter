@@ -1,4 +1,4 @@
-import { APPLICATION_NAME } from "@lifter/lifter-common";
+import { APPLICATION_NAME, ProxyCommandGrantStatus } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import * as fs from "fs";
 import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../settings";
@@ -9,48 +9,45 @@ import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-dom
 
 export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
-    private _isGranted: boolean;
+    private _isGranted: ProxyCommandGrantStatus;
 
     constructor(
         private userSettingStorage: UserSettingStorage,
         private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {}
 
-    get isGranted(): boolean {
-        return this._isGranted;
-    }
-
     async load() {
         let path = await this.getCommandPath();
         this._networksetupProxy = new NetworksetupProxy(`${APPLICATION_NAME} sudo prompt`, path);
-        this._isGranted = await this._networksetupProxy.hasGrant();
+        this._isGranted = (await this._networksetupProxy.hasGrant()) ? "On" : "Off";
+    }
+
+    getCurrentStatus(): ProxyCommandGrantStatus {
+        return this._isGranted;
     }
 
     async startProxy() {
-        let noAutoGrantRequest = this.userSettingStorage.resolve("noAutoGrantRequest");
-        if (!this.isGranted && !noAutoGrantRequest) {
-            await this.grantProxyCommand();
-        }
-
         let noAutoEnableProxy = this.userSettingStorage.resolve("noAutoEnableProxy");
-        if (this.isGranted && !noAutoEnableProxy) {
+        if (noAutoEnableProxy) {
+            return;
+        }
+        if (this._isGranted === "On") {
             await this.enableProxy();
         }
     }
 
     getNetworksetupProxy(): NetworksetupProxy | null {
-        return this._isGranted ? this._networksetupProxy : null;
+        return (this._isGranted === "On") ? this._networksetupProxy : null;
     }
 
-    async grantProxyCommand(): Promise<boolean> {
+    async grantProxyCommand(): Promise<ProxyCommandGrantStatus> {
         let result = await this._networksetupProxy.grant().catch(e => e);
         if (!(result instanceof Error)) {
-            this._isGranted = true;
-            await this.userSettingStorage.store("noAutoGrantRequest", false);
-            return true;
+            this._isGranted = "On";
+        } else {
+            this._isGranted = "Off";
         }
-        await this.userSettingStorage.store("noAutoGrantRequest", true);
-        return false;
+        return this._isGranted
     }
 
     enableProxy() {

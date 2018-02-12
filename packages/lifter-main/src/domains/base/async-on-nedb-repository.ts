@@ -1,6 +1,6 @@
-import {promisify} from "util";
 import * as Datastore from "nedb";
 import { Entity, Identity } from "typescript-dddbase";
+import { promisify } from "util";
 import { ResolveAll } from "../libs/resolve-all";
 
 export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {

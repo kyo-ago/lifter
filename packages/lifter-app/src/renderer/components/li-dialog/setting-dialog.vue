@@ -17,10 +17,10 @@
             </div>
             <div>
                 <el-switch
-                    v-model="currentNetworkProxyCommandGranted"
-                    @change="changeNetworkProxyCommandGranted"
+                    v-model="currentProxyCommandGrantStatus"
+                    @change="changeProxyCommandGrantStatus"
                 ></el-switch>
-                Network proxy command grant is {{isNetworkProxyCommandGranted}}
+                Network proxy command grant is {{proxyCommandGrantStatus}}
             </div>
             <div>
                 <el-switch
@@ -49,22 +49,18 @@
         data() {
             return {
                 currentCertificateState: this.$store.state.certificateState === "installed",
-                currentNetworkProxyCommandGranted: this.$store.state.isNetworkProxyCommandGranted,
+                currentProxyCommandGrantStatus: this.$store.state.proxyCommandGrantStatus === "On",
                 currentNoAutoEnableProxySetting: !this.$store.state.noAutoEnableProxySetting,
                 currentNoPacFileProxySetting: !this.$store.state.noPacFileProxySetting,
             };
         },
         computed: {
-            isNetworkProxyCommandGranted () {
-                return this.$store.state.isNetworkProxyCommandGranted;
-            },
-            noPacFileProxySetting () {
-                return this.$store.state.noPacFileProxySetting;
-            },
             ...mapState([
                 'viewSettingModalPageState',
                 'certificateState',
+                'proxyCommandGrantStatus',
                 'noAutoEnableProxySetting',
+                'noPacFileProxySetting',
             ]),
         },
         methods: {
@@ -75,9 +71,9 @@
                 await this.$store.dispatch('changeCertificateState');
                 this.$data.currentCertificateState = this.$store.state.certificateState === "installed";
             },
-            async changeNetworkProxyCommandGranted() {
-                await this.$store.dispatch('changeNetworkProxyCommandGranted');
-                this.$data.currentNetworkProxyCommandGranted = this.$store.state.isNetworkProxyCommandGranted;
+            async changeProxyCommandGrantStatus() {
+                await this.$store.dispatch('changeProxyCommandGrantStatus');
+                this.$data.currentProxyCommandGrantStatus = this.$store.state.proxyCommandGrantStatus === "On";
             },
             async changeNoAutoEnableProxySetting() {
                 await this.$store.dispatch('changeNoAutoEnableProxySetting');

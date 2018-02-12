@@ -1,6 +1,6 @@
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
-import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
+import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { BaseEntity } from "../../base/base-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";

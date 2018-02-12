@@ -1,5 +1,5 @@
-import {promisify} from "util";
 import * as Datastore from "nedb";
+import { promisify } from "util";
 
 export abstract class AsyncOnNedbFactory {
     private datastore: Datastore;

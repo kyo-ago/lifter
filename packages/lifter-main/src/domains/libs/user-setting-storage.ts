@@ -1,14 +1,12 @@
-import {promisify} from "util";
 import * as Datastore from "nedb";
+import { promisify } from "util";
 import { ProjectEntity } from "../proxy/project/project-entity";
 
 export interface UserSettings {
-    noAutoGrantRequest: boolean;
     noAutoEnableProxy: boolean;
     noPacFileProxy: boolean;
 }
 const DefaultUserSettings: UserSettings = {
-    noAutoGrantRequest: false,
     noAutoEnableProxy: false,
     noPacFileProxy: false,
 };

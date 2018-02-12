@@ -1,6 +1,36 @@
 export const APPLICATION_NAME = "Lifter Proxy";
 
+export type CertificateStatus = "missing" | "installed";
+
+export type ProxySettingStatus = "On" | "Off";
+
+export type ProxyCommandGrantStatus = "On" | "Off";
+
+export type RewriteRuleActionType = "ADD" | "MODIFY" | "DELETE";
+
 export type AutoResponderEntryType = "File" | "Directory" | "Glob";
+
+export interface ApplicationMainStateJSON {
+    autoResponderEntries: AutoResponderEntryEntityJSON[];
+    clientRequestEntries: ClientRequestEntityJSON[];
+    certificateState: CertificateStatus;
+    proxySettingStatus: ProxySettingStatus;
+    proxyCommandGrantStatus: ProxyCommandGrantStatus;
+    noAutoEnableProxySetting: boolean;
+    noPacFileProxySetting: boolean;
+}
+
+export interface ElectronIpcMap {
+    fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
+    addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
+    changeCertificateStatus: CertificateStatus;
+    changeProxySettingStatus: ProxySettingStatus;
+    changeProxyCommandGrantStatus: ProxyCommandGrantStatus;
+    changeNoAutoEnableProxySetting: boolean;
+    changeNoPacFileProxySetting: boolean;
+    deleteAutoResponderEntryEntities: void;
+    addClientRequestEntity: ClientRequestEntityJSON;
+}
 
 export interface AutoResponderEntryEntityJSON {
     id: number;
@@ -9,8 +39,6 @@ export interface AutoResponderEntryEntityJSON {
     path: string;
     projectId: number;
 }
-
-export type CertificateStatus = "missing" | "installed";
 
 export interface ClientRequestEntityJSON {
     id: number;
@@ -21,10 +49,6 @@ export interface ProxyBypassDomainEntityJSON {
     id: number;
     name: string;
 }
-
-export type ProxySettingStatus = "NoPermission" | "On" | "Off";
-
-export type RewriteRuleActionType = "ADD" | "MODIFY" | "DELETE";
 
 export interface RewriteRuleEntityJSON {
     id: number;

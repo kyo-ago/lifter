@@ -1,5 +1,5 @@
 import * as rimraf from "rimraf";
-import {promisify} from "util";
+import { promisify } from "util";
 import { LifecycleContextService } from "../../src/application/lifecycle-context-service";
 import { ProjectFactory } from "../../src/domains/proxy/project/lifecycle/project-factory";
 
