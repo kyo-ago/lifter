@@ -41,8 +41,8 @@
 </template>
 
 <script lang="ts">
-    import {mapMutations, mapState} from 'vuex';
-    import {VueComponent} from "../index";
+    import { mapMutations, mapState } from 'vuex';
+    import { VueComponent } from "../index";
 
     export default {
         name: "setting-dialog",

@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-    import {mapState} from 'vuex';
+    import { mapState } from 'vuex';
     import AutoResponder from "./auto-responder.vue";
     import Connection from "./connection.vue";
     import ProxyBypassDomain from "./proxy-bypass-domain.vue";

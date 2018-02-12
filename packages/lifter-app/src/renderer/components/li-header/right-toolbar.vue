@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-    import {VueComponent} from "../index";
+    import { VueComponent } from "../index";
     import Divider from "./divider.vue";
 
     export default {

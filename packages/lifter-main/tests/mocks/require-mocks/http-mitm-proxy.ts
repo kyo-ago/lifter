@@ -1,5 +1,5 @@
-import * as sinon from "sinon";
 import * as mockRequire from "mock-require";
+import * as sinon from "sinon";
 
 let stub = sinon.stub({
     onError: () => undefined,

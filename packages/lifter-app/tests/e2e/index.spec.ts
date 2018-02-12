@@ -1,6 +1,6 @@
-import { Application } from "spectron";
 import * as assert from "assert";
 import * as Path from "path";
+import { Application } from "spectron";
 
 describe("application launch", () => {
     let application: Application;

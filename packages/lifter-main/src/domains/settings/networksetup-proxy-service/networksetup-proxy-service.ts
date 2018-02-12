@@ -41,13 +41,14 @@ export class NetworksetupProxyService {
     }
 
     async grantProxyCommand(): Promise<ProxyCommandGrantStatus> {
-        let result = await this._networksetupProxy.grant().catch(e => e);
-        if (!(result instanceof Error)) {
+        try {
+            let result = await this._networksetupProxy.grant();
             this._isGranted = "On";
-        } else {
+        } catch (e) {
+            // user cancel
             this._isGranted = "Off";
         }
-        return this._isGranted
+        return this._isGranted;
     }
 
     enableProxy() {

@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-    import {mapMutations, mapState} from 'vuex';
+    import { mapMutations, mapState } from 'vuex';
 
     export default {
         name: "auto-responder-file-drop-dialog",

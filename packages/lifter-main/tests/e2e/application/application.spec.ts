@@ -1,6 +1,7 @@
-import "mocha";
 import * as assert from "assert";
+import "mocha";
 import "../../mocks/require-mocks";
+
 import { Application } from "../../../src/application/application";
 import { LifecycleContextService } from "../../../src/application/lifecycle-context-service";
 import { createProjectEntity } from "../../mocks/create-services";
@@ -15,7 +16,7 @@ describe("Application", () => {
         );
     };
 
-    it.skip("start -> quit", async () => {
+    it("start -> quit", async () => {
         try {
             let application = createApplication();
             await application.load();

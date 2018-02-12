@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-    import {mapActions} from 'vuex';
-    import {VueComponent} from "../index";
+    import { mapActions } from 'vuex';
+    import { VueComponent } from "../index";
     import Divider from "./divider.vue";
 
     export default {

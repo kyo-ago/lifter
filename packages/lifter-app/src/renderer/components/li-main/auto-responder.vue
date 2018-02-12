@@ -35,8 +35,8 @@
 
 <script lang="ts">
     import Rx from 'rxjs/Rx';
-    import {mapState} from 'vuex';
-    import {VueComponent} from "../index";
+    import { mapState } from 'vuex';
+    import { VueComponent } from "../index";
 
     export default {
         name: "auto-responder",

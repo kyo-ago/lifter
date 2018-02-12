@@ -1,7 +1,7 @@
 import { CertificateStatus, ProxySettingStatus } from "@lifter/lifter-common";
-import { SinonStubbedInstance } from "sinon";
-import * as sinon from "sinon";
 import * as mockRequire from "mock-require";
+import * as sinon from "sinon";
+import { SinonStubbedInstance } from "sinon";
 import * as ExecCommands from "../../../src/libs/exec-commands";
 import { CERTIFICATE_NAME, NETWORK_HOST_NAME, PROXY_PORT } from "../../../src/settings";
 import { NetworkMockStateEvent } from "../network-mock-state-event";
