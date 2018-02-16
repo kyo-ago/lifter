@@ -1,4 +1,4 @@
-import { CertificateStatus } from "../../../../../lifter-common/build/index";
+import { CertificateStatus } from "@lifter/lifter-common";
 import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../../libs/exec-commands";
 
 export class CertificateService {
