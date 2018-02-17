@@ -3,10 +3,10 @@ import {
     AutoResponderEntryEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    ipc,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
 } from "@lifter/lifter-common";
-import { ipc } from "../../libs/ipc";
 import { windowManager } from "./libs/get-window-manager";
 
 export class Application {

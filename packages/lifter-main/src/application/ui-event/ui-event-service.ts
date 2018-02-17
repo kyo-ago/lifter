@@ -1,6 +1,7 @@
 import {
     AutoResponderEntryEntityJSON,
     CertificateStatus,
+    ipc,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
 } from "@lifter/lifter-common";
@@ -11,7 +12,6 @@ import { AutoResponderEntryRepository } from "../../domains/proxy/auto-responder
 import { CertificateService } from "../../domains/settings/certificate/certificate-service";
 import { NetworksetupProxyService } from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { ProxySettingService } from "../../domains/settings/proxy-setting/proxy-setting-service";
-import { ipc } from "../libs/ipc";
 
 export class UIEventService {
     constructor(

@@ -1,7 +1,6 @@
 import * as windowManager from "@lifter/electron-window-manager";
-import { APPLICATION_NAME } from "@lifter/lifter-common";
+import { APPLICATION_NAME, ipc } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
-import { ipc } from "../libs/ipc";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
 
 export class WindowManager {

@@ -1,3 +1,7 @@
+import * as Ipc from "./ipc";
+
+export const ipc = Ipc.ipc;
+
 export const APPLICATION_NAME = "Lifter Proxy";
 
 export type CertificateStatus = "missing" | "installed";
@@ -18,18 +22,6 @@ export interface ApplicationMainStateJSON {
     proxyCommandGrantStatus: ProxyCommandGrantStatus;
     noAutoEnableProxySetting: boolean;
     noPacFileProxySetting: boolean;
-}
-
-export interface ElectronIpcMap {
-    fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
-    addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
-    changeCertificateStatus: CertificateStatus;
-    changeProxySettingStatus: ProxySettingStatus;
-    changeProxyCommandGrantStatus: ProxyCommandGrantStatus;
-    changeNoAutoEnableProxySetting: boolean;
-    changeNoPacFileProxySetting: boolean;
-    deleteAutoResponderEntryEntities: void;
-    addClientRequestEntity: ClientRequestEntityJSON;
 }
 
 export interface AutoResponderEntryEntityJSON {

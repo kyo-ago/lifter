@@ -4,6 +4,7 @@
   "version": "0.0.9",
   "author": "@kyo_ago",
   "dependencies": {
+    "electron-ipc": "^0.3.0",
     "typescript-dddbase": "0.0.5"
   },
   "devDependencies": {
