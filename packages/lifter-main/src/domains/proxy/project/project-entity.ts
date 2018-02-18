@@ -18,12 +18,8 @@ export class ProjectEntity extends BaseEntity<ProjectIdentity> {
     }
 
     getDataStoreOptions(name: string): DataStoreOptions {
-        return process.env.NODE_ENV === "test"
-            ? {
-                  inMemoryOnly: true,
-              }
-            : {
-                  filename: `${this.baseDir.value}/${name}.nedb`,
-              };
+        return {
+            filename: `${this.baseDir.value}/${name}.nedb`,
+        };
     }
 }

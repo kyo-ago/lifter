@@ -2,6 +2,8 @@ import * as Ipc from "./ipc";
 
 export const ipc = Ipc.ipc;
 
+export interface ElectronIpcMap extends Ipc.ElectronIpcMap {}
+
 export const APPLICATION_NAME = "Lifter Proxy";
 
 export type CertificateStatus = "missing" | "installed";

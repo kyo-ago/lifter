@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import "mocha";
-import { MockNetworksetupResult } from "../../../../../tests/mocks/require-mocks/exec-commands";
+import { MockNetworksetupResult } from "../../../../../tests/mocks/require-mocks/exec-commands/set-proxy-setting-state";
 import { ParseNetworkDevices } from "./parse-network-devices";
 
 describe("ParseNetworkDevices", () => {

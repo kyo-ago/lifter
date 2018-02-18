@@ -1,7 +1,7 @@
 import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@lifter/lifter-common";
 import * as fs from "fs";
 import * as Path from "path";
-import { AsyncOnNedbFactory } from "../../../base/async-on-nedb-factory";
+import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";
 import { ProjectIdentity } from "../../project/project-identity";
 import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
@@ -16,7 +16,7 @@ import { AutoResponderEntryAnyPath } from "../auto-responder-entry-glob/value-ob
 import { AutoResponderEntryGlobPattern } from "../auto-responder-entry-glob/value-objects/auto-responder-entry-glob-pattern";
 import { AutoResponderEntryIdentity } from "../auto-responder-entry-identity";
 
-export class AutoResponderEntryFactory extends AsyncOnNedbFactory {
+export class AutoResponderEntryFactory extends AsyncNedbIdGenerator {
     constructor(private projectEntity: ProjectEntity) {
         super(projectEntity.getDataStoreOptions("autoResponderEntryFactory"));
     }

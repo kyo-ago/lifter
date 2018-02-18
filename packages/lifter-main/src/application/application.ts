@@ -23,15 +23,15 @@ import { ProxyService } from "./proxy/proxy-service";
 import { UIEventService } from "./ui-event/ui-event-service";
 
 export class Application {
-    public networksetupProxyService: NetworksetupProxyService;
-    public proxyService: ProxyService;
-    public certificateService: CertificateService;
-    public proxySettingService: ProxySettingService;
-    public pacFileService: PacFileService;
-    public connectionService: ConnectionService;
-    public proxyBypassDomainService: ProxyBypassDomainService;
-    public userSettingStorage: UserSettingStorage;
-    private subscribeService: UIEventService;
+    private networksetupProxyService: NetworksetupProxyService;
+    private proxyService: ProxyService;
+    private certificateService: CertificateService;
+    private proxySettingService: ProxySettingService;
+    private pacFileService: PacFileService;
+    private connectionService: ConnectionService;
+    private proxyBypassDomainService: ProxyBypassDomainService;
+    private userSettingStorage: UserSettingStorage;
+    protected uiEventService: UIEventService;
 
     constructor(
         httpSslCaDirPath: string,
@@ -72,7 +72,7 @@ export class Application {
             this.networksetupProxyService,
         );
 
-        this.subscribeService = new UIEventService(
+        this.uiEventService = new UIEventService(
             this.lifecycleContextService.autoResponderEntryFactory,
             this.lifecycleContextService.autoResponderEntryRepository,
             this.certificateService,
@@ -90,7 +90,7 @@ export class Application {
         await this.proxyBypassDomainService.load();
         await this.pacFileService.load();
         await this.networksetupProxyService.load();
-        this.subscribeService.subscribe();
+        this.uiEventService.subscribe();
     }
 
     async start(callback: (clientRequestEntity: ClientRequestEntity) => void) {

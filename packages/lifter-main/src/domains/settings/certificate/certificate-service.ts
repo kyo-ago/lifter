@@ -46,7 +46,7 @@ export class CertificateService {
             return true;
         } catch (e) {
             // user cancel
-            if (e.stderr.match(/SecTrustSettingsSetTrustSettings/)) {
+            if (e.message.match(/SecTrustSettingsSetTrustSettings/)) {
                 await deleteCertificate();
                 return false;
             }
