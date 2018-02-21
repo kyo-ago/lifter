@@ -42,18 +42,46 @@ describe("UIEventService", () => {
         assert(afterResults.length === 1);
     });
 
-    it("changeCertificateStatus", async () => {
+    let changeStateTest = async (callback, key, name, result) => {
+        MockStateEvent.emit(key, name);
+        let callbackResult = await callback({}, void 0);
+        assert(callbackResult === result);
+    };
+
+    let getMainState = async () => {
         let application = await createApplication();
-        let mainState = await application.getMainState();
-        assert(mainState.certificateState === "missing");
+        return await application.getMainState();
+    };
+
+    it("changeCertificateStatus", async () => {
+        assert((await getMainState()).certificateState === "missing");
 
         let callback = getCallback("changeCertificateStatus");
-        MockStateEvent.emit("updateCertificateState", "missing");
-        let result = await callback({}, void 0);
-        assert(result === "installed");
+        await changeStateTest(callback, "updateCertificateState", "missing", "installed");
+        await changeStateTest(callback, "updateCertificateState", "installed", "missing");
+    });
 
-        MockStateEvent.emit("updateCertificateState", "installed");
-        let installedResult = await callback({}, void 0);
-        assert(installedResult === "missing");
+    it("changeProxyCommandGrantStatus", async () => {
+        assert((await getMainState()).proxyCommandGrantStatus === "Off");
+
+        let callback = getCallback("changeProxyCommandGrantStatus");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "initialize", "On");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "CancelGrant", "Off");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "Off", "On");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "On", "Off");
+    });
+
+    it("changeNoAutoEnableProxySetting", async () => {
+        assert(!(await getMainState()).noAutoEnableProxySetting);
+
+        let callback = getCallback("changeNoAutoEnableProxySetting");
+        assert(await callback({}, void 0));
+    });
+
+    it("noPacFileProxySetting", async () => {
+        assert(!(await getMainState()).noPacFileProxySetting);
+
+        let callback = getCallback("changeNoPacFileProxySetting");
+        assert(await callback({}, void 0));
     });
 });

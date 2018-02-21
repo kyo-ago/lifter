@@ -25,7 +25,7 @@ export class ProxySettingService {
     }
 
     async clearProxyState(): Promise<void> {
-        if (this.networksetupProxyService.getCurrentStatus() === "Off") {
+        if (!this.networksetupProxyService.hasGrant()) {
             return;
         }
         return await this.networksetupProxyService.disableProxy();

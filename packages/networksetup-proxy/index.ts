@@ -15,6 +15,9 @@ export type IOResult = {
 export type Enabled = "on" | "off";
 
 const promisedFsStat = promisify(fs.stat);
+const promisedFsUnlink = promisify(fs.unlink);
+const promisedFsCopyFile = promisify(fs.copyFile);
+const promisedFsRename = promisify(fs.rename);
 const promisedSudoExec = promisify(exec);
 
 export class NetworksetupProxy {
@@ -22,6 +25,14 @@ export class NetworksetupProxy {
         private sudoApplicationName: string = "electron sudo application",
         private PROXY_SETTING_COMMAND = path.join(__dirname, `./rust/proxy-setting`),
     ) {}
+
+    async hasGrant(): Promise<boolean> {
+        let stat = await promisedFsStat(this.PROXY_SETTING_COMMAND);
+        let mode = new Mode(stat);
+        if (Number(stat.uid) !== 0) return false;
+        if (mode.toOctal() !== "4755") return false;
+        return true;
+    }
 
     async grant(): Promise<IOResult> {
         let [stdout, stderr]: string[] = await promisedSudoExec(
@@ -33,12 +44,14 @@ export class NetworksetupProxy {
         return { stdout, stderr };
     }
 
-    async hasGrant(): Promise<boolean> {
-        let stat = await promisedFsStat(this.PROXY_SETTING_COMMAND);
-        let mode = new Mode(stat);
-        if (Number(stat.uid) !== 0) return false;
-        if (mode.toOctal() !== "4755") return false;
-        return true;
+    async removeGrant(): Promise<IOResult> {
+        let basename = path.basename(this.PROXY_SETTING_COMMAND);
+        let dirname = path.dirname(this.PROXY_SETTING_COMMAND);
+        let tempolaryFileName = `${dirname}/tmp_${basename}`;
+        await promisedFsCopyFile(this.PROXY_SETTING_COMMAND, tempolaryFileName);
+        await promisedFsUnlink(this.PROXY_SETTING_COMMAND);
+        await promisedFsRename(tempolaryFileName, this.PROXY_SETTING_COMMAND);
+        return { stdout: '', stderr: '' };
     }
 
     setwebproxy(

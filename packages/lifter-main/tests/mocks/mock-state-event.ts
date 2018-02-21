@@ -1,12 +1,12 @@
 import * as EventEmitter from "events";
-import { MockNetworksetupProxyStatus } from "./require-mocks/@lifter/networksetup-proxy";
+import { MockProxyCommandGrantStatus } from "./require-mocks/@lifter/networksetup-proxy";
 import { MockCertificateStatus } from "./require-mocks/exec-commands/set-cetificate-state";
 import { MockProxySettingStatus } from "./require-mocks/exec-commands/set-proxy-setting-state";
 
 interface Events {
     "updateCertificateState": MockCertificateStatus;
     "updateProxySettingState": MockProxySettingStatus;
-    "updateNetworksetupProxyStatus": MockNetworksetupProxyStatus;
+    "updateProxyCommandGrantStatus": MockProxyCommandGrantStatus;
 }
 
 export const MockStateEvent = new class extends EventEmitter {
@@ -21,5 +21,5 @@ export const MockStateEvent = new class extends EventEmitter {
 beforeEach(() => {
     MockStateEvent.emit("updateCertificateState", "initialize");
     MockStateEvent.emit("updateProxySettingState", "initialize");
-    MockStateEvent.emit("updateNetworksetupProxyStatus", "initialize");
+    MockStateEvent.emit("updateProxyCommandGrantStatus", "initialize");
 });

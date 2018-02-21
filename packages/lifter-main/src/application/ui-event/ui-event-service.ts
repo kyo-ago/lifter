@@ -45,7 +45,7 @@ export class UIEventService {
         });
 
         ipc.subscribe("changeProxyCommandGrantStatus", (): Promise<ProxyCommandGrantStatus> => {
-            return this.networksetupProxyService.grantProxyCommand();
+            return this.networksetupProxyService.toggleGrantProxyCommand();
         });
 
         ipc.subscribe("changeNoAutoEnableProxySetting", (): Promise<boolean> => {

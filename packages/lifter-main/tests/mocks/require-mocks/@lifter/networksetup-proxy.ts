@@ -10,7 +10,7 @@ let commandSuccessResult = { stdout: ``, stderr: `` };
 
 let setProxyState = (newState: ProxySettingStatus, result: IOResult) => {
     return () => {
-        MockStateEvent.emit("updateNetworksetupProxyStatus", newState);
+        MockStateEvent.emit("updateProxyCommandGrantStatus", newState);
         return Promise.resolve(result);
     };
 };
@@ -28,9 +28,9 @@ mockRequire("@lifter/networksetup-proxy", {
     },
 });
 
-export type MockNetworksetupProxyStatus = ProxySettingStatus | "initialize" | "CancelGrant";
+export type MockProxyCommandGrantStatus = ProxySettingStatus | "initialize" | "CancelGrant";
 
-MockStateEvent.on("updateNetworksetupProxyStatus", (newState) => {
+MockStateEvent.on("updateProxyCommandGrantStatus", (newState) => {
     if (newState === "CancelGrant") {
         stub.grant.rejects(new Error("User did not grant permission."));
         return setUnknownState(stub);

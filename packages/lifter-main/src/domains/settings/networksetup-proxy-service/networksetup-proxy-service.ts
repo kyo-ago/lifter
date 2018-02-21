@@ -22,6 +22,10 @@ export class NetworksetupProxyService {
         this._isGranted = (await this._networksetupProxy.hasGrant()) ? "On" : "Off";
     }
 
+    hasGrant(): boolean {
+        return this.getCurrentStatus() === "On";
+    }
+
     getCurrentStatus(): ProxyCommandGrantStatus {
         return this._isGranted;
     }
@@ -31,21 +35,26 @@ export class NetworksetupProxyService {
         if (noAutoEnableProxy) {
             return;
         }
-        if (this._isGranted === "On") {
+        if (this.hasGrant()) {
             await this.enableProxy();
         }
     }
 
     getNetworksetupProxy(): NetworksetupProxy | null {
-        return (this._isGranted === "On") ? this._networksetupProxy : null;
+        return this.hasGrant() ? this._networksetupProxy : null;
     }
 
-    async grantProxyCommand(): Promise<ProxyCommandGrantStatus> {
-        try {
-            let result = await this._networksetupProxy.grant();
-            this._isGranted = "On";
-        } catch (e) {
-            // user cancel
+    async toggleGrantProxyCommand(): Promise<ProxyCommandGrantStatus> {
+        if (!this.hasGrant()) {
+            try {
+                await this._networksetupProxy.grant();
+                this._isGranted = "On";
+            } catch (e) {
+                // user cancel
+                this._isGranted = "Off";
+            }
+        } else {
+            await this._networksetupProxy.removeGrant();
             this._isGranted = "Off";
         }
         return this._isGranted;
