@@ -60,7 +60,7 @@ export class UIEventService {
             return this.proxySettingService.getNewStatus();
         });
 
-        ipc.subscribe("deleteAutoResponderEntryEntities", async (event: any, ids: number[]) => {
+        ipc.subscribe("deleteAutoResponderEntryEntities", async (event: any, ids: number[]): Promise<void> => {
             await Promise.all(
                 ids
                     .map(id => new AutoResponderEntryIdentity(id))

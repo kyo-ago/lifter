@@ -13,7 +13,6 @@ interface Ifconfig {
 declare module "ifconfig" {
     function ifconfig(callback: (err: any, configs: Ifconfig) => void): void;
     namespace ifconfig {
-
     }
     export = ifconfig;
 }

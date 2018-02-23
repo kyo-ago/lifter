@@ -71,6 +71,25 @@ describe("UIEventService", () => {
         await changeStateTest(callback, "updateProxyCommandGrantStatus", "On", "Off");
     });
 
+    it("changeProxyCommandGrantStatus", async () => {
+        assert((await getMainState()).proxyCommandGrantStatus === "Off");
+
+        let callback = getCallback("changeProxyCommandGrantStatus");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "initialize", "On");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "CancelGrant", "Off");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "Off", "On");
+        await changeStateTest(callback, "updateProxyCommandGrantStatus", "On", "Off");
+    });
+
+    it("changeProxySettingStatus", async () => {
+        assert((await getMainState()).proxySettingStatus === "Off");
+
+        let callback = getCallback("changeProxySettingStatus");
+        await changeStateTest(callback, "updateProxySettingState", "initialize", "On");
+        await changeStateTest(callback, "updateProxySettingState", "Off", "On");
+        await changeStateTest(callback, "updateProxySettingState", "On", "Off");
+    });
+
     it("changeNoAutoEnableProxySetting", async () => {
         assert(!(await getMainState()).noAutoEnableProxySetting);
 

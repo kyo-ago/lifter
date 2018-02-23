@@ -14,9 +14,20 @@ export type IOResult = {
 
 export type Enabled = "on" | "off";
 
+function copyFile(src: string, dest: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        let r = fs.createReadStream(src);
+        let w = fs.createWriteStream(dest);
+        r.on("error", reject);
+        w.on("error", reject);
+        w.on("close", resolve);
+        r.pipe(w);
+    });
+}
+
 const promisedFsStat = promisify(fs.stat);
 const promisedFsUnlink = promisify(fs.unlink);
-const promisedFsCopyFile = promisify(fs.copyFile);
+const promisedFsCopyFile = fs.copyFile ? promisify(fs.copyFile) : copyFile;
 const promisedFsRename = promisify(fs.rename);
 const promisedSudoExec = promisify(exec);
 
