@@ -4,11 +4,10 @@
   "version": "0.0.12",
   "author": "@kyo_ago",
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.9",
-    "@lifter/lifter-common": "^0.0.9",
-    "@lifter/networksetup-proxy": "^0.0.10",
+    "@lifter/electron-window-manager": "^0.0.12",
+    "@lifter/lifter-common": "^0.0.12",
+    "@lifter/networksetup-proxy": "^0.0.12",
     "electron-ipc": "^0.3.0",
-    "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",
     "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
@@ -20,46 +19,31 @@
   },
   "devDependencies": {
     "@types/execa": "^0.8.0",
-    "@types/jest": "^21.1.8",
     "@types/micromatch": "^2.3.29",
     "@types/mime": "2.0.0",
+    "@types/mocha": "^2.2.48",
     "@types/nedb": "^1.8.5",
     "@types/node": "^8.0.57",
+    "@types/sinon": "^4.1.3",
     "dependency-cruiser": "^2.9.0",
-    "jest": "^21.2.1",
-    "testdouble": "^3.2.6",
-    "ts-jest": "^21.2.4",
+    "mocha": "^5.0.0",
+    "mock-require": "^3.0.1",
+    "sinon": "^4.2.2",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ],
-    "testRegex": "\\/src\\/.+\\.spec\\.(ts|js)$",
-    "testEnvironment": "node",
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json"
-    ]
+  "directories": {
+    "test": "src/"
   },
   "license": "GPL-3.0",
   "main": "./build/index.js",
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -p . --rootDir ./src/",
     "clean": "rm -fr package-lock.json yarn.lock node_modules build",
     "clean-install": "rm -fr node_modules build && yarn install",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "fix": "fixpack",
-    "test": "NODE_ENV='test' && jest"
+    "test": "NODE_ENV='test' mocha --require ts-node/register tests/mocks/require-mocks/*.ts tests/mocks/require-mocks/**/*.ts {src,tests}/**/*.spec.ts"
   },
   "types": "./build/index.d.ts"
 }

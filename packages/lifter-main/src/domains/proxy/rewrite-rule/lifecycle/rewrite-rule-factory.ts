@@ -13,7 +13,7 @@ export class RewriteRuleFactory {
             new RewriteRuleUrlPattern(json.url),
             new RewriteRuleAction(json.action),
             new RewriteRuleHeader(json.header),
-            new RewriteRuleValue(json.value)
+            new RewriteRuleValue(json.value),
         );
     }
 }

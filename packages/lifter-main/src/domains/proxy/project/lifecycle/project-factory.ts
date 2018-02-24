@@ -10,7 +10,7 @@ export class ProjectFactory {
         return new ProjectEntity(
             new ProjectIdentity(json.id),
             new ProjectName(json.name),
-            new ProjectBaseDir(json.baseDir)
+            new ProjectBaseDir(json.baseDir),
         );
     }
 
@@ -18,7 +18,7 @@ export class ProjectFactory {
         return new ProjectEntity(
             new ProjectIdentity(this.identity++),
             new ProjectName("new project"),
-            new ProjectBaseDir(projectBaseDir)
+            new ProjectBaseDir(projectBaseDir),
         );
     }
 }

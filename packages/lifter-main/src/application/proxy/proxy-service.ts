@@ -12,8 +12,8 @@ export class ProxyService {
         onRequestCallback: (
             href: URL.Url,
             blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
-            passCallback: (error: Error | undefined) => void
-        ) => void
+            passCallback: (error: Error | undefined) => void,
+        ) => void,
     ) {
         this.mitmProxy.onError((context: HttpMitmProxy.IContext, err?: Error, errorKind?: string) => {
             // context may be null
@@ -33,7 +33,7 @@ export class ProxyService {
                     ctx.proxyToClientResponse.writeHead(200, header);
                     ctx.proxyToClientResponse.end(body);
                 },
-                callback
+                callback,
             );
         });
 
@@ -41,7 +41,7 @@ export class ProxyService {
             port: PROXY_PORT,
             host: BIND_HOST_NAME,
             silent: true,
-            sslCaDir: this.sslCaDir
+            sslCaDir: this.sslCaDir,
         });
     }
 }

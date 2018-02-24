@@ -17,7 +17,7 @@ export class NetworkInterfaceFactory {
             new NetworkInterfaceIdentity(this.identity++),
             new NetworkInterfaceName(param.name),
             new NetworkInterfaceServiceName(param.serviceName),
-            param.enable
+            param.enable,
         );
     }
 }

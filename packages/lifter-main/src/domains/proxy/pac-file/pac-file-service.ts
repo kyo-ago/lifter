@@ -1,19 +1,19 @@
 import * as Rx from "rxjs/Rx";
 import { async } from "rxjs/scheduler/async";
 import { PROXY_SERVER_NAME } from "../../../settings";
-import {UserSettingStorage} from "../../libs/user-setting-storage";
+import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
-import { AutoResponderEntryRepository } from "../auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
+import { AutoResponderRepository } from "../auto-responder/lifecycle/auto-responder-repositoty";
 
 export class PacFileService {
     constructor(
-        private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private autoResponderRepository: AutoResponderRepository,
         private networksetupProxyService: NetworksetupProxyService,
-        private userSettingStorage: UserSettingStorage
+        private userSettingStorage: UserSettingStorage,
     ) {}
 
     async load() {
-        if (this.userSettingStorage.resolve('noPacFileProxy')) {
+        if (this.userSettingStorage.resolve("noPacFileProxy")) {
             return;
         }
 
@@ -23,21 +23,21 @@ export class PacFileService {
         observable
             .throttleTime(300, async, {
                 leading: true,
-                trailing: true
+                trailing: true,
             })
             .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl());
 
-        this.autoResponderEntryRepository.addChangeEvent(() => observable.next());
-        let autoResponderEntryEntries = await this.autoResponderEntryRepository.resolveAll();
-        if (autoResponderEntryEntries.length) {
+        this.autoResponderRepository.addChangeEvent(() => observable.next());
+        let autoResponderEntries = await this.autoResponderRepository.resolveAll();
+        if (autoResponderEntries.length) {
             observable.next();
         }
     }
 
     async getContent(): Promise<string> {
-        let autoResponderEntryEntries = await this.autoResponderEntryRepository.resolveAll();
-        let codeSttrings = autoResponderEntryEntries.map(autoResponderEntryEntity => {
-            return autoResponderEntryEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
+        let autoResponderEntries = await this.autoResponderRepository.resolveAll();
+        let codeSttrings = autoResponderEntries.map(autoResponderEntity => {
+            return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
         });
         return `
             function FindProxyForURL(url, host) {

@@ -50,7 +50,7 @@ var Window = function(name, title, url, setupTemplate, setup, showDevTools) {
 
     this.setup = {
         show: false,
-        setupTemplate: setupTemplate
+        setupTemplate: setupTemplate,
     };
 
     if (title) this.setup.title = title;
@@ -62,7 +62,7 @@ var Window = function(name, title, url, setupTemplate, setup, showDevTools) {
         var dimensions = setup.split("x");
         setup = {
             width: parseInt(dimensions[0]),
-            height: parseInt(dimensions[1])
+            height: parseInt(dimensions[1]),
         };
     }
 
@@ -269,7 +269,7 @@ Window.prototype.loadURL = function(url, options) {
         var layoutUrl = UrlPath.format({
             pathname: DirPath.join(layoutPath),
             protocol: "file:",
-            slashes: true
+            slashes: true,
         });
 
         // Load the the layout first
@@ -299,7 +299,7 @@ Window.prototype.loadURL = function(url, options) {
 
                 var data = {
                     assets: Application.getAppPath(),
-                    appBase: Application.getAppPath()
+                    appBase: Application.getAppPath(),
                 };
 
                 var html = content.replace(/\{\{(\w+)\}\}/g, (all, name) => {
@@ -344,9 +344,9 @@ Window.prototype.loadURL = function(url, options) {
                         UrlPath.format({
                             pathname: DirPath.join(utils.getAppLocalPath(), "layouts/compiled/" + generatedUrl),
                             protocol: "file:",
-                            slashes: true
+                            slashes: true,
                         }),
-                        options
+                        options,
                     );
                 });
             });
@@ -542,7 +542,7 @@ Window.prototype.move = function(x, y) {
         x: x || bounds.x,
         y: y || bounds.y,
         width: this.setup.width,
-        height: this.setup.height
+        height: this.setup.height,
     });
 
     return this;
@@ -559,7 +559,7 @@ Window.prototype.resize = function(width, heigt) {
         width: width || bounds.width,
         height: heigt || bounds.height,
         x: bounds.x,
-        y: bounds.y
+        y: bounds.y,
     });
 
     return this;
@@ -605,7 +605,7 @@ var templates = {
      * */
     getProperty: function(name, prop) {
         return this.get(name)[prop];
-    }
+    },
 };
 
 /**
@@ -669,7 +669,7 @@ var utils = {
                 "bottomRight",
                 "rightBottom",
                 "bottomLeft",
-                "leftBottom"
+                "leftBottom",
             ].indexOf(position) < 0
         ) {
             console.log('The specified position "' + position + "\" is'not correct! Check the docs.");
@@ -773,7 +773,7 @@ var utils = {
         }
 
         return [x, y];
-    }
+    },
 };
 
 /**
@@ -797,7 +797,7 @@ var layouts = {
      * */
     get: function(name) {
         return this.layouts[name];
-    }
+    },
 };
 
 /**
@@ -841,7 +841,7 @@ var windowManager = {
          * */
         onLoadFailure: function(window) {
             window.content().loadURL("file://" + __dirname + "/loadFailure.html");
-        }
+        },
     },
 
     /**
@@ -1125,7 +1125,7 @@ var windowManager = {
          * */
         unwatch: function(prop, callback) {
             this.watcher.unwatch(this.data, prop, callback);
-        }
+        },
     },
 
     /**
@@ -1171,10 +1171,10 @@ var windowManager = {
             windowManager.eventEmitter.emit(event, {
                 emittedBy: windowManager.getCurrent().name,
                 target: target,
-                data: data
+                data: data,
             });
-        }
-    }
+        },
+    },
 };
 
 module.exports = windowManager;

@@ -1,9 +1,9 @@
-import promisify = require("es6-promisify");
 import * as fs from "fs";
-import {BaseValueObject} from "./base-value-object";
+import { promisify } from "util";
+import { BaseValueObject } from "./base-value-object";
 
-const promisedFsStat = promisify(fs.stat, fs);
-const promisedFsReadFile = promisify(fs.readFile, fs);
+const promisedFsStat = promisify(fs.stat);
+const promisedFsReadFile = promisify(fs.readFile);
 
 export abstract class FilePath extends BaseValueObject<string> {
     getState(): Promise<fs.Stats> {

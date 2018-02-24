@@ -1,43 +1,30 @@
-import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../../settings";
+import * as assert from "assert";
+import "mocha";
+import { getMockWebproxyState } from "../../../../../tests/mocks/require-mocks/exec-commands/set-proxy-setting-state";
 import { CommandResult, ParseGetwebproxyCommand } from "./parse-getwebproxy-command";
 
 describe("ParseGetwebproxyCommand", () => {
-    let testCommand = (command: CommandResult) => {
-        return ParseGetwebproxyCommand(`Enabled: ${command.Enabled}
-Server: ${command.Server}
-Port: ${command.Port}
-Authenticated Proxy Enabled: 0
-`);
-    };
-
     [
         {
             param: {},
-            result: true
+            result: true,
         },
         {
             param: { Enabled: "No" },
-            result: false
+            result: false,
         },
         {
             param: { Server: "example.com" },
-            result: false
+            result: false,
         },
         {
             param: { Port: 0 },
-            result: false
-        }
+            result: false,
+        },
     ].forEach((command: { param: Partial<CommandResult>; result: boolean }) => {
         it(JSON.stringify(command.param), () => {
-            let param = Object.assign(
-                {
-                    Enabled: "Yes",
-                    Server: NETWORK_HOST_NAME,
-                    Port: PROXY_PORT
-                },
-                command.param
-            );
-            expect(testCommand(<any>param)).toBe(command.result);
+            let result = ParseGetwebproxyCommand(getMockWebproxyState(command.param));
+            assert(result === command.result);
         });
     });
 });

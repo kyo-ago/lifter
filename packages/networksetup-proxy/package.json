@@ -1,9 +1,8 @@
 {
   "name": "@lifter/networksetup-proxy",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "author": "@kyo_ago",
   "dependencies": {
-    "es6-promisify": "^5.0.0",
     "execa": "^0.8.0",
     "stat-mode": "^0.2.2",
     "sudo-prompt": "^8.0.0"
@@ -14,9 +13,8 @@
     "@types/stat-mode": "^0.2.0",
     "mocha": "^4.0.1"
   },
-  "types": "./index.d.ts",
-  "main": "./index.js",
   "license": "GPL-3.0",
+  "main": "./index.js",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "clean": "rm -fr package-lock.json yarn.lock node_modules example/node_modules example/package-lock.json example/yarn.lock",
@@ -24,8 +22,9 @@
     "grant": "sudo chown 0:0 ./rust/proxy-setting && sudo chmod 4755 ./rust/proxy-setting",
     "prepublish": "npm run build",
     "pretest": "npm run build",
-    "rust-build": "rustc -Copt-level=3 -o ./rust/proxy-setting ./rust/proxy-setting.rs && strip rust/proxy-setting",
+    "rust-build": "rm -f rust/proxy-setting && rustc -Copt-level=3 -o ./rust/proxy-setting ./rust/proxy-setting.rs && strip rust/proxy-setting",
     "rust-install": "curl -sSf https://static.rust-lang.org/rustup.sh | sh",
     "test": "mocha && npm run build && sh ./example/run.sh"
-  }
+  },
+  "types": "./index.d.ts"
 }

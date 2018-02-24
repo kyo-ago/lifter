@@ -1,5 +1,5 @@
 import { RewriteRuleActionType } from "@lifter/lifter-common";
-import {BaseValueObject} from "../../base/value-objects/base-value-object";
+import { BaseValueObject } from "../../base/value-objects/base-value-object";
 
 const StringToType = (value: string): RewriteRuleActionType => {
     if (value === "ADD") {

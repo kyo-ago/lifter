@@ -18,7 +18,7 @@ export class LocalFileResponderFactory {
             new LocalFileResponderIdentity(this.identity++),
             new LocalFileResponderPath(param.path),
             new LocalFileResponderType(param.type),
-            new LocalFileResponderSize(param.size)
+            new LocalFileResponderSize(param.size),
         );
     }
 }

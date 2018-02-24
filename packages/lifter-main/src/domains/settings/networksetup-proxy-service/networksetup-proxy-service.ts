@@ -1,55 +1,63 @@
-import { APPLICATION_NAME } from "@lifter/lifter-common";
-import * as fs from "fs";
+import { APPLICATION_NAME, ProxyCommandGrantStatus } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
+import * as fs from "fs";
 import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../settings";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
 import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
+import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 
 export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
-    private _isGranted: boolean;
+    private _isGranted: ProxyCommandGrantStatus;
 
     constructor(
         private userSettingStorage: UserSettingStorage,
-        private networkInterfaceRepository: NetworkInterfaceRepository
+        private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {}
-
-    get isGranted(): boolean {
-        return this._isGranted;
-    }
 
     async load() {
         let path = await this.getCommandPath();
         this._networksetupProxy = new NetworksetupProxy(`${APPLICATION_NAME} sudo prompt`, path);
-        this._isGranted = await this._networksetupProxy.hasGrant();
+        this._isGranted = (await this._networksetupProxy.hasGrant()) ? "On" : "Off";
+    }
+
+    hasGrant(): boolean {
+        return this.getCurrentStatus() === "On";
+    }
+
+    getCurrentStatus(): ProxyCommandGrantStatus {
+        return this._isGranted;
     }
 
     async startProxy() {
-        let noAutoGrantRequest = this.userSettingStorage.resolve("noAutoGrantRequest");
-        if (!this.isGranted && !noAutoGrantRequest) {
-            await this.grantProxyCommand();
-        }
-
         let noAutoEnableProxy = this.userSettingStorage.resolve("noAutoEnableProxy");
-        if (this.isGranted && !noAutoEnableProxy) {
+        if (noAutoEnableProxy) {
+            return;
+        }
+        if (this.hasGrant()) {
             await this.enableProxy();
         }
     }
 
     getNetworksetupProxy(): NetworksetupProxy | null {
-        return this._isGranted ? this._networksetupProxy : null;
+        return this.hasGrant() ? this._networksetupProxy : null;
     }
 
-    async grantProxyCommand(): Promise<boolean> {
-        let result = await this._networksetupProxy.grant().catch(e => e);
-        if (!(result instanceof Error)) {
-            this._isGranted = true;
-            await this.userSettingStorage.store("noAutoGrantRequest", false);
-            return true;
+    async toggleGrantProxyCommand(): Promise<ProxyCommandGrantStatus> {
+        if (!this.hasGrant()) {
+            try {
+                await this._networksetupProxy.grant();
+                this._isGranted = "On";
+            } catch (e) {
+                // user cancel
+                this._isGranted = "Off";
+            }
+        } else {
+            await this._networksetupProxy.removeGrant();
+            this._isGranted = "Off";
         }
-        await this.userSettingStorage.store("noAutoGrantRequest", true);
-        return false;
+        return this._isGranted;
     }
 
     enableProxy() {
@@ -72,8 +80,15 @@ export class NetworksetupProxyService {
         return this.callAllEnableInterface((np, ni) => ni.reloadAutoProxyUrl(np));
     }
 
+    setProxyBypassDomains(proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
+        return this.callAllEnableInterface((np, ni) => ni.setProxyBypassDomains(np, proxyBypassDomainEntities));
+    }
+
     private async callAllEnableInterface(
-        callback: (networksetupProxy: NetworksetupProxy, networkInterfaceEntity: NetworkInterfaceEntity) => Promise<any>
+        callback: (
+            networksetupProxy: NetworksetupProxy,
+            networkInterfaceEntity: NetworkInterfaceEntity,
+        ) => Promise<any>,
     ) {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
         let networksetupProxy = this.getNetworksetupProxy();
@@ -83,7 +98,7 @@ export class NetworksetupProxyService {
         await Promise.all(
             networkInterfaceEntities.map(ni => {
                 return callback(networksetupProxy, ni);
-            })
+            }),
         );
     }
 

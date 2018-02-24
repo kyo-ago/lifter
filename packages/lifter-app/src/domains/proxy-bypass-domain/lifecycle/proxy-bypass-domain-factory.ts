@@ -9,7 +9,7 @@ export class ProxyBypassDomainFactory {
     create(name: string): ProxyBypassDomainEntity {
         return new ProxyBypassDomainEntity(
             new ProxyBypassDomainIdentity(this.identity++),
-            new ProxyBypassDomainName(name)
+            new ProxyBypassDomainName(name),
         );
     }
 
@@ -18,7 +18,7 @@ export class ProxyBypassDomainFactory {
 
         return new ProxyBypassDomainEntity(
             new ProxyBypassDomainIdentity(json.id),
-            new ProxyBypassDomainName(json.name)
+            new ProxyBypassDomainName(json.name),
         );
     }
 }

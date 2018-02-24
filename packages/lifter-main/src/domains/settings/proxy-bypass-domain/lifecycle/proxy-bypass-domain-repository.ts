@@ -15,7 +15,7 @@ export class ProxyBypassDomainRepository extends AsyncOnNedbRepository<
             },
             toJSON: (entity: ProxyBypassDomainEntity): any => {
                 return entity.json;
-            }
+            },
         });
     }
 }

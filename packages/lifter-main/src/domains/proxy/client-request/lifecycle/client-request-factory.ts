@@ -10,7 +10,7 @@ export class ClientRequestFactory {
     static fromJSON(clientRequestEntityJSON: ClientRequestEntityJSON) {
         return new ClientRequestEntity(
             new ClientRequestIdentity(clientRequestEntityJSON.id),
-            new ClientRequestUrl(parse(clientRequestEntityJSON.href))
+            new ClientRequestUrl(parse(clientRequestEntityJSON.href)),
         );
     }
 

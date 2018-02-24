@@ -9,7 +9,7 @@
     "outDir": "./build/",
     "module": "commonjs",
     "target": "es2017",
-    "rootDir": "./src/",
+    "rootDir": "./",
     "declaration": true,
     "noEmitOnError": true,
     "lib": ["dom", "es2017", "es2017.object"]

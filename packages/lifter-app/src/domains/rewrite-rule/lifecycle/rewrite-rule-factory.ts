@@ -15,7 +15,7 @@ export class RewriteRuleFactory {
             new RewriteRuleUrlPattern(url),
             new RewriteRuleAction(action.toUpperCase()),
             new RewriteRuleHeader(header),
-            new RewriteRuleValue(value)
+            new RewriteRuleValue(value),
         );
     }
 
@@ -27,7 +27,7 @@ export class RewriteRuleFactory {
             new RewriteRuleUrlPattern(json.url),
             new RewriteRuleAction(json.action),
             new RewriteRuleHeader(json.header),
-            new RewriteRuleValue(json.value)
+            new RewriteRuleValue(json.value),
         );
     }
 }

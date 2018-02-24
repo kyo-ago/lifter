@@ -1,16 +1,14 @@
-import promisify = require("es6-promisify");
-import Datastore = require("nedb");
+import * as Datastore from "nedb";
+import { promisify } from "util";
 import { ProjectEntity } from "../proxy/project/project-entity";
 
 export interface UserSettings {
-    noAutoGrantRequest: boolean;
     noAutoEnableProxy: boolean;
     noPacFileProxy: boolean;
 }
 const DefaultUserSettings: UserSettings = {
-    noAutoGrantRequest: false,
     noAutoEnableProxy: false,
-    noPacFileProxy: false
+    noPacFileProxy: false,
 };
 
 export class UserSettingStorage {
@@ -26,10 +24,10 @@ export class UserSettingStorage {
         let dataStoreOptions = projectEntity.getDataStoreOptions("userSettingStorage");
         this.datastore = new Datastore(dataStoreOptions);
 
-        this.find = promisify(this.datastore.find, this.datastore);
-        this.update = promisify(this.datastore.update, this.datastore);
-        this.remove = promisify(this.datastore.remove, this.datastore);
-        this.loadDatabase = promisify(this.datastore.loadDatabase, this.datastore);
+        this.find = promisify(this.datastore.find.bind(this.datastore));
+        this.update = promisify(this.datastore.update.bind(this.datastore));
+        this.remove = promisify(this.datastore.remove.bind(this.datastore));
+        this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
     }
 
     async load(): Promise<void> {
@@ -50,9 +48,9 @@ export class UserSettingStorage {
             { name: name },
             {
                 name: name,
-                value: value
+                value: value,
             },
-            { upsert: true }
+            { upsert: true },
         );
         this.userSettings[name] = value;
         return value;

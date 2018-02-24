@@ -11,14 +11,35 @@ fn main() {
     let param = args.next().unwrap();
 
     match param.as_ref() {
-        "-setwebproxy" | "-setsecurewebproxy" | "-setwebproxystate" | "-setsecurewebproxystate" | "-setproxybypassdomains" | "-setautoproxyurl" | "-setautoproxystate" => (),
+        "-setwebproxystate"
+        | "-setsecurewebproxystate"
+        | "-setproxybypassdomains"
+        | "-setautoproxystate"
+        => {
+            command.arg(param);
+            for arg in args {
+                command.arg(arg);
+            }
+        },
+        "-setwebproxy"
+        | "-setsecurewebproxy"
+        => {
+            command.arg(param);
+            command.arg(args.next().unwrap()); // networkservice
+            command.arg("localhost"); // domain
+            command.arg(args.next().unwrap()); // port
+            for arg in args {
+                command.arg(arg);
+            }
+        },
+        "-setautoproxyurl"
+        => {
+            command.arg(param);
+            command.arg(args.next().unwrap());
+            command.arg(format!("http://127.0.0.1:{}/proxy.pac", args.next().unwrap()));
+        },
         _ => panic!("Unknown parameter: {}", param),
-    }
-
-    command.arg(param);
-    for arg in args {
-        command.arg(arg);
-    }
+    };
 
     command.uid(0);
     let output = match command.output() {

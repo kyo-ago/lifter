@@ -1,7 +1,7 @@
 const sinon = require("sinon");
 const mockRequire = require("mock-require");
 mockRequire("sudo-prompt", {
-    exec: sinon.spy()
+    exec: sinon.spy(),
 });
 const sudoPrompt = require("sudo-prompt");
 const NetworksetupProxy = require("networksetup-proxy").NetworksetupProxy;

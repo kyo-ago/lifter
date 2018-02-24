@@ -1,17 +1,15 @@
-import { ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@lifter/lifter-common";
+import { ApplicationMainStateJSON, ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@lifter/lifter-common";
 import { remote } from "electron";
 
 type WindowId = "mainWindow";
 
 interface StoreDateKeyMap {
-    mainApps: any;
+    mainApps: ApplicationMainStateJSON;
     mainRewriteRules: RewriteRuleEntityJSON[];
     mainProxyBypassDomains: ProxyBypassDomainEntityJSON[];
-    mainPreferences: any;
 }
 
-interface BridgeDateKeyMap {
-}
+interface BridgeDateKeyMap {}
 
 interface WindowManager {
     sharedData: {

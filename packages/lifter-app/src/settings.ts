@@ -10,6 +10,6 @@ export const WindowManagerInit = {
     defaultSetup: {
         defaultWidth: 1000,
         defaultHeight: 800,
-        acceptFirstMouse: true
-    }
+        acceptFirstMouse: true,
+    },
 };

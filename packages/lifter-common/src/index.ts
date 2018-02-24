@@ -1,16 +1,38 @@
+import * as Ipc from "./ipc";
+
+export const ipc = Ipc.ipc;
+
+export interface ElectronIpcMap extends Ipc.ElectronIpcMap {}
+
 export const APPLICATION_NAME = "Lifter Proxy";
 
-export type AutoResponderEntryType = "File" | "Directory" | "Glob";
+export type CertificateStatus = "missing" | "installed";
 
-export interface AutoResponderEntryEntityJSON {
+export type ProxySettingStatus = "On" | "Off";
+
+export type ProxyCommandGrantStatus = "On" | "Off";
+
+export type RewriteRuleActionType = "ADD" | "MODIFY" | "DELETE";
+
+export type AutoResponderType = "File" | "Directory" | "Glob";
+
+export interface ApplicationMainStateJSON {
+    autoResponderEntries: AutoResponderEntityJSON[];
+    clientRequestEntries: ClientRequestEntityJSON[];
+    certificateState: CertificateStatus;
+    proxySettingStatus: ProxySettingStatus;
+    proxyCommandGrantStatus: ProxyCommandGrantStatus;
+    noAutoEnableProxySetting: boolean;
+    noPacFileProxySetting: boolean;
+}
+
+export interface AutoResponderEntityJSON {
     id: number;
-    type: AutoResponderEntryType;
+    type: AutoResponderType;
     pattern: string;
     path: string;
     projectId: number;
 }
-
-export type CertificateStatus = "missing" | "installed";
 
 export interface ClientRequestEntityJSON {
     id: number;
@@ -22,10 +44,6 @@ export interface ProxyBypassDomainEntityJSON {
     name: string;
 }
 
-export type ProxySettingStatus = "NoPermission" | "On" | "Off";
-
-export type RewriteRuleActionType = "ADD" | "MODIFY" | "DELETE";
-
 export interface RewriteRuleEntityJSON {
     id: number;
     url: string;
@@ -33,5 +51,3 @@ export interface RewriteRuleEntityJSON {
     header: string;
     value: string;
 }
-
-export interface PreferencesJSON {}

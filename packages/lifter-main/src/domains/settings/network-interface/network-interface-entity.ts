@@ -1,7 +1,7 @@
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
-import { LOCAL_PAC_FILE_URL, NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
-import {BaseEntity} from "../../base/base-entity";
+import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
+import { BaseEntity } from "../../base/base-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";
 import { ParseGetwebproxyCommand } from "./specs/parse-getwebproxy-command";
@@ -13,7 +13,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
         identity: NetworkInterfaceIdentity,
         private _name: NetworkInterfaceName,
         private _serviceName: NetworkInterfaceServiceName,
-        public enabled: boolean
+        public enabled: boolean,
     ) {
         super(identity);
     }
@@ -31,21 +31,22 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
 
         await Promise.all([
             networksetupProxy.setwebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT))
+            networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
         ]);
     }
+
     async disableProxy(networksetupProxy: NetworksetupProxy) {
         if (!await this.isProxing()) return;
 
         await Promise.all([
             networksetupProxy.setwebproxystate(this.serviceName, "off"),
-            networksetupProxy.setsecurewebproxystate(this.serviceName, "off")
+            networksetupProxy.setsecurewebproxystate(this.serviceName, "off"),
         ]);
     }
 
     async setProxyBypassDomains(
         networksetupProxy: NetworksetupProxy,
-        proxyBypassDomainEntities: ProxyBypassDomainEntity[]
+        proxyBypassDomainEntities: ProxyBypassDomainEntity[],
     ) {
         if (!await this.isProxing()) return;
 
@@ -62,7 +63,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await networksetupProxy.setautoproxyurl(this.serviceName, LOCAL_PAC_FILE_URL);
+        await networksetupProxy.setautoproxyurl(this.serviceName, String(PROXY_PORT));
     }
 
     async reloadAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
@@ -70,10 +71,8 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await Promise.all([
-            networksetupProxy.setautoproxystate(this.serviceName, "off"),
-            networksetupProxy.setautoproxystate(this.serviceName, "on")
-        ]);
+        await networksetupProxy.setautoproxystate(this.serviceName, "off");
+        await networksetupProxy.setautoproxystate(this.serviceName, "on");
     }
 
     async clearAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
@@ -81,10 +80,8 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await Promise.all([
-            networksetupProxy.setautoproxyurl(this.serviceName, ""),
-            networksetupProxy.setautoproxystate(this.serviceName, "off")
-        ]);
+        await networksetupProxy.setautoproxyurl(this.serviceName, "");
+        await networksetupProxy.setautoproxystate(this.serviceName, "off");
     }
 
     async isProxing() {
