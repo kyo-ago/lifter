@@ -2,7 +2,7 @@ import * as assert from "assert";
 import "mocha";
 import { createLifecycleContextService } from "../../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
-import { AutoResponderDirectoryPattern } from "./auto-responder-entry-directory-pattern";
+import { AutoResponderDirectoryPattern } from "./auto-responder-directory-pattern";
 
 describe("AutoResponderDirectoryPattern", () => {
     let clientRequestFactory: ClientRequestFactory;
@@ -41,10 +41,10 @@ describe("AutoResponderDirectoryPattern", () => {
     describe("getMatchCodeString", () => {
         testPattern.forEach(pattern => {
             it(pattern.name, () => {
-                let autoResponderEntryDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
+                let autoResponderDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
                     pattern.pattern,
                 );
-                let result = autoResponderEntryDirectoryPattern.getMatchCodeString("match");
+                let result = autoResponderDirectoryPattern.getMatchCodeString("match");
                 let code = `((url) => {${result}})("${pattern.path}")`;
                 assert(eval(code) === (pattern.result ? "match" : undefined));
             });
@@ -54,11 +54,11 @@ describe("AutoResponderDirectoryPattern", () => {
     describe("isMatchPath", () => {
         testPattern.concat(isMatchPathPattern).forEach(pattern => {
             it(pattern.name, () => {
-                let autoResponderEntryDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
+                let autoResponderDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
                     pattern.pattern,
                 );
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
-                assert(autoResponderEntryDirectoryPattern.isMatchPath(clientRequestEntity) === pattern.result);
+                assert(autoResponderDirectoryPattern.isMatchPath(clientRequestEntity) === pattern.result);
             });
         });
     });

@@ -1,5 +1,5 @@
 import { OutgoingHttpHeaders } from "http";
-import { AutoResponderEntryRepository } from "../../domains/proxy/auto-responder-entry/lifecycle/auto-responder-entry-repositoty";
+import { AutoResponderRepository } from "../../domains/proxy/auto-responder/lifecycle/auto-responder-repositoty";
 import { ClientRequestEntity } from "../../domains/proxy/client-request/client-request-entity";
 import { ClientRequestRepository } from "../../domains/proxy/client-request/lifecycle/client-request-repository";
 import { LocalFileResponderEntity } from "../../domains/proxy/local-file-responder/local-file-responder-entity";
@@ -10,7 +10,7 @@ import { LOCAL_PAC_FILE_URL } from "../../settings";
 export class ConnectionService {
     constructor(
         private pacFileService: PacFileService,
-        private autoResponderEntryRepository: AutoResponderEntryRepository,
+        private autoResponderRepository: AutoResponderRepository,
         private clientRequestRepository: ClientRequestRepository,
         private rewriteRuleRepository: RewriteRuleRepository,
     ) {}
@@ -26,7 +26,7 @@ export class ConnectionService {
             return this.responsePacFile(blockCallback);
         }
 
-        let localFileResponderEntity: LocalFileResponderEntity | null = await this.autoResponderEntryRepository.findMatchEntry(
+        let localFileResponderEntity: LocalFileResponderEntity | null = await this.autoResponderRepository.findMatchEntry(
             clientRequestEntity,
         );
 

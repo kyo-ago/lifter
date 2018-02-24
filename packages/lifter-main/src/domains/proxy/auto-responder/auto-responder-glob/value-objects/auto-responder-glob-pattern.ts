@@ -3,7 +3,7 @@ import * as Path from "path";
 import { ClientRequestEntity } from "../../../client-request/client-request-entity";
 import { AutoResponderPattern } from "../../value-objects/auto-responder-pattern";
 
-export class AutoResponderEntryGlobPattern extends AutoResponderPattern {
+export class AutoResponderGlobPattern extends AutoResponderPattern {
     private matchRegexp: RegExp;
 
     constructor(pattern: string) {

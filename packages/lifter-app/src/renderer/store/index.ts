@@ -1,5 +1,5 @@
 import {
-    AutoResponderEntryEntityJSON,
+    AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
     ProxyCommandGrantStatus,
@@ -54,10 +54,10 @@ export function getStore(application: Application): Store<UIState> {
             addClientRequestEntries(state, clientRequestEntityJSON: ClientRequestEntityJSON) {
                 state.clientRequestEntries.push(clientRequestEntityJSON);
             },
-            addAutoResponderEntries(state, autoResponderEntries: AutoResponderEntryEntityJSON[]) {
+            addAutoResponderEntries(state, autoResponderEntries: AutoResponderEntityJSON[]) {
                 state.autoResponderEntries = autoResponderEntries.concat(state.autoResponderEntries);
             },
-            overwriteAutoResponderEntries(state, autoResponderEntries: AutoResponderEntryEntityJSON[]) {
+            overwriteAutoResponderEntries(state, autoResponderEntries: AutoResponderEntityJSON[]) {
                 state.autoResponderEntries = autoResponderEntries;
             },
         },
@@ -97,7 +97,7 @@ export function getStore(application: Application): Store<UIState> {
             },
             async deleteAutoResponderEntries(
                 { commit },
-                targetAutoResponderEntries: AutoResponderEntryEntityJSON[],
+                targetAutoResponderEntries: AutoResponderEntityJSON[],
             ) {
                 await application.deleteAutoResponderEntities(targetAutoResponderEntries);
                 let autoResponderEntries = await application.fetchAutoResponderEntities();

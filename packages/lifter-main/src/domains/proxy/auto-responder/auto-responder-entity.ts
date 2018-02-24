@@ -1,26 +1,26 @@
-import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@lifter/lifter-common";
+import { AutoResponderEntityJSON, AutoResponderType } from "@lifter/lifter-common";
 import * as mime from "mime";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponderParam } from "../local-file-responder/lifecycle/local-file-responder-factory";
 import { ProjectIdentity } from "../project/project-identity";
-import { AutoResponderEntryFilePath } from "./auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
-import { AutoResponderEntryIdentity } from "./auto-responder-entry-identity";
-import { AutoResponderEntryPath } from "./value-objects/auto-responder-entry-path";
-import { AutoResponderEntryPattern } from "./value-objects/auto-responder-entry-pattern";
+import { AutoResponderFilePath } from "./auto-responder-file/value-objects/auto-responder-file-path";
+import { AutoResponderIdentity } from "./auto-responder-identity";
+import { AutoResponderPath } from "./value-objects/auto-responder-path";
+import { AutoResponderPattern } from "./value-objects/auto-responder-pattern";
 
-export type AbstractAutoResponderEntryEntity = AutoResponderEntryEntity<
-    AutoResponderEntryPattern,
-    AutoResponderEntryPath
+export type AbstractAutoResponderEntity = AutoResponderEntity<
+    AutoResponderPattern,
+    AutoResponderPath
 >;
 
-export abstract class AutoResponderEntryEntity<
-    Pattern extends AutoResponderEntryPattern,
-    Path extends AutoResponderEntryPath
-> extends BaseEntity<AutoResponderEntryIdentity> {
+export abstract class AutoResponderEntity<
+    Pattern extends AutoResponderPattern,
+    Path extends AutoResponderPath
+> extends BaseEntity<AutoResponderIdentity> {
     constructor(
-        identity: AutoResponderEntryIdentity,
-        public type: AutoResponderEntryType,
+        identity: AutoResponderIdentity,
+        public type: AutoResponderType,
         public pattern: Pattern,
         public path: Path,
         public projectIdentity: ProjectIdentity,
@@ -30,7 +30,7 @@ export abstract class AutoResponderEntryEntity<
 
     abstract getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderParam | null>;
 
-    get json(): AutoResponderEntryEntityJSON {
+    get json(): AutoResponderEntityJSON {
         return {
             id: this.id,
             type: this.type,
@@ -41,7 +41,7 @@ export abstract class AutoResponderEntryEntity<
     }
 
     protected async filePathToLocalFileResponderParam(
-        filePath: AutoResponderEntryFilePath,
+        filePath: AutoResponderFilePath,
     ): Promise<LocalFileResponderParam | null> {
         let stats;
         try {

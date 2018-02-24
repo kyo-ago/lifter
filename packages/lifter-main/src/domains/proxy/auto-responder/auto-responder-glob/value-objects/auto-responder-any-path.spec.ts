@@ -3,10 +3,10 @@ import "mocha";
 import * as Path from "path";
 import { createLifecycleContextService } from "../../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
-import { AutoResponderEntryAnyPath } from "./auto-responder-entry-any-path";
+import { AutoResponderAnyPath } from "./auto-responder-any-path";
 
-describe("AutoResponderEntryAnyPath", () => {
-    describe("getAutoResponderEntryFilePath", () => {
+describe("AutoResponderAnyPath", () => {
+    describe("getAutoResponderFilePath", () => {
         let dirname = Path.basename(__dirname);
         let filename = Path.basename(__filename);
 
@@ -42,17 +42,17 @@ describe("AutoResponderEntryAnyPath", () => {
             },
         ].forEach(pattern => {
             it(pattern.name, async () => {
-                let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(pattern.path);
+                let autoResponderAnyPath = new AutoResponderAnyPath(pattern.path);
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.request);
-                let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
+                let result = await autoResponderAnyPath.getAutoResponderFilePath(clientRequestEntity);
                 assert(result.value === pattern.result);
             });
         });
 
         it("unmatch directory", async () => {
-            let autoResponderEntryAnyPath = new AutoResponderEntryAnyPath(__dirname);
+            let autoResponderAnyPath = new AutoResponderAnyPath(__dirname);
             let clientRequestEntity = clientRequestFactory.createFromString(`/hoge/${filename}`);
-            let result = await autoResponderEntryAnyPath.getAutoResponderEntryFilePath(clientRequestEntity);
+            let result = await autoResponderAnyPath.getAutoResponderFilePath(clientRequestEntity);
             assert(result === null);
         });
     });

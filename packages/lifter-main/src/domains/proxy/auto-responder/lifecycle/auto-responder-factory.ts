@@ -1,79 +1,79 @@
-import { AutoResponderEntryEntityJSON, AutoResponderEntryType } from "@lifter/lifter-common";
+import { AutoResponderEntityJSON, AutoResponderType } from "@lifter/lifter-common";
 import * as fs from "fs";
 import * as Path from "path";
 import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";
 import { ProjectIdentity } from "../../project/project-identity";
-import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
-import { AutoResponderEntryDirectoryPath } from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-path";
-import { AutoResponderEntryDirectoryPattern } from "../auto-responder-entry-directory/value-objects/auto-responder-entry-directory-pattern";
-import { AbstractAutoResponderEntryEntity } from "../auto-responder-entry-entity";
-import { AutoResponderEntryFileEntity } from "../auto-responder-entry-file/auto-responder-entry-file-entity";
-import { AutoResponderEntryFilePath } from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-path";
-import { AutoResponderEntryFilePattern } from "../auto-responder-entry-file/value-objects/auto-responder-entry-file-pattern";
-import { AutoResponderEntryGlobEntity } from "../auto-responder-entry-glob/auto-responder-entry-glob-entity";
-import { AutoResponderEntryAnyPath } from "../auto-responder-entry-glob/value-objects/auto-responder-entry-any-path";
-import { AutoResponderEntryGlobPattern } from "../auto-responder-entry-glob/value-objects/auto-responder-entry-glob-pattern";
-import { AutoResponderEntryIdentity } from "../auto-responder-entry-identity";
+import { AutoResponderDirectoryEntity } from "../auto-responder-directory/auto-responder-directory-entity";
+import { AutoResponderDirectoryPath } from "../auto-responder-directory/value-objects/auto-responder-directory-path";
+import { AutoResponderDirectoryPattern } from "../auto-responder-directory/value-objects/auto-responder-directory-pattern";
+import { AbstractAutoResponderEntity } from "../auto-responder-entity";
+import { AutoResponderFileEntity } from "../auto-responder-file/auto-responder-file-entity";
+import { AutoResponderFilePath } from "../auto-responder-file/value-objects/auto-responder-file-path";
+import { AutoResponderFilePattern } from "../auto-responder-file/value-objects/auto-responder-file-pattern";
+import { AutoResponderGlobEntity } from "../auto-responder-glob/auto-responder-glob-entity";
+import { AutoResponderAnyPath } from "../auto-responder-glob/value-objects/auto-responder-any-path";
+import { AutoResponderGlobPattern } from "../auto-responder-glob/value-objects/auto-responder-glob-pattern";
+import { AutoResponderIdentity } from "../auto-responder-identity";
 
-export class AutoResponderEntryFactory extends AsyncNedbIdGenerator {
+export class AutoResponderFactory extends AsyncNedbIdGenerator {
     constructor(private projectEntity: ProjectEntity) {
-        super(projectEntity.getDataStoreOptions("autoResponderEntryFactory"));
+        super(projectEntity.getDataStoreOptions("autoResponderFactory"));
     }
 
-    static fromJSON(autoResponderEntryEntityJSON: AutoResponderEntryEntityJSON) {
-        if (autoResponderEntryEntityJSON.type === "File") {
-            return new AutoResponderEntryFileEntity(
-                new AutoResponderEntryIdentity(autoResponderEntryEntityJSON.id),
+    static fromJSON(autoResponderEntityJSON: AutoResponderEntityJSON) {
+        if (autoResponderEntityJSON.type === "File") {
+            return new AutoResponderFileEntity(
+                new AutoResponderIdentity(autoResponderEntityJSON.id),
                 "File",
-                new AutoResponderEntryFilePattern(autoResponderEntryEntityJSON.pattern),
-                new AutoResponderEntryFilePath(autoResponderEntryEntityJSON.path),
-                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
+                new AutoResponderFilePattern(autoResponderEntityJSON.pattern),
+                new AutoResponderFilePath(autoResponderEntityJSON.path),
+                new ProjectIdentity(autoResponderEntityJSON.projectId),
             );
-        } else if (autoResponderEntryEntityJSON.type === "Directory") {
-            return new AutoResponderEntryDirectoryEntity(
-                new AutoResponderEntryIdentity(autoResponderEntryEntityJSON.id),
+        } else if (autoResponderEntityJSON.type === "Directory") {
+            return new AutoResponderDirectoryEntity(
+                new AutoResponderIdentity(autoResponderEntityJSON.id),
                 "Directory",
-                AutoResponderEntryDirectoryPattern.createSafeValue(autoResponderEntryEntityJSON.pattern),
-                new AutoResponderEntryDirectoryPath(autoResponderEntryEntityJSON.path),
-                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
+                AutoResponderDirectoryPattern.createSafeValue(autoResponderEntityJSON.pattern),
+                new AutoResponderDirectoryPath(autoResponderEntityJSON.path),
+                new ProjectIdentity(autoResponderEntityJSON.projectId),
             );
-        } else if (autoResponderEntryEntityJSON.type === "Glob") {
-            return new AutoResponderEntryGlobEntity(
-                new AutoResponderEntryIdentity(autoResponderEntryEntityJSON.id),
+        } else if (autoResponderEntityJSON.type === "Glob") {
+            return new AutoResponderGlobEntity(
+                new AutoResponderIdentity(autoResponderEntityJSON.id),
                 "Glob",
-                new AutoResponderEntryGlobPattern(autoResponderEntryEntityJSON.pattern),
-                new AutoResponderEntryAnyPath(autoResponderEntryEntityJSON.path),
-                new ProjectIdentity(autoResponderEntryEntityJSON.projectId),
+                new AutoResponderGlobPattern(autoResponderEntityJSON.pattern),
+                new AutoResponderAnyPath(autoResponderEntityJSON.path),
+                new ProjectIdentity(autoResponderEntityJSON.projectId),
             );
         } else {
-            throw new Error(`Invalid type, type = "${autoResponderEntryEntityJSON.type}"`);
+            throw new Error(`Invalid type, type = "${autoResponderEntityJSON.type}"`);
         }
     }
 
-    create(type: AutoResponderEntryType, pattern: string, path: string): AbstractAutoResponderEntryEntity {
+    create(type: AutoResponderType, pattern: string, path: string): AbstractAutoResponderEntity {
         if (type === "File") {
-            return new AutoResponderEntryFileEntity(
-                new AutoResponderEntryIdentity(this.getNextIdNumber()),
+            return new AutoResponderFileEntity(
+                new AutoResponderIdentity(this.getNextIdNumber()),
                 "File",
-                new AutoResponderEntryFilePattern(pattern),
-                new AutoResponderEntryFilePath(path),
+                new AutoResponderFilePattern(pattern),
+                new AutoResponderFilePath(path),
                 this.projectEntity.getIdentity(),
             );
         } else if (type === "Directory") {
-            return new AutoResponderEntryDirectoryEntity(
-                new AutoResponderEntryIdentity(this.getNextIdNumber()),
+            return new AutoResponderDirectoryEntity(
+                new AutoResponderIdentity(this.getNextIdNumber()),
                 "Directory",
-                AutoResponderEntryDirectoryPattern.createSafeValue(pattern),
-                new AutoResponderEntryDirectoryPath(path),
+                AutoResponderDirectoryPattern.createSafeValue(pattern),
+                new AutoResponderDirectoryPath(path),
                 this.projectEntity.getIdentity(),
             );
         } else if (type === "Glob") {
-            return new AutoResponderEntryGlobEntity(
-                new AutoResponderEntryIdentity(this.getNextIdNumber()),
+            return new AutoResponderGlobEntity(
+                new AutoResponderIdentity(this.getNextIdNumber()),
                 "Glob",
-                new AutoResponderEntryGlobPattern(pattern),
-                new AutoResponderEntryAnyPath(path),
+                new AutoResponderGlobPattern(pattern),
+                new AutoResponderAnyPath(path),
                 this.projectEntity.getIdentity(),
             );
         } else {
@@ -81,22 +81,22 @@ export class AutoResponderEntryFactory extends AsyncNedbIdGenerator {
         }
     }
 
-    createFromFile(file: File): Promise<AbstractAutoResponderEntryEntity> {
+    createFromFile(file: File): Promise<AbstractAutoResponderEntity> {
         return this.createFrom(file.name, (<any>file).path);
     }
 
-    createFromPath(path: string): Promise<AbstractAutoResponderEntryEntity> {
+    createFromPath(path: string): Promise<AbstractAutoResponderEntity> {
         return this.createFrom(Path.basename(path), path);
     }
 
-    private createFrom(pattern: string, path: string): Promise<AbstractAutoResponderEntryEntity> {
+    private createFrom(pattern: string, path: string): Promise<AbstractAutoResponderEntity> {
         return new Promise((resolve, reject) => {
             fs.stat(path, (err, stat) => {
                 if (err) {
                     return reject(err);
                 }
-                let autoResponderEntry = this.create(stat.isFile() ? "File" : "Directory", pattern, path);
-                resolve(autoResponderEntry);
+                let autoResponderEntity = this.create(stat.isFile() ? "File" : "Directory", pattern, path);
+                resolve(autoResponderEntity);
             });
         });
     }

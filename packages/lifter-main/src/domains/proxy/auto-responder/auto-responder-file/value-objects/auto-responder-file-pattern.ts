@@ -2,7 +2,7 @@ import { ClientRequestEntity } from "../../../client-request/client-request-enti
 import { GetMatchPathCodeString } from "../../lib/get-match-path-code-string";
 import { AutoResponderPattern } from "../../value-objects/auto-responder-pattern";
 
-export class AutoResponderEntryFilePattern extends AutoResponderPattern {
+export class AutoResponderFilePattern extends AutoResponderPattern {
     getMatchCodeString(proxyConnect: string): string {
         return GetMatchPathCodeString(proxyConnect, this.value);
     }

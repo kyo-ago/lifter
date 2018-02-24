@@ -13,9 +13,9 @@ describe("UIEventService", () => {
         return spyCall.getCall(0).args[1];
     };
 
-    it("addAutoResponderEntryEntities", async () => {
+    it("addAutoResponderEntities", async () => {
         let application = await createApplication();
-        let callback = getCallback("addAutoResponderEntryEntities");
+        let callback = getCallback("addAutoResponderEntities");
 
         let results = await callback({}, [__filename]);
         assert(results[0].type === "File");
@@ -27,17 +27,17 @@ describe("UIEventService", () => {
         assert(mainState.autoResponderEntries[0].path === __filename);
     });
 
-    it("fetchAutoResponderEntryEntities", async () => {
+    it("fetchAutoResponderEntities", async () => {
         await createApplication();
 
-        let beforeCallback = getCallback("fetchAutoResponderEntryEntities");
+        let beforeCallback = getCallback("fetchAutoResponderEntities");
         let beforeResults = await beforeCallback({}, void 0);
         assert(beforeResults.length === 0);
 
-        let addCallback = getCallback("addAutoResponderEntryEntities");
+        let addCallback = getCallback("addAutoResponderEntities");
         await addCallback({}, [__filename]);
 
-        let afterCallback = getCallback("fetchAutoResponderEntryEntities");
+        let afterCallback = getCallback("fetchAutoResponderEntities");
         let afterResults = await afterCallback({}, void 0);
         assert(afterResults.length === 1);
     });

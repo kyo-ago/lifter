@@ -4,32 +4,32 @@ import * as Path from "path";
 import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { AutoResponderFactory } from "../lifecycle/auto-responder-factory";
-import { AutoResponderEntryGlobEntity } from "./auto-responder-entry-glob-entity";
+import { AutoResponderGlobEntity } from "./auto-responder-glob-entity";
 
-describe("AutoResponderEntryGlobEntity.getMatchResponder", () => {
-    let autoResponderEntryFactory: AutoResponderFactory;
+describe("AutoResponderGlobEntity.getMatchResponder", () => {
+    let autoResponderFactory: AutoResponderFactory;
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
         let lifecycleContextService = await createLifecycleContextService();
-        autoResponderEntryFactory = lifecycleContextService.autoResponderFactory;
+        autoResponderFactory = lifecycleContextService.autoResponderFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;
     });
-    let createAutoResponderEntryGlobEntity = (pattern: string, path: string): AutoResponderEntryGlobEntity => {
-        return <AutoResponderEntryGlobEntity>autoResponderEntryFactory.create("Glob", pattern, path);
+    let createAutoResponderGlobEntity = (pattern: string, path: string): AutoResponderGlobEntity => {
+        return <AutoResponderGlobEntity>autoResponderFactory.create("Glob", pattern, path);
     };
 
     it("file path", async () => {
-        let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity("/*", __filename);
+        let autoResponderGlobEntity = createAutoResponderGlobEntity("/*", __filename);
         let clientRequestEntity = clientRequestFactory.createFromString("/hoge");
-        let result = await autoResponderEntryGlobEntity.getMatchResponder(clientRequestEntity);
+        let result = await autoResponderGlobEntity.getMatchResponder(clientRequestEntity);
         assert(result.path === __filename);
     });
 
     it("directory path", async () => {
         let filename = Path.basename(__filename);
-        let autoResponderEntryGlobEntity = createAutoResponderEntryGlobEntity("/*", __dirname);
+        let autoResponderGlobEntity = createAutoResponderGlobEntity("/*", __dirname);
         let clientRequestEntity = clientRequestFactory.createFromString(`/${filename}`);
-        let result = await autoResponderEntryGlobEntity.getMatchResponder(clientRequestEntity);
+        let result = await autoResponderGlobEntity.getMatchResponder(clientRequestEntity);
         assert(result.path === __filename);
     });
 });

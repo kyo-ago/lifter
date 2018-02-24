@@ -14,10 +14,10 @@ export type ProxyCommandGrantStatus = "On" | "Off";
 
 export type RewriteRuleActionType = "ADD" | "MODIFY" | "DELETE";
 
-export type AutoResponderEntryType = "File" | "Directory" | "Glob";
+export type AutoResponderType = "File" | "Directory" | "Glob";
 
 export interface ApplicationMainStateJSON {
-    autoResponderEntries: AutoResponderEntryEntityJSON[];
+    autoResponderEntries: AutoResponderEntityJSON[];
     clientRequestEntries: ClientRequestEntityJSON[];
     certificateState: CertificateStatus;
     proxySettingStatus: ProxySettingStatus;
@@ -26,9 +26,9 @@ export interface ApplicationMainStateJSON {
     noPacFileProxySetting: boolean;
 }
 
-export interface AutoResponderEntryEntityJSON {
+export interface AutoResponderEntityJSON {
     id: number;
-    type: AutoResponderEntryType;
+    type: AutoResponderType;
     pattern: string;
     path: string;
     projectId: number;

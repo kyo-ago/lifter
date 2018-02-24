@@ -4,25 +4,25 @@ import { ClientRequestEntity } from "../../client-request/client-request-entity"
 import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";
 import { LocalFileResponderEntity } from "../../local-file-responder/local-file-responder-entity";
 import { ProjectEntity } from "../../project/project-entity";
-import { AbstractAutoResponderEntryEntity, AutoResponderEntryEntity } from "../auto-responder-entry-entity";
-import { AutoResponderEntryIdentity } from "../auto-responder-entry-identity";
+import { AbstractAutoResponderEntity, AutoResponderEntity } from "../auto-responder-entity";
+import { AutoResponderIdentity } from "../auto-responder-identity";
 import { FindMatchEntry } from "../specs/find-match-entry";
-import { AutoResponderEntryPath } from "../value-objects/auto-responder-entry-path";
-import { AutoResponderEntryPattern } from "../value-objects/auto-responder-entry-pattern";
-import { AutoResponderEntryFactory } from "./auto-responder-entry-factory";
+import { AutoResponderPath } from "../value-objects/auto-responder-path";
+import { AutoResponderPattern } from "../value-objects/auto-responder-pattern";
+import { AutoResponderFactory } from "./auto-responder-factory";
 
-export class AutoResponderEntryRepository extends AsyncOnNedbRepository<
-    AutoResponderEntryIdentity,
-    AbstractAutoResponderEntryEntity
+export class AutoResponderRepository extends AsyncOnNedbRepository<
+    AutoResponderIdentity,
+    AbstractAutoResponderEntity
 > {
     private event = new EventEmitter();
 
     constructor(projectEntity: ProjectEntity, private localFileResponderFactory: LocalFileResponderFactory) {
-        super(projectEntity.getDataStoreOptions("autoResponderEntryRepository"), {
-            toEntity: (json: any): AbstractAutoResponderEntryEntity => {
-                return AutoResponderEntryFactory.fromJSON(json);
+        super(projectEntity.getDataStoreOptions("autoResponderRepository"), {
+            toEntity: (json: any): AbstractAutoResponderEntity => {
+                return AutoResponderFactory.fromJSON(json);
             },
-            toJSON: (entity: AbstractAutoResponderEntryEntity): any => {
+            toJSON: (entity: AbstractAutoResponderEntity): any => {
                 return entity.json;
             },
         });
@@ -42,13 +42,13 @@ export class AutoResponderEntryRepository extends AsyncOnNedbRepository<
         return result;
     }
 
-    async store(entity: AutoResponderEntryEntity<AutoResponderEntryPattern, AutoResponderEntryPath>) {
+    async store(entity: AutoResponderEntity<AutoResponderPattern, AutoResponderPath>) {
         let result = await super.store(entity);
         this.event.emit("change");
         return result;
     }
 
-    async deleteByIdentity(identity: AutoResponderEntryIdentity) {
+    async deleteByIdentity(identity: AutoResponderIdentity) {
         let result = await super.deleteByIdentity(identity);
         this.event.emit("change");
         return result;

@@ -1,42 +1,42 @@
-import { AutoResponderEntryType } from "@lifter/lifter-common";
+import { AutoResponderType } from "@lifter/lifter-common";
 import * as assert from "assert";
 import "mocha";
 import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
-import { AutoResponderEntryDirectoryEntity } from "../auto-responder-entry-directory/auto-responder-entry-directory-entity";
-import { AutoResponderEntryFileEntity } from "../auto-responder-entry-file/auto-responder-entry-file-entity";
-import { AutoResponderEntryGlobEntity } from "../auto-responder-entry-glob/auto-responder-entry-glob-entity";
-import { AutoResponderEntryFactory } from "./auto-responder-entry-factory";
+import { AutoResponderDirectoryEntity } from "../auto-responder-directory/auto-responder-directory-entity";
+import { AutoResponderFileEntity } from "../auto-responder-file/auto-responder-file-entity";
+import { AutoResponderGlobEntity } from "../auto-responder-glob/auto-responder-glob-entity";
+import { AutoResponderFactory } from "./auto-responder-factory";
 
-describe("AutoResponderEntryFactory", () => {
-    let autoResponderEntryFactory: AutoResponderEntryFactory;
+describe("AutoResponderFactory", () => {
+    let autoResponderFactory: AutoResponderFactory;
 
     beforeEach(async () => {
         let lifecycleContextService = await createLifecycleContextService();
-        autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
+        autoResponderFactory = lifecycleContextService.autoResponderFactory;
     });
 
     describe("create", () => {
         [
             {
                 type: "File",
-                instance: AutoResponderEntryFileEntity,
+                instance: AutoResponderFileEntity,
             },
             {
                 type: "Directory",
-                instance: AutoResponderEntryDirectoryEntity,
+                instance: AutoResponderDirectoryEntity,
             },
             {
                 type: "Glob",
-                instance: AutoResponderEntryGlobEntity,
+                instance: AutoResponderGlobEntity,
             },
-        ].forEach((param: { type: AutoResponderEntryType; instance: any }) => {
+        ].forEach((param: { type: AutoResponderType; instance: any }) => {
             it(param.type, () => {
-                let autoResponderEntryFileEntity = autoResponderEntryFactory.create(
+                let autoResponderFileEntity = autoResponderFactory.create(
                     param.type,
-                    "auto-responder-entry-factory.spec.ts",
-                    "./auto-responder-entry-factory.spec.ts",
+                    "auto-responder-factory.spec.ts",
+                    "./auto-responder-factory.spec.ts",
                 );
-                assert(autoResponderEntryFileEntity instanceof param.instance);
+                assert(autoResponderFileEntity instanceof param.instance);
             });
         });
     });

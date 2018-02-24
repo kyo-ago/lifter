@@ -1,6 +1,6 @@
 import {
     ApplicationMainStateJSON,
-    AutoResponderEntryEntityJSON,
+    AutoResponderEntityJSON,
     ClientRequestEntityJSON,
     ProxyBypassDomainEntityJSON,
     RewriteRuleEntityJSON,
@@ -55,14 +55,14 @@ export class Application {
         );
 
         this.pacFileService = new PacFileService(
-            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.autoResponderRepository,
             this.networksetupProxyService,
             this.userSettingStorage,
         );
 
         this.connectionService = new ConnectionService(
             this.pacFileService,
-            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.autoResponderRepository,
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
         );
@@ -73,8 +73,8 @@ export class Application {
         );
 
         this.uiEventService = new UIEventService(
-            this.lifecycleContextService.autoResponderEntryFactory,
-            this.lifecycleContextService.autoResponderEntryRepository,
+            this.lifecycleContextService.autoResponderFactory,
+            this.lifecycleContextService.autoResponderRepository,
             this.certificateService,
             this.networksetupProxyService,
             this.userSettingStorage,
@@ -116,10 +116,10 @@ export class Application {
     }
 
     async getMainState(): Promise<ApplicationMainStateJSON> {
-        let autoResponderEntries = await this.lifecycleContextService.autoResponderEntryRepository.resolveAll();
+        let autoResponderEntries = await this.lifecycleContextService.autoResponderRepository.resolveAll();
         let clientRequestEntries = this.lifecycleContextService.clientRequestRepository.resolveAll();
         return {
-            autoResponderEntries: autoResponderEntries.map((entity): AutoResponderEntryEntityJSON => entity.json),
+            autoResponderEntries: autoResponderEntries.map((entity): AutoResponderEntityJSON => entity.json),
             clientRequestEntries: clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json),
             certificateState: await this.certificateService.getCurrentStatus(),
             proxySettingStatus: await this.proxySettingService.getCurrentStatus(),

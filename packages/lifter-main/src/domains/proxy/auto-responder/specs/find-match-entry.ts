@@ -1,7 +1,7 @@
 import { ClientRequestEntity } from "../../client-request/client-request-entity";
 import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";
 import { LocalFileResponderEntity } from "../../local-file-responder/local-file-responder-entity";
-import { AbstractAutoResponderEntryEntity } from "../auto-responder-entry-entity";
+import { AbstractAutoResponderEntity } from "../auto-responder-entity";
 
 export class FindMatchEntry {
     constructor(
@@ -11,7 +11,7 @@ export class FindMatchEntry {
 
     async getLocalFileResponder(
         promise: Promise<LocalFileResponderEntity | null>,
-        entity: AbstractAutoResponderEntryEntity,
+        entity: AbstractAutoResponderEntity,
     ): Promise<LocalFileResponderEntity | null> {
         let result = await promise;
         if (result) return result;

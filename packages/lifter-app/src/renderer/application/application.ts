@@ -1,6 +1,6 @@
 import {
     ApplicationMainStateJSON,
-    AutoResponderEntryEntityJSON,
+    AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
     ipc,
@@ -16,21 +16,21 @@ export class Application {
         return json;
     }
 
-    async addDropFiles(files: File[]): Promise<AutoResponderEntryEntityJSON[]> {
+    async addDropFiles(files: File[]): Promise<AutoResponderEntityJSON[]> {
         let paths = files.map(file => (<any>file).path);
-        return await ipc.publish("addAutoResponderEntryEntities", paths);
+        return await ipc.publish("addAutoResponderEntities", paths);
     }
 
-    async selectDialogEntry(fileNames: string[]): Promise<AutoResponderEntryEntityJSON[]> {
-        return await ipc.publish("addAutoResponderEntryEntities", fileNames);
+    async selectDialogEntry(fileNames: string[]): Promise<AutoResponderEntityJSON[]> {
+        return await ipc.publish("addAutoResponderEntities", fileNames);
     }
 
-    async fetchAutoResponderEntities(): Promise<AutoResponderEntryEntityJSON[]> {
-        return await ipc.publish("fetchAutoResponderEntryEntities");
+    async fetchAutoResponderEntities(): Promise<AutoResponderEntityJSON[]> {
+        return await ipc.publish("fetchAutoResponderEntities");
     }
 
-    async deleteAutoResponderEntities(autoResponderEntryEntities: AutoResponderEntryEntityJSON[]): Promise<void> {
-        await ipc.publish("deleteAutoResponderEntryEntities", autoResponderEntryEntities.map(entity => entity.id));
+    async deleteAutoResponderEntities(autoResponderEntities: AutoResponderEntityJSON[]): Promise<void> {
+        await ipc.publish("deleteAutoResponderEntities", autoResponderEntities.map(entity => entity.id));
     }
 
     changeCertificateStatus(): Promise<CertificateStatus> {

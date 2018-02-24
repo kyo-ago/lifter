@@ -1,15 +1,15 @@
 import * as Path from "path";
 import { ClientRequestEntity } from "../../../client-request/client-request-entity";
-import { AutoResponderEntryFilePath } from "../../auto-responder-file/value-objects/auto-responder-entry-file-path";
+import { AutoResponderFilePath } from "../../auto-responder-file/value-objects/auto-responder-file-path";
 import { AutoResponderPath } from "../../value-objects/auto-responder-path";
 
-export class AutoResponderEntryAnyPath extends AutoResponderPath {
-    async getAutoResponderEntryFilePath(
+export class AutoResponderAnyPath extends AutoResponderPath {
+    async getAutoResponderFilePath(
         clientRequestEntity: ClientRequestEntity,
-    ): Promise<AutoResponderEntryFilePath | null> {
+    ): Promise<AutoResponderFilePath | null> {
         let stat = await this.getState();
         if (stat.isFile()) {
-            return new AutoResponderEntryFilePath(this.value);
+            return new AutoResponderFilePath(this.value);
         }
 
         if (!stat.isDirectory()) {
@@ -25,7 +25,7 @@ export class AutoResponderEntryAnyPath extends AutoResponderPath {
 
         // /hoge
         if (pathname.match(/^\/[^\/]+$/)) {
-            return new AutoResponderEntryFilePath(Path.join(this.value, pathname));
+            return new AutoResponderFilePath(Path.join(this.value, pathname));
         }
 
         let splited = pathname.split(`/${Path.basename(this.value)}/`);
@@ -38,6 +38,6 @@ export class AutoResponderEntryAnyPath extends AutoResponderPath {
         // directory match
         if (!lastPath) return null;
 
-        return new AutoResponderEntryFilePath(Path.join(this.value, lastPath));
+        return new AutoResponderFilePath(Path.join(this.value, lastPath));
     }
 }

@@ -1,3 +1,3 @@
 import { NumberIdentity } from "typescript-dddbase";
 
-export class AutoResponderEntryIdentity extends NumberIdentity {}
+export class AutoResponderIdentity extends NumberIdentity {}

@@ -1,6 +1,6 @@
 import * as Ipc from "electron-ipc";
 import {
-    AutoResponderEntryEntityJSON,
+    AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
     ProxyCommandGrantStatus,
@@ -8,15 +8,15 @@ import {
 } from "./index";
 
 export interface ElectronIpcMap {
-    fetchAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
-    addAutoResponderEntryEntities: AutoResponderEntryEntityJSON[];
+    addAutoResponderEntities: AutoResponderEntityJSON[];
+    fetchAutoResponderEntities: AutoResponderEntityJSON[];
+    deleteAutoResponderEntities: void;
+    addClientRequestEntity: ClientRequestEntityJSON;
     changeCertificateStatus: CertificateStatus;
     changeProxySettingStatus: ProxySettingStatus;
     changeProxyCommandGrantStatus: ProxyCommandGrantStatus;
     changeNoAutoEnableProxySetting: boolean;
     changeNoPacFileProxySetting: boolean;
-    deleteAutoResponderEntryEntities: void;
-    addClientRequestEntity: ClientRequestEntityJSON;
 }
 
 export const ipc = class {

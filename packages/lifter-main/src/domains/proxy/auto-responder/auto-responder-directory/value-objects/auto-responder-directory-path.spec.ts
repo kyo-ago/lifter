@@ -3,7 +3,7 @@ import "mocha";
 import * as Path from "path";
 import { createLifecycleContextService } from "../../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
-import { AutoResponderDirectoryPath } from "./auto-responder-entry-directory-path";
+import { AutoResponderDirectoryPath } from "./auto-responder-directory-path";
 
 describe("AutoResponderDirectoryPath", () => {
     describe("getAutoResponderFilePath", () => {
