@@ -2,9 +2,9 @@ import * as assert from "assert";
 import "mocha";
 import { createLifecycleContextService } from "../../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
-import { AutoResponderEntryDirectoryPattern } from "./auto-responder-entry-directory-pattern";
+import { AutoResponderDirectoryPattern } from "./auto-responder-entry-directory-pattern";
 
-describe("AutoResponderEntryDirectoryPattern", () => {
+describe("AutoResponderDirectoryPattern", () => {
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
         clientRequestFactory = (await createLifecycleContextService()).clientRequestFactory;
@@ -41,7 +41,7 @@ describe("AutoResponderEntryDirectoryPattern", () => {
     describe("getMatchCodeString", () => {
         testPattern.forEach(pattern => {
             it(pattern.name, () => {
-                let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue(
+                let autoResponderEntryDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
                     pattern.pattern,
                 );
                 let result = autoResponderEntryDirectoryPattern.getMatchCodeString("match");
@@ -54,7 +54,7 @@ describe("AutoResponderEntryDirectoryPattern", () => {
     describe("isMatchPath", () => {
         testPattern.concat(isMatchPathPattern).forEach(pattern => {
             it(pattern.name, () => {
-                let autoResponderEntryDirectoryPattern = AutoResponderEntryDirectoryPattern.createSafeValue(
+                let autoResponderEntryDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
                     pattern.pattern,
                 );
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);

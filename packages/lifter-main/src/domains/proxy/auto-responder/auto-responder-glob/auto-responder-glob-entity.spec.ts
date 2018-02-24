@@ -3,15 +3,15 @@ import "mocha";
 import * as Path from "path";
 import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
-import { AutoResponderEntryFactory } from "../lifecycle/auto-responder-entry-factory";
+import { AutoResponderFactory } from "../lifecycle/auto-responder-factory";
 import { AutoResponderEntryGlobEntity } from "./auto-responder-entry-glob-entity";
 
 describe("AutoResponderEntryGlobEntity.getMatchResponder", () => {
-    let autoResponderEntryFactory: AutoResponderEntryFactory;
+    let autoResponderEntryFactory: AutoResponderFactory;
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
         let lifecycleContextService = await createLifecycleContextService();
-        autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
+        autoResponderEntryFactory = lifecycleContextService.autoResponderFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;
     });
     let createAutoResponderEntryGlobEntity = (pattern: string, path: string): AutoResponderEntryGlobEntity => {

@@ -11,7 +11,7 @@ describe("AutoResponderEntryDirectoryEntity", () => {
 
     beforeEach(async () => {
         let lifecycleContextService = await createLifecycleContextService();
-        let autoResponderEntryFactory = lifecycleContextService.autoResponderEntryFactory;
+        let autoResponderEntryFactory = lifecycleContextService.autoResponderFactory;
         clientRequestFactory = lifecycleContextService.clientRequestFactory;
         autoResponderEntryDirectoryEntity = <AutoResponderEntryDirectoryEntity>autoResponderEntryFactory.create(
             "Directory",

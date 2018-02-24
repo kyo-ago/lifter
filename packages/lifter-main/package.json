@@ -4,9 +4,9 @@
   "version": "0.0.12",
   "author": "@kyo_ago",
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.9",
-    "@lifter/lifter-common": "^0.0.9",
-    "@lifter/networksetup-proxy": "^0.0.10",
+    "@lifter/electron-window-manager": "^0.0.12",
+    "@lifter/lifter-common": "^0.0.12",
+    "@lifter/networksetup-proxy": "^0.0.12",
     "electron-ipc": "^0.3.0",
     "execa": "^0.8.0",
     "http-mitm-proxy": "^0.6.0",

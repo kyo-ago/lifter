@@ -1,9 +1,9 @@
 import * as micromatch from "micromatch";
 import * as Path from "path";
 import { ClientRequestEntity } from "../../../client-request/client-request-entity";
-import { AutoResponderEntryPattern } from "../../value-objects/auto-responder-entry-pattern";
+import { AutoResponderPattern } from "../../value-objects/auto-responder-pattern";
 
-export class AutoResponderEntryGlobPattern extends AutoResponderEntryPattern {
+export class AutoResponderEntryGlobPattern extends AutoResponderPattern {
     private matchRegexp: RegExp;
 
     constructor(pattern: string) {
