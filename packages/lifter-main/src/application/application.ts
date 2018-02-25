@@ -8,6 +8,7 @@ import {
 import { OutgoingHttpHeaders } from "http";
 import { Url } from "url";
 import { UserSettingStorage } from "../domains/libs/user-setting-storage";
+import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
 import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
@@ -23,6 +24,7 @@ import { ProxyService } from "./proxy/proxy-service";
 import { UIEventService } from "./ui-event/ui-event-service";
 
 export class Application {
+    private autoResponderService: AutoResponderService;
     private networksetupProxyService: NetworksetupProxyService;
     private proxyService: ProxyService;
     private certificateService: CertificateService;
@@ -38,6 +40,11 @@ export class Application {
         projectEntity: ProjectEntity,
         public lifecycleContextService: LifecycleContextService,
     ) {
+        this.autoResponderService = new AutoResponderService(
+            this.lifecycleContextService.autoResponderFactory,
+            this.lifecycleContextService.autoResponderRepository,
+        );
+
         this.userSettingStorage = new UserSettingStorage(projectEntity);
 
         this.networksetupProxyService = new NetworksetupProxyService(
@@ -73,8 +80,7 @@ export class Application {
         );
 
         this.uiEventService = new UIEventService(
-            this.lifecycleContextService.autoResponderFactory,
-            this.lifecycleContextService.autoResponderRepository,
+            this.autoResponderService,
             this.certificateService,
             this.networksetupProxyService,
             this.userSettingStorage,

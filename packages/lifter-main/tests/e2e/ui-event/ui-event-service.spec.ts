@@ -42,6 +42,22 @@ describe("UIEventService", () => {
         assert(afterResults.length === 1);
     });
 
+    it("deleteAutoResponderEntities", async () => {
+        await createApplication();
+
+        let addCallback = getCallback("addAutoResponderEntities");
+        await addCallback({}, [__filename]);
+
+        let fetchCallback = getCallback("fetchAutoResponderEntities");
+        let fetchResults = await fetchCallback({}, void 0);
+
+        let deleteCallback = getCallback("deleteAutoResponderEntities");
+        await deleteCallback({}, fetchResults.map((res) => res.id));
+
+        let afterResults = await fetchCallback({}, void 0);
+        assert(afterResults.length === 0);
+    });
+
     let changeStateTest = async (callback, key, name, result) => {
         MockStateEvent.emit(key, name);
         let callbackResult = await callback({}, void 0);

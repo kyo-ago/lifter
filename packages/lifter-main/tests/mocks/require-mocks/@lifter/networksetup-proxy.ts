@@ -80,6 +80,6 @@ let setPermittedState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) =>
     stub.setautoproxystate.resolves(commandSuccessResult);
 };
 
-afterEach(async () => {
-    sandbox.reset();
+afterEach(() => {
+    sandbox.resetHistory();
 });
