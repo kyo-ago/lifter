@@ -2,7 +2,6 @@
 
 import { ApplicationMainStateJSON } from "@lifter/lifter-common";
 import Element from "element-ui";
-import ElementLocale from "element-ui/lib/locale/lang/ja";
 import "element-ui/lib/theme-chalk/index.css";
 
 import Vue from "vue";
@@ -11,6 +10,7 @@ import VueI18n from 'vue-i18n';
 
 import { Application } from "./application/application";
 import { render } from "./components";
+import { locale, messages } from "./messages";
 import { getStore } from "./store";
 
 export interface UIState extends ApplicationMainStateJSON {
@@ -22,15 +22,20 @@ export interface UIState extends ApplicationMainStateJSON {
 function requireAll(r: any) {
     r.keys().forEach(r);
 }
+
 requireAll(require.context("./", true, /\.css$/));
 require("./index.css");
 
 Vue.use(Vuex);
 Vue.use(VueI18n);
-Vue.use(Element, { ElementLocale });
 
 let i18n = new VueI18n({
-    locale: navigator.language,
+    locale,
+    messages,
+});
+
+Vue.use(Element, {
+    i18n: i18n.t.bind(i18n),
 });
 
 let application = new Application();
