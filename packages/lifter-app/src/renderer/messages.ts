@@ -4,6 +4,15 @@ const langMapper = {
     "en": "en-US",
 };
 
+const globalMessages = {
+    "en-US": {
+        // ...
+    },
+    "ja": {
+        // ...
+    }
+};
+
 export const messages: VueI18n.LocaleMessages = [
     "zh-CN", "en", "de", "pt", "es", "da", "fr", "nb-NO",
     "zh-TW", "it", "ko", "ja", "nl", "vi", "ru-RU", "tr-TR",
@@ -12,16 +21,26 @@ export const messages: VueI18n.LocaleMessages = [
     "af-ZA", "ee", "sl", "ar", "he", "lt", "mn", "kz",
     "hu", "ro", "ku"
 ].reduce((base: VueI18n.LocaleMessages, cur: string) => {
-    base[langMapper[cur] || cur] = require(`element-ui/lib/locale/lang/${cur}`).default;
+    base[langMapper[cur] || cur] = {
+        ...globalMessages[cur],
+        ...require(`element-ui/lib/locale/lang/${cur}`).default,
+    };
     return base;
 }, {});
 
-const mainLangs = [
-    "en-US", "ja",
-];
-const locales = navigator.languages
-    .filter((lang) => mainLangs.includes(lang))
-    .concat(navigator.languages.filter((lang) => !!messages[lang]))
-;
 
-export const locale: VueI18n.Locale = locales[0] || navigator.language;
+export function getLocale(nav: {
+    languages: string[];
+    language: string;
+}): VueI18n.Locale {
+    const mainLangs = [
+        "en-US", "ja",
+    ];
+    const locales = nav.languages
+        .map((lang) => langMapper[lang] || lang)
+        .filter((lang) => mainLangs.includes(lang))
+        .concat(nav.languages.filter((lang) => !!messages[lang]))
+    ;
+
+    return locales[0] || langMapper[nav.language] || nav.language;
+}

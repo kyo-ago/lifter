@@ -10,7 +10,7 @@ import VueI18n from 'vue-i18n';
 
 import { Application } from "./application/application";
 import { render } from "./components";
-import { locale, messages } from "./messages";
+import { getLocale, messages } from "./messages";
 import { getStore } from "./store";
 
 export interface UIState extends ApplicationMainStateJSON {
@@ -30,7 +30,7 @@ Vue.use(Vuex);
 Vue.use(VueI18n);
 
 let i18n = new VueI18n({
-    locale,
+    locale: getLocale(navigator),
     messages,
 });
 
