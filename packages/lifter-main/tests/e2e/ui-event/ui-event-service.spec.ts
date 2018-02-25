@@ -1,4 +1,4 @@
-import { ElectronIpcMap, } from "@lifter/lifter-common";
+import { ElectronIpcMap } from "@lifter/lifter-common";
 import * as assert from "assert";
 import "mocha";
 import * as sinon from "sinon";

@@ -1,4 +1,4 @@
-import { AutoResponderEntityJSON } from "../../../../../lifter-common/src";
+import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import { AutoResponderIdentity } from "./auto-responder-identity";
 import { AutoResponderFactory } from "./lifecycle/auto-responder-factory";
 import { AutoResponderRepository } from "./lifecycle/auto-responder-repositoty";

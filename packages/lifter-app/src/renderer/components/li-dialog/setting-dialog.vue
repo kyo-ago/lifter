@@ -1,14 +1,24 @@
 <i18n>
 {
     "en-US": {
-        "CurrentLifterProxyCertificationIsInstalled": "Lifter proxy certification is installed.",
-        "CurrentLifterProxyCertificationIsMissing": "Lifter proxy certification is not installed.",
+        "CurrentLifterProxyCertificationIsInstalled": "Lifter proxy ssl certification is installed.",
+        "CurrentLifterProxyCertificationIsMissing": "Lifter proxy ssl certification is not installed.",
         "NetworkProxyCommandIsGranted": "Network proxy command is granted.",
         "NetworkProxyCommandIsNotGranted": "Network proxy command is not granted.",
         "EnableProxyOnStartup": "Enable Proxy on startup.",
         "DisableProxyOnStartup": "Disable Proxy on startup.",
         "EnableProxyViaPac": "Enable Proxy via Pac.",
         "DisableProxyViaPac": "Disable Proxy via Pac."
+    },
+    "ja": {
+        "CurrentLifterProxyCertificationIsInstalled": "Lifter proxyのssl証明書がインストール済みです",
+        "CurrentLifterProxyCertificationIsMissing": "Lifter proxyのssl証明書がインストールされていません",
+        "NetworkProxyCommandIsGranted": "Network proxy commandに権限付与済みです",
+        "NetworkProxyCommandIsNotGranted": "Network proxy commandに権限が付与されていません",
+        "EnableProxyOnStartup": "起動時にOSのProxy設定をonにします",
+        "DisableProxyOnStartup": "起動時にOSのProxy設定を変更しません",
+        "EnableProxyViaPac": "PACファイルを使ったProxy制御が有効です",
+        "DisableProxyViaPac": "PACファイルを使ったProxy制御を行いません"
     }
 }
 </i18n>
