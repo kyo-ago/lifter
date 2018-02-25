@@ -1,3 +1,11 @@
+<i18n>
+    {
+        "en-US": {
+            "Settings": "Settings..."
+        }
+    }
+</i18n>
+
 <template>
     <div class="toolbar">
         <divider />
@@ -10,7 +18,7 @@
         >
             <span class="icon">&#xFE19;</span>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="settings">Settings...</el-dropdown-item>
+                <el-dropdown-item command="settings">{{ $t("Settings") }}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
     </div>

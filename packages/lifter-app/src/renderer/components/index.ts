@@ -2,6 +2,7 @@ import Vue, { ComponentOptions } from "vue";
 import { Store } from "vuex";
 import { UIState } from "../index";
 import App from "./app.vue";
+import VueI18n from 'vue-i18n';
 
 export interface VueComponent extends ComponentOptions<Vue> {
     data?: object | ((this: any) => object);
@@ -19,9 +20,10 @@ export interface VueComponent extends ComponentOptions<Vue> {
     errorCaptured?(this: any): boolean | void;
 }
 
-export function render(store: Store<UIState>) {
+export function render(store: Store<UIState>, i18n: VueI18n) {
     new Vue({
         store,
+        i18n,
         components: { App },
         template: "<App />",
     }).$mount("#app");

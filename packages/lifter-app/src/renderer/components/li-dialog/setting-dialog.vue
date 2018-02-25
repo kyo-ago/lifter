@@ -1,3 +1,18 @@
+<i18n>
+{
+    "en-US": {
+        "CurrentLifterProxyCertificationIsInstalled": "Lifter proxy certification is installed.",
+        "CurrentLifterProxyCertificationIsMissing": "Lifter proxy certification is not installed.",
+        "NetworkProxyCommandIsGranted": "Network proxy command is granted.",
+        "NetworkProxyCommandIsNotGranted": "Network proxy command is not granted.",
+        "EnableProxyOnStartup": "Enable Proxy on startup.",
+        "DisableProxyOnStartup": "Disable Proxy on startup.",
+        "EnableProxyViaPac": "Enable Proxy via Pac.",
+        "DisableProxyViaPac": "Disable Proxy via Pac."
+    }
+}
+</i18n>
+
 <template>
     <el-dialog
         title="Settings"
@@ -13,28 +28,44 @@
                     v-model="currentCertificateState"
                     @change="changeCertificateState"
                 ></el-switch>
-                Current lifter proxy certification is {{certificateState}}
+                {{
+                    currentCertificateState
+                        ? $t("CurrentLifterProxyCertificationIsInstalled")
+                        : $t("CurrentLifterProxyCertificationIsMissing")
+                }}
             </div>
             <div>
                 <el-switch
                     v-model="currentProxyCommandGrantStatus"
                     @change="changeProxyCommandGrantStatus"
                 ></el-switch>
-                Network proxy command grant is {{proxyCommandGrantStatus}}
+                {{
+                    currentProxyCommandGrantStatus
+                        ? $t("NetworkProxyCommandIsGranted")
+                        : $t("NetworkProxyCommandIsNotGranted")
+                }}
             </div>
             <div>
                 <el-switch
                     v-model="currentNoAutoEnableProxySetting"
                     @change="changeNoAutoEnableProxySetting"
                 ></el-switch>
-                Current auto enable proxy setting is {{!noAutoEnableProxySetting}}
+                {{
+                    currentNoAutoEnableProxySetting
+                        ? $t("EnableProxyOnStartup")
+                        : $t("DisableProxyOnStartup")
+                }}
             </div>
             <div>
                 <el-switch
                     v-model="currentNoPacFileProxySetting"
                     @change="changeNoPacFileProxySetting"
                 ></el-switch>
-                Current pac file proxy setting is {{!noPacFileProxySetting}}
+                {{
+                    currentNoPacFileProxySetting
+                        ? $t("EnableProxyViaPac")
+                        : $t("DisableProxyViaPac")
+                }}
             </div>
         </div>
     </el-dialog>
