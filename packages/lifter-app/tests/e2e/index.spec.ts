@@ -1,10 +1,11 @@
+import "mocha";
 import * as assert from "assert";
 import * as Path from "path";
 import { Application } from "spectron";
 
 describe("application launch", () => {
     let application: Application;
-    beforeAll(() => {
+    beforeEach(() => {
         application = new Application({
             path: `${Path.join(".", "node_modules", ".bin", "electron")}`,
             args: [Path.join(".")],
@@ -12,7 +13,7 @@ describe("application launch", () => {
         return application.start();
     });
 
-    afterAll(() => {
+    afterEach(() => {
         if (application && application.isRunning()) {
             return application.stop();
         }
@@ -20,7 +21,7 @@ describe("application launch", () => {
 
     it("shows an initial window", async () => {
         let count = await application.client.getWindowCount();
-        assert.equal(count, 1);
+        assert(count === 1);
     });
 
     it("get text", async () => {

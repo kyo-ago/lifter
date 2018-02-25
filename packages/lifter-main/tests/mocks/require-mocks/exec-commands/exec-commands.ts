@@ -22,6 +22,6 @@ MockStateEvent.on("updateProxySettingState", (newState: MockProxySettingStatus) 
 
 mockRequire("../../../../src/libs/exec-commands", stub);
 
-afterEach(async () => {
-    sandbox.reset();
+afterEach(() => {
+    sandbox.resetHistory();
 });

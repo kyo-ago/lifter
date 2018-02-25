@@ -17,5 +17,5 @@ mockRequire("@lifter/lifter-common", stub);
 export const mockLifterCommon = stub;
 
 afterEach(() => {
-    sandbox.reset();
+    sandbox.resetHistory();
 });

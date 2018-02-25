@@ -40,7 +40,7 @@
   },
   "scripts": {
     "app": "NODE_ENV=development lerna run dev --scope @lifter/lifter-app",
-    "bootstrap": "lerna bootstrap && yarn run build && yarn run compile",
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "clean": "lerna run clean && rm -fr lerna-debug.log package-lock.json yarn.lock node_modules app dist",
     "compile": "yarn run build && lerna run compile --scope @lifter/lifter-app",

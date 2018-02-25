@@ -1,8 +1,6 @@
 <template>
     <el-container>
-        <el-header
-            height="26px"
-        >
+        <el-header>
             <li-header />
         </el-header>
         <el-main>

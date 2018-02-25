@@ -6,17 +6,14 @@ import {
     ProxySettingStatus,
 } from "@lifter/lifter-common";
 import { UserSettingStorage } from "../../domains/libs/user-setting-storage";
-import { AutoResponderIdentity } from "../../domains/proxy/auto-responder/auto-responder-identity";
-import { AutoResponderFactory } from "../../domains/proxy/auto-responder/lifecycle/auto-responder-factory";
-import { AutoResponderRepository } from "../../domains/proxy/auto-responder/lifecycle/auto-responder-repositoty";
+import { AutoResponderService } from "../../domains/proxy/auto-responder/auto-responder-service";
 import { CertificateService } from "../../domains/settings/certificate/certificate-service";
 import { NetworksetupProxyService } from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { ProxySettingService } from "../../domains/settings/proxy-setting/proxy-setting-service";
 
 export class UIEventService {
     constructor(
-        private autoResponderFactory: AutoResponderFactory,
-        private autoResponderRepository: AutoResponderRepository,
+        private autoResponderService: AutoResponderService,
         private certificateService: CertificateService,
         private networksetupProxyService: NetworksetupProxyService,
         private userSettingStorage: UserSettingStorage,
@@ -27,30 +24,15 @@ export class UIEventService {
         ipc.subscribe("addAutoResponderEntities", async (event: any, filePaths: string[]): Promise<
             AutoResponderEntityJSON[]
         > => {
-            let filePromises = filePaths.map(path =>
-                this.autoResponderFactory.createFromPath(path),
-            );
-            let autoResponderEntities = await Promise.all(filePromises);
-            await this.autoResponderRepository.storeList(autoResponderEntities);
-            return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
+            return this.autoResponderService.add(filePaths);
         });
 
         ipc.subscribe("fetchAutoResponderEntities", async (): Promise<AutoResponderEntityJSON[]> => {
-            let autoResponderEntities = await this.autoResponderRepository.resolveAll();
-            return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
+            return this.autoResponderService.fetch();
         });
 
         ipc.subscribe("deleteAutoResponderEntities", async (event: any, ids: number[]): Promise<void> => {
-            await Promise.all(
-                ids
-                    .map(id => new AutoResponderIdentity(id))
-                    .map(autoResponderIdentity =>
-                        this.autoResponderRepository.deleteByIdentity(
-                            autoResponderIdentity,
-                        ),
-                    ),
-            );
-            return;
+            return this.autoResponderService.delete(ids);
         });
 
         ipc.subscribe("changeCertificateStatus", (): Promise<CertificateStatus> => {

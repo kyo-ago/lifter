@@ -11,5 +11,5 @@ let stub = sandbox.stub({
 mockRequire("http-mitm-proxy", () => stub);
 
 afterEach(() => {
-    sandbox.reset();
+    sandbox.resetHistory();
 });

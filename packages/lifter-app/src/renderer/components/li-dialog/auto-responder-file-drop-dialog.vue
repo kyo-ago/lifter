@@ -1,3 +1,11 @@
+<i18n>
+{
+    "en-US": {
+        "DropHere": "Drop here!"
+    }
+}
+</i18n>
+
 <template>
     <el-dialog
         title="Add auto responder"
@@ -8,7 +16,7 @@
         @close="unsetAutoResponderFileDropPage"
     >
         <div>
-            Drop here!
+            $t("DropHere")
         </div>
     </el-dialog>
 </template>
