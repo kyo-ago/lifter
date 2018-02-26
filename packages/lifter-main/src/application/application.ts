@@ -6,7 +6,6 @@ import {
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { OutgoingHttpHeaders } from "http";
-import { Url } from "url";
 import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
 import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
@@ -52,8 +51,6 @@ export class Application {
             this.lifecycleContextService.networkInterfaceRepository,
         );
 
-        this.proxyService = new ProxyService(httpSslCaDirPath);
-
         this.certificateService = new CertificateService(httpSslCaDirPath);
 
         this.proxySettingService = new ProxySettingService(
@@ -72,6 +69,13 @@ export class Application {
             this.lifecycleContextService.autoResponderRepository,
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
+        );
+
+        this.proxyService = new ProxyService(
+            httpSslCaDirPath,
+            this.lifecycleContextService.clientRequestFactory,
+            this.networksetupProxyService,
+            this.connectionService,
         );
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
@@ -99,19 +103,8 @@ export class Application {
         this.uiEventService.subscribe();
     }
 
-    async start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        await this.networksetupProxyService.startProxy();
-        this.proxyService.createServer(
-            (
-                url: Url,
-                blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
-                passCallback: (error: Error | undefined) => void,
-            ) => {
-                let clientRequestEntity = this.lifecycleContextService.clientRequestFactory.create(url);
-                callback(clientRequestEntity);
-                this.connectionService.onRequest(clientRequestEntity, blockCallback, passCallback);
-            },
-        );
+    start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
+        return this.proxyService.start(callback);
     }
 
     async quit(): Promise<void> {
