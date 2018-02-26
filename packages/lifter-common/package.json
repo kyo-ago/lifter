@@ -4,18 +4,13 @@
   "version": "0.0.12",
   "author": "@kyo_ago",
   "dependencies": {
-    "electron-ipc": "^0.3.0",
-    "typescript-dddbase": "0.0.5"
-  },
-  "devDependencies": {
-    "typescript": "^2.6.2"
+    "electron-ipc": "^0.3.0"
   },
   "license": "GPL-3.0",
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p .",
     "clean": "rm -fr package-lock.json yarn.lock node_modules build",
-    "fix": "fixpack",
     "test": "tsc -p ."
   },
   "types": "./build/index.d.ts"

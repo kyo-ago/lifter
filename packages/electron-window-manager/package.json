@@ -11,9 +11,8 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "",
+    "build": "echo ''",
     "clean": "rm -fr package-lock.json yarn.lock node_modules",
-    "fix": "fixpack",
     "test": "node -c index.js"
   }
 }
