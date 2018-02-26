@@ -7,30 +7,14 @@
     "@lifter/electron-window-manager": "^0.0.12",
     "@lifter/lifter-common": "^0.0.12",
     "@lifter/networksetup-proxy": "^0.0.12",
-    "electron-ipc": "^0.3.0",
-    "execa": "^0.8.0",
-    "http-mitm-proxy": "^0.6.0",
-    "ifconfig": "git+https://github.com/femto113/node-ifconfig.git",
-    "micromatch": "^3.1.4",
-    "mime": "^2.0.3",
-    "nedb": "^1.8.0",
-    "rxjs": "^5.5.5",
-    "typescript-dddbase": "^0.0.5"
+    "http-mitm-proxy": "^0.6.1",
+    "ifconfig": "^0.0.1",
+    "mime": "^2.2.0",
+    "nedb": "^1.8.0"
   },
   "devDependencies": {
-    "@types/execa": "^0.8.0",
-    "@types/micromatch": "^2.3.29",
-    "@types/mime": "2.0.0",
-    "@types/mocha": "^2.2.48",
-    "@types/nedb": "^1.8.5",
-    "@types/node": "^8.0.57",
-    "@types/sinon": "^4.1.3",
-    "dependency-cruiser": "^2.9.0",
-    "mocha": "^5.0.0",
-    "mock-require": "^3.0.1",
-    "sinon": "^4.2.2",
-    "ts-node": "^5.0.0",
-    "typescript": "^2.6.2"
+    "@types/mime": "^2.0.0",
+    "@types/nedb": "^1.8.5"
   },
   "directories": {
     "test": "src/"
@@ -40,9 +24,7 @@
   "scripts": {
     "build": "tsc -p . --rootDir ./src/",
     "clean": "rm -fr package-lock.json yarn.lock node_modules build",
-    "clean-install": "rm -fr node_modules build && yarn install",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
-    "fix": "fixpack",
     "test": "NODE_ENV='test' mocha --require ts-node/register tests/mocks/require-mocks/*.ts tests/mocks/require-mocks/**/*.ts {src,tests}/**/*.spec.ts"
   },
   "types": "./build/index.d.ts"

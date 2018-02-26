@@ -3,7 +3,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.0.12",
+  "version": "independent",
   "gitVersionPrefix": "v",
   "npmClient": "yarn"
 }
