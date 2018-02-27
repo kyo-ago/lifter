@@ -14,7 +14,7 @@ describe("AutoResponderService", () => {
         autoResponderService = new AutoResponderService(
             lifecycleContextService.autoResponderFactory,
             lifecycleContextService.autoResponderRepository,
-            new FindMatchEntry(lifecycleContextService.localFileResponderFactory),
+            new FindMatchEntry(lifecycleContextService.localFileResponseFactory),
         );
     });
 

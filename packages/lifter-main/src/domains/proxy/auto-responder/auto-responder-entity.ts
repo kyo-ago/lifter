@@ -2,7 +2,7 @@ import { AutoResponderEntityJSON, AutoResponderType } from "@lifter/lifter-commo
 import * as mime from "mime";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
-import { LocalFileResponderParam } from "../local-file-responder/lifecycle/local-file-responder-factory";
+import { LocalFileResponseParam } from "../local-file-response/lifecycle/local-file-response-factory";
 import { ProjectIdentity } from "../project/project-identity";
 import { AutoResponderFilePath } from "./auto-responder-file/value-objects/auto-responder-file-path";
 import { AutoResponderIdentity } from "./auto-responder-identity";
@@ -28,7 +28,7 @@ export abstract class AutoResponderEntity<
         super(identity);
     }
 
-    abstract getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderParam | null>;
+    abstract getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseParam | null>;
 
     get json(): AutoResponderEntityJSON {
         return {
@@ -40,9 +40,9 @@ export abstract class AutoResponderEntity<
         };
     }
 
-    protected async filePathToLocalFileResponderParam(
+    protected async filePathToLocalFileResponseParam(
         filePath: AutoResponderFilePath,
-    ): Promise<LocalFileResponderParam | null> {
+    ): Promise<LocalFileResponseParam | null> {
         let stats;
         try {
             stats = await filePath.getState();

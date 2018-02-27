@@ -9,9 +9,12 @@ import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
 import { FindMatchEntry } from "../domains/proxy/auto-responder/specs/find-match-entry";
 import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
+import { ClientRequestService } from "../domains/proxy/client-request/client-request-service";
+import { ClientResponder } from "../domains/proxy/client-responder/client-responder";
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
+import { RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
 import { CertificateService } from "../domains/settings/certificate/certificate-service";
 import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
@@ -22,25 +25,37 @@ import { ProxyService } from "./proxy/proxy-service";
 import { UIEventService } from "./ui-event/ui-event-service";
 
 export class Application {
+    private clientRequestService: ClientRequestService;
+    private rewriteRuleService: RewriteRuleService;
     private autoResponderService: AutoResponderService;
     private networksetupProxyService: NetworksetupProxyService;
+    private clientResponder: ClientResponder;
     private proxyService: ProxyService;
     private certificateService: CertificateService;
     private proxySettingService: ProxySettingService;
     private pacFileService: PacFileService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private userSettingStorage: UserSettingStorage;
-    protected uiEventService: UIEventService;
+    private uiEventService: UIEventService;
 
     constructor(
         httpSslCaDirPath: string,
         projectEntity: ProjectEntity,
         public lifecycleContextService: LifecycleContextService,
     ) {
+        this.clientRequestService = new ClientRequestService(
+            this.lifecycleContextService.clientRequestFactory,
+            this.lifecycleContextService.clientRequestRepository,
+        );
+
+        this.rewriteRuleService = new RewriteRuleService(
+            this.lifecycleContextService.rewriteRuleRepository,
+        );
+
         this.autoResponderService = new AutoResponderService(
             this.lifecycleContextService.autoResponderFactory,
             this.lifecycleContextService.autoResponderRepository,
-            new FindMatchEntry(this.lifecycleContextService.localFileResponderFactory),
+            new FindMatchEntry(this.lifecycleContextService.localFileResponseFactory),
         );
 
         this.userSettingStorage = new UserSettingStorage(projectEntity);
@@ -58,19 +73,22 @@ export class Application {
         );
 
         this.pacFileService = new PacFileService(
-            this.lifecycleContextService.autoResponderRepository,
+            this.autoResponderService,
             this.networksetupProxyService,
             this.userSettingStorage,
         );
 
+        this.clientResponder = new ClientResponder(
+            this.autoResponderService,
+            this.pacFileService,
+            this.rewriteRuleService,
+            this.clientRequestService,
+        );
+
         this.proxyService = new ProxyService(
             httpSslCaDirPath,
-            this.pacFileService,
-            this.lifecycleContextService.autoResponderRepository,
-            this.lifecycleContextService.clientRequestRepository,
-            this.lifecycleContextService.rewriteRuleRepository,
-            this.lifecycleContextService.clientRequestFactory,
             this.networksetupProxyService,
+            this.clientResponder,
         );
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
@@ -99,7 +117,8 @@ export class Application {
     }
 
     start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        return this.proxyService.start(callback);
+        this.clientRequestService.subscribe(callback);
+        return this.proxyService.start();
     }
 
     async quit(): Promise<void> {

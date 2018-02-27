@@ -1,5 +1,5 @@
 import { ClientRequestEntity } from "../../client-request/client-request-entity";
-import { LocalFileResponderParam } from "../../local-file-responder/lifecycle/local-file-responder-factory";
+import { LocalFileResponseParam } from "../../local-file-response/lifecycle/local-file-response-factory";
 import { AutoResponderEntity } from "../auto-responder-entity";
 import { AutoResponderFilePath } from "./value-objects/auto-responder-file-path";
 import { AutoResponderFilePattern } from "./value-objects/auto-responder-file-pattern";
@@ -8,9 +8,9 @@ export class AutoResponderFileEntity extends AutoResponderEntity<
     AutoResponderFilePattern,
     AutoResponderFilePath
 > {
-    getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderParam | null> {
+    getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseParam | null> {
         if (!this.pattern.isMatchPath(clientRequestEntity)) return null;
 
-        return this.filePathToLocalFileResponderParam(this.path);
+        return this.filePathToLocalFileResponseParam(this.path);
     }
 }

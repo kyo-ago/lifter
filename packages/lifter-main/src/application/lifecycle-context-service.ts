@@ -2,7 +2,7 @@ import { AutoResponderFactory } from "../domains/proxy/auto-responder/lifecycle/
 import { AutoResponderRepository } from "../domains/proxy/auto-responder/lifecycle/auto-responder-repositoty";
 import { ClientRequestFactory } from "../domains/proxy/client-request/lifecycle/client-request-factory";
 import { ClientRequestRepository } from "../domains/proxy/client-request/lifecycle/client-request-repository";
-import { LocalFileResponderFactory } from "../domains/proxy/local-file-responder/lifecycle/local-file-responder-factory";
+import { LocalFileResponseFactory } from "../domains/proxy/local-file-response/lifecycle/local-file-response-factory";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { RewriteRuleRepository } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
 import { NetworkInterfaceFactory } from "../domains/settings/network-interface/lifecycle/network-interface-factory";
@@ -12,7 +12,7 @@ import { ProxyBypassDomainRepository } from "../domains/settings/proxy-bypass-do
 export class LifecycleContextService {
     public clientRequestRepository = new ClientRequestRepository();
     public clientRequestFactory = new ClientRequestFactory();
-    public localFileResponderFactory = new LocalFileResponderFactory();
+    public localFileResponseFactory = new LocalFileResponseFactory();
     public networkInterfaceFactory = new NetworkInterfaceFactory();
 
     public autoResponderRepository: AutoResponderRepository;

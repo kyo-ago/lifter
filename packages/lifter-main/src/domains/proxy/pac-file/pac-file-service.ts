@@ -3,11 +3,12 @@ import { async } from "rxjs/scheduler/async";
 import { PROXY_SERVER_NAME } from "../../../settings";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
-import { AutoResponderRepository } from "../auto-responder/lifecycle/auto-responder-repositoty";
+import { AutoResponderService } from "../auto-responder/auto-responder-service";
+import { ClientResponderContext } from "../client-responder/lib/client-responder-context";
 
 export class PacFileService {
     constructor(
-        private autoResponderRepository: AutoResponderRepository,
+        private autoResponderService: AutoResponderService,
         private networksetupProxyService: NetworksetupProxyService,
         private userSettingStorage: UserSettingStorage,
     ) {}
@@ -25,17 +26,34 @@ export class PacFileService {
                 leading: true,
                 trailing: true,
             })
-            .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl());
+            .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl())
+        ;
 
-        this.autoResponderRepository.addChangeEvent(() => observable.next());
-        let autoResponderEntries = await this.autoResponderRepository.resolveAll();
+        this.autoResponderService.subscribe(() => observable.next());
+        let autoResponderEntries = await this.autoResponderService.fetch();
         if (autoResponderEntries.length) {
             observable.next();
         }
     }
 
-    async getContent(): Promise<string> {
-        let autoResponderEntries = await this.autoResponderRepository.resolveAll();
+    async start() {
+        await this.networksetupProxyService.setAutoProxyUrl();
+    }
+
+    async stop() {
+        await this.networksetupProxyService.clearAutoProxyUrl();
+    }
+
+    async response(clientResponderContext: ClientResponderContext) {
+        let content = await this.getContent();
+        clientResponderContext.response({
+            "content-length": content.length,
+            "content-type": "application/x-ns-proxy-autoconfig",
+        }, content);
+    }
+
+    private async getContent(): Promise<string> {
+        let autoResponderEntries = await this.autoResponderService.fetch();
         let codeSttrings = autoResponderEntries.map(autoResponderEntity => {
             return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
         });

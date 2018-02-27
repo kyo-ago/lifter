@@ -1,6 +1,8 @@
 import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
-import { LocalFileResponderEntity } from "../local-file-responder/local-file-responder-entity";
+import { LocalFileResponseParam } from "../local-file-response/lifecycle/local-file-response-factory";
+import { LocalFileResponseEntity } from "../local-file-response/local-file-response-entity";
+import { AbstractAutoResponderEntity } from "./auto-responder-entity";
 import { AutoResponderIdentity } from "./auto-responder-identity";
 import { AutoResponderFactory } from "./lifecycle/auto-responder-factory";
 import { AutoResponderRepository } from "./lifecycle/auto-responder-repositoty";
@@ -12,6 +14,7 @@ export class AutoResponderService {
         private autoResponderRepository: AutoResponderRepository,
         private findMatchEntry: FindMatchEntry,
     ) {}
+    private callbacks: (() => void)[] = [];
 
     async add(filePaths: string[]): Promise<AutoResponderEntityJSON[]> {
         let filePromises = filePaths.map(path =>
@@ -19,19 +22,24 @@ export class AutoResponderService {
         );
         let autoResponderEntities = await Promise.all(filePromises);
         await this.autoResponderRepository.storeList(autoResponderEntities);
+        this.fire();
         return autoResponderEntities.map((autoResponderEntity) => autoResponderEntity.json);
     }
 
-    async fetch(): Promise<AutoResponderEntityJSON[]> {
+    fetch(): Promise<AbstractAutoResponderEntity[]> {
+        return this.autoResponderRepository.resolveAll();
+    }
+
+    async fetchJSONs(): Promise<AutoResponderEntityJSON[]> {
         let autoResponderEntities = await this.autoResponderRepository.resolveAll();
         return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
     }
 
-    async find(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderEntity | null> {
+    async find(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseEntity | null> {
         let entries = await this.autoResponderRepository.resolveAll();
         return entries.reduce((promise, entity) => {
-            return this.findMatchEntry.getLocalFileResponder(promise, clientRequestEntity, entity);
-        }, Promise.resolve(<LocalFileResponderEntity | null>null));
+            return this.findMatchEntry.getLocalFileResponse(promise, clientRequestEntity, entity);
+        }, Promise.resolve(<LocalFileResponseEntity | null>null));
     }
 
     async delete(ids: number[]): Promise<void> {
@@ -42,5 +50,14 @@ export class AutoResponderService {
                     return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
                 }),
         );
+        this.fire();
+    }
+
+    subscribe(callback: () => void) {
+        this.callbacks.push(callback);
+    }
+
+    private fire() {
+        this.callbacks.forEach((callback) => callback());
     }
 }

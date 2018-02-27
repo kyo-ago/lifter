@@ -1,3 +1,3 @@
 import { FilePath } from "../../../base/value-objects/file-path";
 
-export class LocalFileResponderPath extends FilePath {}
+export class LocalFileResponsePath extends FilePath {}
