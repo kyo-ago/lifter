@@ -5,9 +5,9 @@ import {
     ProxyBypassDomainEntityJSON,
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
-import { OutgoingHttpHeaders } from "http";
 import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
+import { FindMatchEntry } from "../domains/proxy/auto-responder/specs/find-match-entry";
 import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
@@ -17,7 +17,6 @@ import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy
 import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
-import { ConnectionService } from "./connection/connection-service";
 import { LifecycleContextService } from "./lifecycle-context-service";
 import { ProxyService } from "./proxy/proxy-service";
 import { UIEventService } from "./ui-event/ui-event-service";
@@ -29,7 +28,6 @@ export class Application {
     private certificateService: CertificateService;
     private proxySettingService: ProxySettingService;
     private pacFileService: PacFileService;
-    private connectionService: ConnectionService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private userSettingStorage: UserSettingStorage;
     protected uiEventService: UIEventService;
@@ -42,6 +40,7 @@ export class Application {
         this.autoResponderService = new AutoResponderService(
             this.lifecycleContextService.autoResponderFactory,
             this.lifecycleContextService.autoResponderRepository,
+            new FindMatchEntry(this.lifecycleContextService.localFileResponderFactory),
         );
 
         this.userSettingStorage = new UserSettingStorage(projectEntity);
@@ -64,18 +63,14 @@ export class Application {
             this.userSettingStorage,
         );
 
-        this.connectionService = new ConnectionService(
+        this.proxyService = new ProxyService(
+            httpSslCaDirPath,
             this.pacFileService,
             this.lifecycleContextService.autoResponderRepository,
             this.lifecycleContextService.clientRequestRepository,
             this.lifecycleContextService.rewriteRuleRepository,
-        );
-
-        this.proxyService = new ProxyService(
-            httpSslCaDirPath,
             this.lifecycleContextService.clientRequestFactory,
             this.networksetupProxyService,
-            this.connectionService,
         );
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(

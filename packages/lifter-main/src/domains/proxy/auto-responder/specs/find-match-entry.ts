@@ -6,17 +6,17 @@ import { AbstractAutoResponderEntity } from "../auto-responder-entity";
 export class FindMatchEntry {
     constructor(
         private localFileResponderFactory: LocalFileResponderFactory,
-        private clientRequestEntity: ClientRequestEntity,
     ) {}
 
     async getLocalFileResponder(
         promise: Promise<LocalFileResponderEntity | null>,
-        entity: AbstractAutoResponderEntity,
+        clientRequestEntity: ClientRequestEntity,
+        autoResponderEntity: AbstractAutoResponderEntity,
     ): Promise<LocalFileResponderEntity | null> {
         let result = await promise;
         if (result) return result;
 
-        let localFileResponderParam = await entity.getMatchResponder(this.clientRequestEntity);
+        let localFileResponderParam = await autoResponderEntity.getMatchResponder(clientRequestEntity);
         if (!localFileResponderParam) {
             return null;
         }

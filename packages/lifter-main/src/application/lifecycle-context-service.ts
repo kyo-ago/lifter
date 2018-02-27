@@ -23,10 +23,7 @@ export class LifecycleContextService {
 
     constructor(projectEntity: ProjectEntity) {
         this.networkInterfaceRepository = new NetworkInterfaceRepository(this.networkInterfaceFactory);
-        this.autoResponderRepository = new AutoResponderRepository(
-            projectEntity,
-            this.localFileResponderFactory,
-        );
+        this.autoResponderRepository = new AutoResponderRepository(projectEntity);
         this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(projectEntity);
         this.rewriteRuleRepository = new RewriteRuleRepository(projectEntity);
         this.autoResponderFactory = new AutoResponderFactory(projectEntity);

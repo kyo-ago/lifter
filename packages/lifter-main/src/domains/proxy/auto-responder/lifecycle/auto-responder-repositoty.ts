@@ -1,12 +1,8 @@
 import { EventEmitter } from "events";
 import { AsyncOnNedbRepository } from "../../../base/async-on-nedb-repository";
-import { ClientRequestEntity } from "../../client-request/client-request-entity";
-import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";
-import { LocalFileResponderEntity } from "../../local-file-responder/local-file-responder-entity";
 import { ProjectEntity } from "../../project/project-entity";
 import { AbstractAutoResponderEntity, AutoResponderEntity } from "../auto-responder-entity";
 import { AutoResponderIdentity } from "../auto-responder-identity";
-import { FindMatchEntry } from "../specs/find-match-entry";
 import { AutoResponderPath } from "../value-objects/auto-responder-path";
 import { AutoResponderPattern } from "../value-objects/auto-responder-pattern";
 import { AutoResponderFactory } from "./auto-responder-factory";
@@ -17,7 +13,7 @@ export class AutoResponderRepository extends AsyncOnNedbRepository<
 > {
     private event = new EventEmitter();
 
-    constructor(projectEntity: ProjectEntity, private localFileResponderFactory: LocalFileResponderFactory) {
+    constructor(projectEntity: ProjectEntity) {
         super(projectEntity.getDataStoreOptions("autoResponderRepository"), {
             toEntity: (json: any): AbstractAutoResponderEntity => {
                 return AutoResponderFactory.fromJSON(json);
@@ -26,14 +22,6 @@ export class AutoResponderRepository extends AsyncOnNedbRepository<
                 return entity.json;
             },
         });
-    }
-
-    async findMatchEntry(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponderEntity | null> {
-        let findMatchEntry = new FindMatchEntry(this.localFileResponderFactory, clientRequestEntity);
-        let entries = await this.resolveAll();
-        return entries.reduce((promise, entity) => {
-            return findMatchEntry.getLocalFileResponder(promise, entity);
-        }, Promise.resolve(<LocalFileResponderEntity | null>null));
     }
 
     async load(): Promise<void> {
