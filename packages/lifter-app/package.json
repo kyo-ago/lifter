@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": "@kyo_ago",
   "build": {
     "productName": "Lifter Proxy",
@@ -11,10 +11,10 @@
     }
   },
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.12",
-    "@lifter/lifter-common": "^0.0.12",
-    "@lifter/lifter-main": "^0.0.12",
-    "@lifter/networksetup-proxy": "^0.0.12",
+    "@lifter/electron-window-manager": "^0.0.13",
+    "@lifter/lifter-common": "^0.0.13",
+    "@lifter/lifter-main": "^0.0.13",
+    "@lifter/networksetup-proxy": "^0.0.13",
     "element-ui": "^2.0.10",
     "monapt": "^1.0.4",
     "vue": "^2.5.13",
