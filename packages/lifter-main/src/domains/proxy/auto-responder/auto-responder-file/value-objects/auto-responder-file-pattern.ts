@@ -3,8 +3,13 @@ import { GetFileMatchCodeString } from "../../lib/get-match-path-code-string";
 import { AutoResponderPattern } from "../../value-objects/auto-responder-pattern";
 
 export class AutoResponderFilePattern extends AutoResponderPattern {
+    static createSafeValue(text: string) {
+        let pattern = text.replace(/^\/|\/$/g, "");
+        return new AutoResponderFilePattern(`/${pattern}`);
+    }
+
     getMatchCodeString(proxyConnect: string): string {
-        return GetFileMatchCodeString(proxyConnect, `/${this.value}`);
+        return GetFileMatchCodeString(proxyConnect, this.value);
     }
 
     isMatchPath(clientRequestEntity: ClientRequestEntity): boolean {

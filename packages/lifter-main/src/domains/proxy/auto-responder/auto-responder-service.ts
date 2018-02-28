@@ -17,10 +17,8 @@ export class AutoResponderService {
         private findMatchEntry: FindMatchEntry,
     ) {}
 
-    async store(filePaths: string[]): Promise<AutoResponderEntityJSON[]> {
-        let filePromises = filePaths.map(path =>
-            this.autoResponderFactory.createFromPath(path),
-        );
+    async store(paths: string[]): Promise<AutoResponderEntityJSON[]> {
+        let filePromises = paths.map((path) => this.autoResponderFactory.createFromPath(path));
         let autoResponderEntities = await Promise.all(filePromises);
         await this.autoResponderRepository.storeList(autoResponderEntities);
         this.observable.next();

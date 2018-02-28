@@ -16,7 +16,7 @@
         @close="unsetAutoResponderFileDropPage"
     >
         <div>
-            $t("DropHere")
+            {{$t("DropHere")}}
         </div>
     </el-dialog>
 </template>

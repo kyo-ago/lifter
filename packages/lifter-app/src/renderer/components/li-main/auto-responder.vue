@@ -20,13 +20,13 @@
             resizable
         />
         <el-table-column
-            prop="pattern.value"
+            prop="pattern"
             label="Pattern"
             width="150"
             resizable
         />
         <el-table-column
-            prop="path.value"
+            prop="path"
             label="Path"
             resizable
         />
@@ -41,6 +41,7 @@
     export default {
         name: "auto-responder",
         data() {
+            console.log(this)
             return {
                 shortcutHandler: null
             };
@@ -66,7 +67,7 @@
             this.$data.shortcutHandler = Rx.Observable
                 .fromEvent(document.body, 'keyup')
                 .filter((event: KeyboardEvent) => event.target === document.body)
-                .filter((event: KeyboardEvent) => ["d", "backspace"].includes(event.key.toLowerCase()))
+                .filter((event: KeyboardEvent) => ["d", "delete", "backspace"].includes(event.key.toLowerCase()))
                 .subscribe(async () => {
                     await this.$store.dispatch('deleteAutoResponderEntries', this.$refs.table.selection);
                 })
