@@ -10,7 +10,7 @@ import { mockLifterCommon } from "../../mocks/require-mocks/@lifter/lifter-commo
 describe("UIEventService", () => {
     let getCallback = <K extends keyof ElectronIpcMap>(eventName: K): (event: any, message: any) => Promise<ElectronIpcMap[K]> => {
         let spyCall = mockLifterCommon.ipc.subscribe.withArgs(eventName, sinon.match.func);
-        return spyCall.getCall(0).args[1];
+        return spyCall.lastCall.args[1];
     };
 
     it("addAutoResponderEntities", async () => {

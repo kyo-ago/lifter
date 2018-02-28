@@ -1,26 +1,26 @@
 import { ClientRequestEntity } from "../../client-request/client-request-entity";
-import { LocalFileResponderFactory } from "../../local-file-responder/lifecycle/local-file-responder-factory";
-import { LocalFileResponderEntity } from "../../local-file-responder/local-file-responder-entity";
+import { LocalFileResponseFactory, } from "../../local-file-response/lifecycle/local-file-response-factory";
+import { LocalFileResponseEntity } from "../../local-file-response/local-file-response-entity";
 import { AbstractAutoResponderEntity } from "../auto-responder-entity";
 
 export class FindMatchEntry {
     constructor(
-        private localFileResponderFactory: LocalFileResponderFactory,
-        private clientRequestEntity: ClientRequestEntity,
+        private localFileResponseFactory: LocalFileResponseFactory,
     ) {}
 
-    async getLocalFileResponder(
-        promise: Promise<LocalFileResponderEntity | null>,
-        entity: AbstractAutoResponderEntity,
-    ): Promise<LocalFileResponderEntity | null> {
+    async getLocalFileResponse(
+        promise: Promise<LocalFileResponseEntity | null>,
+        clientRequestEntity: ClientRequestEntity,
+        autoResponderEntity: AbstractAutoResponderEntity,
+    ): Promise<LocalFileResponseEntity | null> {
         let result = await promise;
         if (result) return result;
 
-        let localFileResponderParam = await entity.getMatchResponder(this.clientRequestEntity);
-        if (!localFileResponderParam) {
+        let localFileResponseParam = await autoResponderEntity.getMatchResponder(clientRequestEntity);
+        if (!localFileResponseParam) {
             return null;
         }
 
-        return this.localFileResponderFactory.create(localFileResponderParam);
+        return this.localFileResponseFactory.create(localFileResponseParam);
     }
 }

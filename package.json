@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter",
   "description": "Local Proxy for frontend developers",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "author": "kyo_ago",
   "bugs": {
     "url": "https://github.com/kyo-ago/lifter/issues"
@@ -17,6 +17,7 @@
     "@types/micromatch": "^3.1.0",
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.4.6",
+    "@types/sinon": "^4.1.4",
     "dependency-cruiser": "^2.14.0",
     "fixpack": "^2.3.1",
     "lerna": "^2.5.1",
@@ -28,11 +29,6 @@
     "ts-node": "^5.0.0",
     "typescript": "^2.7.2"
   },
-  "files": [
-    "bin/",
-    "lib/",
-    "src/"
-  ],
   "homepage": "https://github.com/kyo-ago/lifter",
   "keywords": [
     "local proxy",

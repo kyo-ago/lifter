@@ -1,4 +1,4 @@
-export class LocalFileResponderSize {
+export class LocalFileResponseSize {
     constructor(private _value: number) {}
 
     get value() {

@@ -5,44 +5,59 @@ import {
     ProxyBypassDomainEntityJSON,
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
-import { OutgoingHttpHeaders } from "http";
-import { Url } from "url";
 import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
+import { FindMatchEntry } from "../domains/proxy/auto-responder/specs/find-match-entry";
 import { ClientRequestEntity } from "../domains/proxy/client-request/client-request-entity";
+import { ClientRequestService } from "../domains/proxy/client-request/client-request-service";
+import { ClientResponder } from "../domains/proxy/client-responder/client-responder";
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
+import { RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
 import { CertificateService } from "../domains/settings/certificate/certificate-service";
 import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
-import { ConnectionService } from "./connection/connection-service";
 import { LifecycleContextService } from "./lifecycle-context-service";
 import { ProxyService } from "./proxy/proxy-service";
 import { UIEventService } from "./ui-event/ui-event-service";
 
 export class Application {
-    private autoResponderService: AutoResponderService;
+    private clientRequestService: ClientRequestService;
+    private rewriteRuleService: RewriteRuleService;
     private networksetupProxyService: NetworksetupProxyService;
     private proxyService: ProxyService;
     private certificateService: CertificateService;
     private proxySettingService: ProxySettingService;
-    private pacFileService: PacFileService;
-    private connectionService: ConnectionService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private userSettingStorage: UserSettingStorage;
-    protected uiEventService: UIEventService;
+    private uiEventService: UIEventService;
+
+    // Protected for testing
+    protected autoResponderService: AutoResponderService;
+    protected clientResponder: ClientResponder;
+    protected pacFileService: PacFileService;
 
     constructor(
         httpSslCaDirPath: string,
         projectEntity: ProjectEntity,
         public lifecycleContextService: LifecycleContextService,
     ) {
+        this.clientRequestService = new ClientRequestService(
+            this.lifecycleContextService.clientRequestFactory,
+            this.lifecycleContextService.clientRequestRepository,
+        );
+
+        this.rewriteRuleService = new RewriteRuleService(
+            this.lifecycleContextService.rewriteRuleRepository,
+        );
+
         this.autoResponderService = new AutoResponderService(
             this.lifecycleContextService.autoResponderFactory,
             this.lifecycleContextService.autoResponderRepository,
+            new FindMatchEntry(this.lifecycleContextService.localFileResponseFactory),
         );
 
         this.userSettingStorage = new UserSettingStorage(projectEntity);
@@ -52,8 +67,6 @@ export class Application {
             this.lifecycleContextService.networkInterfaceRepository,
         );
 
-        this.proxyService = new ProxyService(httpSslCaDirPath);
-
         this.certificateService = new CertificateService(httpSslCaDirPath);
 
         this.proxySettingService = new ProxySettingService(
@@ -62,16 +75,22 @@ export class Application {
         );
 
         this.pacFileService = new PacFileService(
-            this.lifecycleContextService.autoResponderRepository,
+            this.autoResponderService,
             this.networksetupProxyService,
             this.userSettingStorage,
         );
 
-        this.connectionService = new ConnectionService(
+        this.clientResponder = new ClientResponder(
+            this.autoResponderService,
             this.pacFileService,
-            this.lifecycleContextService.autoResponderRepository,
-            this.lifecycleContextService.clientRequestRepository,
-            this.lifecycleContextService.rewriteRuleRepository,
+            this.rewriteRuleService,
+            this.clientRequestService,
+        );
+
+        this.proxyService = new ProxyService(
+            httpSslCaDirPath,
+            this.networksetupProxyService,
+            this.clientResponder,
         );
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
@@ -99,19 +118,9 @@ export class Application {
         this.uiEventService.subscribe();
     }
 
-    async start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        await this.networksetupProxyService.startProxy();
-        this.proxyService.createServer(
-            (
-                url: Url,
-                blockCallback: (header: OutgoingHttpHeaders, body: Buffer | string) => void,
-                passCallback: (error: Error | undefined) => void,
-            ) => {
-                let clientRequestEntity = this.lifecycleContextService.clientRequestFactory.create(url);
-                callback(clientRequestEntity);
-                this.connectionService.onRequest(clientRequestEntity, blockCallback, passCallback);
-            },
-        );
+    start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
+        this.clientRequestService.observable.subscribe(callback);
+        return this.proxyService.start();
     }
 
     async quit(): Promise<void> {

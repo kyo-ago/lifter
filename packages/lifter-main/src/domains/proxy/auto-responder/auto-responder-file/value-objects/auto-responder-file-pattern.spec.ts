@@ -23,6 +23,12 @@ describe("AutoResponderFilePattern", () => {
             result: false,
         },
         {
+            name: "too long",
+            pattern: "hoge.txt",
+            path: "aaahoge.txtbbb",
+            result: false,
+        },
+        {
             name: "directory",
             pattern: "hoge.txt",
             path: "/huga/hoge.txt",
@@ -44,13 +50,6 @@ describe("AutoResponderFilePattern", () => {
                 let code = `((url) => {${result}})("${pattern.path}")`;
                 assert(eval(code) === (pattern.result ? "match" : undefined));
             });
-        });
-        it("not file url", () => {
-            let autoResponderFilePattern = new AutoResponderFilePattern("hoge.txt");
-            let result = autoResponderFilePattern.getMatchCodeString("match");
-            let code = `((url) => {${result}})("/huga/hoge.txt/foo/bar")`;
-            // this is a pre filter
-            assert(eval(code) === "match");
         });
     });
 

@@ -1,7 +1,18 @@
-export function GetMatchPathCodeString(proxyConnect: string, pattern_: string): string {
-    let pattern = pattern_.replace(/\\/g, "\\").replace(/"/g, '\\"');
+const escapePattern = (_) => _.replace(/\\/g, "\\").replace(/"/g, '\\"');
+
+export function GetFileMatchCodeString(proxyConnect: string, text: string): string {
+    let pattern = escapePattern(text);
     return `
-            if (~url.indexOf("${pattern}")) {
+            if (url.includes("${pattern}", url.length - "${pattern}".length)) {
+                return "${proxyConnect}";
+            }
+        `;
+}
+
+export function GetDirectoryMatchCodeString(proxyConnect: string, text: string): string {
+    let pattern = escapePattern(text);
+    return `
+            if (url.includes("${pattern}")) {
                 return "${proxyConnect}";
             }
         `;
