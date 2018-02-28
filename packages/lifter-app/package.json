@@ -34,9 +34,6 @@
     "spectron": "^3.7.2",
     "webpack": "^3.10.0"
   },
-  "directories": {
-    "test": "src/"
-  },
   "electronWebpack": {
     "renderer": {
       "webpackConfig": "./webpack.renderer.js"
