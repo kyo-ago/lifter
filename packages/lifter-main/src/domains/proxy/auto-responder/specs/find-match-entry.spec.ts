@@ -2,10 +2,7 @@ import * as assert from "assert";
 import "mocha";
 import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
-import {
-    LocalFileResponseFactory,
-    LocalFileResponseParam,
-} from "../../local-file-response/lifecycle/local-file-response-factory";
+import { LocalFileResponseFactory, } from "../../local-file-response/lifecycle/local-file-response-factory";
 import { AutoResponderFactory } from "../lifecycle/auto-responder-factory";
 import { FindMatchEntry } from "./find-match-entry";
 

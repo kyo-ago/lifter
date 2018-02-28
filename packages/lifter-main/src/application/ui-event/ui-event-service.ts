@@ -24,11 +24,11 @@ export class UIEventService {
         ipc.subscribe("addAutoResponderEntities", async (event: any, filePaths: string[]): Promise<
             AutoResponderEntityJSON[]
         > => {
-            return this.autoResponderService.add(filePaths);
+            return this.autoResponderService.store(filePaths);
         });
 
         ipc.subscribe("fetchAutoResponderEntities", async (): Promise<AutoResponderEntityJSON[]> => {
-            return this.autoResponderService.fetchJSONs();
+            return this.autoResponderService.fetchAllJSONs();
         });
 
         ipc.subscribe("deleteAutoResponderEntities", async (event: any, ids: number[]): Promise<void> => {

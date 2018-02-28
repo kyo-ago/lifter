@@ -1,21 +1,17 @@
 import * as assert from "assert";
 import "mocha";
-import { createLifecycleContextService } from "../../../../tests/mocks/create-services";
+import { createApplication } from "../../../../tests/mocks/create-services";
 import { LifecycleContextService } from "../../../application/lifecycle-context-service";
 import { AutoResponderService } from "./auto-responder-service";
-import { FindMatchEntry } from "./specs/find-match-entry";
 
 describe("AutoResponderService", () => {
     let lifecycleContextService: LifecycleContextService;
     let autoResponderService: AutoResponderService;
 
     beforeEach(async () => {
-        lifecycleContextService = await createLifecycleContextService();
-        autoResponderService = new AutoResponderService(
-            lifecycleContextService.autoResponderFactory,
-            lifecycleContextService.autoResponderRepository,
-            new FindMatchEntry(lifecycleContextService.localFileResponseFactory),
-        );
+        let application = await createApplication();
+        lifecycleContextService = application.lifecycleContextService;
+        autoResponderService = application.getAutoResponderService();
     });
 
     describe("find", () => {
@@ -25,7 +21,7 @@ describe("AutoResponderService", () => {
             assert(!result);
         });
         it("result is not null", async () => {
-            await autoResponderService.add([__filename]);
+            await autoResponderService.store([__filename]);
             let clientRequestEntity = lifecycleContextService.clientRequestFactory.createFromString(__filename);
             let result = await autoResponderService.find(clientRequestEntity);
             assert(result);

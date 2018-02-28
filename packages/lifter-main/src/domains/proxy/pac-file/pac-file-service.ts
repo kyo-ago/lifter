@@ -1,4 +1,3 @@
-import * as Rx from "rxjs/Rx";
 import { async } from "rxjs/scheduler/async";
 import { PROXY_SERVER_NAME } from "../../../settings";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
@@ -20,20 +19,14 @@ export class PacFileService {
 
         await this.networksetupProxyService.setAutoProxyUrl();
 
-        let observable = new Rx.Subject();
-        observable
+        this.autoResponderService
+            .observable
             .throttleTime(300, async, {
                 leading: true,
                 trailing: true,
             })
             .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl())
         ;
-
-        this.autoResponderService.subscribe(() => observable.next());
-        let autoResponderEntries = await this.autoResponderService.fetch();
-        if (autoResponderEntries.length) {
-            observable.next();
-        }
     }
 
     async start() {
@@ -53,8 +46,8 @@ export class PacFileService {
     }
 
     private async getContent(): Promise<string> {
-        let autoResponderEntries = await this.autoResponderService.fetch();
-        let codeSttrings = autoResponderEntries.map(autoResponderEntity => {
+        let autoResponderEntries = await this.autoResponderService.fetchAll();
+        let codeSttrings = autoResponderEntries.map((autoResponderEntity) => {
             return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
         });
         return `

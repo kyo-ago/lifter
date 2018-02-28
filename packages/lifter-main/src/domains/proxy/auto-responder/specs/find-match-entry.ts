@@ -1,8 +1,5 @@
 import { ClientRequestEntity } from "../../client-request/client-request-entity";
-import {
-    LocalFileResponseFactory,
-    LocalFileResponseParam,
-} from "../../local-file-response/lifecycle/local-file-response-factory";
+import { LocalFileResponseFactory, } from "../../local-file-response/lifecycle/local-file-response-factory";
 import { LocalFileResponseEntity } from "../../local-file-response/local-file-response-entity";
 import { AbstractAutoResponderEntity } from "../auto-responder-entity";
 

@@ -23,8 +23,8 @@ export class ProxyService {
         });
 
         this.mitmProxy.onRequest(async (ctx: HttpMitmProxy.IContext, passCallback: (error: Error | undefined) => void) => {
-            let clientResponderContext = new ClientResponderContext(ctx);
-            this.clientResponder.onRequest(clientResponderContext, passCallback);
+            let clientResponderContext = new ClientResponderContext(ctx, passCallback);
+            this.clientResponder.onRequest(clientResponderContext);
         });
 
         this.mitmProxy.listen({

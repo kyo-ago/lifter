@@ -1,14 +1,15 @@
 import { ClientRequestEntity } from "../../../client-request/client-request-entity";
-import { GetMatchPathCodeString } from "../../lib/get-match-path-code-string";
+import { GetDirectoryMatchCodeString } from "../../lib/get-match-path-code-string";
 import { AutoResponderPattern } from "../../value-objects/auto-responder-pattern";
 
 export class AutoResponderDirectoryPattern extends AutoResponderPattern {
-    static createSafeValue(pattern: string) {
-        return new AutoResponderDirectoryPattern(pattern.replace(/[^\/]$/, "$&/"));
+    static createSafeValue(text: string) {
+        let pattern = text.replace(/^\/|\/$/g, "");
+        return new AutoResponderDirectoryPattern(`/${pattern}/`);
     }
 
     getMatchCodeString(proxyConnect: string): string {
-        return GetMatchPathCodeString(proxyConnect, this.value);
+        return GetDirectoryMatchCodeString(proxyConnect, this.value);
     }
 
     isMatchPath(clientRequestEntity: ClientRequestEntity): boolean {

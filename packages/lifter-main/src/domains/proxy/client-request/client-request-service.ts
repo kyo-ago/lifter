@@ -1,3 +1,4 @@
+import * as Rx from "rxjs/Rx";
 import * as URL from "url";
 import { ClientRequestEntity } from "./client-request-entity";
 import { ClientRequestFactory } from "./lifecycle/client-request-factory";
@@ -8,20 +9,12 @@ export class ClientRequestService {
         private clientRequestFactory: ClientRequestFactory,
         private clientRequestRepository: ClientRequestRepository,
     ) {}
-    private callbacks: ((clientRequestEntity: ClientRequestEntity) => void)[] = [];
+    public observable: Rx.Subject<ClientRequestEntity> = new Rx.Subject();
 
-    add(url: URL.Url): ClientRequestEntity {
+    store(url: URL.Url): ClientRequestEntity {
         let clientRequestEntity = this.clientRequestFactory.create(url);
         this.clientRequestRepository.store(clientRequestEntity);
-        this.fire(clientRequestEntity);
+        this.observable.next(clientRequestEntity);
         return clientRequestEntity;
-    }
-
-    subscribe(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        this.callbacks.push(callback);
-    }
-
-    private fire(clientRequestEntity: ClientRequestEntity) {
-        this.callbacks.forEach((callback) => callback(clientRequestEntity));
     }
 }

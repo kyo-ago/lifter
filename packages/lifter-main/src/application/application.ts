@@ -27,16 +27,18 @@ import { UIEventService } from "./ui-event/ui-event-service";
 export class Application {
     private clientRequestService: ClientRequestService;
     private rewriteRuleService: RewriteRuleService;
-    private autoResponderService: AutoResponderService;
     private networksetupProxyService: NetworksetupProxyService;
-    private clientResponder: ClientResponder;
     private proxyService: ProxyService;
     private certificateService: CertificateService;
     private proxySettingService: ProxySettingService;
-    private pacFileService: PacFileService;
     private proxyBypassDomainService: ProxyBypassDomainService;
     private userSettingStorage: UserSettingStorage;
     private uiEventService: UIEventService;
+
+    // Protected for testing
+    protected autoResponderService: AutoResponderService;
+    protected clientResponder: ClientResponder;
+    protected pacFileService: PacFileService;
 
     constructor(
         httpSslCaDirPath: string,
@@ -117,7 +119,7 @@ export class Application {
     }
 
     start(callback: (clientRequestEntity: ClientRequestEntity) => void) {
-        this.clientRequestService.subscribe(callback);
+        this.clientRequestService.observable.subscribe(callback);
         return this.proxyService.start();
     }
 
