@@ -1,8 +1,9 @@
 {
   "name": "@lifter/networksetup-proxy",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "@kyo_ago",
   "dependencies": {
+    "execa": "^0.9.0",
     "stat-mode": "^0.2.2",
     "sudo-prompt": "^8.0.0"
   },

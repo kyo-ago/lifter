@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "@kyo_ago",
   "build": {
     "productName": "Lifter Proxy",
@@ -11,36 +11,45 @@
     }
   },
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.13",
-    "@lifter/lifter-common": "^0.0.13",
-    "@lifter/lifter-main": "^0.0.13",
-    "@lifter/networksetup-proxy": "^0.0.13",
-    "element-ui": "^2.0.10",
-    "monapt": "^1.0.4",
+    "@lifter/electron-window-manager": "^0.0.14",
+    "@lifter/lifter-common": "^0.0.14",
+    "@lifter/lifter-main": "^0.0.14",
+    "@lifter/networksetup-proxy": "^0.0.14",
+    "element-ui": "^2.2.0",
+    "micromatch": "^3.1.9",
+    "monapt": "^1.0.5",
+    "nedb": "^1.8.0",
+    "rxjs": "^5.5.6",
+    "source-map-support": "^0.5.3",
+    "typescript-dddbase": "^0.0.5",
     "vue": "^2.5.13",
     "vue-i18n": "^7.4.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.2.1",
-    "electron": "^1.7.9",
-    "electron-builder": "^19.49.0",
+    "@types/nedb": "^1.8.5",
+    "electron": "^1.8.2",
+    "electron-builder": "^20.2.0",
     "electron-load-devtool": "^1.0.0",
-    "electron-webpack": "^1.11.0",
-    "electron-webpack-ts": "^1.2.0",
-    "electron-webpack-vue": "^1.1.0",
+    "electron-webpack": "^1.13.0",
+    "electron-webpack-ts": "^1.4.0",
+    "electron-webpack-vue": "^1.4.0",
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
-    "spectron": "^3.7.2",
-    "webpack": "^3.10.0"
+    "spectron": "^3.8.0",
+    "webpack": "^3.11.0"
   },
   "electronWebpack": {
     "renderer": {
       "webpackConfig": "./webpack.renderer.js"
     }
   },
+  "resolutions": {
+    "webpack-sources": "1.0.1"
+  },
   "license": "GPL-3.0",
-  "main": "app/index.js",
+  "main": "lib/main/index.js",
   "productName": "Lifter Proxy",
   "scripts": {
     "build": "tsc -p .",
@@ -51,8 +60,7 @@
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "locallink": "npm link @lifter/electron-window-manager @lifter/lifter-common @lifter/lifter-main @lifter/networksetup-proxy",
-    "postinstall": "rm -fr ./node_modules/babel-minify-webpack-plugin/node_modules/",
-    "release": "electron-builder --publish always",
+    "release": "yarn compile && electron-builder --publish always",
     "start": "run-p dev",
     "test": "NODE_ENV='test' && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register src/**/*.spec.ts"
   }

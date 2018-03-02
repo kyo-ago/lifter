@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-common",
   "description": "lifter proxy common modules",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "@kyo_ago",
   "dependencies": {
     "electron-ipc": "^0.3.0"
