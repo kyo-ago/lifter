@@ -26,6 +26,7 @@
                     return "info";
                 }
                 console.error(`invalid proxySettingStatus "${this.$store.state.proxySettingStatus}"`);
+                return "";
             },
         },
         methods: {
