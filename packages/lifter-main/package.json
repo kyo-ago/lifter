@@ -1,12 +1,12 @@
 {
   "name": "@lifter/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "author": "@kyo_ago",
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.14",
-    "@lifter/lifter-common": "^0.0.14",
-    "@lifter/networksetup-proxy": "^0.0.14",
+    "@lifter/electron-window-manager": "^0.0.15",
+    "@lifter/lifter-common": "^0.0.15",
+    "@lifter/networksetup-proxy": "^0.0.15",
     "execa": "^0.9.0",
     "http-mitm-proxy": "^0.6.1",
     "ifconfig": "^0.0.1",
