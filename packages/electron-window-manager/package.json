@@ -14,5 +14,6 @@
     "build": "echo ''",
     "clean": "rm -fr package-lock.json yarn.lock node_modules",
     "test": "node -c index.js"
-  }
+  },
+  "types": "./index.d.ts"
 }

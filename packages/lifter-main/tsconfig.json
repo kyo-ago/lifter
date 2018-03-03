@@ -1,27 +1,18 @@
 {
   "compilerOptions": {
     "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": false,
-    "noImplicitThis": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
     "outDir": "./build/",
     "module": "commonjs",
-    "target": "es2017",
     "rootDir": "./",
-    "declaration": true,
-    "noEmitOnError": true,
     "lib": ["dom", "es2017", "es2017.object"]
   },
+  "extends": "../../tsconfig-base.json",
   "include": [
     "src/**/*.ts",
     "typings/global.d.ts"
   ],
   "exclude": [
     "tests",
-    "src/**/*.spec.ts",
-    "src/**/__mocks__"
+    "src/**/*.spec.ts"
   ]
 }

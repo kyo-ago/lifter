@@ -13,7 +13,7 @@
   "license": "GPL-3.0",
   "main": "./index.js",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
+    "build": "tsc -p .",
     "clean": "rm -fr package-lock.json yarn.lock node_modules example/node_modules example/package-lock.json example/yarn.lock",
     "grant": "sudo chown 0:0 ./rust/proxy-setting && sudo chmod 4755 ./rust/proxy-setting",
     "prepublish": "npm run build",

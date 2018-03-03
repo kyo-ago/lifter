@@ -1,4 +1,4 @@
-import { NetworksetupProxy } from "@lifter/networksetup-proxy";
+import { IOResult, NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { BaseEntity } from "../../base/base-entity";
@@ -47,8 +47,8 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
     async setProxyBypassDomains(
         networksetupProxy: NetworksetupProxy,
         proxyBypassDomainEntities: ProxyBypassDomainEntity[],
-    ) {
-        if (!await this.isProxing()) return;
+    ): Promise<IOResult | undefined> {
+        if (!(await this.isProxing())) return undefined;
 
         let proxyBypassDomains = proxyBypassDomainEntities.map(entity => entity.name);
 

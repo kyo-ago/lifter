@@ -54,7 +54,7 @@ export class Application {
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
-        ipc.subscribe("addClientRequestEntity", (event, clientRequestEntityJSON: ClientRequestEntityJSON) => {
+        ipc.subscribe("addClientRequestEntity", (_, clientRequestEntityJSON: ClientRequestEntityJSON) => {
             callback(clientRequestEntityJSON);
         });
     }
@@ -68,7 +68,7 @@ export class Application {
             }
             dragleave();
         });
-        global.addEventListener("drop", event => {
+        global.addEventListener("drop", (event) => {
             event.preventDefault();
             if (!event.dataTransfer || !event.dataTransfer.files.length) {
                 dragleave();

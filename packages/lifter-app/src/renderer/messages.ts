@@ -21,8 +21,8 @@ export const messages: VueI18n.LocaleMessages = [
     "af-ZA", "ee", "sl", "ar", "he", "lt", "mn", "kz",
     "hu", "ro", "ku"
 ].reduce((base: VueI18n.LocaleMessages, cur: string) => {
-    base[langMapper[cur] || cur] = {
-        ...globalMessages[cur],
+    base[(<any>langMapper)[cur] || cur] = {
+        ...(<any>globalMessages)[cur],
         ...require(`element-ui/lib/locale/lang/${cur}`).default,
     };
     return base;
@@ -37,10 +37,10 @@ export function getLocale(nav: {
         "en-US", "ja",
     ];
     const locales = nav.languages
-        .map((lang) => langMapper[lang] || lang)
+        .map((lang) => (<any>langMapper)[lang] || lang)
         .filter((lang) => mainLangs.includes(lang))
         .concat(nav.languages.filter((lang) => !!messages[lang]))
     ;
 
-    return locales[0] || langMapper[nav.language] || nav.language;
+    return locales[0] || (<any>langMapper)[nav.language] || nav.language;
 }

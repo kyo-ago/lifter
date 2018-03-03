@@ -4,7 +4,7 @@ import { RewriteRuleEntity } from "../rewrite-rule-entity";
 import { RewriteRuleIdentity } from "../rewrite-rule-identity";
 
 export class RewriteRuleRepository extends OnMemoryRepository<RewriteRuleIdentity, RewriteRuleEntity> {
-    resolveSelectedRewriteRule(): RewriteRuleEntity {
+    resolveSelectedRewriteRule(): RewriteRuleEntity | undefined {
         return Object.values(this.entities).find(entity => entity.selected);
     }
 

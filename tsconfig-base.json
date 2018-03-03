@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "moduleResolution": "node",
+    "newLine": "lf",
+    "lib": ["es2017", "es2017.object"],
+
+    "declaration": true,
+
+    "noEmitOnError": true,
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+
+    "sourceMap": false,
+    "inlineSources": false
+  }
+}

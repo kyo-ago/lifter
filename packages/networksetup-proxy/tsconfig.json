@@ -1,15 +1,9 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "es2017",
-    "declaration": true,
-    "noEmitOnError": true,
-    "lib": ["es2017"]
+    "module": "commonjs"
   },
+  "extends": "../../tsconfig-base.json",
   "include": [
-    "./global.d.ts",
-    "./index.ts",
-    "./test/test.ts"
+    "./index.ts"
   ]
 }

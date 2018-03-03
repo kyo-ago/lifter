@@ -8,10 +8,10 @@ export class AutoResponderDirectoryEntity extends AutoResponderEntity<
     AutoResponderDirectoryPattern,
     AutoResponderDirectoryPath
 > {
-    getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseParam | null> {
+    async getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseParam | null> {
         if (!this.pattern.isMatchPath(clientRequestEntity)) return null;
 
         let filePath = this.path.getAutoResponderFilePath(clientRequestEntity);
-        return this.filePathToLocalFileResponseParam(filePath);
+        return await this.filePathToLocalFileResponseParam(filePath);
     }
 }

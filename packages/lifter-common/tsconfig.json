@@ -1,18 +1,9 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
     "module": "commonjs",
-    "target": "es2017",
-    "outDir": "./build/",
-    "declaration": true,
-    "noEmitOnError": true,
-    "lib": ["es2017", "es2017.object"]
+    "outDir": "./build/"
   },
+  "extends": "../../tsconfig-base.json",
   "include": [
     "./typings/global.d.ts",
     "./src/index.ts"

@@ -21,7 +21,7 @@ export class UIEventService {
     ) {}
 
     subscribe() {
-        ipc.subscribe("addAutoResponderEntities", async (event: any, paths: string[]): Promise<
+        ipc.subscribe("addAutoResponderEntities", async (_, paths: string[]): Promise<
             AutoResponderEntityJSON[]
         > => {
             return this.autoResponderService.store(paths);
@@ -31,7 +31,7 @@ export class UIEventService {
             return this.autoResponderService.fetchAllJSONs();
         });
 
-        ipc.subscribe("deleteAutoResponderEntities", async (event: any, ids: number[]): Promise<void> => {
+        ipc.subscribe("deleteAutoResponderEntities", async (_, ids: number[]): Promise<void> => {
             return this.autoResponderService.delete(ids);
         });
 

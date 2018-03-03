@@ -67,7 +67,7 @@ export class NetworksetupProxy {
 
     setwebproxy(
         networkservice: string,
-        domain: string,
+        _: string, // domain
         port: string,
         authenticated?: string,
         username?: string,
@@ -79,7 +79,7 @@ export class NetworksetupProxy {
 
     setsecurewebproxy(
         networkservice: string,
-        domain: string,
+        _: string, // domain
         port: string,
         authenticated?: string,
         username?: string,
