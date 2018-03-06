@@ -13,9 +13,7 @@ export class ClientResponder {
         private clientRequestService: ClientRequestService,
     ) {}
 
-    async onRequest(
-        clientResponderContext: ClientResponderContext,
-    ) {
+    async onRequest(clientResponderContext: ClientResponderContext) {
         let clientRequestEntity = this.clientRequestService.store(clientResponderContext.getUrl());
 
         if (clientRequestEntity.href === LOCAL_PAC_FILE_URL) {

@@ -18,11 +18,11 @@ export class AutoResponderService {
     ) {}
 
     async store(paths: string[]): Promise<AutoResponderEntityJSON[]> {
-        let filePromises = paths.map((path) => this.autoResponderFactory.createFromPath(path));
+        let filePromises = paths.map(path => this.autoResponderFactory.createFromPath(path));
         let autoResponderEntities = await Promise.all(filePromises);
         await this.autoResponderRepository.storeList(autoResponderEntities);
         this.observable.next();
-        return autoResponderEntities.map((autoResponderEntity) => autoResponderEntity.json);
+        return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
     }
 
     fetchAll(): Promise<AbstractAutoResponderEntity[]> {
@@ -43,11 +43,9 @@ export class AutoResponderService {
 
     async delete(ids: number[]): Promise<void> {
         await Promise.all(
-            ids
-                .map((id) => new AutoResponderIdentity(id))
-                .map((autoResponderIdentity) => {
-                    return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
-                }),
+            ids.map(id => new AutoResponderIdentity(id)).map(autoResponderIdentity => {
+                return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
+            }),
         );
         this.observable.next();
     }

@@ -4,10 +4,7 @@ import { AbstractAutoResponderEntity } from "../auto-responder-entity";
 import { AutoResponderIdentity } from "../auto-responder-identity";
 import { AutoResponderFactory } from "./auto-responder-factory";
 
-export class AutoResponderRepository extends AsyncOnNedbRepository<
-    AutoResponderIdentity,
-    AbstractAutoResponderEntity
-> {
+export class AutoResponderRepository extends AsyncOnNedbRepository<AutoResponderIdentity, AbstractAutoResponderEntity> {
     constructor(projectEntity: ProjectEntity) {
         super(projectEntity.getDataStoreOptions("autoResponderRepository"), {
             toEntity: (json: any): AbstractAutoResponderEntity => {

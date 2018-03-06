@@ -17,13 +17,17 @@ export class ContextMenuService {
     private handlers: ContextMenuHandler[] = [];
 
     bind() {
-        let next = (type: ContextMenuEventType, params: ContextMenuParams, browserWindow: BrowserWindow): MenuItem[] => {
+        let next = (
+            type: ContextMenuEventType,
+            params: ContextMenuParams,
+            browserWindow: BrowserWindow,
+        ): MenuItem[] => {
             let event: ContextMenuEvent = {
                 type,
                 params,
                 browserWindow,
             };
-            return this.handlers.map((handler) => handler(event)).filter((result) => result);
+            return this.handlers.map(handler => handler(event)).filter(result => result);
         };
         let handler = (type: ContextMenuEventType) => {
             return (params: ContextMenuParams, browserWindow: BrowserWindow) => {
@@ -40,7 +44,7 @@ export class ContextMenuService {
     subscribe(handler: ContextMenuHandler): () => void {
         this.handlers.push(handler);
         return () => {
-            this.handlers = this.handlers.filter((val) => val !== handler);
+            this.handlers = this.handlers.filter(val => val !== handler);
         };
     }
 }

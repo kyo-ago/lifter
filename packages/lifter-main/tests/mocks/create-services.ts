@@ -17,25 +17,21 @@ export async function createLifecycleContextService(): Promise<LifecycleContextS
     return lifecycleContextService;
 }
 
-export class TestApplication extends Application{
-    getClientResponder(): ClientResponder  {
+export class TestApplication extends Application {
+    getClientResponder(): ClientResponder {
         return this.clientResponder;
     }
-    getAutoResponderService(): AutoResponderService  {
+    getAutoResponderService(): AutoResponderService {
         return this.autoResponderService;
     }
-    getPacFileService(): PacFileService  {
+    getPacFileService(): PacFileService {
         return this.pacFileService;
     }
 }
 
 export async function createApplication() {
     let projectEntity = createProjectEntity();
-    let application = new TestApplication(
-        '.',
-        projectEntity,
-        new LifecycleContextService(projectEntity),
-    );
+    let application = new TestApplication(".", projectEntity, new LifecycleContextService(projectEntity));
     await application.load();
     return application;
 }

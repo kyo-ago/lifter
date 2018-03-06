@@ -1,4 +1,4 @@
-const escapePattern = (_) => _.replace(/\\/g, "\\").replace(/"/g, '\\"');
+const escapePattern = _ => _.replace(/\\/g, "\\").replace(/"/g, '\\"');
 
 export function GetFileMatchCodeString(proxyConnect: string, text: string): string {
     let pattern = escapePattern(text);

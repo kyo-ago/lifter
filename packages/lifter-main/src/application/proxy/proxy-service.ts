@@ -22,10 +22,12 @@ export class ProxyService {
             console.error(`${errorKind} on ${url}:${err}`);
         });
 
-        this.mitmProxy.onRequest(async (ctx: HttpMitmProxy.IContext, passCallback: (error: Error | undefined) => void) => {
-            let clientResponderContext = new ClientResponderContext(ctx, passCallback);
-            this.clientResponder.onRequest(clientResponderContext);
-        });
+        this.mitmProxy.onRequest(
+            async (ctx: HttpMitmProxy.IContext, passCallback: (error: Error | undefined) => void) => {
+                let clientResponderContext = new ClientResponderContext(ctx, passCallback);
+                this.clientResponder.onRequest(clientResponderContext);
+            },
+        );
 
         this.mitmProxy.listen({
             port: PROXY_PORT,

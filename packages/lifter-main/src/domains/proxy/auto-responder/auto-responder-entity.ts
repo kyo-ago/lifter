@@ -9,10 +9,7 @@ import { AutoResponderIdentity } from "./auto-responder-identity";
 import { AutoResponderPath } from "./value-objects/auto-responder-path";
 import { AutoResponderPattern } from "./value-objects/auto-responder-pattern";
 
-export type AbstractAutoResponderEntity = AutoResponderEntity<
-    AutoResponderPattern,
-    AutoResponderPath
->;
+export type AbstractAutoResponderEntity = AutoResponderEntity<AutoResponderPattern, AutoResponderPath>;
 
 export abstract class AutoResponderEntity<
     Pattern extends AutoResponderPattern,

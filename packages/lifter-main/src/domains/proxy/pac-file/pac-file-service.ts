@@ -19,14 +19,12 @@ export class PacFileService {
 
         await this.networksetupProxyService.setAutoProxyUrl();
 
-        this.autoResponderService
-            .observable
+        this.autoResponderService.observable
             .throttleTime(300, async, {
                 leading: true,
                 trailing: true,
             })
-            .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl())
-        ;
+            .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl());
     }
 
     async start() {
@@ -39,15 +37,18 @@ export class PacFileService {
 
     async response(clientResponderContext: ClientResponderContext) {
         let content = await this.getContent();
-        clientResponderContext.response({
-            "content-length": content.length,
-            "content-type": "application/x-ns-proxy-autoconfig",
-        }, content);
+        clientResponderContext.response(
+            {
+                "content-length": content.length,
+                "content-type": "application/x-ns-proxy-autoconfig",
+            },
+            content,
+        );
     }
 
     private async getContent(): Promise<string> {
         let autoResponderEntries = await this.autoResponderService.fetchAll();
-        let codeSttrings = autoResponderEntries.map((autoResponderEntity) => {
+        let codeSttrings = autoResponderEntries.map(autoResponderEntity => {
             return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
         });
         return `

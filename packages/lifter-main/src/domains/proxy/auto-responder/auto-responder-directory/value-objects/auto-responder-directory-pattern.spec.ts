@@ -41,9 +41,7 @@ describe("AutoResponderDirectoryPattern", () => {
     describe("getMatchCodeString", () => {
         testPattern.forEach(pattern => {
             it(pattern.name, () => {
-                let autoResponderDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
-                    pattern.pattern,
-                );
+                let autoResponderDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(pattern.pattern);
                 let result = autoResponderDirectoryPattern.getMatchCodeString("match");
                 let code = `((url) => {${result}})("${pattern.path}")`;
                 assert(eval(code) === (pattern.result ? "match" : undefined));
@@ -54,9 +52,7 @@ describe("AutoResponderDirectoryPattern", () => {
     describe("isMatchPath", () => {
         testPattern.concat(isMatchPathPattern).forEach(pattern => {
             it(pattern.name, () => {
-                let autoResponderDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(
-                    pattern.pattern,
-                );
+                let autoResponderDirectoryPattern = AutoResponderDirectoryPattern.createSafeValue(pattern.pattern);
                 let clientRequestEntity = clientRequestFactory.createFromString(pattern.path);
                 assert(autoResponderDirectoryPattern.isMatchPath(clientRequestEntity) === pattern.result);
             });

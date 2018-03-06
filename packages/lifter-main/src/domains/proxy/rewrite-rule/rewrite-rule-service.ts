@@ -5,9 +5,7 @@ import { RewriteRuleRepository } from "./lifecycle/rewrite-rule-repository";
 import { RewriteRuleEntity } from "./rewrite-rule-entity";
 
 export class RewriteRuleService {
-    constructor(
-        private rewriteRuleRepository: RewriteRuleRepository,
-    ) {}
+    constructor(private rewriteRuleRepository: RewriteRuleRepository) {}
 
     async getHeader(
         localFileResponseEntity: LocalFileResponseEntity,

@@ -79,7 +79,7 @@ export class Application {
             }
             dragleave();
         });
-        global.addEventListener("drop", (event) => {
+        global.addEventListener("drop", event => {
             event.preventDefault();
             if (!event.dataTransfer || !event.dataTransfer.files.length) {
                 dragleave();

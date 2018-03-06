@@ -4,7 +4,7 @@ import { ApplicationMainStateJSON } from "@lifter/lifter-common";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import Vue from "vue";
-import VueI18n from 'vue-i18n';
+import VueI18n from "vue-i18n";
 import Vuex from "vuex";
 import { ContextMenuService } from "../domains/context-menu/context-menu-service";
 

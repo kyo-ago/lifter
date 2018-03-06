@@ -7,11 +7,11 @@ module.exports = {
                     loader: "vue-loader",
                     options: {
                         loaders: {
-                            i18n: '@kazupon/vue-i18n-loader'
-                        }
-                    }
-                }
-            }
-        ]
-    }
+                            i18n: "@kazupon/vue-i18n-loader",
+                        },
+                    },
+                },
+            },
+        ],
+    },
 };

@@ -50,9 +50,7 @@ export class Application {
             this.lifecycleContextService.clientRequestRepository,
         );
 
-        this.rewriteRuleService = new RewriteRuleService(
-            this.lifecycleContextService.rewriteRuleRepository,
-        );
+        this.rewriteRuleService = new RewriteRuleService(this.lifecycleContextService.rewriteRuleRepository);
 
         this.autoResponderService = new AutoResponderService(
             this.lifecycleContextService.autoResponderFactory,
@@ -87,11 +85,7 @@ export class Application {
             this.clientRequestService,
         );
 
-        this.proxyService = new ProxyService(
-            httpSslCaDirPath,
-            this.networksetupProxyService,
-            this.clientResponder,
-        );
+        this.proxyService = new ProxyService(httpSslCaDirPath, this.networksetupProxyService, this.clientResponder);
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
             this.lifecycleContextService.proxyBypassDomainRepository,
@@ -108,10 +102,7 @@ export class Application {
     }
 
     async load() {
-        await Promise.all([
-            this.userSettingStorage.load(),
-            this.lifecycleContextService.load(),
-        ]);
+        await Promise.all([this.userSettingStorage.load(), this.lifecycleContextService.load()]);
         await this.proxyBypassDomainService.load();
         await this.pacFileService.load();
         await this.networksetupProxyService.load();

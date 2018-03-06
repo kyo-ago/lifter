@@ -24,5 +24,4 @@ Promise.all([application.load(), windowManager.load(), new Promise(resolve => ap
     })
     .catch((...args: any[]) => {
         console.error(args);
-    })
-;
+    });

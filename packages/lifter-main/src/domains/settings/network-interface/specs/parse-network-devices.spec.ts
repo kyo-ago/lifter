@@ -5,19 +5,16 @@ import { ParseNetworkDevices } from "./parse-network-devices";
 
 describe("ParseNetworkDevices", () => {
     it("filtering enable devices", () => {
-        let results = ParseNetworkDevices(
-            MockNetworksetupResult,
-            <any>{
-                lo0: {
-                    inet: "127.0.0.1 netmask 0xff000000",
-                },
-                en0: {
-                    ether: "ff:ff:ff:ff:ff:ff",
-                    inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
-                    status: "active",
-                },
+        let results = ParseNetworkDevices(MockNetworksetupResult, <any>{
+            lo0: {
+                inet: "127.0.0.1 netmask 0xff000000",
             },
-        );
+            en0: {
+                ether: "ff:ff:ff:ff:ff:ff",
+                inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
+                status: "active",
+            },
+        });
         assert.deepEqual(results, [
             {
                 name: "en0",

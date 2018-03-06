@@ -19,6 +19,9 @@ export class ClientRequestFactory {
     }
 
     createFromString(href: string): ClientRequestEntity {
-        return new ClientRequestEntity(new ClientRequestIdentity(this.identity++), new ClientRequestUrl(URL.parse(href)));
+        return new ClientRequestEntity(
+            new ClientRequestIdentity(this.identity++),
+            new ClientRequestUrl(URL.parse(href)),
+        );
     }
 }

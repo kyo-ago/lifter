@@ -6,7 +6,7 @@ import { ExecCommandsStub } from "./exec-commands";
 
 export type MockCertificateStatus = CertificateStatus | "initialize";
 
-export function setCetificateState (newState: MockCertificateStatus) {
+export function setCetificateState(newState: MockCertificateStatus) {
     if (newState === "missing") {
         return setMissingState;
     }
@@ -17,10 +17,12 @@ export function setCetificateState (newState: MockCertificateStatus) {
         return setInitializedState;
     }
     console.error(`Invalid certificate state "${newState}".`);
-};
+}
 
 let setMissingState = (stub: ExecCommandsStub) => {
-    stub.findCertificate.rejects(new Error(`\nsecurity: SecKeychainSearchCopyNext: The specified item could not be found in the keychain.\n`));
+    stub.findCertificate.rejects(
+        new Error(`\nsecurity: SecKeychainSearchCopyNext: The specified item could not be found in the keychain.\n`),
+    );
 
     stub.deleteCertificate.rejects(new Error(`\nUnable to delete certificate matching "${CERTIFICATE_NAME}"\n`));
 
@@ -52,7 +54,9 @@ attributes:
         return Promise.resolve(``);
     });
 
-    stub.importCert.rejects(new Error(`\nsecurity: SecKeychainItemImport: The specified item already exists in the keychain.\n`));
+    stub.importCert.rejects(
+        new Error(`\nsecurity: SecKeychainItemImport: The specified item already exists in the keychain.\n`),
+    );
 
     stub.addTrustedCert.resolves(``);
 };

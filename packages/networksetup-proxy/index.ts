@@ -62,7 +62,7 @@ export class NetworksetupProxy {
         await promisedFsCopyFile(this.PROXY_SETTING_COMMAND, tempolaryFileName);
         await promisedFsUnlink(this.PROXY_SETTING_COMMAND);
         await promisedFsRename(tempolaryFileName, this.PROXY_SETTING_COMMAND);
-        return { stdout: '', stderr: '' };
+        return { stdout: "", stderr: "" };
     }
 
     setwebproxy(
