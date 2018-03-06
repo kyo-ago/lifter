@@ -2,7 +2,7 @@ import Vue, { ComponentOptions } from "vue";
 import { Store } from "vuex";
 import { UIState } from "../index";
 import App from "./app.vue";
-import VueI18n from 'vue-i18n';
+import VueI18n from "vue-i18n";
 
 export interface VueComponent extends ComponentOptions<Vue> {
     data?: object | ((this: any) => object);

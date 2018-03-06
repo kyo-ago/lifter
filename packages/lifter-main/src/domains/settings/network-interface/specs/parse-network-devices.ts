@@ -19,7 +19,7 @@ export function ParseNetworkDevices(serviceorder: string, ifconfig: Ifconfig): N
             let [serviceName, device] = line.split(/\n/);
             return <Device>{
                 ServiceName: serviceName.replace(/^\(\d+\)/, "").trim(),
-                Device: device.match(/,\s*Device:\s*(.+?)\)/i).pop(),
+                Device: (device.match(/,\s*Device:\s*(.+?)\)/i) || [""]).pop(),
             };
         });
 

@@ -11,6 +11,6 @@ export class ClientRequestUrl extends BaseValueObject<Url> {
     }
 
     getHref() {
-        return this.reqestUrl.href;
+        return this.reqestUrl.href || "";
     }
 }

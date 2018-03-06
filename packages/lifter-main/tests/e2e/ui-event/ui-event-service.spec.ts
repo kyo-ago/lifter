@@ -8,7 +8,9 @@ import { MockStateEvent } from "../../mocks/mock-state-event";
 import { mockLifterCommon } from "../../mocks/require-mocks/@lifter/lifter-common";
 
 describe("UIEventService", () => {
-    let getCallback = <K extends keyof ElectronIpcMap>(eventName: K): (event: any, message: any) => Promise<ElectronIpcMap[K]> => {
+    let getCallback = <K extends keyof ElectronIpcMap>(
+        eventName: K,
+    ): ((event: any, message: any) => Promise<ElectronIpcMap[K]>) => {
         let spyCall = mockLifterCommon.ipc.subscribe.withArgs(eventName, sinon.match.func);
         return spyCall.lastCall.args[1];
     };
@@ -52,7 +54,7 @@ describe("UIEventService", () => {
         let fetchResults = await fetchCallback({}, void 0);
 
         let deleteCallback = getCallback("deleteAutoResponderEntities");
-        await deleteCallback({}, fetchResults.map((res) => res.id));
+        await deleteCallback({}, fetchResults.map(res => res.id));
 
         let afterResults = await fetchCallback({}, void 0);
         assert(afterResults.length === 0);

@@ -4,9 +4,9 @@ import { MockCertificateStatus } from "./require-mocks/exec-commands/set-cetific
 import { MockProxySettingStatus } from "./require-mocks/exec-commands/set-proxy-setting-state";
 
 interface Events {
-    "updateCertificateState": MockCertificateStatus;
-    "updateProxySettingState": MockProxySettingStatus;
-    "updateProxyCommandGrantStatus": MockProxyCommandGrantStatus;
+    updateCertificateState: MockCertificateStatus;
+    updateProxySettingState: MockProxySettingStatus;
+    updateProxyCommandGrantStatus: MockProxyCommandGrantStatus;
 }
 
 export const MockStateEvent = new class extends EventEmitter {
@@ -16,7 +16,7 @@ export const MockStateEvent = new class extends EventEmitter {
     emit<K extends keyof Events>(event: K, arg: Events[K]) {
         return super.emit(event, arg);
     }
-};
+}();
 
 beforeEach(() => {
     MockStateEvent.emit("updateCertificateState", "initialize");

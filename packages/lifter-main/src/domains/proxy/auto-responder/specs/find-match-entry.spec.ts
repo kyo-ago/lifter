@@ -2,7 +2,7 @@ import * as assert from "assert";
 import "mocha";
 import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
-import { LocalFileResponseFactory, } from "../../local-file-response/lifecycle/local-file-response-factory";
+import { LocalFileResponseFactory } from "../../local-file-response/lifecycle/local-file-response-factory";
 import { AutoResponderFactory } from "../lifecycle/auto-responder-factory";
 import { FindMatchEntry } from "./find-match-entry";
 
@@ -19,9 +19,7 @@ describe("FindMatchEntry.getLocalFileResponse", () => {
 
     it("success", async () => {
         let abstractAutoResponderEntity = await autoResponderFactory.create("File", "/hoge", __filename);
-        let findMatchEntry = new FindMatchEntry(
-            localFileResponseFactory,
-        );
+        let findMatchEntry = new FindMatchEntry(localFileResponseFactory);
         let localFileResponseEntity = await findMatchEntry.getLocalFileResponse(
             Promise.resolve(null),
             clientRequestFactory.createFromString("/hoge"),
@@ -32,9 +30,7 @@ describe("FindMatchEntry.getLocalFileResponse", () => {
 
     it("failed", async () => {
         let abstractAutoResponderEntity = await autoResponderFactory.create("File", "/hoge", __filename);
-        let findMatchEntry = new FindMatchEntry(
-            localFileResponseFactory,
-        );
+        let findMatchEntry = new FindMatchEntry(localFileResponseFactory);
         let localFileResponseEntity = await findMatchEntry.getLocalFileResponse(
             Promise.resolve(null),
             clientRequestFactory.createFromString("/huga"),

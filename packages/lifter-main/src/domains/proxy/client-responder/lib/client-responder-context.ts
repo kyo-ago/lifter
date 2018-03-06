@@ -3,10 +3,7 @@ import * as HttpMitmProxy from "http-mitm-proxy";
 import * as URL from "url";
 
 export class ClientResponderContext {
-    constructor(
-        private ctx: HttpMitmProxy.IContext,
-        private passCallback: (error: Error | undefined) => void,
-    ) {}
+    constructor(private ctx: HttpMitmProxy.IContext, private passCallback: (error: Error | undefined) => void) {}
 
     getUrl(): URL.Url {
         let encrypted = (<any>this.ctx.clientToProxyRequest).client.encrypted;

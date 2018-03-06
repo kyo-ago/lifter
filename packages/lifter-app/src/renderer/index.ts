@@ -3,10 +3,10 @@
 import { ApplicationMainStateJSON } from "@lifter/lifter-common";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-
 import Vue from "vue";
+import VueI18n from "vue-i18n";
 import Vuex from "vuex";
-import VueI18n from 'vue-i18n';
+import { ContextMenuService } from "../domains/context-menu/context-menu-service";
 
 import { Application } from "./application/application";
 import { render } from "./components";
@@ -17,6 +17,7 @@ export interface UIState extends ApplicationMainStateJSON {
     selectedTabIndex: number;
     viewSettingModalPageState: boolean;
     isAutoResponderFileDropPage: boolean;
+    contextMenuService: ContextMenuService;
 }
 
 function requireAll(r: any) {
@@ -39,6 +40,7 @@ Vue.use(Element, {
 });
 
 let application = new Application();
+application.load();
 let store = getStore(application);
 
 render(store, i18n);

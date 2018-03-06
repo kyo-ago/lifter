@@ -21,9 +21,7 @@ export class UIEventService {
     ) {}
 
     subscribe() {
-        ipc.subscribe("addAutoResponderEntities", async (_, paths: string[]): Promise<
-            AutoResponderEntityJSON[]
-        > => {
+        ipc.subscribe("addAutoResponderEntities", async (_, paths: string[]): Promise<AutoResponderEntityJSON[]> => {
             return this.autoResponderService.store(paths);
         });
 

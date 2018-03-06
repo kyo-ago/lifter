@@ -15,7 +15,9 @@
     "@lifter/lifter-common": "^0.0.15",
     "@lifter/lifter-main": "^0.0.15",
     "@lifter/networksetup-proxy": "^0.0.15",
+    "electron-context-menu": "^0.9.1",
     "electron-ipc": "^0.3.0",
+    "electron-unhandled": "^1.0.0",
     "element-ui": "^2.2.0",
     "execa": "^0.9.0",
     "http-mitm-proxy": "^0.6.1",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.2.1",
     "@types/nedb": "^1.8.5",
+    "devtron": "^1.4.0",
     "electron": "^1.8.2",
     "electron-builder": "^20.2.0",
     "electron-load-devtool": "^1.0.0",
@@ -66,7 +69,6 @@
     "dev": "electron-webpack dev",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "locallink": "npm link @lifter/electron-window-manager @lifter/lifter-common @lifter/lifter-main @lifter/networksetup-proxy",
     "release": "yarn compile && electron-builder --publish always",
     "start": "run-p dev",
     "test": "NODE_ENV='test' && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register src/**/*.spec.ts"

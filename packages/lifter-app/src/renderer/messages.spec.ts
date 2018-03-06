@@ -9,24 +9,32 @@ describe("messages", () => {
     });
 
     it("getLocale", () => {
-        assert(getLocale({
-            languages: [],
-            language: "en",
-        }) === "en-US");
+        assert(
+            getLocale({
+                languages: [],
+                language: "en",
+            }) === "en-US",
+        );
 
-        assert(getLocale({
-            languages: [],
-            language: "en-US",
-        }) === "en-US");
+        assert(
+            getLocale({
+                languages: [],
+                language: "en-US",
+            }) === "en-US",
+        );
 
-        assert(getLocale({
-            languages: [],
-            language: "ja",
-        }) === "ja");
+        assert(
+            getLocale({
+                languages: [],
+                language: "ja",
+            }) === "ja",
+        );
 
-        assert(getLocale({
-            languages: [],
-            language: "zh-CN",
-        }) === "zh-CN");
+        assert(
+            getLocale({
+                languages: [],
+                language: "zh-CN",
+            }) === "zh-CN",
+        );
     });
 });

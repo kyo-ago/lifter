@@ -16,21 +16,21 @@ let setProxyState = (newState: ProxySettingStatus, result: IOResult) => {
 };
 
 let sandbox = sinon.createSandbox();
-let stub = sandbox.stub(new NetworksetupProxy);
+let stub = sandbox.stub(new NetworksetupProxy());
 
 /**
  * This is constructor mock.
  * require Function object(not allow function)
  */
 mockRequire("@lifter/networksetup-proxy", {
-    NetworksetupProxy: function () {
+    NetworksetupProxy: function() {
         return stub;
     },
 });
 
 export type MockProxyCommandGrantStatus = ProxySettingStatus | "initialize" | "CancelGrant";
 
-MockStateEvent.on("updateProxyCommandGrantStatus", (newState) => {
+MockStateEvent.on("updateProxyCommandGrantStatus", newState => {
     if (newState === "CancelGrant") {
         stub.grant.rejects(new Error("User did not grant permission."));
         return setUnknownState(stub);
@@ -59,9 +59,11 @@ let setUnknownState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) => {
         [stub.setautoproxyurl, `-setautoproxyurl "Wi-Fi" 8888`],
         [stub.setautoproxystate, `-setautoproxystate "Wi-Fi" on`],
     ].forEach(([stub, cmd]: [sinon.SinonStub, string]) => {
-        stub.rejects(new Error(`\nCommand failed: /networksetup-proxy/rust/proxy-setting ${cmd}
+        stub.rejects(
+            new Error(`\nCommand failed: /networksetup-proxy/rust/proxy-setting ${cmd}
 thread 'main' panicked at 'Failed to execute: Operation not permitted (os error 1)', ./rust/proxy-setting.rs:99:99
-note: Run with \`RUST_BACKTRACE=1\` for a backtrace.\n`));
+note: Run with \`RUST_BACKTRACE=1\` for a backtrace.\n`),
+        );
     });
 };
 
@@ -70,7 +72,7 @@ let setPermittedState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) =>
     stub.grant.resolves(grantSuccessResult);
     stub.setwebproxy.callsFake(setProxyState("On", commandSuccessResult));
     stub.setsecurewebproxy.callsFake(setProxyState("On", commandSuccessResult));
-    [stub.setwebproxystate, stub.setsecurewebproxystate].forEach((stub) => {
+    [stub.setwebproxystate, stub.setsecurewebproxystate].forEach(stub => {
         stub.resolves(commandSuccessResult);
         stub.withArgs(sinon.match.string, "off").callsFake(setProxyState("Off", commandSuccessResult));
         stub.withArgs(sinon.match.string, "on").callsFake(setProxyState("On", commandSuccessResult));

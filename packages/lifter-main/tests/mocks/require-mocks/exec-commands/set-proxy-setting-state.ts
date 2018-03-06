@@ -22,12 +22,12 @@ export const getMockWebproxyState = (param = {}) => {
     return `\nEnabled: ${command.Enabled}
 Server: ${command.Server}
 Port: ${command.Port}
-Authenticated Proxy Enabled: 0\n`
+Authenticated Proxy Enabled: 0\n`;
 };
 
 export type MockProxySettingStatus = ProxySettingStatus | "initialize";
 
-export function setProxySettingState (newState: MockProxySettingStatus) {
+export function setProxySettingState(newState: MockProxySettingStatus) {
     if (newState === "On") {
         return setWebProxyingState;
     }
@@ -38,10 +38,10 @@ export function setProxySettingState (newState: MockProxySettingStatus) {
         return setInitializedState;
     }
     console.error(`Invalid proxy setting state "${newState}".`);
-};
+}
 
 let setNoWebProxyState = (stub: ExecCommandsStub) => {
-    let command = { Enabled: 'No' };
+    let command = { Enabled: "No" };
     stub.getWebproxy.resolves(getMockWebproxyState(command));
     stub.getSecureWebproxy.resolves(getMockWebproxyState(command));
 };

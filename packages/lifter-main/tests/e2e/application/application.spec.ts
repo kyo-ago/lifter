@@ -8,7 +8,7 @@ describe("Application", () => {
     it("start -> quit", async () => {
         try {
             let application = await createApplication();
-            await application.start(() => { });
+            await application.start(() => {});
             await application.quit();
         } catch (e) {
             assert.fail(e);

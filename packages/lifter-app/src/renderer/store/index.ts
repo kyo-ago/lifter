@@ -15,6 +15,7 @@ export function getStore(application: Application): Store<UIState> {
             selectedTabIndex: 0,
             viewSettingModalPageState: false,
             isAutoResponderFileDropPage: false,
+            contextMenuService: application.contextMenuService,
             ...application.getCurrentState(),
         },
         mutations: {
@@ -95,10 +96,7 @@ export function getStore(application: Application): Store<UIState> {
                 commit("addAutoResponderEntries", autoResponderEntries);
                 commit("selectAutoResponderTab");
             },
-            async deleteAutoResponderEntries(
-                { commit },
-                targetAutoResponderEntries: AutoResponderEntityJSON[],
-            ) {
+            async deleteAutoResponderEntries({ commit }, targetAutoResponderEntries: AutoResponderEntityJSON[]) {
                 await application.deleteAutoResponderEntities(targetAutoResponderEntries);
                 let autoResponderEntries = await application.fetchAutoResponderEntities();
                 commit("overwriteAutoResponderEntries", autoResponderEntries);

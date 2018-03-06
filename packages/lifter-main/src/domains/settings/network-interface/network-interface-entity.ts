@@ -48,7 +48,7 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
         networksetupProxy: NetworksetupProxy,
         proxyBypassDomainEntities: ProxyBypassDomainEntity[],
     ): Promise<IOResult | undefined> {
-        if (!(await this.isProxing())) return undefined;
+        if (!await this.isProxing()) return undefined;
 
         let proxyBypassDomains = proxyBypassDomainEntities.map(entity => entity.name);
 

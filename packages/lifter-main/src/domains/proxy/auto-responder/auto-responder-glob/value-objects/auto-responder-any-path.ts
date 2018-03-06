@@ -4,9 +4,7 @@ import { AutoResponderFilePath } from "../../auto-responder-file/value-objects/a
 import { AutoResponderPath } from "../../value-objects/auto-responder-path";
 
 export class AutoResponderAnyPath extends AutoResponderPath {
-    async getAutoResponderFilePath(
-        clientRequestEntity: ClientRequestEntity,
-    ): Promise<AutoResponderFilePath | null> {
+    async getAutoResponderFilePath(clientRequestEntity: ClientRequestEntity): Promise<AutoResponderFilePath | null> {
         let stat = await this.getState();
         if (stat.isFile()) {
             return new AutoResponderFilePath(this.value);

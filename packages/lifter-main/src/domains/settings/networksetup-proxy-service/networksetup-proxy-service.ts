@@ -92,12 +92,9 @@ export class NetworksetupProxyService {
     ) {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
         let networksetupProxy = this.getNetworksetupProxy();
-        if (!networksetupProxy) {
-            return;
-        }
         await Promise.all(
             networkInterfaceEntities.map(ni => {
-                return callback(networksetupProxy, ni);
+                return networksetupProxy ? callback(networksetupProxy, ni) : undefined;
             }),
         );
     }
