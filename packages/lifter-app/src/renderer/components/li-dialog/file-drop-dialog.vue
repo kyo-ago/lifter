@@ -9,11 +9,11 @@
 <template>
     <el-dialog
         title="Add auto responder"
-        :visible="isAutoResponderFileDropPage"
+        :visible="isShowing"
         v-bind:fullscreen="true"
         v-bind:modal="false"
         width="95%"
-        @close="unsetAutoResponderFileDropPage"
+        @close="hide"
     >
         <div>
             {{$t("DropHere")}}
@@ -22,19 +22,17 @@
 </template>
 
 <script lang="ts">
-    import { mapMutations, mapState } from 'vuex';
-
     export default {
-        name: "auto-responder-file-drop-dialog",
+        name: "file-drop-dialog",
         computed: {
-            ...mapState([
-                'isAutoResponderFileDropPage',
-            ]),
+            isShowing() {
+                return this.$store.state.fileDropDialog.isShowing;
+            },
         },
         methods: {
-            ...mapMutations([
-                'unsetAutoResponderFileDropPage',
-            ]),
+            hide() {
+                this.$store.commit('fileDropDialog/hide');
+            },
         },
     };
 </script>

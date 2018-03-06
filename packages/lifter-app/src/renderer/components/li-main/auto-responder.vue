@@ -43,7 +43,6 @@
 
 <script lang="ts">
     import Rx from "rxjs/Rx";
-    import { mapState } from "vuex";
     import { ContextMenuEvent } from "../../../domains/context-menu/context-menu-service";
     import { VueComponent } from "../index";
 
@@ -56,9 +55,9 @@
             };
         },
         computed: {
-            ...mapState([
-                'autoResponderEntries',
-            ]),
+            autoResponderEntries() {
+                return this.$store.state.autoResponder.entries;
+            },
         },
         methods: {
             selectRow(row) {
@@ -79,7 +78,7 @@
                 .filter((event: KeyboardEvent) => ["d", "delete", "backspace"].includes(event.key.toLowerCase()))
                 .filter((_) => this.$refs.table.selection.length )
                 .subscribe(async () => {
-                    await this.$store.dispatch('deleteAutoResponderEntries', this.$refs.table.selection);
+                    await this.$store.dispatch('autoResponder/delete', this.$refs.table.selection);
                 })
             ;
 
@@ -92,7 +91,7 @@
                 }
                 return {
                     click: () => {
-                        this.$store.dispatch('deleteAutoResponderEntries', this.$refs.table.selection);
+                        this.$store.dispatch('autoResponder/delete', this.$refs.table.selection);
                     },
                     label: this.$t("delete"),
                 };

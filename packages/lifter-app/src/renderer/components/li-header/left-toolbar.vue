@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts">
-    import { mapActions } from 'vuex';
     import { VueComponent } from "../index";
     import Divider from "./divider.vue";
 
@@ -19,20 +18,20 @@
         name: "left-toolbar",
         computed: {
             buttonType() {
-                if (this.$store.state.proxySettingStatus === "On") {
+                if (this.$store.state.proxySettings.proxySettingStatus === "On") {
                     return "primary";
                 }
-                if (this.$store.state.proxySettingStatus === "Off") {
+                if (this.$store.state.proxySettings.proxySettingStatus === "Off") {
                     return "info";
                 }
-                console.error(`invalid proxySettingStatus "${this.$store.state.proxySettingStatus}"`);
+                console.error(`invalid proxySettingStatus "${this.$store.state.proxySettings.proxySettingStatus}"`);
                 return "";
             },
         },
         methods: {
-            ...mapActions([
-                'changeProxySettingStatus',
-            ]),
+            changeProxySettingStatus() {
+                this.$store.commit('proxySettings/changeProxySetting');
+            },
         },
         components: {
             Divider,

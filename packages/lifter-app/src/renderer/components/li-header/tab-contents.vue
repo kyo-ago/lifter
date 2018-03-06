@@ -5,25 +5,23 @@
             class="tab-content"
             role="tab"
             :class="{'tab-content__selected': selectedTabIndex === index}"
-            @click="changeSelectedTabIndex(index)"
+            @click="changeTabIndex(index)"
         >{{name}}</div>
     </div>
 </template>
 
 <script lang="ts">
-    import { mapMutations, mapState } from 'vuex';
-
     export default {
         name: "tab-contents",
         computed: {
-            ...mapState([
-                'selectedTabIndex',
-            ]),
+            selectedTabIndex() {
+                return this.$store.state.headerTab.index;
+            },
         },
         methods: {
-            ...mapMutations([
-                'changeSelectedTabIndex',
-            ]),
+            changeTabIndex(index: number) {
+                this.$store.commit('headerTab/change', index);
+            },
         },
     };
 </script>

@@ -14,7 +14,7 @@
             size="small"
             v-bind:show-timeout="0"
             v-bind:hide-timeout="0"
-            @command="showSettingModalPage"
+            @command="showSettingDialog"
         >
             <span class="icon">&#xFE19;</span>
             <el-dropdown-menu slot="dropdown">
@@ -31,9 +31,9 @@
     export default {
         name: "right-toolbar",
         methods: {
-            showSettingModalPage(command: string) {
+            showSettingDialog(command: string) {
                 if (command === "settings") {
-                    this.$store.commit('showSettingModalPage');
+                    this.$store.commit('settingDialog/show');
                 }
             }
         },

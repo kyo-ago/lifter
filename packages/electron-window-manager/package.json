@@ -11,7 +11,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "echo ''",
+    "build": "true",
     "clean": "rm -fr package-lock.json yarn.lock node_modules",
     "test": "node -c index.js"
   },
