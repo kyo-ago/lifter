@@ -7,9 +7,20 @@ import {
     ProxyCommandGrantStatus,
     ProxySettingStatus,
 } from "@lifter/lifter-common";
+import { ContextMenuService } from "../../domains/context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 
 export class Application {
+    public contextMenuService: ContextMenuService;
+
+    constructor() {
+        this.contextMenuService = new ContextMenuService();
+    }
+
+    load() {
+        this.contextMenuService.bind();
+    }
+
     getCurrentState(): ApplicationMainStateJSON {
         let json = windowManager.sharedData.fetch("mainApps");
         windowManager.sharedData.set("mainApps", <any>{});

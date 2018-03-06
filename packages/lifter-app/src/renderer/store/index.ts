@@ -15,6 +15,7 @@ export function getStore(application: Application): Store<UIState> {
             selectedTabIndex: 0,
             viewSettingModalPageState: false,
             isAutoResponderFileDropPage: false,
+            contextMenuService: application.contextMenuService,
             ...application.getCurrentState(),
         },
         mutations: {

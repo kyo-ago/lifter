@@ -1,3 +1,11 @@
+<i18n>
+    {
+        "en-US": {
+            "delete": "Delete"
+        }
+    }
+</i18n>
+
 <template>
     <el-table
         ref="table"
@@ -34,16 +42,17 @@
 </template>
 
 <script lang="ts">
-    import Rx from 'rxjs/Rx';
-    import { mapState } from 'vuex';
+    import Rx from "rxjs/Rx";
+    import { mapState } from "vuex";
+    import { ContextMenuEvent } from "../../../domains/context-menu/context-menu-service";
     import { VueComponent } from "../index";
 
     export default {
         name: "auto-responder",
         data() {
-            console.log(this)
             return {
-                shortcutHandler: null
+                shortcutHandler: null,
+                contextMenuHandler: null,
             };
         },
         computed: {
@@ -68,14 +77,35 @@
                 .fromEvent(document.body, 'keyup')
                 .filter((event: KeyboardEvent) => event.target === document.body)
                 .filter((event: KeyboardEvent) => ["d", "delete", "backspace"].includes(event.key.toLowerCase()))
+                .filter((_) => this.$refs.table.selection.length )
                 .subscribe(async () => {
                     await this.$store.dispatch('deleteAutoResponderEntries', this.$refs.table.selection);
                 })
             ;
+
+            this.$data.contextMenuHandler = this.$store.state.contextMenuService.subscribe((event: ContextMenuEvent) => {
+                if (event.type !== "append") {
+                    return;
+                }
+                if (!this.$refs.table.selection.length) {
+                    return;
+                }
+                return {
+                    click: () => {
+                        this.$store.dispatch('deleteAutoResponderEntries', this.$refs.table.selection);
+                    },
+                    label: this.$t("delete"),
+                };
+            });
         },
-        destroyed() {
+        async destroyed() {
             if (this.$data.shortcutHandler) {
-                this.$data.shortcutHandler.unsubscribe();
+                await this.$data.shortcutHandler.unsubscribe();
+                this.$data.shortcutHandler = null;
+            }
+            if (this.$data.contextMenuHandler) {
+                await this.$data.contextMenuHandler();
+                this.$data.contextMenuHandler = null;
             }
         },
     } as VueComponent;
