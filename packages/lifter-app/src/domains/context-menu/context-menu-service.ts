@@ -1,10 +1,10 @@
 import * as contextMenu from "electron-context-menu";
-import { BrowserWindow, ContextMenuParams, MenuItem } from "electron";
+import { BrowserWindow, ContextMenuParams, MenuItemConstructorOptions } from "electron";
 
 type ContextMenuEventType = "prepend" | "append";
 
 interface ContextMenuHandler {
-    (event: ContextMenuEvent): MenuItem | undefined;
+    (event: ContextMenuEvent): (MenuItemConstructorOptions | null);
 }
 
 export interface ContextMenuEvent {
@@ -21,13 +21,13 @@ export class ContextMenuService {
             type: ContextMenuEventType,
             params: ContextMenuParams,
             browserWindow: BrowserWindow,
-        ): MenuItem[] => {
+        ): MenuItemConstructorOptions[] => {
             let event: ContextMenuEvent = {
                 type,
                 params,
                 browserWindow,
             };
-            return this.handlers.map(handler => handler(event)).filter(result => result);
+            return <MenuItemConstructorOptions[]>this.handlers.map(handler => handler(event)).filter(result => !!result);
         };
         let handler = (type: ContextMenuEventType) => {
             return (params: ContextMenuParams, browserWindow: BrowserWindow) => {

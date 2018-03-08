@@ -6,10 +6,10 @@ const langMapper = {
 
 const globalMessages = {
     "en-US": {
-        // ...
+        "delete": "Delete",
     },
     ja: {
-        // ...
+        "delete": "Delete",
     },
 };
 
@@ -58,8 +58,9 @@ export const messages: VueI18n.LocaleMessages = [
     "ro",
     "ku",
 ].reduce((base: VueI18n.LocaleMessages, cur: string) => {
-    base[(<any>langMapper)[cur] || cur] = {
-        ...(<any>globalMessages)[cur],
+    let mappedLang = (<any>langMapper)[cur] || cur;
+    base[mappedLang] = {
+        ...(<any>globalMessages)[mappedLang],
         ...require(`element-ui/lib/locale/lang/${cur}`).default,
     };
     return base;

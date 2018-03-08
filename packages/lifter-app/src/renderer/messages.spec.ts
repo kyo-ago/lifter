@@ -8,6 +8,10 @@ describe("messages", () => {
         assert(messages["en-US"]);
     });
 
+    it("globalMessages", () => {
+        assert(messages["en-US"]["delete"]);
+    });
+
     it("getLocale", () => {
         assert(
             getLocale({

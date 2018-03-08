@@ -19,6 +19,8 @@ export type AutoResponderType = "File" | "Directory" | "Glob";
 export interface ApplicationMainStateJSON {
     autoResponderEntries: AutoResponderEntityJSON[];
     clientRequestEntries: ClientRequestEntityJSON[];
+    proxyBypassDomainEntries: ProxyBypassDomainEntityJSON[];
+    rewriteRuleEntries: RewriteRuleEntityJSON[];
     certificateState: CertificateStatus;
     proxySettingStatus: ProxySettingStatus;
     proxyCommandGrantStatus: ProxyCommandGrantStatus;

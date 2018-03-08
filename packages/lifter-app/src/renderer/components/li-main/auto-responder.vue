@@ -1,15 +1,7 @@
-<i18n>
-    {
-        "en-US": {
-            "delete": "Delete"
-        }
-    }
-</i18n>
-
 <template>
     <el-table
         ref="table"
-        :data="autoResponderEntries"
+        :data="autoResponders"
         :row-class-name="getTableStyle"
         border
         @row-click="selectRow"
@@ -43,7 +35,6 @@
 
 <script lang="ts">
     import Rx from "rxjs/Rx";
-    import { ContextMenuEvent } from "../../../domains/context-menu/context-menu-service";
     import { VueComponent } from "../index";
 
     export default {
@@ -55,7 +46,7 @@
             };
         },
         computed: {
-            autoResponderEntries() {
+            autoResponders() {
                 return this.$store.state.autoResponder.entries;
             },
         },
@@ -63,6 +54,7 @@
             selectRow(row) {
                 if (!this.$refs.table) return;
                 this.$refs.table.toggleRowSelection(row);
+                return;
             },
             getTableStyle({row, columnIndex}) {
                 if (columnIndex) return "";
@@ -82,12 +74,12 @@
                 })
             ;
 
-            this.$data.contextMenuHandler = this.$store.state.contextMenuService.subscribe((event: ContextMenuEvent) => {
+            this.$data.contextMenuHandler = this.$store.state.contextMenuService.subscribe((event) => {
                 if (event.type !== "append") {
-                    return;
+                    return null;
                 }
                 if (!this.$refs.table.selection.length) {
-                    return;
+                    return null;
                 }
                 return {
                     click: () => {

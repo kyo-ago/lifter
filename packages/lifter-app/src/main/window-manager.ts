@@ -8,13 +8,6 @@ export class WindowManager {
 
     async load() {
         windowManager.init(WindowManagerInit);
-
-        windowManager.bridge.on("overwriteRewriteRules", this.application.saveRewriteRuleJSON.bind(this.application));
-
-        windowManager.bridge.on(
-            "overwriteProxyBypassDomains",
-            this.application.saveProxyBypassDomainJSON.bind(this.application),
-        );
     }
 
     async createMainWindow() {

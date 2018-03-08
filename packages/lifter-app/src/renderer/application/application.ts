@@ -4,8 +4,10 @@ import {
     CertificateStatus,
     ClientRequestEntityJSON,
     ipc,
+    ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
+    RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { ContextMenuService } from "../../domains/context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
@@ -62,6 +64,22 @@ export class Application {
 
     changeNoPacFileProxySetting(): Promise<boolean> {
         return ipc.publish("changeNoPacFileProxySetting");
+    }
+
+    async getProxyBypassDomains(): Promise<ProxyBypassDomainEntityJSON[]> {
+        return ipc.publish("getProxyBypassDomains");
+    }
+
+    async saveProxyBypassDomains(domains: ProxyBypassDomainEntityJSON[]): Promise<void> {
+        return ipc.publish("saveProxyBypassDomains", domains);
+    }
+
+    async getRewriteRules(): Promise<RewriteRuleEntityJSON[]> {
+        return ipc.publish("getRewriteRules");
+    }
+
+    async saveRewriteRules(domains: RewriteRuleEntityJSON[]): Promise<void> {
+        return ipc.publish("saveRewriteRules", domains);
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {

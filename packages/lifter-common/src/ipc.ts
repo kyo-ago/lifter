@@ -3,20 +3,30 @@ import {
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
+    RewriteRuleEntityJSON,
 } from "./index";
 
 export interface ElectronIpcMap {
     addAutoResponderEntities: AutoResponderEntityJSON[];
     fetchAutoResponderEntities: AutoResponderEntityJSON[];
     deleteAutoResponderEntities: void;
+
     addClientRequestEntity: ClientRequestEntityJSON;
+
     changeCertificateStatus: CertificateStatus;
     changeProxySettingStatus: ProxySettingStatus;
     changeProxyCommandGrantStatus: ProxyCommandGrantStatus;
     changeNoAutoEnableProxySetting: boolean;
     changeNoPacFileProxySetting: boolean;
+
+    getProxyBypassDomains: ProxyBypassDomainEntityJSON[];
+    saveProxyBypassDomains: void;
+
+    getRewriteRules: RewriteRuleEntityJSON[];
+    saveRewriteRules: void;
 }
 
 export const ipc = class {
