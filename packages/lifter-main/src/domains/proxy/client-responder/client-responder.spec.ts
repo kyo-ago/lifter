@@ -1,14 +1,14 @@
 import * as assert from "assert";
 import "mocha";
+import * as Path from "path";
 import * as sinon from "sinon";
 import * as URL from "url";
-import * as Path from "path";
+import { createApplication } from "../../../../tests/mocks/create-services";
+import { LOCAL_PAC_FILE_URL } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 
 import { ClientResponder } from "./client-responder";
 import { ClientResponderContext } from "./lib/client-responder-context";
-import { LOCAL_PAC_FILE_URL } from "../../../settings";
-import { createApplication } from "../../../../tests/mocks/create-services";
 
 describe("ClientResponder.onRequest", () => {
     let clientResponder: ClientResponder;

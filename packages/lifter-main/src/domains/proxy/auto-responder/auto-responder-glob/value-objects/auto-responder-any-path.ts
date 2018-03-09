@@ -14,19 +14,19 @@ export class AutoResponderAnyPath extends AutoResponderPath {
             return null;
         }
 
-        let pathname = clientRequestEntity.pathname;
+        let pathSearch = clientRequestEntity.pathSearch;
 
         // /
-        if (pathname === "/") {
+        if (pathSearch === "/") {
             return null;
         }
 
         // /hoge
-        if (pathname.match(/^\/[^\/]+$/)) {
-            return new AutoResponderFilePath(Path.join(this.value, pathname));
+        if (pathSearch.match(/^\/[^\/]+$/)) {
+            return new AutoResponderFilePath(Path.join(this.value, pathSearch));
         }
 
-        let splited = pathname.split(`/${Path.basename(this.value)}/`);
+        let splited = pathSearch.split(`/${Path.basename(this.value)}/`);
 
         // unmatch
         if (splited.length === 1) return null;

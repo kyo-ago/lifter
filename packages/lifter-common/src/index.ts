@@ -50,11 +50,16 @@ export interface RewriteRuleModifierEntityJSON {
     id: number;
     action: RewriteRuleActionType;
     header: string;
+}
+
+export interface RewriteRuleUpdateModifierEntityJSON extends RewriteRuleModifierEntityJSON {
     value: string;
 }
+
+export interface RewriteRuleDeleteModifierEntityJSON extends RewriteRuleModifierEntityJSON {}
 
 export interface RewriteRuleEntityJSON {
     id: number;
     url: string;
-    modifiers: RewriteRuleModifierEntityJSON[];
+    modifiers: (RewriteRuleUpdateModifierEntityJSON | RewriteRuleDeleteModifierEntityJSON)[];
 }

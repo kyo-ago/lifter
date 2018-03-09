@@ -24,7 +24,6 @@ import { UIEventService } from "./ui-event/ui-event-service";
 
 export class Application {
     private clientRequestService: ClientRequestService;
-    private rewriteRuleService: RewriteRuleService;
     private networksetupProxyService: NetworksetupProxyService;
     private proxyService: ProxyService;
     private certificateService: CertificateService;
@@ -37,6 +36,7 @@ export class Application {
     protected autoResponderService: AutoResponderService;
     protected clientResponder: ClientResponder;
     protected pacFileService: PacFileService;
+    protected rewriteRuleService: RewriteRuleService;
 
     constructor(
         httpSslCaDirPath: string,

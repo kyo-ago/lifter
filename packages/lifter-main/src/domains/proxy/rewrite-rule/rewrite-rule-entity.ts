@@ -23,11 +23,10 @@ export class RewriteRuleEntity extends BaseEntity<RewriteRuleIdentity> {
         };
     }
 
-    isMatchClientRequest(clientRequestEntity: ClientRequestEntity): boolean {
-        return this._url.isMatchUrl(clientRequestEntity.href);
-    }
-
-    applyHeader(header: OutgoingHttpHeaders): OutgoingHttpHeaders {
+    applyHeader(clientRequestEntity: ClientRequestEntity, header: OutgoingHttpHeaders): OutgoingHttpHeaders {
+        if (!this._url.isMatchUrl(clientRequestEntity.pathSearch)) {
+            return header;
+        }
         return this._modifiers.reduce((header, modifier) => {
             return modifier.applyHeader(header);
         }, header);

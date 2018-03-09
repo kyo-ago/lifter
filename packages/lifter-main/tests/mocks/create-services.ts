@@ -5,6 +5,7 @@ import { ClientResponder } from "../../src/domains/proxy/client-responder/client
 import { PacFileService } from "../../src/domains/proxy/pac-file/pac-file-service";
 import { ProjectFactory } from "../../src/domains/proxy/project/lifecycle/project-factory";
 import { ProjectEntity } from "../../src/domains/proxy/project/project-entity";
+import { RewriteRuleService } from "../../src/domains/proxy/rewrite-rule/rewrite-rule-service";
 
 export function createProjectEntity(): ProjectEntity {
     let projectFactory = new ProjectFactory();
@@ -27,9 +28,12 @@ export class TestApplication extends Application {
     getPacFileService(): PacFileService {
         return this.pacFileService;
     }
+    getRewriteRuleService(): RewriteRuleService {
+        return this.rewriteRuleService;
+    }
 }
 
-export async function createApplication() {
+export async function createApplication(): Promise<TestApplication> {
     let projectEntity = createProjectEntity();
     let application = new TestApplication(".", projectEntity, new LifecycleContextService(projectEntity));
     await application.load();

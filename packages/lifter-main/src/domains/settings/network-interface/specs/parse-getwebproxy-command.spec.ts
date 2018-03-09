@@ -3,8 +3,13 @@ import "mocha";
 import { getMockWebproxyState } from "../../../../../tests/mocks/require-mocks/exec-commands/set-proxy-setting-state";
 import { CommandResult, ParseGetwebproxyCommand } from "./parse-getwebproxy-command";
 
+interface Command {
+    param: Partial<CommandResult>;
+    result: boolean;
+}
+
 describe("ParseGetwebproxyCommand", () => {
-    [
+    (<Command[]>[
         {
             param: {},
             result: true,
@@ -21,7 +26,7 @@ describe("ParseGetwebproxyCommand", () => {
             param: { Port: 0 },
             result: false,
         },
-    ].forEach((command: { param: Partial<CommandResult>; result: boolean }) => {
+    ]).forEach((command: Command) => {
         it(JSON.stringify(command.param), () => {
             let result = ParseGetwebproxyCommand(getMockWebproxyState(command.param));
             assert(result === command.result);

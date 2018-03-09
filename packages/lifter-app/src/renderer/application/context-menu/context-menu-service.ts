@@ -1,5 +1,5 @@
-import * as contextMenu from "electron-context-menu";
 import { BrowserWindow, ContextMenuParams, MenuItemConstructorOptions } from "electron";
+import * as contextMenu from "electron-context-menu";
 
 type ContextMenuEventType = "prepend" | "append";
 
