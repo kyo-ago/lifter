@@ -1,4 +1,4 @@
-import { RewriteRuleActionType } from "@lifter/lifter-common";
+import { RewriteRuleActionType, RewriteRuleModifierEntityJSON } from "@lifter/lifter-common";
 import { OutgoingHttpHeaders } from "http";
 import { BaseEntity } from "../../../base/base-entity";
 import { RewriteRuleModifierIdentity } from "./rewrite-rule-modifier-identity";
@@ -28,7 +28,7 @@ export class RewriteRuleModifierEntity extends BaseEntity<RewriteRuleModifierIde
         return this._value.value;
     }
 
-    get json() {
+    get json(): RewriteRuleModifierEntityJSON {
         return {
             id: this.id,
             action: this.action,

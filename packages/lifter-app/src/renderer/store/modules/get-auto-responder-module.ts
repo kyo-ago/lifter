@@ -1,4 +1,4 @@
-import { AutoResponderEntityJSON, } from "@lifter/lifter-common";
+import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
 export function getAutoResponderModule(application: Application, autoResponders: AutoResponderEntityJSON[]) {

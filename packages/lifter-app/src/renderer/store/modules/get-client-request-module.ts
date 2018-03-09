@@ -1,4 +1,4 @@
-import { ClientRequestEntityJSON, } from "@lifter/lifter-common";
+import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
 export function getClientRequestModule(_: Application, clientRequestEntries: ClientRequestEntityJSON[]) {

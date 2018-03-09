@@ -1,7 +1,10 @@
 import { ProxyBypassDomainEntityJSON } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
-export function getProxyBypassDomainModule(application: Application, proxyBypassDomains: ProxyBypassDomainEntityJSON[]) {
+export function getProxyBypassDomainModule(
+    application: Application,
+    proxyBypassDomains: ProxyBypassDomainEntityJSON[],
+) {
     return {
         namespaced: true,
         state: {
@@ -18,7 +21,10 @@ export function getProxyBypassDomainModule(application: Application, proxyBypass
                 commit("save", proxyBypassDomains);
                 return proxyBypassDomains;
             },
-            async save({ dispatch }, targetProxyBypassDomains: ProxyBypassDomainEntityJSON[]): Promise<ProxyBypassDomainEntityJSON[]> {
+            async save(
+                { dispatch },
+                targetProxyBypassDomains: ProxyBypassDomainEntityJSON[],
+            ): Promise<ProxyBypassDomainEntityJSON[]> {
                 await application.saveProxyBypassDomains(targetProxyBypassDomains);
                 return await dispatch("gets");
             },

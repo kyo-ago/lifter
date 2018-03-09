@@ -4,7 +4,7 @@ import { BrowserWindow, ContextMenuParams, MenuItemConstructorOptions } from "el
 type ContextMenuEventType = "prepend" | "append";
 
 interface ContextMenuHandler {
-    (event: ContextMenuEvent): (MenuItemConstructorOptions | null);
+    (event: ContextMenuEvent): MenuItemConstructorOptions | null;
 }
 
 export interface ContextMenuEvent {
@@ -27,7 +27,9 @@ export class ContextMenuService {
                 params,
                 browserWindow,
             };
-            return <MenuItemConstructorOptions[]>this.handlers.map(handler => handler(event)).filter(result => !!result);
+            return <MenuItemConstructorOptions[]>this.handlers
+                .map(handler => handler(event))
+                .filter(result => !!result);
         };
         let handler = (type: ContextMenuEventType) => {
             return (params: ContextMenuParams, browserWindow: BrowserWindow) => {

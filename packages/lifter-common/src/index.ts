@@ -47,6 +47,7 @@ export interface ProxyBypassDomainEntityJSON {
 }
 
 export interface RewriteRuleModifierEntityJSON {
+    id: number;
     action: RewriteRuleActionType;
     header: string;
     value: string;

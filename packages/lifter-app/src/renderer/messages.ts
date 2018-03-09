@@ -6,10 +6,10 @@ const langMapper = {
 
 const globalMessages = {
     "en-US": {
-        "delete": "Delete",
+        delete: "Delete",
     },
     ja: {
-        "delete": "Delete",
+        delete: "Delete",
     },
 };
 

@@ -33,7 +33,7 @@ export function getStore(application: Application): Store<any> {
             proxySettings: getProxySettingsModule(application, currentState),
             rewriteRule: getRewriteRuleModule(application, currentState.rewriteRuleEntries),
             settingDialog: getSettingDialogModule(),
-        }
+        },
     });
 
     application.setOnFileDropEvent(
@@ -49,7 +49,7 @@ export function getStore(application: Application): Store<any> {
         },
     );
 
-    application.setOnUpdateClientRequestEntityEvent((clientRequestEntity) => {
+    application.setOnUpdateClientRequestEntityEvent(clientRequestEntity => {
         store.commit("clientRequest/add", clientRequestEntity);
     });
 

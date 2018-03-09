@@ -19,8 +19,8 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 return rewriteRules;
             },
             async delete({ state, dispatch }, targetRewriteRules: RewriteRuleEntityJSON[]): Promise<void> {
-                let targetIds = targetRewriteRules.map((rule) => rule.id);
-                let entries = state.entries.filter((entry) => !targetIds.includes(entry.id));
+                let targetIds = targetRewriteRules.map(rule => rule.id);
+                let entries = state.entries.filter(entry => !targetIds.includes(entry.id));
                 await application.saveRewriteRules(entries);
                 return await dispatch("gets");
             },
