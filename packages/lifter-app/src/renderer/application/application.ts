@@ -9,7 +9,7 @@ import {
     ProxySettingStatus,
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
-import { ContextMenuService } from "../../domains/context-menu/context-menu-service";
+import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 
 export class Application {

@@ -12,7 +12,7 @@ export type ProxySettingStatus = "On" | "Off";
 
 export type ProxyCommandGrantStatus = "On" | "Off";
 
-export type RewriteRuleActionType = "ADD" | "MODIFY" | "DELETE";
+export type RewriteRuleActionType = "UPDATE" | "DELETE";
 
 export type AutoResponderType = "File" | "Directory" | "Glob";
 
@@ -46,10 +46,14 @@ export interface ProxyBypassDomainEntityJSON {
     name: string;
 }
 
-export interface RewriteRuleEntityJSON {
-    id: number;
-    url: string;
+export interface RewriteRuleModifierEntityJSON {
     action: RewriteRuleActionType;
     header: string;
     value: string;
+}
+
+export interface RewriteRuleEntityJSON {
+    id: number;
+    url: string;
+    modifiers: RewriteRuleModifierEntityJSON[];
 }
