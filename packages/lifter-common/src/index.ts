@@ -48,7 +48,6 @@ export interface ProxyBypassDomainEntityJSON {
 
 export interface RewriteRuleModifierEntityJSON {
     id: number;
-    action: RewriteRuleActionType;
     header: string;
 }
 
@@ -58,8 +57,23 @@ export interface RewriteRuleUpdateModifierEntityJSON extends RewriteRuleModifier
 
 export interface RewriteRuleDeleteModifierEntityJSON extends RewriteRuleModifierEntityJSON {}
 
+export interface CreateRewriteRuleModifierEntityJSON {
+    header: string;
+}
+
+export interface CreateRewriteRuleUpdateModifierEntityJSON extends CreateRewriteRuleModifierEntityJSON {
+    value: string;
+}
+
+export interface CreateRewriteRuleDeleteModifierEntityJSON extends CreateRewriteRuleModifierEntityJSON {}
+
+export type RewriteRuleModifierMapJSON = {
+    "UPDATE": RewriteRuleUpdateModifierEntityJSON[];
+    "DELETE": RewriteRuleDeleteModifierEntityJSON[];
+};
+
 export interface RewriteRuleEntityJSON {
     id: number;
     url: string;
-    modifiers: (RewriteRuleUpdateModifierEntityJSON | RewriteRuleDeleteModifierEntityJSON)[];
+    modifier: RewriteRuleModifierMapJSON;
 }

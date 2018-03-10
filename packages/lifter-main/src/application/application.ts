@@ -48,7 +48,10 @@ export class Application {
             this.lifecycleContextService.clientRequestRepository,
         );
 
-        this.rewriteRuleService = new RewriteRuleService(this.lifecycleContextService.rewriteRuleRepository);
+        this.rewriteRuleService = new RewriteRuleService(
+            this.lifecycleContextService.rewriteRuleFactory,
+            this.lifecycleContextService.rewriteRuleRepository,
+        );
 
         this.autoResponderService = new AutoResponderService(
             this.lifecycleContextService.autoResponderFactory,

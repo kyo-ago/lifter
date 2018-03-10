@@ -37,7 +37,7 @@ export abstract class AsyncNedbIdGenerator {
         if (this.timeout) return;
         this.timeout = setTimeout(() => {
             this.timeout = 0;
-            // ignore returned promise
+            // ignore promise
             return this.update(
                 { name: this.keyName },
                 {
