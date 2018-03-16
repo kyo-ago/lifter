@@ -16,18 +16,6 @@ export type RewriteRuleActionType = "UPDATE" | "DELETE";
 
 export type AutoResponderType = "File" | "Directory" | "Glob";
 
-export interface ApplicationMainStateJSON {
-    autoResponderEntries: AutoResponderEntityJSON[];
-    clientRequestEntries: ClientRequestEntityJSON[];
-    proxyBypassDomainEntries: ProxyBypassDomainEntityJSON[];
-    rewriteRuleEntries: RewriteRuleEntityJSON[];
-    certificateState: CertificateStatus;
-    proxySettingStatus: ProxySettingStatus;
-    proxyCommandGrantStatus: ProxyCommandGrantStatus;
-    noAutoEnableProxySetting: boolean;
-    noPacFileProxySetting: boolean;
-}
-
 export interface AutoResponderEntityJSON {
     id: number;
     type: AutoResponderType;

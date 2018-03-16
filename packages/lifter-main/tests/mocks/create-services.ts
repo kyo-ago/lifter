@@ -1,11 +1,8 @@
 import { Application } from "../../src/application/application";
 import { LifecycleContextService } from "../../src/application/lifecycle-context-service";
-import { AutoResponderService } from "../../src/domains/proxy/auto-responder/auto-responder-service";
-import { ClientResponder } from "../../src/domains/proxy/client-responder/client-responder";
-import { PacFileService } from "../../src/domains/proxy/pac-file/pac-file-service";
+import { ServiceContext } from "../../src/application/service-context";
 import { ProjectFactory } from "../../src/domains/proxy/project/lifecycle/project-factory";
 import { ProjectEntity } from "../../src/domains/proxy/project/project-entity";
-import { RewriteRuleService } from "../../src/domains/proxy/rewrite-rule/rewrite-rule-service";
 
 export function createProjectEntity(): ProjectEntity {
     let projectFactory = new ProjectFactory();
@@ -19,23 +16,19 @@ export async function createLifecycleContextService(): Promise<LifecycleContextS
 }
 
 export class TestApplication extends Application {
-    getClientResponder(): ClientResponder {
-        return this.clientResponder;
+    getLifecycleContextService(): LifecycleContextService {
+        return this.lifecycleContextService;
     }
-    getAutoResponderService(): AutoResponderService {
-        return this.autoResponderService;
-    }
-    getPacFileService(): PacFileService {
-        return this.pacFileService;
-    }
-    getRewriteRuleService(): RewriteRuleService {
-        return this.rewriteRuleService;
+    getServiceContext(): ServiceContext {
+        return this.serviceContext;
     }
 }
 
 export async function createApplication(): Promise<TestApplication> {
     let projectEntity = createProjectEntity();
-    let application = new TestApplication(".", projectEntity, new LifecycleContextService(projectEntity));
+    let lifecycleContextService = new LifecycleContextService(projectEntity);
+    let serviceContext = new ServiceContext(".", projectEntity, lifecycleContextService);
+    let application = new TestApplication(lifecycleContextService, serviceContext);
     await application.load();
     return application;
 }

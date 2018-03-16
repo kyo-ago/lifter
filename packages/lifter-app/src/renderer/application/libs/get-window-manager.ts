@@ -1,5 +1,6 @@
-import { ApplicationMainStateJSON, ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@lifter/lifter-common";
+import { ProxyBypassDomainEntityJSON, RewriteRuleEntityJSON } from "@lifter/lifter-common";
 import { remote } from "electron";
+import { ApplicationMainStateJSON } from "../../../main/window-manager";
 
 type WindowId = "mainWindow";
 

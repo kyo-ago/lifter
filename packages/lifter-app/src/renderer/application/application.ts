@@ -1,5 +1,4 @@
 import {
-    ApplicationMainStateJSON,
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
@@ -9,6 +8,7 @@ import {
     ProxySettingStatus,
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
+import { ApplicationMainStateJSON } from "../../main/window-manager";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 

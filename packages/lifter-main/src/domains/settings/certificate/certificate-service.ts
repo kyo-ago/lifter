@@ -1,6 +1,11 @@
 import { CertificateStatus } from "@lifter/lifter-common";
 import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../../libs/exec-commands";
 
+export interface getCertificateService {
+    fetchCurrentStatus: () => Promise<CertificateStatus>;
+    changeCertificateStatus: () => Promise<CertificateStatus>;
+}
+
 export class CertificateService {
     private certificatePath: string;
 
@@ -8,19 +13,30 @@ export class CertificateService {
         this.certificatePath = `${sslCaDir}/certs/ca.pem`;
     }
 
-    async getCurrentStatus(): Promise<CertificateStatus> {
+    getCertificateService(): getCertificateService {
+        return {
+            fetchCurrentStatus: (): Promise<CertificateStatus> => {
+                return this.fetchCurrentStatus()
+            },
+            changeCertificateStatus: (): Promise<CertificateStatus> => {
+                return this.changeCertificateStatus();
+            },
+        };
+    }
+
+    private async fetchCurrentStatus(): Promise<CertificateStatus> {
         let result = await this.findCertificate();
         return result ? "installed" : "missing";
     }
 
-    async getNewStatus(): Promise<CertificateStatus> {
+    private async changeCertificateStatus(): Promise<CertificateStatus> {
         let result = await this.findCertificate();
         if (result) {
             await this.deleteCertificate();
         } else {
             await this.installCertificate();
         }
-        return await this.getCurrentStatus();
+        return await this.fetchCurrentStatus();
     }
 
     private async findCertificate(): Promise<boolean> {

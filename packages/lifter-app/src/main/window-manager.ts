@@ -1,7 +1,29 @@
 import * as windowManager from "@lifter/electron-window-manager";
-import { APPLICATION_NAME, ipc } from "@lifter/lifter-common";
+import {
+    APPLICATION_NAME,
+    AutoResponderEntityJSON,
+    CertificateStatus,
+    ClientRequestEntityJSON,
+    ipc,
+    ProxyBypassDomainEntityJSON,
+    ProxyCommandGrantStatus,
+    ProxySettingStatus,
+    RewriteRuleEntityJSON,
+} from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
+
+export interface ApplicationMainStateJSON {
+    autoResponderEntries: AutoResponderEntityJSON[];
+    clientRequestEntries: ClientRequestEntityJSON[];
+    proxyBypassDomainEntries: ProxyBypassDomainEntityJSON[];
+    rewriteRuleEntries: RewriteRuleEntityJSON[];
+    certificateState: CertificateStatus;
+    proxySettingStatus: ProxySettingStatus;
+    proxyCommandGrantStatus: ProxyCommandGrantStatus;
+    noAutoEnableProxySetting: boolean;
+    noPacFileProxySetting: boolean;
+}
 
 export class WindowManager {
     constructor(private application: Application) {}
@@ -21,7 +43,38 @@ export class WindowManager {
             ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
             : `file://${__dirname}/index.html`;
 
-        let state = await this.application.getMainState();
+        let [
+            autoResponderEntries,
+            clientRequestEntries,
+            proxyBypassDomainEntries,
+            rewriteRuleEntries,
+            certificateState,
+            proxySettingStatus,
+            proxyCommandGrantStatus,
+            noAutoEnableProxySetting,
+            noPacFileProxySetting,
+        ] = await Promise.all([
+            this.application.getAutoResponder().fetchAll(),
+            this.application.getClientRequestService().fetchAll(),
+            this.application.getProxyBypassDomains().fetchAll(),
+            this.application.getRewriteRules().fetchAll(),
+            this.application.getCertificateService().fetchCurrentStatus(),
+            this.application.getProxySettingService().fetch(),
+            this.application.getNetworksetupProxyService().getProxyCommandGrantStatus(),
+            this.application.getUserSetting().getNoAutoEnableProxy(),
+            this.application.getUserSetting().getNoPacFileProxy(),
+        ]);
+        let state: ApplicationMainStateJSON = {
+            autoResponderEntries,
+            clientRequestEntries,
+            proxyBypassDomainEntries,
+            rewriteRuleEntries,
+            certificateState,
+            proxySettingStatus,
+            proxyCommandGrantStatus,
+            noAutoEnableProxySetting,
+            noPacFileProxySetting,
+        };
         windowManager.sharedData.set("mainApps", state);
         windowManager.open(name, APPLICATION_NAME, url, "default", {
             file: `${WINDOW_STATE_DIR}main-window-state.json`,

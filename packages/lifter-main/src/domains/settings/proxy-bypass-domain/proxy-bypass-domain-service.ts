@@ -1,9 +1,16 @@
+import { ProxyBypassDomainEntityJSON } from "@lifter/lifter-common";
 import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
+import { ProxyBypassDomainFactory } from "./lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainRepository } from "./lifecycle/proxy-bypass-domain-repository";
-import { ProxyBypassDomainEntity } from "./proxy-bypass-domain-entity";
+
+export interface getProxyBypassDomains {
+    applyAll: (domains: string[]) => Promise<void>;
+    fetchAll: () => Promise<ProxyBypassDomainEntityJSON[]>;
+}
 
 export class ProxyBypassDomainService {
     constructor(
+        private proxyBypassDomainFactory: ProxyBypassDomainFactory,
         private proxyBypassDomainRepository: ProxyBypassDomainRepository,
         private networksetupProxyService: NetworksetupProxyService,
     ) {}
@@ -12,13 +19,26 @@ export class ProxyBypassDomainService {
         return this.setProxyBypassDomains();
     }
 
-    resolveAll() {
-        return this.proxyBypassDomainRepository.resolveAll();
+    getProxyBypassDomains(): getProxyBypassDomains {
+        return {
+            applyAll: (domains: string[]): Promise<void> => {
+                return this.overwriteAll(domains);
+            },
+            fetchAll: (): Promise<ProxyBypassDomainEntityJSON[]> => {
+                return this.fetchAllJSONs();
+            },
+        };
     }
 
-    async overwriteAll(proxyBypassDomainEntities: ProxyBypassDomainEntity[]): Promise<void> {
-        await this.proxyBypassDomainRepository.overwriteAll(proxyBypassDomainEntities);
+    private async overwriteAll(domains: string[]): Promise<void> {
+        let entities = domains.map(domain => this.proxyBypassDomainFactory.create(domain));
+        await this.proxyBypassDomainRepository.overwriteAll(entities);
         return await this.setProxyBypassDomains();
+    }
+
+    private async fetchAllJSONs(): Promise<ProxyBypassDomainEntityJSON[]> {
+        let allEntities = await this.proxyBypassDomainRepository.resolveAll();
+        return allEntities.map(entity => entity.json);
     }
 
     private async setProxyBypassDomains(): Promise<void> {

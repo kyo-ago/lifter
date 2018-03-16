@@ -18,7 +18,7 @@ app.on("activate", () => windowManager.createMainWindow());
 
 Promise.all([application.load(), windowManager.load(), new Promise(resolve => app.on("ready", resolve))])
     .then(() => {
-        application.start(() => {});
+        application.start();
         loadDevtool(loadDevtool.VUEJS_DEVTOOLS);
         return windowManager.createMainWindow();
     })

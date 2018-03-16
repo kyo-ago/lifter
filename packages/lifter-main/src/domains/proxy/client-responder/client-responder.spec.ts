@@ -18,8 +18,8 @@ describe("ClientResponder.onRequest", () => {
 
     beforeEach(async () => {
         let application = await createApplication();
-        clientResponder = application.getClientResponder();
-        autoResponderService = application.getAutoResponderService();
+        clientResponder = application.getServiceContext().clientResponder;
+        autoResponderService = application.getServiceContext().autoResponderService;
     });
     afterEach(() => {
         sandbox.resetHistory();

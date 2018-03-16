@@ -8,6 +8,7 @@ import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewr
 import { RewriteRuleRepository } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
 import { NetworkInterfaceFactory } from "../domains/settings/network-interface/lifecycle/network-interface-factory";
 import { NetworkInterfaceRepository } from "../domains/settings/network-interface/lifecycle/network-interface-repository";
+import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainRepository } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository";
 
 export class LifecycleContextService {
@@ -15,6 +16,7 @@ export class LifecycleContextService {
     public clientRequestFactory = new ClientRequestFactory();
     public localFileResponseFactory = new LocalFileResponseFactory();
     public networkInterfaceFactory = new NetworkInterfaceFactory();
+    public proxyBypassDomainFactory = new ProxyBypassDomainFactory();
 
     public autoResponderRepository: AutoResponderRepository;
     public autoResponderFactory: AutoResponderFactory;

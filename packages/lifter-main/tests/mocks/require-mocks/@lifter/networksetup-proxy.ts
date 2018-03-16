@@ -3,14 +3,22 @@ import { IOResult, NetworksetupProxy } from "@lifter/networksetup-proxy";
 import "mocha";
 import * as mockRequire from "mock-require";
 import * as sinon from "sinon";
+import { ProxyCommandGrantStatus } from "../../../../../lifter-common/src";
 import { MockStateEvent } from "../../mock-state-event";
 
 let grantSuccessResult = { stdout: undefined, stderr: undefined };
 let commandSuccessResult = { stdout: ``, stderr: `` };
 
-let setProxyState = (newState: ProxySettingStatus, result: IOResult) => {
+let setProxyCommandGrantStatus = (newStatus: ProxyCommandGrantStatus, result: IOResult) => {
     return () => {
-        MockStateEvent.emit("updateProxyCommandGrantStatus", newState);
+        MockStateEvent.emit("updateProxyCommandGrantStatus", newStatus);
+        return Promise.resolve(result);
+    };
+};
+
+let setProxySettingStatus = (newStatus: ProxySettingStatus, result: IOResult) => {
+    return () => {
+        MockStateEvent.emit("updateProxySettingState", newStatus);
         return Promise.resolve(result);
     };
 };
@@ -28,24 +36,26 @@ mockRequire("@lifter/networksetup-proxy", {
     },
 });
 
-export type MockProxyCommandGrantStatus = ProxySettingStatus | "initialize" | "CancelGrant";
+export type MockProxyCommandGrantStatus = ProxyCommandGrantStatus | "initialize" | "CancelGrant";
 
-MockStateEvent.on("updateProxyCommandGrantStatus", newState => {
-    if (newState === "CancelGrant") {
+MockStateEvent.on("updateProxyCommandGrantStatus", newStatus => {
+    if (newStatus === "CancelGrant") {
         stub.grant.rejects(new Error("User did not grant permission."));
         return setUnknownState(stub);
     }
-    if (newState === "initialize") {
-        stub.grant.callsFake(setProxyState("Off", grantSuccessResult));
+    if (newStatus === "initialize") {
+        stub.grant.callsFake(setProxyCommandGrantStatus("Off", grantSuccessResult));
         return setUnknownState(stub);
     }
-    if (newState === "On") {
+    if (newStatus === "On") {
+        stub.hasGrant.resolves(true);
         return setPermittedState(stub);
     }
-    if (newState === "Off") {
+    if (newStatus === "Off") {
+        stub.hasGrant.resolves(false);
         return setPermittedState(stub);
     }
-    console.error(`Invalid networksetup proxy state "${newState}".`);
+    console.error(`Invalid networksetup proxy state "${newStatus}".`);
 });
 
 let setUnknownState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) => {
@@ -68,14 +78,13 @@ note: Run with \`RUST_BACKTRACE=1\` for a backtrace.\n`),
 };
 
 let setPermittedState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) => {
-    stub.hasGrant.resolves(true);
-    stub.grant.resolves(grantSuccessResult);
-    stub.setwebproxy.callsFake(setProxyState("On", commandSuccessResult));
-    stub.setsecurewebproxy.callsFake(setProxyState("On", commandSuccessResult));
+    stub.grant.callsFake(setProxyCommandGrantStatus("On", grantSuccessResult));
+    stub.setwebproxy.callsFake(setProxySettingStatus("On", commandSuccessResult));
+    stub.setsecurewebproxy.callsFake(setProxySettingStatus("On", commandSuccessResult));
     [stub.setwebproxystate, stub.setsecurewebproxystate].forEach(stub => {
         stub.resolves(commandSuccessResult);
-        stub.withArgs(sinon.match.string, "off").callsFake(setProxyState("Off", commandSuccessResult));
-        stub.withArgs(sinon.match.string, "on").callsFake(setProxyState("On", commandSuccessResult));
+        stub.withArgs(sinon.match.string, "off").callsFake(setProxySettingStatus("Off", commandSuccessResult));
+        stub.withArgs(sinon.match.string, "on").callsFake(setProxySettingStatus("On", commandSuccessResult));
     });
     stub.setproxybypassdomains.resolves(commandSuccessResult);
     stub.setautoproxyurl.resolves(commandSuccessResult);

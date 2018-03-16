@@ -1,9 +1,5 @@
-import {
-    ApplicationMainStateJSON,
-    CertificateStatus,
-    ProxyCommandGrantStatus,
-    ProxySettingStatus,
-} from "@lifter/lifter-common";
+import { CertificateStatus, ProxyCommandGrantStatus, ProxySettingStatus, } from "@lifter/lifter-common";
+import { ApplicationMainStateJSON } from "../../../main/window-manager";
 import { Application } from "../../application/application";
 
 export function getProxySettingsModule(application: Application, state: ApplicationMainStateJSON) {

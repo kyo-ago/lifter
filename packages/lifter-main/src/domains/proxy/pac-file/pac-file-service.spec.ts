@@ -16,8 +16,8 @@ describe("PacFileService", () => {
 
     beforeEach(async () => {
         let application = await createApplication();
-        pacFileService = application.getPacFileService();
-        autoResponderService = application.getAutoResponderService();
+        pacFileService = application.getServiceContext().pacFileService;
+        autoResponderService = application.getServiceContext().autoResponderService;
     });
     afterEach(() => {
         sandbox.resetHistory();
