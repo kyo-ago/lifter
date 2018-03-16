@@ -1,4 +1,3 @@
-import * as Ipc from "electron-ipc";
 import {
     AutoResponderEntityJSON,
     CertificateStatus,
@@ -7,7 +6,8 @@ import {
     ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
-} from "./index";
+} from "@lifter/lifter-common";
+import * as Ipc from "electron-ipc";
 
 export interface ElectronIpcMap {
     addAutoResponderEntities: AutoResponderEntityJSON[];

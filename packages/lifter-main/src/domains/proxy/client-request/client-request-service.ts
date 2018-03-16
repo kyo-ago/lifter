@@ -1,12 +1,12 @@
+import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import * as Rx from "rxjs/Rx";
 import * as URL from "url";
-import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import { ClientRequestEntity } from "./client-request-entity";
 import { ClientRequestFactory } from "./lifecycle/client-request-factory";
 import { ClientRequestRepository } from "./lifecycle/client-request-repository";
 
 export interface getClientRequestService {
-    subscribe: (callback: (clientRequestEntity: ClientRequestEntity) => void) => void;
+    subscribe: (callback: (clientRequestEntity: ClientRequestEntityJSON) => void) => void;
     fetchAll: () => Promise<ClientRequestEntityJSON[]>;
 }
 
@@ -16,18 +16,18 @@ export class ClientRequestService {
         private clientRequestRepository: ClientRequestRepository,
     ) {}
 
-    private observable: Rx.Subject<ClientRequestEntity> = new Rx.Subject();
+    private observable: Rx.Subject<ClientRequestEntityJSON> = new Rx.Subject();
 
     store(url: URL.Url): ClientRequestEntity {
         let clientRequestEntity = this.clientRequestFactory.create(url);
         this.clientRequestRepository.store(clientRequestEntity);
-        this.observable.next(clientRequestEntity);
+        this.observable.next(clientRequestEntity.json);
         return clientRequestEntity;
     }
 
     getClientRequestService(): getClientRequestService {
         return {
-            subscribe: (callback: (clientRequestEntity: ClientRequestEntity) => void): void => {
+            subscribe: (callback: (clientRequestEntity: ClientRequestEntityJSON) => void): void => {
                 this.observable.subscribe(callback);
             },
             fetchAll: (): Promise<ClientRequestEntityJSON[]> => {

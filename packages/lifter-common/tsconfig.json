@@ -4,7 +4,6 @@
   },
   "extends": "../../tsconfig-base.json",
   "include": [
-    "./typings/global.d.ts",
     "./src/index.ts"
   ]
 }

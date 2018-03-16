@@ -1,9 +1,9 @@
 import {
-    RewriteRuleActionType,
-    RewriteRuleDeleteModifierEntityJSON,
     CreateRewriteRuleDeleteModifierEntityJSON,
     CreateRewriteRuleModifierEntityJSON,
     CreateRewriteRuleUpdateModifierEntityJSON,
+    RewriteRuleActionType,
+    RewriteRuleDeleteModifierEntityJSON,
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
     RewriteRuleModifierMapJSON,

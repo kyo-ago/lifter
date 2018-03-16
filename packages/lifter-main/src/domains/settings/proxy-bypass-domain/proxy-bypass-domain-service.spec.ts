@@ -1,7 +1,6 @@
 import * as assert from "assert";
 import "mocha";
 import { createApplication } from "../../../../tests/mocks/create-services";
-import { MockStateEvent } from "../../../../tests/mocks/mock-state-event";
 import { ProxyBypassDomainService } from "./proxy-bypass-domain-service";
 
 describe("ProxyBypassDomainService", () => {

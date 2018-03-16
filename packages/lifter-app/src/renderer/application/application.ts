@@ -2,12 +2,12 @@ import {
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
-    ipc,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
+import { ipc } from "../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../main/window-manager";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
@@ -78,8 +78,8 @@ export class Application {
         return ipc.publish("getRewriteRules");
     }
 
-    async saveRewriteRules(domains: RewriteRuleEntityJSON[]): Promise<void> {
-        return ipc.publish("saveRewriteRules", domains);
+    async saveRewriteRules(rules: RewriteRuleEntityJSON[]): Promise<void> {
+        return ipc.publish("saveRewriteRules", rules);
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
