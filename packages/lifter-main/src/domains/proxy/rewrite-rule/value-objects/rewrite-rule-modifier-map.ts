@@ -2,6 +2,7 @@ import { RewriteRuleActionType, RewriteRuleModifierMapJSON } from "@lifter/lifte
 import { OutgoingHttpHeaders } from "http";
 import { BaseValueObject } from "../../../base/value-objects/base-value-object";
 import { RewriteRuleModifierEntity } from "../rewrite-rule-modifier/rewrite-rule-modifier-entity";
+import { RewriteRuleModifierIdentity } from "../rewrite-rule-modifier/rewrite-rule-modifier-identity";
 
 export class RewriteRuleModifierMap extends BaseValueObject<{ [key in RewriteRuleActionType]: RewriteRuleModifierEntity[] }> {
     get json(): RewriteRuleModifierMapJSON {
@@ -14,6 +15,10 @@ export class RewriteRuleModifierMap extends BaseValueObject<{ [key in RewriteRul
     addModifier(action: RewriteRuleActionType, modifier: RewriteRuleModifierEntity): void {
         this.value[action] = this.value[action] || [];
         this.value[action].push(modifier);
+    }
+
+    deleteModifier(action: RewriteRuleActionType, modifierId: RewriteRuleModifierIdentity): void {
+        this.value[action] = (this.value[action] || []).filter((modifier) => !modifier.getIdentity().equals(modifierId));
     }
 
     applyHeader(header: OutgoingHttpHeaders): OutgoingHttpHeaders {

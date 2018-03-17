@@ -4,6 +4,7 @@ import {
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    CreateRewriteRuleModifierEntityJSON,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
@@ -67,8 +68,24 @@ export class WindowManager {
             return this.application.getUserSetting().changeNoPacFileProxy();
         });
 
-        ipc.subscribe("saveRewriteRules", (_, rules: RewriteRuleEntityJSON[]) => {
-            return this.application.getRewriteRules().add(rules);
+        ipc.subscribe("addRewriteRule", (_, url: string) => {
+            return this.application.getRewriteRules().addRule(url);
+        });
+
+        ipc.subscribe("changeRewriteRule", (_, rule: RewriteRuleEntityJSON) => {
+            return this.application.getRewriteRules().changeRule(rule);
+        });
+
+        ipc.subscribe("deleteRewriteRule", (_, id: number) => {
+            return this.application.getRewriteRules().deleteRule(id);
+        });
+
+        ipc.subscribe("addRewriteRuleModifier", (_, action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON) => {
+            return this.application.getRewriteRules().addModifier(action, entityId, param);
+        });
+
+        ipc.subscribe("deleteRewriteRuleModifier", (_, action: string, entityId: number, modifierId: number) => {
+            return this.application.getRewriteRules().deleteModifier(action, entityId, modifierId);
         });
     }
 

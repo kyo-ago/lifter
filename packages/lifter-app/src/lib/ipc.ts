@@ -6,6 +6,7 @@ import {
     ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
+    RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import * as Ipc from "electron-ipc";
 
@@ -26,13 +27,17 @@ export interface ElectronIpcMap {
     saveProxyBypassDomains: void;
 
     getRewriteRules: RewriteRuleEntityJSON[];
-    saveRewriteRules: void;
+    addRewriteRule: RewriteRuleEntityJSON;
+    changeRewriteRule: RewriteRuleEntityJSON;
+    deleteRewriteRule: void;
+    addRewriteRuleModifier: RewriteRuleModifierEntityJSON;
+    deleteRewriteRuleModifier: void;
 }
 
 export const ipc = class {
     static subscribe<K extends keyof ElectronIpcMap>(
         key: K,
-        callback: (event: any, message: any) => Promise<ElectronIpcMap[K]> | void,
+        callback: (event: any, ...messages: any[]) => Promise<ElectronIpcMap[K]> | void,
     ): void {
         return Ipc.subscribe(key, callback);
     }

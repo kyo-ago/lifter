@@ -65,6 +65,18 @@ export class RewriteRuleFactory extends AsyncNedbIdGenerator {
         );
     }
 
+    create(url: string): RewriteRuleEntity {
+        let id = this.getNextIdNumber();
+        return new RewriteRuleEntity(
+            new RewriteRuleIdentity(id),
+            new RewriteRuleUrlPattern(url),
+            new RewriteRuleModifierMap({
+                UPDATE: [],
+                DELETE: [],
+            }),
+        );
+    }
+
     createModifier(action: RewriteRuleActionType, param: CreateRewriteRuleModifierEntityJSON): RewriteRuleModifierEntity {
         let id = this.getNextIdNumber();
         return SwitchType(action, param, {

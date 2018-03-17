@@ -18,10 +18,8 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 commit("save", rewriteRules);
                 return rewriteRules;
             },
-            async delete({ state, dispatch }, targetRewriteRules: RewriteRuleEntityJSON[]): Promise<void> {
-                let targetIds = targetRewriteRules.map(rule => rule.id);
-                let entries = state.entries.filter(entry => !targetIds.includes(entry.id));
-                await application.saveRewriteRules(entries);
+            async addRule({ dispatch }, url: string): Promise<void> {
+                await application.addRewriteRule(url);
                 return await dispatch("gets");
             },
         },

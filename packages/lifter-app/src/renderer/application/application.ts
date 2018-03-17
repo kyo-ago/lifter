@@ -78,8 +78,8 @@ export class Application {
         return ipc.publish("getRewriteRules");
     }
 
-    async saveRewriteRules(rules: RewriteRuleEntityJSON[]): Promise<void> {
-        return ipc.publish("saveRewriteRules", rules);
+    async addRewriteRule(url: string): Promise<RewriteRuleEntityJSON> {
+        return ipc.publish("addRewriteRule", url);
     }
 
     setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {

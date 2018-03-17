@@ -1,4 +1,8 @@
-import { CreateRewriteRuleModifierEntityJSON, RewriteRuleEntityJSON, } from "@lifter/lifter-common";
+import {
+    CreateRewriteRuleModifierEntityJSON,
+    RewriteRuleEntityJSON,
+    RewriteRuleModifierEntityJSON,
+} from "@lifter/lifter-common";
 import { OutgoingHttpHeaders } from "http";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponseEntity } from "../local-file-response/local-file-response-entity";
@@ -7,9 +11,12 @@ import { RewriteRuleRepository } from "./lifecycle/rewrite-rule-repository";
 import { RewriteRuleIdentity } from "./rewrite-rule-identity";
 
 export interface getRewriteRules {
-    add: (rules: RewriteRuleEntityJSON[]) => Promise<void>;
-    addModifier: (id: number, text: string, param: CreateRewriteRuleModifierEntityJSON) => Promise<void>;
     fetchAll: () => Promise<RewriteRuleEntityJSON[]>;
+    addRule: (url: string) => Promise<RewriteRuleEntityJSON>;
+    changeRule: (rule: RewriteRuleEntityJSON) => Promise<RewriteRuleEntityJSON>;
+    deleteRule: (id: number) => Promise<void>;
+    addModifier: (action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON) => Promise<RewriteRuleModifierEntityJSON>;
+    deleteModifier: (action: string, entityId: number, modifierId: number) => Promise<void>;
 }
 
 export class RewriteRuleService {
@@ -20,14 +27,23 @@ export class RewriteRuleService {
 
     getRewriteRules(): getRewriteRules {
         return {
-            add: (rules: RewriteRuleEntityJSON[]): Promise<void> => {
-                return this.overwriteAll(rules);
-            },
-            addModifier: (id: number, text: string, param: CreateRewriteRuleModifierEntityJSON): Promise<void> => {
-                return this.addModifier(id, text, param);
-            },
             fetchAll: (): Promise<RewriteRuleEntityJSON[]> => {
                 return this.fetchAll();
+            },
+            addRule: (url: string): Promise<RewriteRuleEntityJSON> => {
+                return this.addRule(url);
+            },
+            changeRule: (rule: RewriteRuleEntityJSON): Promise<RewriteRuleEntityJSON> => {
+                return this.changeRule(rule);
+            },
+            deleteRule: (id: number): Promise<void> => {
+                return this.deleteRule(id);
+            },
+            addModifier: (action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON): Promise<RewriteRuleModifierEntityJSON> => {
+                return this.addModifier(action, entityId, param);
+            },
+            deleteModifier: (action: string, entityId: number, modifierId: number): Promise<void> => {
+                return this.deleteModifier(action, entityId, modifierId);
             },
         };
     }
@@ -42,21 +58,43 @@ export class RewriteRuleService {
         }, localFileResponseEntity.getHeader());
     }
 
-    private async addModifier(id: number, text: string, param: CreateRewriteRuleModifierEntityJSON) {
-        let action = stringToRewriteRuleActionType(text);
-        let modifier = this.rewriteRuleFactory.createModifier(action, param);
-        let entity = await this.rewriteRuleRepository.resolve(new RewriteRuleIdentity(id));
-        entity.addModifier(action, modifier);
-    }
-
-    private async overwriteAll(rules: RewriteRuleEntityJSON[]): Promise<void> {
-        let entities = rules.map(json => RewriteRuleFactory.fromJSON(json));
-        await this.rewriteRuleRepository.overwriteAll(entities);
-        return;
-    }
-
     private async fetchAll(): Promise<RewriteRuleEntityJSON[]> {
         let allEntities = await this.rewriteRuleRepository.resolveAll();
         return allEntities.map(entity => entity.json);
+    }
+
+    private async addRule(url: string): Promise<RewriteRuleEntityJSON> {
+        let entity = this.rewriteRuleFactory.create(url);
+        await this.rewriteRuleRepository.store(entity);
+        return entity.json;
+    }
+
+    private async changeRule(rule: RewriteRuleEntityJSON): Promise<RewriteRuleEntityJSON> {
+        let entity = RewriteRuleFactory.fromJSON(rule);
+        await this.rewriteRuleRepository.store(entity);
+        return entity.json;
+    }
+
+    private async deleteRule(num: number): Promise<void> {
+        let id = new RewriteRuleIdentity(num);
+        await this.rewriteRuleRepository.deleteByIdentity(id);
+        return;
+    }
+
+    private async addModifier(actionText: string, entityIdNum: number, param: CreateRewriteRuleModifierEntityJSON): Promise<RewriteRuleModifierEntityJSON> {
+        let action = stringToRewriteRuleActionType(actionText);
+        let modifier = this.rewriteRuleFactory.createModifier(action, param);
+        let entity = await this.rewriteRuleRepository.resolve(new RewriteRuleIdentity(entityIdNum));
+        entity.addModifier(action, modifier);
+        return modifier.json;
+    }
+
+    private async deleteModifier(actionText: string, entityIdNum: number, modifierIdNum: number): Promise<void> {
+        let action = stringToRewriteRuleActionType(actionText);
+        let entityId = new RewriteRuleIdentity(entityIdNum);
+        let ruleEntity = await this.rewriteRuleRepository.resolve(entityId);
+        let modifierId = new RewriteRuleIdentity(modifierIdNum);
+        ruleEntity.deleteModifier(action, modifierId);
+        return;
     }
 }
