@@ -2,7 +2,7 @@ import { async } from "rxjs/scheduler/async";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { ClientResponderContext } from "../client-responder/lib/client-responder-context";
+import { ClientResponderContext } from "../client-request/lib/client-responder-context";
 
 export class PacFileService {
     constructor(

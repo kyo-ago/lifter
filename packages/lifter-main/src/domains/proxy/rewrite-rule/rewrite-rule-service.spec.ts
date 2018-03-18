@@ -1,12 +1,10 @@
-import * as assert from "assert";
-import "mocha";
-import * as URL from "url";
 import {
     CreateRewriteRuleDeleteModifierEntityJSON,
     CreateRewriteRuleUpdateModifierEntityJSON,
-    RewriteRuleDeleteModifierEntityJSON,
-    RewriteRuleUpdateModifierEntityJSON,
-} from "../../../../../lifter-common/src";
+} from "@lifter/lifter-common";
+import * as assert from "assert";
+import "mocha";
+import * as URL from "url";
 import { createApplication, TestApplication } from "../../../../tests/mocks/create-services";
 import { RewriteRuleService } from "./rewrite-rule-service";
 

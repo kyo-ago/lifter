@@ -2,7 +2,7 @@ import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import * as Rx from "rxjs/Rx";
 import { PROXY_SERVER_NAME } from "../../../settings";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
-import { ClientResponderContext } from "../client-responder/lib/client-responder-context";
+import { ClientResponderContext } from "../client-request/lib/client-responder-context";
 import { LocalFileResponseEntity } from "../local-file-response/local-file-response-entity";
 import { RewriteRuleService } from "../rewrite-rule/rewrite-rule-service";
 import { AutoResponderIdentity } from "./auto-responder-identity";

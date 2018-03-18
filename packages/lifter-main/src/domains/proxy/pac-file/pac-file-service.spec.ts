@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import { createApplication } from "../../../../tests/mocks/create-services";
 import { PROXY_SERVER_NAME } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { ClientResponderContext } from "../client-responder/lib/client-responder-context";
+import { ClientResponderContext } from "../client-request/lib/client-responder-context";
 import { PacFileService } from "./pac-file-service";
 
 describe("PacFileService", () => {

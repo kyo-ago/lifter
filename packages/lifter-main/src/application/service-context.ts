@@ -2,7 +2,6 @@ import { UserSettingStorage } from "../domains/libs/user-setting-storage";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
 import { FindMatchEntry } from "../domains/proxy/auto-responder/specs/find-match-entry";
 import { ClientRequestService } from "../domains/proxy/client-request/client-request-service";
-import { ClientResponder } from "../domains/proxy/client-responder/client-responder";
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
@@ -24,7 +23,6 @@ export class ServiceContext {
 
     // Protected for testing
     public autoResponderService: AutoResponderService;
-    public clientResponder: ClientResponder;
     public pacFileService: PacFileService;
     public rewriteRuleService: RewriteRuleService;
 
@@ -33,11 +31,6 @@ export class ServiceContext {
         projectEntity: ProjectEntity,
         lifecycleContextService: LifecycleContextService,
     ) {
-        this.clientRequestService = new ClientRequestService(
-            lifecycleContextService.clientRequestFactory,
-            lifecycleContextService.clientRequestRepository,
-        );
-
         this.rewriteRuleService = new RewriteRuleService(
             lifecycleContextService.rewriteRuleFactory,
             lifecycleContextService.rewriteRuleRepository,
@@ -70,13 +63,18 @@ export class ServiceContext {
             this.userSettingStorage,
         );
 
-        this.clientResponder = new ClientResponder(
+        this.clientRequestService = new ClientRequestService(
             this.autoResponderService,
             this.pacFileService,
-            this.clientRequestService,
+            lifecycleContextService.clientRequestFactory,
+            lifecycleContextService.clientRequestRepository,
         );
 
-        this.proxyService = new ProxyService(httpSslCaDirPath, this.networksetupProxyService, this.clientResponder);
+        this.proxyService = new ProxyService(
+            httpSslCaDirPath,
+            this.networksetupProxyService,
+            this.clientRequestService,
+        );
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
             lifecycleContextService.proxyBypassDomainFactory,

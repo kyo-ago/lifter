@@ -1,6 +1,10 @@
 import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import * as Rx from "rxjs/Rx";
 import * as URL from "url";
+import { LOCAL_PAC_FILE_URL } from "../../../settings";
+import { AutoResponderService } from "../auto-responder/auto-responder-service";
+import { ClientResponderContext } from "./lib/client-responder-context";
+import { PacFileService } from "../pac-file/pac-file-service";
 import { ClientRequestEntity } from "./client-request-entity";
 import { ClientRequestFactory } from "./lifecycle/client-request-factory";
 import { ClientRequestRepository } from "./lifecycle/client-request-repository";
@@ -12,6 +16,8 @@ export interface getClientRequestService {
 
 export class ClientRequestService {
     constructor(
+        private autoResponderService: AutoResponderService,
+        private pacFileService: PacFileService,
         private clientRequestFactory: ClientRequestFactory,
         private clientRequestRepository: ClientRequestRepository,
     ) {}
@@ -34,6 +40,16 @@ export class ClientRequestService {
                 return this.resolveAll();
             },
         };
+    }
+
+    async onRequest(clientResponderContext: ClientResponderContext): Promise<void> {
+        let clientRequestEntity = this.store(clientResponderContext.getUrl());
+
+        if (clientRequestEntity.href === LOCAL_PAC_FILE_URL) {
+            return await this.pacFileService.response(clientResponderContext);
+        }
+
+        return await this.autoResponderService.response(clientResponderContext, clientRequestEntity);
     }
 
     private async resolveAll(): Promise<ClientRequestEntityJSON[]> {

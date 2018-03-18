@@ -1,6 +1,6 @@
 import * as HttpMitmProxy from "http-mitm-proxy";
-import { ClientResponder } from "../../domains/proxy/client-responder/client-responder";
-import { ClientResponderContext } from "../../domains/proxy/client-responder/lib/client-responder-context";
+import { ClientRequestService } from "../../domains/proxy/client-request/client-request-service";
+import { ClientResponderContext } from "../../domains/proxy/client-request/lib/client-responder-context";
 import { NetworksetupProxyService } from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 
@@ -10,7 +10,7 @@ export class ProxyService {
     constructor(
         private sslCaDir: string,
         private networksetupProxyService: NetworksetupProxyService,
-        private clientResponder: ClientResponder,
+        private clientRequestService: ClientRequestService,
     ) {}
 
     async start() {
@@ -25,7 +25,7 @@ export class ProxyService {
         this.mitmProxy.onRequest(
             async (ctx: HttpMitmProxy.IContext, passCallback: (error: Error | undefined) => void) => {
                 let clientResponderContext = new ClientResponderContext(ctx, passCallback);
-                this.clientResponder.onRequest(clientResponderContext);
+                this.clientRequestService.onRequest(clientResponderContext);
             },
         );
 
