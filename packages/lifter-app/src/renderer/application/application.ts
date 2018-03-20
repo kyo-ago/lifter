@@ -82,13 +82,17 @@ export class Application {
         return ipc.publish("addRewriteRule", url);
     }
 
-    setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
+    async deleteRewriteRules(rewriteRules: RewriteRuleEntityJSON[]): Promise<void> {
+        await ipc.publish("deleteRewriteRules", rewriteRules.map(entity => entity.id));
+    }
+
+    onAddClientRequestEntity(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
         ipc.subscribe("addClientRequestEntity", (_, clientRequestEntityJSON: ClientRequestEntityJSON) => {
             callback(clientRequestEntityJSON);
         });
     }
 
-    setOnFileDropEvent(global: Window, dragenter: () => void, dragleave: () => void, drop: (files: File[]) => void) {
+    onFileDropEvent(global: Window, dragenter: () => void, dragleave: () => void, drop: (files: File[]) => void) {
         global.addEventListener("dragover", e => e.preventDefault());
         global.addEventListener("dragenter", dragenter);
         global.addEventListener("dragleave", event => {

@@ -1,6 +1,6 @@
 import Rx from "rxjs/Rx";
 
-export function makeTableHandler(deleteDispatcherName: string) {
+export function makeTableHandlerMixin(deleteDispatcherName: string) {
     return {
         data() {
             return {

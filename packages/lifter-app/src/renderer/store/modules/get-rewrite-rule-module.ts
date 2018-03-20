@@ -22,6 +22,11 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 await application.addRewriteRule(url);
                 return await dispatch("gets");
             },
+            async delete({ commit }, targets: RewriteRuleEntityJSON[]) {
+                await application.deleteRewriteRules(targets);
+                let rewriteRules = await application.getRewriteRules();
+                commit("save", rewriteRules);
+            },
         },
     };
 }

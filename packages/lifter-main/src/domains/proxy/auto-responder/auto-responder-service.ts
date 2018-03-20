@@ -81,9 +81,11 @@ export class AutoResponderService {
 
     private async deletes(ids: number[]): Promise<void> {
         await Promise.all(
-            ids.map(id => new AutoResponderIdentity(id)).map(autoResponderIdentity => {
-                return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
-            }),
+            ids
+                .map(id => new AutoResponderIdentity(id))
+                .map(autoResponderIdentity => {
+                    return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
+                }),
         );
         this.observable.next();
     }

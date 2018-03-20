@@ -14,7 +14,7 @@ export interface getRewriteRules {
     fetchAll: () => Promise<RewriteRuleEntityJSON[]>;
     addRule: (url: string) => Promise<RewriteRuleEntityJSON>;
     changeRule: (rule: RewriteRuleEntityJSON) => Promise<RewriteRuleEntityJSON>;
-    deleteRule: (id: number) => Promise<void>;
+    deleteRules: (ids: number[]) => Promise<void>;
     addModifier: (action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON) => Promise<RewriteRuleModifierEntityJSON>;
     deleteModifier: (action: string, entityId: number, modifierId: number) => Promise<void>;
 }
@@ -36,8 +36,8 @@ export class RewriteRuleService {
             changeRule: (rule: RewriteRuleEntityJSON): Promise<RewriteRuleEntityJSON> => {
                 return this.changeRule(rule);
             },
-            deleteRule: (id: number): Promise<void> => {
-                return this.deleteRule(id);
+            deleteRules: (ids: number[]): Promise<void> => {
+                return this.deleteRules(ids);
             },
             addModifier: (action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON): Promise<RewriteRuleModifierEntityJSON> => {
                 return this.addModifier(action, entityId, param);
@@ -75,9 +75,14 @@ export class RewriteRuleService {
         return entity.json;
     }
 
-    private async deleteRule(num: number): Promise<void> {
-        let id = new RewriteRuleIdentity(num);
-        await this.rewriteRuleRepository.deleteByIdentity(id);
+    private async deleteRules(ids: number[]): Promise<void> {
+        await Promise.all(
+            ids
+                .map(id => new RewriteRuleIdentity(id))
+                .map(rewriteRuleIdentity => {
+                    return this.rewriteRuleRepository.deleteByIdentity(rewriteRuleIdentity);
+                }),
+        );
         return;
     }
 

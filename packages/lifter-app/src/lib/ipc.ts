@@ -29,7 +29,7 @@ export interface ElectronIpcMap {
     getRewriteRules: RewriteRuleEntityJSON[];
     addRewriteRule: RewriteRuleEntityJSON;
     changeRewriteRule: RewriteRuleEntityJSON;
-    deleteRewriteRule: void;
+    deleteRewriteRules: void;
     addRewriteRuleModifier: RewriteRuleModifierEntityJSON;
     deleteRewriteRuleModifier: void;
 }

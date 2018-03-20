@@ -68,6 +68,10 @@ export class WindowManager {
             return this.application.getUserSetting().changeNoPacFileProxy();
         });
 
+        ipc.subscribe("getRewriteRules", () => {
+            return this.application.getRewriteRules().fetchAll();
+        });
+
         ipc.subscribe("addRewriteRule", (_, url: string) => {
             return this.application.getRewriteRules().addRule(url);
         });
@@ -76,8 +80,8 @@ export class WindowManager {
             return this.application.getRewriteRules().changeRule(rule);
         });
 
-        ipc.subscribe("deleteRewriteRule", (_, id: number) => {
-            return this.application.getRewriteRules().deleteRule(id);
+        ipc.subscribe("deleteRewriteRules", (_, ids: number[]) => {
+            return this.application.getRewriteRules().deleteRules(ids);
         });
 
         ipc.subscribe("addRewriteRuleModifier", (_, action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON) => {

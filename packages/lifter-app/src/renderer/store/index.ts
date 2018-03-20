@@ -36,7 +36,7 @@ export function getStore(application: Application): Store<any> {
         },
     });
 
-    application.setOnFileDropEvent(
+    application.onFileDropEvent(
         window,
         () => {
             store.commit("fileDropDialog/show");
@@ -49,8 +49,8 @@ export function getStore(application: Application): Store<any> {
         },
     );
 
-    application.setOnUpdateClientRequestEntityEvent(clientRequestEntity => {
-        store.commit("clientRequest/add", clientRequestEntity);
+    application.onAddClientRequestEntity(clientRequest => {
+        store.commit("clientRequest/add", clientRequest);
     });
 
     return store;

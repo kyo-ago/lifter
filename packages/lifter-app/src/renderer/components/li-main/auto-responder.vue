@@ -35,7 +35,7 @@
 
 <script lang="ts">
     import { VueComponent } from "../index";
-    import { makeTableHandler } from "./make-table-handler";
+    import { makeTableHandlerMixin } from "./table-handler-mixin";
 
     export default {
         name: "auto-responder",
@@ -44,7 +44,9 @@
                 return this.$store.state.autoResponder.entries;
             },
         },
-        ...makeTableHandler("autoResponder/delete"),
+        mixins: [
+            makeTableHandlerMixin("autoResponder/delete"),
+        ],
     } as VueComponent;
 </script>
 
