@@ -1,5 +1,6 @@
 <template>
     <div>
+        Delete modifiers
         <div class="inputContainer">
             <el-autocomplete
                     v-model="currentHeader"
@@ -10,7 +11,7 @@
         </div>
         <el-table
                 ref="table"
-                :data="deleteModifiers"
+                :data="modifiers"
                 :row-class-name="getTableStyle"
                 border
                 @row-click="selectRow"
@@ -36,6 +37,7 @@
 </template>
 
 <script lang="ts">
+    import { makeRewriteRuleModifiersMixin } from "../../mixins/rewrite-rule-modifiers-mixin";
     import { makeTableHandlerMixin } from "../../mixins/table-handler-mixin";
 
     export default {
@@ -46,26 +48,12 @@
             };
         },
         methods: {
-            getHeaderExamples(_, cb) {
-                cb([
-                    {
-                        value: "*.js"
-                    },
-                    {
-                        value: "*.{js,css}"
-                    },
-                ])
-            },
             addHeader() {
-                this.$store.dispatch("rewriteRule/addRule", this.$data.currentHeader);
-            },
-        },
-        computed: {
-            deleteModifiers() {
-                return [];
+                this.$store.dispatch("rewriteRule/addRule", this.rewriteRoleId, this.$data.currentHeader);
             },
         },
         mixins: [
+            makeRewriteRuleModifiersMixin(),
             makeTableHandlerMixin("rewriteRule/deletes"),
         ],
     };

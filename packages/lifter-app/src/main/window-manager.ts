@@ -4,14 +4,13 @@ import {
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
-    CreateRewriteRuleModifierEntityJSON,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
-import { ipc } from "../lib/ipc";
+import { addRewriteRuleModifierParam, deleteRewriteRuleModifierParam, ipc } from "../lib/ipc";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
 
 export interface ApplicationMainStateJSON {
@@ -84,11 +83,11 @@ export class WindowManager {
             return this.application.getRewriteRules().deleteRules(ids);
         });
 
-        ipc.subscribe("addRewriteRuleModifier", (_, action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON) => {
+        ipc.subscribe("addRewriteRuleModifier", (_, { action, entityId, param }: addRewriteRuleModifierParam) => {
             return this.application.getRewriteRules().addModifier(action, entityId, param);
         });
 
-        ipc.subscribe("deleteRewriteRuleModifier", (_, action: string, entityId: number, modifierId: number) => {
+        ipc.subscribe("deleteRewriteRuleModifier", (_, { action, entityId, modifierId }: deleteRewriteRuleModifierParam) => {
             return this.application.getRewriteRules().deleteModifier(action, entityId, modifierId);
         });
     }

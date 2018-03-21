@@ -8,8 +8,8 @@
             @close="hide"
     >
         <div>
-            <delete-modifiers-table />
-            <update-modifiers-table />
+            <delete-modifiers-table v-bind:rewriteRoleId="rewriteRole.id" v-bind:modifiers="rewriteRole.modifier['DELETE']" />
+            <update-modifiers-table v-bind:rewriteRoleId="rewriteRole.id" v-bind:modifiers="rewriteRole.modifier['UPDATE']" />
         </div>
     </el-dialog>
 </template>
@@ -25,6 +25,9 @@
             UpdateModifiersTable,
         },
         computed: {
+            rewriteRole() {
+                return this.$store.state.rewriteRuleModifiersDialog.rewriteRole;
+            },
             isShowing() {
                 return this.$store.state.rewriteRuleModifiersDialog.isShowing;
             },

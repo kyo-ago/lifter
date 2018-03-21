@@ -1,6 +1,11 @@
 import { RewriteRuleEntityJSON } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
+interface ModifierAcrion {
+    rewriteRuleId: number;
+    targets: RewriteRuleEntityJSON[];
+}
+
 export function getRewriteRuleModule(application: Application, rewriteRules: RewriteRuleEntityJSON[]) {
     return {
         namespaced: true,
@@ -23,6 +28,11 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 return await dispatch("gets");
             },
             async deletes({ commit }, targets: RewriteRuleEntityJSON[]) {
+                await application.deleteRewriteRules(targets);
+                let rewriteRules = await application.getRewriteRules();
+                commit("save", rewriteRules);
+            },
+            async deleteModifierDeletes({ commit }, {rewriteRuleId, targets}: ModifierAcrion) {
                 await application.deleteRewriteRules(targets);
                 let rewriteRules = await application.getRewriteRules();
                 commit("save", rewriteRules);
