@@ -7,12 +7,6 @@
         @row-click="selectRow"
     >
         <el-table-column
-            type="selection"
-            align="center"
-            width="55"
-            resizable
-        />
-        <el-table-column
             prop="type"
             label="Type"
             align="center"
@@ -30,12 +24,21 @@
             label="Path"
             resizable
         />
+        <el-table-column
+                label="Operations">
+            <template slot-scope="scope">
+                <el-button
+                        size="mini"
+                        type="danger"
+                        @click="onClickDeleteButton(scope.row)">Delete</el-button>
+            </template>
+        </el-table-column>
     </el-table>
 </template>
 
 <script lang="ts">
     import { VueComponent } from "../index";
-    import { makeTableHandlerMixin } from "./table-handler-mixin";
+    import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
 
     export default {
         name: "auto-responder",

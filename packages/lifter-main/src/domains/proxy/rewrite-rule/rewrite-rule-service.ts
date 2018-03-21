@@ -60,7 +60,7 @@ export class RewriteRuleService {
 
     private async fetchAll(): Promise<RewriteRuleEntityJSON[]> {
         let allEntities = await this.rewriteRuleRepository.resolveAll();
-        return allEntities.map(entity => entity.json);
+        return allEntities.map(entity => entity.json).reverse();
     }
 
     private async addRule(url: string): Promise<RewriteRuleEntityJSON> {

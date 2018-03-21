@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div class="inputContainer">
+            <el-autocomplete
+                    v-model="currentUrlPattern"
+                    :fetch-suggestions="getUrlPatternExamples"
+                    placeholder="URL Pattern (using micromatch, ex. http://example.com/)"
+            />
+            <el-button type="primary" icon="el-icon-edit" @click="addUrlPattern"></el-button>
+        </div>
         <el-table
                 ref="table"
                 :data="rewriteRules"
@@ -8,47 +16,32 @@
                 @row-click="selectRow"
         >
             <el-table-column
-                    type="selection"
-                    align="center"
-                    width="55"
-                    resizable
-            />
-            <el-table-column
-                    prop="action"
-                    label="Action"
-                    align="center"
-                    width="60"
-                    resizable
-            />
-            <el-table-column
                     prop="url"
-                    label="URL"
-                    width="150"
+                    label="URL Pattern"
                     resizable
             />
             <el-table-column
-                    prop="header"
-                    label="Header"
-                    resizable
-            />
-            <el-table-column
-                    prop="value"
-                    label="Value"
-                    resizable
-            />
+                    label="Operations"
+                    width="100"
+            >
+                <template slot-scope="scope">
+                    <el-button
+                            size="mini"
+                            @click="onClickModifiersButton(scope.row)">Modifiers</el-button>
+                    <el-button
+                            size="mini"
+                            type="danger"
+                            @click="onClickDeleteButton(scope.row)">Delete</el-button>
+                </template>
+            </el-table-column>
         </el-table>
-        <el-autocomplete
-                v-model="currentUrlPattern"
-                :fetch-suggestions="getUrlPatternExamples"
-                placeholder="URL Pattern (using micromatch, ex. http://example.com/)"
-        />
-        <el-button type="primary" icon="el-icon-edit" @click="addUrlPattern"></el-button>
     </div>
 </template>
 
 <script lang="ts">
+    import { RewriteRuleEntityJSON } from "@lifter/lifter-common";
     import { VueComponent } from "../index";
-    import { makeTableHandlerMixin } from "./table-handler-mixin";
+    import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
 
     export default {
         name: "rewrite-rule",
@@ -71,6 +64,9 @@
             addUrlPattern() {
                 this.$store.dispatch("rewriteRule/addRule", this.$data.currentUrlPattern);
             },
+            onClickModifiersButton(row: RewriteRuleEntityJSON) {
+                this.$store.commit('rewriteRuleModifiersDialog/show', row);
+            },
         },
         computed: {
             rewriteRules() {
@@ -78,11 +74,18 @@
             },
         },
         mixins: [
-            makeTableHandlerMixin("rewriteRule/delete"),
+            makeTableHandlerMixin("rewriteRule/deletes"),
         ],
     } as VueComponent;
 </script>
 
 <style scoped lang="scss">
+    .inputContainer {
+        padding: 5px;
+        display: flex;
 
+        .el-autocomplete {
+            flex: auto;
+        }
+    }
 </style>

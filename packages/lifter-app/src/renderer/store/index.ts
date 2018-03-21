@@ -6,6 +6,7 @@ import { getFileDropDialogModule } from "./modules/get-file-drop-dialog-module";
 import { getHeaderTabModule } from "./modules/get-header-tab-module";
 import { getProxyBypassDomainModule } from "./modules/get-proxy-bypass-domain-module";
 import { getProxySettingsModule } from "./modules/get-proxy-settings-module";
+import { getRewriteRuleModifiersDialogModule } from "./modules/get-rewrite-rule-modifiers-dialog-module";
 import { getRewriteRuleModule } from "./modules/get-rewrite-rule-module";
 import { getSettingDialogModule } from "./modules/get-setting-dialog-module";
 
@@ -31,6 +32,7 @@ export function getStore(application: Application): Store<any> {
             headerTab: getHeaderTabModule(),
             proxyBypassDomain: getProxyBypassDomainModule(application, currentState.proxyBypassDomainEntries),
             proxySettings: getProxySettingsModule(application, currentState),
+            rewriteRuleModifiersDialog: getRewriteRuleModifiersDialogModule(),
             rewriteRule: getRewriteRuleModule(application, currentState.rewriteRuleEntries),
             settingDialog: getSettingDialogModule(),
         },

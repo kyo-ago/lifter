@@ -20,6 +20,9 @@ export function makeTableHandlerMixin(deleteDispatcherName: string) {
                 if (!this.$refs.table.selection.includes(row)) return "";
                 return "current-row";
             },
+            async onClickDeleteButton(row) {
+                await this.$store.dispatch(deleteDispatcherName, [row]);
+            },
         },
         mounted() {
             this.$data.shortcutHandler = Rx.Observable.fromEvent(document.body, "keyup")
