@@ -20,7 +20,7 @@ export interface addRewriteRuleModifierParam {
 export interface deleteRewriteRuleModifierParam {
     action: string;
     entityId: number;
-    modifierId: number;
+    modifiers: RewriteRuleModifierEntityJSON[];
 }
 
 export interface ElectronIpcMap {
@@ -92,7 +92,7 @@ export interface ElectronIpcMap {
         param: addRewriteRuleModifierParam;
         result: RewriteRuleModifierEntityJSON;
     };
-    deleteRewriteRuleModifier: {
+    deleteRewriteRuleModifiers: {
         param: deleteRewriteRuleModifierParam;
         result: void;
     };

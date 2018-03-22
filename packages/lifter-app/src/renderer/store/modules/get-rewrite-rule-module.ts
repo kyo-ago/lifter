@@ -1,9 +1,18 @@
-import { RewriteRuleEntityJSON } from "@lifter/lifter-common";
+import {
+    CreateRewriteRuleModifierEntityJSON,
+    RewriteRuleEntityJSON,
+    RewriteRuleModifierEntityJSON,
+} from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
-interface ModifierAcrion {
+interface AddModifierAcrion {
     rewriteRuleId: number;
-    targets: RewriteRuleEntityJSON[];
+    target: CreateRewriteRuleModifierEntityJSON;
+}
+
+interface DeleteModifierAcrion {
+    rewriteRuleId: number;
+    targets: RewriteRuleModifierEntityJSON[];
 }
 
 export function getRewriteRuleModule(application: Application, rewriteRules: RewriteRuleEntityJSON[]) {
@@ -11,6 +20,11 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
         namespaced: true,
         state: {
             entries: rewriteRules,
+        },
+        getters: {
+            rewriteRule: (state) => (rewriteRuleId: number) => {
+                return state.entries.find(entity => entity.id === rewriteRuleId);
+            }
         },
         mutations: {
             save(state, rewriteRules: RewriteRuleEntityJSON[]) {
@@ -27,15 +41,17 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 await application.addRewriteRule(url);
                 return await dispatch("gets");
             },
-            async deletes({ commit }, targets: RewriteRuleEntityJSON[]) {
+            async deletes({ dispatch }, targets: RewriteRuleEntityJSON[]) {
                 await application.deleteRewriteRules(targets);
-                let rewriteRules = await application.getRewriteRules();
-                commit("save", rewriteRules);
+                return await dispatch("gets");
             },
-            async deleteModifierDeletes({ commit }, {rewriteRuleId, targets}: ModifierAcrion) {
-                await application.deleteRewriteRules(targets);
-                let rewriteRules = await application.getRewriteRules();
-                commit("save", rewriteRules);
+            async deleteModifierAdd({ dispatch }, {rewriteRuleId, target}: AddModifierAcrion) {
+                await application.addRewriteRuleModifier("DELETE", rewriteRuleId, target);
+                return await dispatch("gets");
+            },
+            async deleteModifierDeletes({ dispatch }, {rewriteRuleId, targets}: DeleteModifierAcrion) {
+                await application.deleteRewriteRuleModifiers("DELETE", rewriteRuleId, targets);
+                return await dispatch("gets");
             },
         },
     };

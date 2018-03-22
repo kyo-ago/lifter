@@ -48,7 +48,7 @@
             },
         },
         mixins: [
-            makeTableHandlerMixin("autoResponder/delete"),
+            makeTableHandlerMixin((store, entities) => store.dispatch("autoResponder/deletes", entities)),
         ],
     } as VueComponent;
 </script>

@@ -7,6 +7,7 @@ import {
     ProxySettingStatus,
     RewriteRuleEntityJSON,
     CreateRewriteRuleModifierEntityJSON,
+    RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import { ipc } from "../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../main/window-manager";
@@ -91,8 +92,8 @@ export class Application {
         await ipc.publish("addRewriteRuleModifier", {action, entityId, param});
     }
 
-    async deleteRewriteRuleModifier(action: string, entityId: number, modifierId: number): Promise<void> {
-        await ipc.publish("deleteRewriteRuleModifier", {action, entityId, modifierId});
+    async deleteRewriteRuleModifiers(action: string, entityId: number, modifiers: RewriteRuleModifierEntityJSON[]): Promise<void> {
+        await ipc.publish("deleteRewriteRuleModifiers", {action, entityId, modifiers});
     }
 
     onAddClientRequestEntity(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {

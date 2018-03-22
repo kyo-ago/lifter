@@ -47,14 +47,27 @@
                 currentHeader: "",
             };
         },
+        computed: {
+            modifiers() {
+                return this.$store.getters['rewriteRule/rewriteRule'](this.rewriteRoleId)["DELETE"];
+            },
+        },
         methods: {
             addHeader() {
-                this.$store.dispatch("rewriteRule/addRule", this.rewriteRoleId, this.$data.currentHeader);
+                this.$store.dispatch("rewriteRule/deleteModifierAdd", {
+                    rewriteRuleId: this.rewriteRoleId,
+                    target: {
+                        header: this.$data.currentHeader,
+                    },
+                });
             },
         },
         mixins: [
             makeRewriteRuleModifiersMixin(),
-            makeTableHandlerMixin("rewriteRule/deletes"),
+            makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deleteModifierDeletes", {
+                rewriteRuleId: this.rewriteRoleId,
+                targets: entities,
+            })),
         ],
     };
 </script>

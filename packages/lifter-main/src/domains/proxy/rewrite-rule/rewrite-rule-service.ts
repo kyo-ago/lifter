@@ -16,7 +16,7 @@ export interface getRewriteRules {
     changeRule: (rule: RewriteRuleEntityJSON) => Promise<RewriteRuleEntityJSON>;
     deleteRules: (ids: number[]) => Promise<void>;
     addModifier: (action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON) => Promise<RewriteRuleModifierEntityJSON>;
-    deleteModifier: (action: string, entityId: number, modifierId: number) => Promise<void>;
+    deleteModifiers: (action: string, entityId: number, modifiers: RewriteRuleModifierEntityJSON[]) => Promise<void>;
 }
 
 export class RewriteRuleService {
@@ -42,8 +42,8 @@ export class RewriteRuleService {
             addModifier: (action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON): Promise<RewriteRuleModifierEntityJSON> => {
                 return this.addModifier(action, entityId, param);
             },
-            deleteModifier: (action: string, entityId: number, modifierId: number): Promise<void> => {
-                return this.deleteModifier(action, entityId, modifierId);
+            deleteModifiers: (action: string, entityId: number, modifiers: RewriteRuleModifierEntityJSON[]): Promise<void> => {
+                return this.deleteModifiers(action, entityId, modifiers);
             },
         };
     }
@@ -94,12 +94,14 @@ export class RewriteRuleService {
         return modifier.json;
     }
 
-    private async deleteModifier(actionText: string, entityIdNum: number, modifierIdNum: number): Promise<void> {
+    private async deleteModifiers(actionText: string, entityIdNum: number, modifiers: RewriteRuleModifierEntityJSON[]): Promise<void> {
         let action = stringToRewriteRuleActionType(actionText);
         let entityId = new RewriteRuleIdentity(entityIdNum);
         let ruleEntity = await this.rewriteRuleRepository.resolve(entityId);
-        let modifierId = new RewriteRuleIdentity(modifierIdNum);
-        ruleEntity.deleteModifier(action, modifierId);
+        modifiers
+            .map(modifier => new RewriteRuleIdentity(modifier.id))
+            .forEach(modifierId => ruleEntity.deleteModifier(action, modifierId))
+        ;
         return;
     }
 }

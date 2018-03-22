@@ -1,18 +1,16 @@
-import { RewriteRuleEntityJSON } from "@lifter/lifter-common";
-
 export function getRewriteRuleModifiersDialogModule() {
     return {
         namespaced: true,
         state() {
             return {
                 isShowing: false,
-                rewriteRole: undefined,
+                rewriteRoleId: undefined,
             };
         },
         mutations: {
-            show(state, rewriteRole: RewriteRuleEntityJSON) {
+            show(state, rewriteRoleId: number) {
                 state.isShowing = true;
-                state.rewriteRole = rewriteRole;
+                state.rewriteRoleId = rewriteRoleId;
             },
             hide(state) {
                 state.isShowing = false;

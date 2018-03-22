@@ -5,13 +5,6 @@ export function makeRewriteRuleModifiersMixin() {
                 type: Number,
                 required: true,
             },
-            "modifiers": {
-                type: Array,
-                required: true,
-                default: () => {
-                    return [];
-                },
-            },
         },
         methods: {
             getHeaderExamples(_, cb) {

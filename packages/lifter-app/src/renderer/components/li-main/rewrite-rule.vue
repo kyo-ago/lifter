@@ -65,7 +65,7 @@
                 this.$store.dispatch("rewriteRule/addRule", this.$data.currentUrlPattern);
             },
             onClickModifiersButton(row: RewriteRuleEntityJSON) {
-                this.$store.commit('rewriteRuleModifiersDialog/show', row);
+                this.$store.commit('rewriteRuleModifiersDialog/show', row.id);
             },
         },
         computed: {
@@ -74,7 +74,7 @@
             },
         },
         mixins: [
-            makeTableHandlerMixin("rewriteRule/deletes"),
+            makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deletes", entities)),
         ],
     } as VueComponent;
 </script>

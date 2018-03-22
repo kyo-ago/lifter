@@ -87,8 +87,8 @@ export class WindowManager {
             return this.application.getRewriteRules().addModifier(action, entityId, param);
         });
 
-        ipc.subscribe("deleteRewriteRuleModifier", (_, { action, entityId, modifierId }: deleteRewriteRuleModifierParam) => {
-            return this.application.getRewriteRules().deleteModifier(action, entityId, modifierId);
+        ipc.subscribe("deleteRewriteRuleModifiers", (_, { action, entityId, modifiers }: deleteRewriteRuleModifierParam) => {
+            return this.application.getRewriteRules().deleteModifiers(action, entityId, modifiers);
         });
     }
 

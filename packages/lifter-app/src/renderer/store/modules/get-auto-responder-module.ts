@@ -8,22 +8,22 @@ export function getAutoResponderModule(application: Application, autoResponders:
             entries: autoResponders,
         },
         mutations: {
-            add(state, autoResponderEntries: AutoResponderEntityJSON[]) {
-                state.entries = autoResponderEntries.concat(state.entries);
+            add(state, autoResponders: AutoResponderEntityJSON[]) {
+                state.entries = autoResponders.concat(state.entries);
             },
-            overwrite(state, autoResponderEntries: AutoResponderEntityJSON[]) {
-                state.entries = autoResponderEntries;
+            save(state, autoResponders: AutoResponderEntityJSON[]) {
+                state.entries = autoResponders;
             },
         },
         actions: {
             async add({ commit }, files: File[]) {
-                let autoResponderEntries = await application.addDropFiles(files);
-                commit("add", autoResponderEntries);
+                let autoResponders = await application.addDropFiles(files);
+                commit("add", autoResponders);
             },
-            async delete({ commit }, targetAutoResponderEntries: AutoResponderEntityJSON[]) {
-                await application.deleteAutoResponderEntities(targetAutoResponderEntries);
-                let autoResponderEntries = await application.fetchAutoResponderEntities();
-                commit("overwrite", autoResponderEntries);
+            async deletes({ commit }, targetAutoResponders: AutoResponderEntityJSON[]) {
+                await application.deleteAutoResponderEntities(targetAutoResponders);
+                let autoResponders = await application.fetchAutoResponderEntities();
+                commit("save", autoResponders);
             },
         },
     };
