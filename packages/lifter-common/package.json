@@ -7,7 +7,7 @@
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
+    "clean": "rm -fr build",
     "test": "tsc -p ."
   },
   "types": "./build/index.d.ts"

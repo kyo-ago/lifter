@@ -3,9 +3,9 @@
   "version": "0.0.15",
   "author": "@kyo_ago",
   "dependencies": {
-    "execa": "^0.9.0",
+    "execa": "^0.10.0",
     "stat-mode": "^0.2.2",
-    "sudo-prompt": "^8.0.0"
+    "sudo-prompt": "^8.2.0"
   },
   "devDependencies": {
     "@types/stat-mode": "^0.2.0"
@@ -14,7 +14,7 @@
   "main": "./index.js",
   "scripts": {
     "build": "tsc -p .",
-    "clean": "rm -fr package-lock.json yarn.lock node_modules example/node_modules example/package-lock.json example/yarn.lock",
+    "clean": "rm -fr example/node_modules example/package-lock.json example/yarn.lock",
     "grant": "sudo chown 0:0 ./rust/proxy-setting && sudo chmod 4755 ./rust/proxy-setting",
     "prepublish": "npm run build",
     "pretest": "npm run build",
