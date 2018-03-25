@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts">
-    import FileDropDialog from "./file-drop-dialog";
-    import RewriteRuleModifiersDialog from "./rewrite-rule-modifiers-dialog/rewrite-rule-modifiers-dialog";
-    import SettingDialog from "./setting-dialog";
+    import FileDropDialog from "./file-drop-dialog.vue";
+    import RewriteRuleModifiersDialog from "./rewrite-rule-modifiers-dialog/rewrite-rule-modifiers-dialog.vue";
+    import SettingDialog from "./setting-dialog.vue";
 
     export default {
         name: "LiDialog",

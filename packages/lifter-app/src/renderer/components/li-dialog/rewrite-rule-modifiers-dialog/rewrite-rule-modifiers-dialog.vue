@@ -15,8 +15,8 @@
 </template>
 
 <script lang="ts">
-    import DeleteModifiersTable from "./delete-modifiers-table";
-    import UpdateModifiersTable from "./update-modifiers-table";
+    import DeleteModifiersTable from "./delete-modifiers-table.vue";
+    import UpdateModifiersTable from "./update-modifiers-table.vue";
 
     export default {
         name: "rewrite-rule-modifiers-dialog",

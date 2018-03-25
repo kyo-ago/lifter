@@ -45,6 +45,44 @@
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@kazupon/vue-i18n-loader/-/vue-i18n-loader-0.3.0.tgz#e068de2d75d891275814ae28ad1fcaf1b537694f"
 
+"@lifter/electron-window-manager@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@lifter/electron-window-manager/-/electron-window-manager-0.0.15.tgz#4a48a2188276617cea4d925c16dcc04b13e5398c"
+  dependencies:
+    electron-localshortcut "^3.1.0"
+    electron-window-state "^4.1.1"
+    melanke-watchjs "^1.3.1"
+
+"@lifter/lifter-common@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@lifter/lifter-common/-/lifter-common-0.0.15.tgz#10cfbcf8ec588fbbf1383729df11b6e4732bfdab"
+  dependencies:
+    electron-ipc "^0.3.0"
+
+"@lifter/lifter-main@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@lifter/lifter-main/-/lifter-main-0.0.15.tgz#0accbc2d8230844c25309c7f94e21e039ce40a97"
+  dependencies:
+    "@lifter/electron-window-manager" "^0.0.15"
+    "@lifter/lifter-common" "^0.0.15"
+    "@lifter/networksetup-proxy" "^0.0.15"
+    execa "^0.9.0"
+    http-mitm-proxy "^0.6.1"
+    ifconfig "^0.0.1"
+    micromatch "^3.1.9"
+    mime "^2.2.0"
+    nedb "^1.8.0"
+    rxjs "^5.5.6"
+    typescript-dddbase "^0.0.5"
+
+"@lifter/networksetup-proxy@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@lifter/networksetup-proxy/-/networksetup-proxy-0.0.15.tgz#79e2532a4164a58976f90c406b7ac408c582bf3a"
+  dependencies:
+    execa "^0.9.0"
+    stat-mode "^0.2.2"
+    sudo-prompt "^8.0.0"
+
 "@types/nedb@^1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@types/nedb/-/nedb-1.8.5.tgz#badacf5f70e8c4ae1d6c3ad09dddc055ed2e044f"
@@ -2573,6 +2611,10 @@ electron-ipc@^0.3.0:
     handoff "^1.1.2"
     hat "0.0.3"
 
+electron-is-accelerator@^0.1.0:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/electron-is-accelerator/-/electron-is-accelerator-0.1.2.tgz#509e510c26a56b55e17f863a4b04e111846ab27b"
+
 electron-is-dev@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.1.2.tgz#8a1043e32b3a1da1c3f553dce28ce764246167e3"
@@ -2586,6 +2628,15 @@ electron-load-devtool@^1.0.0:
   resolved "https://registry.yarnpkg.com/electron-load-devtool/-/electron-load-devtool-1.0.0.tgz#a6e8f532ce2a8d4de49f21f47e0fc87f1e288a00"
   dependencies:
     electron-is-dev "^0.3.0"
+
+electron-localshortcut@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/electron-localshortcut/-/electron-localshortcut-3.1.0.tgz#10c1ffd537b8d39170aaf6e1551341f7780dd2ce"
+  dependencies:
+    debug "^2.6.8"
+    electron-is-accelerator "^0.1.0"
+    keyboardevent-from-electron-accelerator "^1.1.0"
+    keyboardevents-areequal "^0.2.1"
 
 electron-osx-sign@0.4.10:
   version "0.4.10"
@@ -2691,6 +2742,14 @@ electron-webpack@^1.13.0:
     webpack-dev-server "^2.11.1"
     webpack-merge "^4.1.1"
     yargs "^11.0.0"
+
+electron-window-state@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/electron-window-state/-/electron-window-state-4.1.1.tgz#6b34fdc31b38514dfec8b7c8f7b5d4addb67632d"
+  dependencies:
+    deep-equal "^1.0.1"
+    jsonfile "^2.2.3"
+    mkdirp "^0.5.1"
 
 electron@^1.8.4:
   version "1.8.4"
@@ -3060,6 +3119,18 @@ execa@^0.10.0:
 execa@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/execa/-/execa-0.7.0.tgz#944becd34cc41ee32a63a9faf27ad5a65fc59777"
+  dependencies:
+    cross-spawn "^5.0.1"
+    get-stream "^3.0.0"
+    is-stream "^1.1.0"
+    npm-run-path "^2.0.0"
+    p-finally "^1.0.0"
+    signal-exit "^3.0.0"
+    strip-eof "^1.0.0"
+
+execa@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-0.9.0.tgz#adb7ce62cf985071f60580deb4a88b9e34712d01"
   dependencies:
     cross-spawn "^5.0.1"
     get-stream "^3.0.0"
@@ -4563,7 +4634,7 @@ json5@^0.5.0, json5@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
 
-jsonfile@^2.1.0:
+jsonfile@^2.1.0, jsonfile@^2.2.3:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
   optionalDependencies:
@@ -4595,6 +4666,14 @@ jsprim@^1.2.2:
 jsx-ast-utils@^1.3.4:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
+
+keyboardevent-from-electron-accelerator@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/keyboardevent-from-electron-accelerator/-/keyboardevent-from-electron-accelerator-1.1.0.tgz#324614f6e33490c37ffc5be5876b3e85fe223c84"
+
+keyboardevents-areequal@^0.2.1:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/keyboardevents-areequal/-/keyboardevents-areequal-0.2.2.tgz#88191ec738ce9f7591c25e9056de928b40277194"
 
 killable@^1.0.0:
   version "1.0.0"
@@ -4860,6 +4939,10 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
+melanke-watchjs@^1.3.1:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/melanke-watchjs/-/melanke-watchjs-1.4.3.tgz#fbf772259cb6c4829e6ef9dd47d74cfc17cac982"
+
 mem@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-1.1.0.tgz#5edd52b485ca1d900fe64895505399a0dfa45f76"
@@ -4914,7 +4997,7 @@ micromatch@^2.1.5, micromatch@^2.3.11:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-micromatch@^3.1.10, micromatch@^3.1.4:
+micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.9:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
   dependencies:
@@ -6655,6 +6738,12 @@ rx-lite@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-3.1.2.tgz#19ce502ca572665f3b647b10939f97fd1615f102"
 
+rxjs@^5.5.6:
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.7.tgz#afb3d1642b069b2fbf203903d6501d1acb4cda27"
+  dependencies:
+    symbol-observable "1.0.1"
+
 safe-buffer@5.1.1, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
@@ -7017,7 +7106,7 @@ source-map@0.4.x, source-map@^0.4.2:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1:
+source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
@@ -7286,7 +7375,7 @@ style-loader@^0.20.2:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
-sudo-prompt@^8.2.0:
+sudo-prompt@^8.0.0, sudo-prompt@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-8.2.0.tgz#bcd4aaacdb367b77b4bffcce1c658c2b1dd327f3"
 
@@ -7349,6 +7438,10 @@ swap-case@^1.1.0:
   dependencies:
     lower-case "^1.1.1"
     upper-case "^1.1.1"
+
+symbol-observable@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.1.tgz#8340fc4702c3122df5d22288f88283f513d3fdd4"
 
 table@^3.7.8:
   version "3.8.3"
@@ -8032,12 +8125,12 @@ webpack-merge@^4.1.1:
   dependencies:
     lodash "^4.17.5"
 
-webpack-sources@^1.0.1, webpack-sources@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.1.0.tgz#a101ebae59d6507354d71d8013950a3a8b7a5a54"
+webpack-sources@1.0.1, webpack-sources@^1.0.1, webpack-sources@^1.1.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.1.tgz#c7356436a4d13123be2e2426a05d1dad9cbe65cf"
   dependencies:
     source-list-map "^2.0.0"
-    source-map "~0.6.1"
+    source-map "~0.5.3"
 
 webpack@^3.11.0:
   version "3.11.0"
