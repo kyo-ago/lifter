@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../tests/mocks/create-services";
+import { createApplication } from "../../../test/mocks/create-services";
 import { UserSettingStorage } from "./user-setting-storage";
 
 describe("UserSettingStorage", () => {

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import "mocha";
 import * as Path from "path";
 import * as sinon from "sinon";
-import { createApplication } from "../../../../tests/mocks/create-services";
+import { createApplication } from "../../../../test/mocks/create-services";
 import { PROXY_SERVER_NAME } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientResponderContext } from "../client-request/lib/client-responder-context";

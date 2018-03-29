@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import "mocha";
-import { getMockWebproxyState } from "../../../../../tests/mocks/require-mocks/exec-commands/set-proxy-setting-state";
+import { getMockWebproxyState } from "../../../../../test/mocks/require-mocks/exec-commands/set-proxy-setting-state";
 import { CommandResult, ParseGetwebproxyCommand } from "./parse-getwebproxy-command";
 
 interface Command {

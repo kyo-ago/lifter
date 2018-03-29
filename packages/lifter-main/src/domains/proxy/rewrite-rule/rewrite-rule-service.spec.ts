@@ -5,7 +5,7 @@ import {
 import * as assert from "assert";
 import "mocha";
 import * as URL from "url";
-import { createApplication, TestApplication } from "../../../../tests/mocks/create-services";
+import { createApplication, TestApplication } from "../../../../test/mocks/create-services";
 import { RewriteRuleService } from "./rewrite-rule-service";
 
 describe("RewriteRuleService", () => {

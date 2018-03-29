@@ -15,10 +15,9 @@ import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 
 export class Application {
-    public contextMenuService: ContextMenuService;
-
-    constructor() {
-        this.contextMenuService = new ContextMenuService();
+    constructor(
+        public contextMenuService = new ContextMenuService(),
+    ) {
     }
 
     load() {

@@ -37,6 +37,7 @@
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",
     "@types/nedb": "^1.8.5",
+    "@vue/test-utils": "^1.0.0-beta.12",
     "devtron": "^1.4.0",
     "electron": "^1.8.4",
     "electron-builder": "^20.6.2",
@@ -44,6 +45,9 @@
     "electron-webpack": "^1.13.0",
     "electron-webpack-ts": "^1.4.0",
     "electron-webpack-vue": "^1.4.0",
+    "jsdom": "^11.6.2",
+    "jsdom-global": "^3.0.2",
+    "mocha-webpack": "^1.1.0",
     "node-sass": "^4.8.3",
     "sass-loader": "^6.0.7",
     "spectron": "^3.8.0",
@@ -70,6 +74,7 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "release": "yarn compile && electron-builder --publish always",
     "start": "run-p dev",
-    "test": "NODE_ENV='test' && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register src/**/*.spec.ts"
+    "test": "NODE_ENV=test && mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
+    "watch": "yarn run test -- --watch"
   }
 }

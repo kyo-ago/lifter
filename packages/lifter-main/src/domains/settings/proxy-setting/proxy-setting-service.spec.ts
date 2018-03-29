@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../../tests/mocks/create-services";
-import { MockStateEvent } from "../../../../tests/mocks/mock-state-event";
+import { createApplication } from "../../../../test/mocks/create-services";
+import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
 import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
 import { ProxySettingService } from "./proxy-setting-service";
 
