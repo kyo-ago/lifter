@@ -1,4 +1,5 @@
 let path = require("path");
+let ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
     resolve: {
@@ -10,17 +11,14 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js/,
-                exclude: /node_modules/,
-            },
-            {
                 test: /\.vue$/,
                 exclude: /node_modules/,
                 use: {
                     loader: "vue-loader",
                     options: {
+                        cssSourceMap: false,
+                        threadMode: true,
                         loaders: {
-                            scss: "vue-style-loader!css-loader!sass-loader",
                             i18n: "@kazupon/vue-i18n-loader"
                         },
                     },
@@ -29,10 +27,13 @@ module.exports = {
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
-                loader: "ts-loader",
-                options: {
-                    appendTsSuffixTo: [/\.vue$/],
-                    configFile: "test/tsconfig.json"
+                use: {
+                    loader: "ts-loader",
+                    options: {
+                        appendTsSuffixTo: [/\.vue$/],
+                        configFile: "test/tsconfig.json",
+                        happyPackMode: true,
+                    },
                 },
             },
         ]
@@ -74,4 +75,7 @@ module.exports = {
         }
         callback();
     }],
+    plugins: [
+        new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+    ],
 };

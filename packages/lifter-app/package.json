@@ -45,6 +45,7 @@
     "electron-webpack": "^1.13.0",
     "electron-webpack-ts": "^1.4.0",
     "electron-webpack-vue": "^1.4.0",
+    "fork-ts-checker-webpack-plugin": "^0.4.1",
     "jsdom": "^11.6.2",
     "jsdom-global": "^3.0.2",
     "mocha-webpack": "^1.1.0",
