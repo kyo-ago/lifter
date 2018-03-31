@@ -20,7 +20,7 @@ export class Application {
     ) {
     }
 
-    load() {
+    load(): void {
         this.contextMenuService.bind();
     }
 
