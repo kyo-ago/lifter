@@ -4,7 +4,7 @@ import { Application } from "./application";
 
 let sandbox = sinon.createSandbox();
 
-let applicationMock = sandbox.createStubInstance(Application);
+let applicationMock = sandbox.createStubInstance<Application>(Application);
 applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
     autoResponderEntries: [],
     clientRequestEntries: [],
@@ -21,8 +21,8 @@ applicationMock.selectDialogEntry.resolves([]);
 applicationMock.fetchAutoResponderEntities.resolves([]);
 applicationMock.deleteAutoResponderEntities.resolves();
 applicationMock.changeCertificateStatus.resolves("installed");
-applicationMock.changeProxySettingStatus.resolves("Off");
-applicationMock.changeProxyCommandGrantStatus.resolves("Off");
+applicationMock.changeProxySettingStatus.resolves("On");
+applicationMock.changeProxyCommandGrantStatus.resolves("On");
 applicationMock.changeNoAutoEnableProxySetting.resolves(true);
 applicationMock.changeNoPacFileProxySetting.resolves(true);
 applicationMock.getProxyBypassDomains.resolves([]);

@@ -22,7 +22,7 @@ export function createAppMock() {
         i18n: i18n.t.bind(i18n),
     });
 
-    let store = getStore(ApplicationMock);
+    let store = getStore(<any>ApplicationMock);
 
     return mount(App, {
         store,

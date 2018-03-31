@@ -3,8 +3,10 @@
         <el-button
             icon="el-icon-view"
             size="mini"
-            v-bind:type="buttonType"
+            :type="buttonType"
             @click="changeProxySettingStatus"
+            :data-test-type="buttonType"
+            data-test="changeProxySettingStatus"
         />
         <divider />
     </div>
@@ -30,7 +32,7 @@
         },
         methods: {
             changeProxySettingStatus() {
-                this.$store.commit('proxySettings/changeProxySetting');
+                this.$store.dispatch('proxySettings/changeProxySettingStatus');
             },
         },
         components: {
