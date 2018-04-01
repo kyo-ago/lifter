@@ -1,39 +1,42 @@
 let path = require("path");
-let ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js'
+            "vue$": "vue/dist/vue.esm.js"
         },
-        extensions: [ '.ts', '.tsx', '.css', '.js', ".vue" ]
+        extensions: [ ".ts", ".tsx", ".css", ".js", ".vue" ],
     },
     module: {
         rules: [
             {
                 test: /\.vue$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "vue-loader",
-                    options: {
-                        cssSourceMap: false,
-                        loaders: {
-                            i18n: "@kazupon/vue-i18n-loader"
+                use: [
+                    {
+                        loader: "vue-loader",
+                        options: {
+                            loaders: {
+                                i18n: "@kazupon/vue-i18n-loader"
+                            },
                         },
                     },
-                },
+                ],
             },
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: "ts-loader",
-                    options: {
-                        appendTsSuffixTo: [/\.vue$/],
-                        configFile: "test/tsconfig.json",
-                        happyPackMode: true,
+                use: [
+                    {
+                        loader: "ts-loader",
+                        options: {
+                            appendTsSuffixTo: [/\.vue$/],
+                            configFile: "test/tsconfig.json",
+                            happyPackMode: true,
+                        },
                     },
-                },
+                ],
             },
         ]
     },
@@ -45,10 +48,7 @@ module.exports = {
         historyApiFallback: true,
         noInfo: true
     },
-    performance: {
-        hints: false
-    },
-    devtool: 'inline-cheap-module-source-map',
+    devtool: "inline-cheap-module-source-map",
     externals: [(context, request, callback) => {
         if (request.match(/^\//)) {
             return callback();
