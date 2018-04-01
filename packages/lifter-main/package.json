@@ -29,7 +29,7 @@
     "build": "tsc -p . --rootDir ./src/",
     "clean": "rm -fr build",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
-    "test": "NODE_ENV='test' mocha --require ts-node/register tests/mocks/require-mocks/*.ts tests/mocks/require-mocks/**/*.ts src/**/*.spec.ts"
+    "test": "NODE_ENV='test' mocha --require ts-node/register test/mocks/require-mocks/*.ts test/mocks/require-mocks/**/*.ts src/**/*.spec.ts"
   },
   "types": "./build/index.d.ts"
 }
