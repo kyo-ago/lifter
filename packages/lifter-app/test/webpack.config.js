@@ -17,7 +17,6 @@ module.exports = {
                     loader: "vue-loader",
                     options: {
                         cssSourceMap: false,
-                        threadMode: true,
                         loaders: {
                             i18n: "@kazupon/vue-i18n-loader"
                         },

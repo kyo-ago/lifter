@@ -66,7 +66,7 @@ export const messages: VueI18n.LocaleMessages = [
     return base;
 }, {});
 
-export function getLocale(nav: { languages: string[]; language: string }): VueI18n.Locale {
+export function getLocale(nav: NavigatorLanguage): VueI18n.Locale {
     const mainLangs = ["en-US", "ja"];
     const locales = nav.languages
         .map(lang => (<any>langMapper)[lang] || lang)
