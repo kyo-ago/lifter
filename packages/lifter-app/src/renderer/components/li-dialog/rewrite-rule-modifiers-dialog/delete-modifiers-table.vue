@@ -18,12 +18,12 @@
         >
             <el-table-column
                     prop="header"
-                    label=Header"
+                    label="Header"
                     resizable
             />
             <el-table-column
                     label="Operations"
-                    width="50"
+                    width="100"
             >
                 <template slot-scope="scope">
                     <el-button
@@ -42,6 +42,12 @@
 
     export default {
         name: "delete-modifiers-table",
+        components: global.process.env.NODE_ENV === "test" ? {
+            "el-autocomplete": {
+                name: "el-autocomplete",
+                render: () => "",
+            }
+        } : undefined,
         data() {
             return {
                 currentHeader: "",
@@ -49,7 +55,7 @@
         },
         computed: {
             modifiers() {
-                return this.$store.getters['rewriteRule/rewriteRule'](this.rewriteRoleId)["DELETE"];
+                return this.$store.getters['rewriteRule/modifiers'](this.rewriteRoleId, "DELETE");
             },
         },
         methods: {
@@ -73,5 +79,4 @@
 </script>
 
 <style scoped lang="scss">
-
 </style>

@@ -1,3 +1,9 @@
+export const HeaderTabs = ['Connection', 'Auto responder', 'Rewrite rule', 'Proxy bypass domain'];
+export const HeaderTabNameToIndex = HeaderTabs.reduce((base, _, index, array) => {
+    base[array[index]] = index;
+    return base;
+}, {});
+
 export function getHeaderTabModule() {
     return {
         namespaced: true,
@@ -5,11 +11,11 @@ export function getHeaderTabModule() {
             index: 0,
         },
         mutations: {
-            change(state, index: number) {
+            changeIndex(state, index: number) {
                 state.index = index;
             },
-            selectAutoResponder(state) {
-                state.index = 1;
+            changeName(state, name: string) {
+                state.index = HeaderTabNameToIndex[name];
             },
         },
     };

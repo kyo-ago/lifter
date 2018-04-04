@@ -2,6 +2,7 @@ import {
     CreateRewriteRuleModifierEntityJSON,
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
+    RewriteRuleActionType,
 } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
@@ -22,9 +23,12 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
             entries: rewriteRules,
         },
         getters: {
-            rewriteRule: (state) => (rewriteRuleId: number) => {
+            rewriteRule: (state) => (rewriteRuleId: number): RewriteRuleEntityJSON => {
                 return state.entries.find(entity => entity.id === rewriteRuleId);
-            }
+            },
+            modifiers: (_, getters) => (rewriteRoleId: number, actionType: RewriteRuleActionType) => {
+                return getters.rewriteRule(rewriteRoleId)["modifier"][actionType];
+            },
         },
         mutations: {
             save(state, rewriteRules: RewriteRuleEntityJSON[]) {

@@ -27,11 +27,13 @@
                 <template slot-scope="scope">
                     <el-button
                             size="mini"
-                            @click="onClickModifiersButton(scope.row)">Modifiers</el-button>
+                            @click="onClickModifiersButton(scope.row.id)"
+                    >Modifiers</el-button>
                     <el-button
                             size="mini"
                             type="danger"
-                            @click="onClickDeleteButton(scope.row)">Delete</el-button>
+                            @click="onClickDeleteButton(scope.row)"
+                    >Delete</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -39,7 +41,6 @@
 </template>
 
 <script lang="ts">
-    import { RewriteRuleEntityJSON } from "@lifter/lifter-common";
     import { VueComponent } from "../index";
     import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
 
@@ -64,8 +65,8 @@
             addUrlPattern() {
                 this.$store.dispatch("rewriteRule/addRule", this.$data.currentUrlPattern);
             },
-            onClickModifiersButton(row: RewriteRuleEntityJSON) {
-                this.$store.commit('rewriteRuleModifiersDialog/show', row.id);
+            onClickModifiersButton(id: number) {
+                this.$store.commit('rewriteRuleModifiersDialog/show', id);
             },
         },
         computed: {

@@ -75,7 +75,7 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "release": "yarn compile && electron-builder --publish always",
     "start": "run-p dev",
-    "test": "NODE_ENV=test && mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
+    "test": "NODE_ENV=test mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
     "watch": "yarn run test -- --watch"
   }
 }

@@ -63,7 +63,10 @@ module.exports = {
         if (normalizePath.match(/\/node_modules\/webpack\//)) {
             return callback();
         }
-        if (normalizePath.match(/\/element-ui\/lib\/locale\/lang\//)) {
+        if (normalizePath.match(/\/node_modules\/element-ui\/lib\/locale\/lang\//)) {
+            return callback();
+        }
+        if (normalizePath.match(/\/node_modules\/process\//)) {
             return callback();
         }
         if (normalizePath.match(/\/node_modules\/[-\w]+-loader\//)) {

@@ -22,7 +22,7 @@ export function getStore(application: Application): Store<any> {
                     return;
                 }
                 await dispatch("autoResponder/add", files);
-                commit("headerTab/selectAutoResponder");
+                commit("headerTab/changeName", "Auto responder");
             },
         },
         modules: {

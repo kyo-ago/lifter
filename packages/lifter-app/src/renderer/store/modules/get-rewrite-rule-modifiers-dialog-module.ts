@@ -9,8 +9,8 @@ export function getRewriteRuleModifiersDialogModule() {
         },
         mutations: {
             show(state, rewriteRoleId: number) {
-                state.isShowing = true;
                 state.rewriteRoleId = rewriteRoleId;
+                state.isShowing = true;
             },
             hide(state) {
                 state.isShowing = false;

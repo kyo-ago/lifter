@@ -1,7 +1,7 @@
 <template>
     <div class="tab-contents" role="tablist" aria-label="Panels">
         <div
-            v-for="(name, index) in ['Connection', 'Auto responder', 'Rewrite rule', 'Proxy bypass domain']"
+            v-for="(name, index) in HeaderTabs"
             class="tab-content"
             role="tab"
             :class="{'tab-content__selected': selectedTabIndex === index}"
@@ -11,8 +11,13 @@
 </template>
 
 <script lang="ts">
+    import { HeaderTabs } from "../../store/modules/get-header-tab-module";
+
     export default {
         name: "tab-contents",
+        data: () => ({
+            HeaderTabs: HeaderTabs,
+        }),
         computed: {
             selectedTabIndex() {
                 return this.$store.state.headerTab.index;
@@ -20,7 +25,7 @@
         },
         methods: {
             changeTabIndex(index: number) {
-                this.$store.commit('headerTab/change', index);
+                this.$store.commit('headerTab/changeIndex', index);
             },
         },
     };

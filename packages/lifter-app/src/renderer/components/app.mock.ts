@@ -27,6 +27,6 @@ export function createAppMock() {
     return mount(App, {
         store,
         i18n,
-        localVue
+        localVue,
     });
 }
