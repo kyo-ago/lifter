@@ -1,5 +1,7 @@
 import * as assert from "assert";
 import "mocha";
+import App from "./app.vue";
+import { Wrapper } from "@vue/test-utils";
 import { ApplicationMainStateJSON } from "../../main/window-manager";
 import { ApplicationMock } from "../application/application.mock";
 import { HeaderTabNameToIndex } from "../store/modules/get-header-tab-module";
@@ -29,8 +31,7 @@ describe("app.vue", () => {
         assert(target.attributes()["data-test-type"] === "primary");
     });
 
-    it("addRewriteRuleModifier", async () => {
-        let currentState = ApplicationMock.getCurrentState();
+    context("RewriteRuleModifier", () => {
         let entity = {
             id: 1,
             url: "http:example.com/*",
@@ -39,23 +40,41 @@ describe("app.vue", () => {
                 DELETE: [],
             },
         };
-        ApplicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
-            ...currentState,
-            rewriteRuleEntries: [entity],
-        }));
-        ApplicationMock.getRewriteRules.resolves([entity]);
+        let appWrapper: Wrapper<App>;
+        beforeEach(async () => {
+            let currentState = ApplicationMock.getCurrentState();
+            ApplicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
+                ...currentState,
+                rewriteRuleEntries: [entity],
+            }));
+            ApplicationMock.getRewriteRules.resolves([entity]);
+            appWrapper = createAppMock();
+            appWrapper.find(TabContents).vm["changeTabIndex"](HeaderTabNameToIndex["Rewrite rule"]);
+            appWrapper.find(RewriteRule).vm["onClickModifiersButton"](entity.id);
+            await appWrapper.vm.$nextTick();
+        });
 
-        let appWrapper = createAppMock();
-        appWrapper.find(TabContents).vm["changeTabIndex"](HeaderTabNameToIndex["Rewrite rule"]);
-        appWrapper.find(RewriteRule).vm["onClickModifiersButton"](entity.id);
-        await appWrapper.vm.$nextTick();
-        let deleteModifiersTable = appWrapper.find(DeleteModifiersTable);
-        deleteModifiersTable.vm["currentHeader"] = "content-type";
-        deleteModifiersTable.vm["addHeader"]();
+        it("addRewriteRuleModifier", async () => {
+            let deleteModifiersTable = appWrapper.find(DeleteModifiersTable);
+            deleteModifiersTable.vm["currentHeader"] = "content-type";
+            deleteModifiersTable.vm["addHeader"]();
 
-        assert(ApplicationMock.addRewriteRuleModifier.calledOnce);
-        let call = ApplicationMock.addRewriteRuleModifier.lastCall;
-        assert(call.args[0] === "DELETE");
-        assert(call.args[1] === entity.id);
+            assert(ApplicationMock.addRewriteRuleModifier.calledOnce);
+            let call = ApplicationMock.addRewriteRuleModifier.lastCall;
+            assert(call.args[0] === "DELETE");
+            assert(call.args[1] === entity.id);
+            assert(call.args[2].header === "content-type");
+        });
+
+        it("deleteRewriteRuleModifiers", async () => {
+            let deleteModifiersTable = appWrapper.find(DeleteModifiersTable);
+            deleteModifiersTable.vm["onClickDeleteButton"](entity);
+
+            assert(ApplicationMock.deleteRewriteRuleModifiers.calledOnce);
+            let call = ApplicationMock.deleteRewriteRuleModifiers.lastCall;
+            assert(call.args[0] === "DELETE");
+            assert(call.args[1] === entity.id);
+            assert(call.args[2][0] === entity);
+        });
     });
 });

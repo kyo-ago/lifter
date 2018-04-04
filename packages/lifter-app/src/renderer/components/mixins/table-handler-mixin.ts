@@ -18,7 +18,7 @@ export function makeTableHandlerMixin(deleteDispatcher: (store: any, entities: a
                 return "current-row";
             },
             onClickDeleteButton(row) {
-                return deleteDispatcher(this.$store, [row]);
+                return deleteDispatcher.call(this, this.$store, [row]);
             },
         },
         mounted() {
@@ -30,7 +30,7 @@ export function makeTableHandlerMixin(deleteDispatcher: (store: any, entities: a
                     return null;
                 }
                 return {
-                    click: () => deleteDispatcher(this.$store, this.$refs.table.selection),
+                    click: () => deleteDispatcher.call(this, this.$store, this.$refs.table.selection),
                     label: this.$t("delete"),
                 };
             });

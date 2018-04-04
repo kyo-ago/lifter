@@ -73,11 +73,12 @@ export default {
     },
     mixins: [
         makeRewriteRuleModifiersMixin(),
-        makeTableHandlerMixin((store, entities) =>
-            store.dispatch("rewriteRule/deleteModifierDeletes", {
-                rewriteRuleId: this.rewriteRoleId,
-                targets: entities,
-            }),
+        makeTableHandlerMixin(function (store, entities) {
+                return store.dispatch("rewriteRule/deleteModifierDeletes", {
+                    rewriteRuleId: this.rewriteRoleId,
+                    targets: entities,
+                })
+            },
         ),
     ],
 };
