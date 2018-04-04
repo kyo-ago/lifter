@@ -2,12 +2,12 @@ import {
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    CreateRewriteRuleModifierEntityJSON,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
-    CreateRewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import * as Ipc from "electron-ipc";
 
@@ -52,7 +52,7 @@ export interface ElectronIpcMap {
     };
     changeProxyCommandGrantStatus: {
         param: void;
-        result: ProxyCommandGrantStatus
+        result: ProxyCommandGrantStatus;
     };
     changeNoAutoEnableProxySetting: {
         param: void;
@@ -78,7 +78,7 @@ export interface ElectronIpcMap {
     };
     addRewriteRule: {
         param: string;
-        result: RewriteRuleEntityJSON
+        result: RewriteRuleEntityJSON;
     };
     changeRewriteRule: {
         param: RewriteRuleEntityJSON;
@@ -105,7 +105,10 @@ export const ipc = class {
     ): void {
         return Ipc.subscribe(key, callback);
     }
-    static publish<K extends keyof ElectronIpcMap>(key: K, message?: ElectronIpcMap[K]["param"]): Promise<ElectronIpcMap[K]["result"]> {
+    static publish<K extends keyof ElectronIpcMap>(
+        key: K,
+        message?: ElectronIpcMap[K]["param"],
+    ): Promise<ElectronIpcMap[K]["result"]> {
         return Ipc.publish(key, message);
     }
     static addWindow(window: any) {

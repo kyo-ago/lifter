@@ -50,8 +50,8 @@ export interface CreateRewriteRuleUpdateModifierEntityJSON extends CreateRewrite
 export interface CreateRewriteRuleDeleteModifierEntityJSON extends CreateRewriteRuleModifierEntityJSON {}
 
 export type RewriteRuleModifierMapJSON = {
-    "UPDATE": RewriteRuleUpdateModifierEntityJSON[];
-    "DELETE": RewriteRuleDeleteModifierEntityJSON[];
+    UPDATE: RewriteRuleUpdateModifierEntityJSON[];
+    DELETE: RewriteRuleDeleteModifierEntityJSON[];
 };
 
 export interface RewriteRuleEntityJSON {

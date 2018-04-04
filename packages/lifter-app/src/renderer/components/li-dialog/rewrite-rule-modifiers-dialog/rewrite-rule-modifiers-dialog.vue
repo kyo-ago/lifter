@@ -15,29 +15,29 @@
 </template>
 
 <script lang="ts">
-    import DeleteModifiersTable from "./delete-modifiers-table.vue";
-    import UpdateModifiersTable from "./update-modifiers-table.vue";
+import DeleteModifiersTable from "./delete-modifiers-table.vue";
+import UpdateModifiersTable from "./update-modifiers-table.vue";
 
-    export default {
-        name: "rewrite-rule-modifiers-dialog",
-        components: {
-            DeleteModifiersTable,
-            UpdateModifiersTable,
+export default {
+    name: "rewrite-rule-modifiers-dialog",
+    components: {
+        DeleteModifiersTable,
+        UpdateModifiersTable,
+    },
+    computed: {
+        rewriteRoleId() {
+            return this.$store.state.rewriteRuleModifiersDialog.rewriteRoleId;
         },
-        computed: {
-            rewriteRoleId() {
-                return this.$store.state.rewriteRuleModifiersDialog.rewriteRoleId;
-            },
-            isShowing() {
-                return this.$store.state.rewriteRuleModifiersDialog.isShowing;
-            },
+        isShowing() {
+            return this.$store.state.rewriteRuleModifiersDialog.isShowing;
         },
-        methods: {
-            hide() {
-                this.$store.commit('rewriteRuleModifiersDialog/hide');
-            },
+    },
+    methods: {
+        hide() {
+            this.$store.commit("rewriteRuleModifiersDialog/hide");
         },
-    };
+    },
+};
 </script>
 
 <style scoped lang="scss">

@@ -43,7 +43,7 @@ export class WindowManager {
             return this.application.getAutoResponder().deletes(ids);
         });
 
-        this.application.getClientRequestService().subscribe((clientRequestEntityJSON) => {
+        this.application.getClientRequestService().subscribe(clientRequestEntityJSON => {
             return ipc.publish("addClientRequestEntity", clientRequestEntityJSON);
         });
 
@@ -87,9 +87,12 @@ export class WindowManager {
             return this.application.getRewriteRules().addModifier(action, entityId, param);
         });
 
-        ipc.subscribe("deleteRewriteRuleModifiers", (_, { action, entityId, modifiers }: deleteRewriteRuleModifierParam) => {
-            return this.application.getRewriteRules().deleteModifiers(action, entityId, modifiers);
-        });
+        ipc.subscribe(
+            "deleteRewriteRuleModifiers",
+            (_, { action, entityId, modifiers }: deleteRewriteRuleModifierParam) => {
+                return this.application.getRewriteRules().deleteModifiers(action, entityId, modifiers);
+            },
+        );
     }
 
     async createMainWindow() {

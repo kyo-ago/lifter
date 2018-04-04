@@ -13,42 +13,42 @@
 </template>
 
 <script lang="ts">
-    import { VueComponent } from "../index";
-    import Divider from "./divider.vue";
+import { VueComponent } from "../index";
+import Divider from "./divider.vue";
 
-    export default {
-        name: "left-toolbar",
-        computed: {
-            buttonType() {
-                if (this.$store.state.proxySettings.proxySettingStatus === "On") {
-                    return "primary";
-                }
-                if (this.$store.state.proxySettings.proxySettingStatus === "Off") {
-                    return "info";
-                }
-                console.error(`invalid proxySettingStatus "${this.$store.state.proxySettings.proxySettingStatus}"`);
-                return "";
-            },
+export default {
+    name: "left-toolbar",
+    computed: {
+        buttonType() {
+            if (this.$store.state.proxySettings.proxySettingStatus === "On") {
+                return "primary";
+            }
+            if (this.$store.state.proxySettings.proxySettingStatus === "Off") {
+                return "info";
+            }
+            console.error(`invalid proxySettingStatus "${this.$store.state.proxySettings.proxySettingStatus}"`);
+            return "";
         },
-        methods: {
-            changeProxySettingStatus() {
-                this.$store.dispatch('proxySettings/changeProxySettingStatus');
-            },
+    },
+    methods: {
+        changeProxySettingStatus() {
+            this.$store.dispatch("proxySettings/changeProxySettingStatus");
         },
-        components: {
-            Divider,
-        },
-    } as VueComponent;
+    },
+    components: {
+        Divider,
+    },
+} as VueComponent;
 </script>
 
 <style scoped lang="scss">
-    .toolbar {
-        display: flex;
-        align-self: flex-end;
-    }
+.toolbar {
+    display: flex;
+    align-self: flex-end;
+}
 
-    .el-button--mini {
-        padding: 7px 8px;
-        border: none;
-    }
+.el-button--mini {
+    padding: 7px 8px;
+    border: none;
+}
 </style>

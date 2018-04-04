@@ -10,11 +10,7 @@ import { LifecycleContextService } from "./lifecycle-context-service";
 import { ServiceContext } from "./service-context";
 
 export class Application {
-    constructor(
-        protected lifecycleContextService: LifecycleContextService,
-        protected serviceContext: ServiceContext,
-    ) {
-    }
+    constructor(protected lifecycleContextService: LifecycleContextService, protected serviceContext: ServiceContext) {}
 
     async load() {
         await this.lifecycleContextService.load();

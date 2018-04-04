@@ -22,19 +22,19 @@
 </template>
 
 <script lang="ts">
-    export default {
-        name: "file-drop-dialog",
-        computed: {
-            isShowing() {
-                return this.$store.state.fileDropDialog.isShowing;
-            },
+export default {
+    name: "file-drop-dialog",
+    computed: {
+        isShowing() {
+            return this.$store.state.fileDropDialog.isShowing;
         },
-        methods: {
-            hide() {
-                this.$store.commit('fileDropDialog/hide');
-            },
+    },
+    methods: {
+        hide() {
+            this.$store.commit("fileDropDialog/hide");
         },
-    };
+    },
+};
 </script>
 
 <style scoped lang="scss">

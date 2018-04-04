@@ -37,20 +37,18 @@
 </template>
 
 <script lang="ts">
-    import { VueComponent } from "../index";
-    import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
+import { VueComponent } from "../index";
+import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
 
-    export default {
-        name: "auto-responder",
-        computed: {
-            autoResponders() {
-                return this.$store.state.autoResponder.entries;
-            },
+export default {
+    name: "auto-responder",
+    computed: {
+        autoResponders() {
+            return this.$store.state.autoResponder.entries;
         },
-        mixins: [
-            makeTableHandlerMixin((store, entities) => store.dispatch("autoResponder/deletes", entities)),
-        ],
-    } as VueComponent;
+    },
+    mixins: [makeTableHandlerMixin((store, entities) => store.dispatch("autoResponder/deletes", entities))],
+} as VueComponent;
 </script>
 
 <style scoped lang="scss">

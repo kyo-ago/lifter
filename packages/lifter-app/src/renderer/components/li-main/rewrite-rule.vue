@@ -41,52 +41,50 @@
 </template>
 
 <script lang="ts">
-    import { VueComponent } from "../index";
-    import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
+import { VueComponent } from "../index";
+import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
 
-    export default {
-        name: "rewrite-rule",
-        data() {
-            return {
-                currentUrlPattern: "",
-            };
+export default {
+    name: "rewrite-rule",
+    data() {
+        return {
+            currentUrlPattern: "",
+        };
+    },
+    methods: {
+        getUrlPatternExamples(_, cb) {
+            cb([
+                {
+                    value: "*.js",
+                },
+                {
+                    value: "*.{js,css}",
+                },
+            ]);
         },
-        methods: {
-            getUrlPatternExamples(_, cb) {
-                cb([
-                    {
-                        value: "*.js"
-                    },
-                    {
-                        value: "*.{js,css}"
-                    },
-                ])
-            },
-            addUrlPattern() {
-                this.$store.dispatch("rewriteRule/addRule", this.$data.currentUrlPattern);
-            },
-            onClickModifiersButton(id: number) {
-                this.$store.commit('rewriteRuleModifiersDialog/show', id);
-            },
+        addUrlPattern() {
+            this.$store.dispatch("rewriteRule/addRule", this.$data.currentUrlPattern);
         },
-        computed: {
-            rewriteRules() {
-                return this.$store.state.rewriteRule.entries;
-            },
+        onClickModifiersButton(id: number) {
+            this.$store.commit("rewriteRuleModifiersDialog/show", id);
         },
-        mixins: [
-            makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deletes", entities)),
-        ],
-    } as VueComponent;
+    },
+    computed: {
+        rewriteRules() {
+            return this.$store.state.rewriteRule.entries;
+        },
+    },
+    mixins: [makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deletes", entities))],
+} as VueComponent;
 </script>
 
 <style scoped lang="scss">
-    .inputContainer {
-        padding: 5px;
-        display: flex;
+.inputContainer {
+    padding: 5px;
+    display: flex;
 
-        .el-autocomplete {
-            flex: auto;
-        }
+    .el-autocomplete {
+        flex: auto;
     }
+}
 </style>

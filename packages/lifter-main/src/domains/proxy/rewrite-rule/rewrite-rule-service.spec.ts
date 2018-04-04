@@ -35,29 +35,35 @@ describe("RewriteRuleService", () => {
 
     it("getHeader match update", async () => {
         let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
-        await rewriteRuleService.getRewriteRules().addModifier("UPDATE", entity.id, <CreateRewriteRuleUpdateModifierEntityJSON>{
-            header: "content-type",
-            value: "text/plain",
-        });
+        await rewriteRuleService
+            .getRewriteRules()
+            .addModifier("UPDATE", entity.id, <CreateRewriteRuleUpdateModifierEntityJSON>{
+                header: "content-type",
+                value: "text/plain",
+            });
         let result = await getHeader("http://example.com/hoge/huga.js");
         assert(result["content-type"] === "text/plain");
     });
 
     it("getHeader match append", async () => {
         let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
-        await rewriteRuleService.getRewriteRules().addModifier("UPDATE", entity.id, <CreateRewriteRuleUpdateModifierEntityJSON>{
-            header: "hoge",
-            value: "huga",
-        });
+        await rewriteRuleService
+            .getRewriteRules()
+            .addModifier("UPDATE", entity.id, <CreateRewriteRuleUpdateModifierEntityJSON>{
+                header: "hoge",
+                value: "huga",
+            });
         let result = await getHeader("http://example.com/hoge/huga.js");
         assert(result["hoge"] === "huga");
     });
 
     it("getHeader match delete", async () => {
         let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
-        await rewriteRuleService.getRewriteRules().addModifier("DELETE", entity.id, <CreateRewriteRuleDeleteModifierEntityJSON>{
-            header: "content-type",
-        });
+        await rewriteRuleService
+            .getRewriteRules()
+            .addModifier("DELETE", entity.id, <CreateRewriteRuleDeleteModifierEntityJSON>{
+                header: "content-type",
+            });
         let result = await getHeader("http://example.com/hoge/huga.js");
         assert(!("hoge" in result));
     });

@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils';
+import { createLocalVue, mount } from "@vue/test-utils";
 import Element from "element-ui";
 import VueI18n from "vue-i18n";
 import Vuex from "vuex";

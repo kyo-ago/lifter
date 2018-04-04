@@ -3,11 +3,14 @@ import * as sinon from "sinon";
 
 let sandbox = sinon.createSandbox();
 
-mockRequire("electron", sandbox.stub({
-    remote: {
-        require: () => {},
-    },
-}));
+mockRequire(
+    "electron",
+    sandbox.stub({
+        remote: {
+            require: () => {},
+        },
+    }),
+);
 
 afterEach(() => {
     sandbox.resetHistory();

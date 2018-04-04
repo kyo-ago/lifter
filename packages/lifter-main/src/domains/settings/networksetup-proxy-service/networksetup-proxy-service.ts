@@ -34,7 +34,7 @@ export class NetworksetupProxyService {
             },
             changeProxyCommandGrantStatus: (): Promise<ProxyCommandGrantStatus> => {
                 return this.toggleGrantProxyCommand();
-            }
+            },
         };
     }
 

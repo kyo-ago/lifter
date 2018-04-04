@@ -2,11 +2,11 @@ import {
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    CreateRewriteRuleModifierEntityJSON,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
-    CreateRewriteRuleModifierEntityJSON,
     RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import { ipc } from "../../lib/ipc";
@@ -15,10 +15,7 @@ import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 
 export class Application {
-    constructor(
-        public contextMenuService = new ContextMenuService(),
-    ) {
-    }
+    constructor(public contextMenuService = new ContextMenuService()) {}
 
     load(): void {
         this.contextMenuService.bind();
@@ -87,12 +84,20 @@ export class Application {
         await ipc.publish("deleteRewriteRules", rewriteRules.map(entity => entity.id));
     }
 
-    async addRewriteRuleModifier(action: string, entityId: number, param: CreateRewriteRuleModifierEntityJSON): Promise<void> {
-        await ipc.publish("addRewriteRuleModifier", {action, entityId, param});
+    async addRewriteRuleModifier(
+        action: string,
+        entityId: number,
+        param: CreateRewriteRuleModifierEntityJSON,
+    ): Promise<void> {
+        await ipc.publish("addRewriteRuleModifier", { action, entityId, param });
     }
 
-    async deleteRewriteRuleModifiers(action: string, entityId: number, modifiers: RewriteRuleModifierEntityJSON[]): Promise<void> {
-        await ipc.publish("deleteRewriteRuleModifiers", {action, entityId, modifiers});
+    async deleteRewriteRuleModifiers(
+        action: string,
+        entityId: number,
+        modifiers: RewriteRuleModifierEntityJSON[],
+    ): Promise<void> {
+        await ipc.publish("deleteRewriteRuleModifiers", { action, entityId, modifiers });
     }
 
     onAddClientRequestEntity(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {

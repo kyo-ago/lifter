@@ -4,9 +4,9 @@ let ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 module.exports = {
     resolve: {
         alias: {
-            "vue$": "vue/dist/vue.esm.js"
+            vue$: "vue/dist/vue.esm.js",
         },
-        extensions: [ ".ts", ".tsx", ".css", ".js", ".vue" ],
+        extensions: [".ts", ".tsx", ".css", ".js", ".vue"],
     },
     module: {
         rules: [
@@ -18,7 +18,7 @@ module.exports = {
                         loader: "vue-loader",
                         options: {
                             loaders: {
-                                i18n: "@kazupon/vue-i18n-loader"
+                                i18n: "@kazupon/vue-i18n-loader",
                             },
                         },
                     },
@@ -38,46 +38,46 @@ module.exports = {
                     },
                 ],
             },
-        ]
+        ],
     },
     node: {
         __dirname: true,
-        __filename: true
+        __filename: true,
     },
     devServer: {
         historyApiFallback: true,
-        noInfo: true
+        noInfo: true,
     },
     devtool: "inline-cheap-module-source-map",
-    externals: [(context, request, callback) => {
-        if (request.match(/^\//)) {
-            return callback();
-        }
-        if (request.match(/^!/)) {
-            return callback();
-        }
-        if (request.match(/^[\w@]/)) {
-            return callback(null, `commonjs ${request}`);
-        }
-        let normalizePath = path.normalize(path.join(context, request));
-        if (normalizePath.match(/\/node_modules\/webpack\//)) {
-            return callback();
-        }
-        if (normalizePath.match(/\/node_modules\/element-ui\/lib\/locale\/lang\//)) {
-            return callback();
-        }
-        if (normalizePath.match(/\/node_modules\/process\//)) {
-            return callback();
-        }
-        if (normalizePath.match(/\/node_modules\/[-\w]+-loader\//)) {
-            return callback();
-        }
-        if (normalizePath.match(/\/node_modules\//)) {
-            return callback(null, `commonjs ${request}`);
-        }
-        callback();
-    }],
-    plugins: [
-        new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true }),
+    externals: [
+        (context, request, callback) => {
+            if (request.match(/^\//)) {
+                return callback();
+            }
+            if (request.match(/^!/)) {
+                return callback();
+            }
+            if (request.match(/^[\w@]/)) {
+                return callback(null, `commonjs ${request}`);
+            }
+            let normalizePath = path.normalize(path.join(context, request));
+            if (normalizePath.match(/\/node_modules\/webpack\//)) {
+                return callback();
+            }
+            if (normalizePath.match(/\/node_modules\/element-ui\/lib\/locale\/lang\//)) {
+                return callback();
+            }
+            if (normalizePath.match(/\/node_modules\/process\//)) {
+                return callback();
+            }
+            if (normalizePath.match(/\/node_modules\/[-\w]+-loader\//)) {
+                return callback();
+            }
+            if (normalizePath.match(/\/node_modules\//)) {
+                return callback(null, `commonjs ${request}`);
+            }
+            callback();
+        },
     ],
+    plugins: [new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true })],
 };

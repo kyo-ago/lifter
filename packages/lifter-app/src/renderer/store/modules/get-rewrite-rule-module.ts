@@ -1,8 +1,8 @@
 import {
     CreateRewriteRuleModifierEntityJSON,
+    RewriteRuleActionType,
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
-    RewriteRuleActionType,
 } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
@@ -23,7 +23,7 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
             entries: rewriteRules,
         },
         getters: {
-            rewriteRule: (state) => (rewriteRuleId: number): RewriteRuleEntityJSON => {
+            rewriteRule: state => (rewriteRuleId: number): RewriteRuleEntityJSON => {
                 return state.entries.find(entity => entity.id === rewriteRuleId);
             },
             modifiers: (_, getters) => (rewriteRoleId: number, actionType: RewriteRuleActionType) => {
@@ -49,11 +49,11 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 await application.deleteRewriteRules(targets);
                 return await dispatch("gets");
             },
-            async deleteModifierAdd({ dispatch }, {rewriteRuleId, target}: AddModifierAcrion) {
+            async deleteModifierAdd({ dispatch }, { rewriteRuleId, target }: AddModifierAcrion) {
                 await application.addRewriteRuleModifier("DELETE", rewriteRuleId, target);
                 return await dispatch("gets");
             },
-            async deleteModifierDeletes({ dispatch }, {rewriteRuleId, targets}: DeleteModifierAcrion) {
+            async deleteModifierDeletes({ dispatch }, { rewriteRuleId, targets }: DeleteModifierAcrion) {
                 await application.deleteRewriteRuleModifiers("DELETE", rewriteRuleId, targets);
                 return await dispatch("gets");
             },

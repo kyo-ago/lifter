@@ -7,8 +7,8 @@ import * as URL from "url";
 import { createApplication } from "../../../../test/mocks/create-services";
 import { LOCAL_PAC_FILE_URL } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { ClientResponderContext } from "./lib/client-responder-context";
 import { ClientRequestService } from "./client-request-service";
+import { ClientResponderContext } from "./lib/client-responder-context";
 
 describe("ClientRequestService", () => {
     let clientRequestService: ClientRequestService;
@@ -33,9 +33,9 @@ describe("ClientRequestService", () => {
         assert(results.length === 0);
     });
 
-    it("subscribe", (done) => {
+    it("subscribe", done => {
         let requestUrl = URL.parse("http://example.com");
-        let promise = new Promise<ClientRequestEntityJSON>((resolve) => {
+        let promise = new Promise<ClientRequestEntityJSON>(resolve => {
             getClientRequestService().subscribe(resolve);
         });
         promise.then((clientRequest: ClientRequestEntityJSON) => {

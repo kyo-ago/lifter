@@ -16,7 +16,7 @@ export class CertificateService {
     getCertificateService(): getCertificateService {
         return {
             fetchCurrentStatus: (): Promise<CertificateStatus> => {
-                return this.fetchCurrentStatus()
+                return this.fetchCurrentStatus();
             },
             changeCertificateStatus: (): Promise<CertificateStatus> => {
                 return this.changeCertificateStatus();

@@ -29,7 +29,7 @@ export class AutoResponderService {
     getAutoResponder(): getAutoResponder {
         return {
             add: (paths: string[]): Promise<AutoResponderEntityJSON[]> => {
-                return this.store(paths)
+                return this.store(paths);
             },
             fetchAll: (): Promise<AutoResponderEntityJSON[]> => {
                 return this.fetchAllJSONs();
@@ -48,7 +48,10 @@ export class AutoResponderService {
         return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
     }
 
-    async response(clientResponderContext: ClientResponderContext, clientRequestEntity: ClientRequestEntity): Promise<void> {
+    async response(
+        clientResponderContext: ClientResponderContext,
+        clientRequestEntity: ClientRequestEntity,
+    ): Promise<void> {
         let localFileResponseEntity = await this.find(clientRequestEntity);
 
         if (!localFileResponseEntity) {
@@ -62,9 +65,11 @@ export class AutoResponderService {
 
     async fetchMatchCodes(): Promise<string> {
         let entities = await this.autoResponderRepository.resolveAll();
-        return entities.map(autoResponderEntity => {
-            return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
-        }).join("\n");
+        return entities
+            .map(autoResponderEntity => {
+                return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
+            })
+            .join("\n");
     }
 
     private async fetchAllJSONs(): Promise<AutoResponderEntityJSON[]> {
@@ -81,11 +86,9 @@ export class AutoResponderService {
 
     private async deletes(ids: number[]): Promise<void> {
         await Promise.all(
-            ids
-                .map(id => new AutoResponderIdentity(id))
-                .map(autoResponderIdentity => {
-                    return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
-                }),
+            ids.map(id => new AutoResponderIdentity(id)).map(autoResponderIdentity => {
+                return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
+            }),
         );
         this.observable.next();
     }

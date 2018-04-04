@@ -23,11 +23,7 @@ describe("ProxySettingService", () => {
         assert(result === "Off");
     });
 
-    [
-        ["initialize", "On",],
-        ["Off", "On",],
-        ["On", "Off",],
-    ].forEach(([from, to]) => {
+    [["initialize", "On"], ["Off", "On"], ["On", "Off"]].forEach(([from, to]) => {
         it(`change ${from} to ${to}`, async () => {
             MockStateEvent.emit("updateProxySettingState", <any>from);
             let result = await getNetworksetupProxyService().change();
@@ -38,7 +34,7 @@ describe("ProxySettingService", () => {
     it("change to fetch", async () => {
         MockStateEvent.emit("updateProxyCommandGrantStatus", "On");
         MockStateEvent.emit("updateProxySettingState", "Off");
-        await networksetupProxyService.load()
+        await networksetupProxyService.load();
         let result = await getNetworksetupProxyService().change();
         assert(result === "On");
 

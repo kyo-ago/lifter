@@ -3,9 +3,9 @@ import * as Rx from "rxjs/Rx";
 import * as URL from "url";
 import { LOCAL_PAC_FILE_URL } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { ClientResponderContext } from "./lib/client-responder-context";
 import { PacFileService } from "../pac-file/pac-file-service";
 import { ClientRequestEntity } from "./client-request-entity";
+import { ClientResponderContext } from "./lib/client-responder-context";
 import { ClientRequestFactory } from "./lifecycle/client-request-factory";
 import { ClientRequestRepository } from "./lifecycle/client-request-repository";
 

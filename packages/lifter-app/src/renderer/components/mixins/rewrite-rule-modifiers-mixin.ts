@@ -1,7 +1,7 @@
 export function makeRewriteRuleModifiersMixin() {
     return {
         props: {
-            "rewriteRoleId": {
+            rewriteRoleId: {
                 type: Number,
                 required: true,
             },
@@ -21,7 +21,7 @@ export function makeRewriteRuleModifiersMixin() {
                     {
                         value: "origin",
                     },
-                ])
+                ]);
             },
         },
     };

@@ -21,7 +21,7 @@ describe("app.vue", () => {
 
         assert(target.attributes()["data-test-type"] === "info");
 
-        target.trigger('click');
+        target.trigger("click");
 
         await new Promise(setTimeout);
 

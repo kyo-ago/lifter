@@ -13,7 +13,7 @@ beforeEach(() => {
         clientRequestEntries: [],
         proxyBypassDomainEntries: [],
         rewriteRuleEntries: [],
-        certificateState:  "missing",
+        certificateState: "missing",
         proxySettingStatus: "Off",
         proxyCommandGrantStatus: "Off",
         noAutoEnableProxySetting: false,

@@ -11,8 +11,5 @@ export function createApplication(projectBaseDir: string, userDataPath: string):
     let projectEntity = new ProjectFactory().create(projectBaseDir);
     let lifecycleContextService = new LifecycleContextService(projectEntity);
     let serviceContext = new ServiceContext(httpSslCaDirPath, projectEntity, lifecycleContextService);
-    return new App.Application(
-        lifecycleContextService,
-        serviceContext
-    );
+    return new App.Application(lifecycleContextService, serviceContext);
 }

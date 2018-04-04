@@ -37,45 +37,50 @@
 </template>
 
 <script lang="ts">
-    import { makeRewriteRuleModifiersMixin } from "../../mixins/rewrite-rule-modifiers-mixin";
-    import { makeTableHandlerMixin } from "../../mixins/table-handler-mixin";
+import { makeRewriteRuleModifiersMixin } from "../../mixins/rewrite-rule-modifiers-mixin";
+import { makeTableHandlerMixin } from "../../mixins/table-handler-mixin";
 
-    export default {
-        name: "delete-modifiers-table",
-        components: global.process.env.NODE_ENV === "test" ? {
-            "el-autocomplete": {
-                name: "el-autocomplete",
-                render: () => "",
-            }
-        } : undefined,
-        data() {
-            return {
-                currentHeader: "",
-            };
+export default {
+    name: "delete-modifiers-table",
+    components:
+        global.process.env.NODE_ENV === "test"
+            ? {
+                  "el-autocomplete": {
+                      name: "el-autocomplete",
+                      render: () => "",
+                  },
+              }
+            : undefined,
+    data() {
+        return {
+            currentHeader: "",
+        };
+    },
+    computed: {
+        modifiers() {
+            return this.$store.getters["rewriteRule/modifiers"](this.rewriteRoleId, "DELETE");
         },
-        computed: {
-            modifiers() {
-                return this.$store.getters['rewriteRule/modifiers'](this.rewriteRoleId, "DELETE");
-            },
+    },
+    methods: {
+        addHeader() {
+            this.$store.dispatch("rewriteRule/deleteModifierAdd", {
+                rewriteRuleId: this.rewriteRoleId,
+                target: {
+                    header: this.$data.currentHeader,
+                },
+            });
         },
-        methods: {
-            addHeader() {
-                this.$store.dispatch("rewriteRule/deleteModifierAdd", {
-                    rewriteRuleId: this.rewriteRoleId,
-                    target: {
-                        header: this.$data.currentHeader,
-                    },
-                });
-            },
-        },
-        mixins: [
-            makeRewriteRuleModifiersMixin(),
-            makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deleteModifierDeletes", {
+    },
+    mixins: [
+        makeRewriteRuleModifiersMixin(),
+        makeTableHandlerMixin((store, entities) =>
+            store.dispatch("rewriteRule/deleteModifierDeletes", {
                 rewriteRuleId: this.rewriteRoleId,
                 targets: entities,
-            })),
-        ],
-    };
+            }),
+        ),
+    ],
+};
 </script>
 
 <style scoped lang="scss">
