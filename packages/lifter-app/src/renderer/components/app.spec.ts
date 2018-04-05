@@ -1,13 +1,13 @@
+import { Wrapper } from "@vue/test-utils";
 import * as assert from "assert";
 import "mocha";
-import App from "./app.vue";
-import { Wrapper } from "@vue/test-utils";
 import { ApplicationMainStateJSON } from "../../main/window-manager";
 import { ApplicationMock } from "../application/application.mock";
 import { HeaderTabNameToIndex } from "../store/modules/get-header-tab-module";
 import { createAppMock } from "./app.mock";
-import UpdateModifiersTable from "./li-dialog/rewrite-rule-modifiers-dialog/update-modifiers-table.vue";
+import App from "./app.vue";
 import DeleteModifiersTable from "./li-dialog/rewrite-rule-modifiers-dialog/delete-modifiers-table.vue";
+import UpdateModifiersTable from "./li-dialog/rewrite-rule-modifiers-dialog/update-modifiers-table.vue";
 import TabContents from "./li-header/tab-contents.vue";
 import RewriteRule from "./li-main/rewrite-rule.vue";
 
