@@ -57,6 +57,14 @@ export function getRewriteRuleModule(application: Application, rewriteRules: Rew
                 await application.deleteRewriteRuleModifiers("DELETE", rewriteRuleId, targets);
                 return await dispatch("gets");
             },
+            async updateModifierAdd({ dispatch }, { rewriteRuleId, target }: AddModifierAcrion) {
+                await application.addRewriteRuleModifier("UPDATE", rewriteRuleId, target);
+                return await dispatch("gets");
+            },
+            async updateModifierDeletes({ dispatch }, { rewriteRuleId, targets }: DeleteModifierAcrion) {
+                await application.deleteRewriteRuleModifiers("UPDATE", rewriteRuleId, targets);
+                return await dispatch("gets");
+            },
         },
     };
 }

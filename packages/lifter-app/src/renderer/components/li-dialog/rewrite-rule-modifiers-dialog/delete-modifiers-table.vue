@@ -7,7 +7,7 @@
                     :fetch-suggestions="getHeaderExamples"
                     placeholder="Target HTTP Header"
             />
-            <el-button type="primary" icon="el-icon-edit" @click="addHeader"></el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="addModifier"></el-button>
         </div>
         <el-table
                 ref="table"
@@ -48,7 +48,7 @@ export default {
         };
     },
     methods: {
-        addHeader() {
+        addModifier() {
             this.$store.dispatch("rewriteRule/deleteModifierAdd", {
                 rewriteRuleId: this.rewriteRoleId,
                 target: {
