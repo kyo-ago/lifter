@@ -42,24 +42,10 @@ import { makeTableHandlerMixin } from "../../mixins/table-handler-mixin";
 
 export default {
     name: "delete-modifiers-table",
-    components:
-        global.process.env.NODE_ENV === "test"
-            ? {
-                  "el-autocomplete": {
-                      name: "el-autocomplete",
-                      render: () => "",
-                  },
-              }
-            : undefined,
     data() {
         return {
             currentHeader: "",
         };
-    },
-    computed: {
-        modifiers() {
-            return this.$store.getters["rewriteRule/modifiers"](this.rewriteRoleId, "DELETE");
-        },
     },
     methods: {
         addHeader() {
@@ -72,7 +58,7 @@ export default {
         },
     },
     mixins: [
-        makeRewriteRuleModifiersMixin(),
+        makeRewriteRuleModifiersMixin("DELETE"),
         makeTableHandlerMixin(function (store, entities) {
                 return store.dispatch("rewriteRule/deleteModifierDeletes", {
                     rewriteRuleId: this.rewriteRoleId,
