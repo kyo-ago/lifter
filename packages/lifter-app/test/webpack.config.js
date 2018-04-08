@@ -12,7 +12,6 @@ module.exports = {
         rules: [
             {
                 test: /\.vue$/,
-                exclude: /node_modules/,
                 use: [
                     {
                         loader: "vue-loader",
@@ -26,7 +25,6 @@ module.exports = {
             },
             {
                 test: /\.ts$/,
-                exclude: /node_modules/,
                 use: [
                     {
                         loader: "ts-loader",
@@ -51,6 +49,8 @@ module.exports = {
     devtool: "inline-cheap-module-source-map",
     externals: [
         (context, request, callback) => {
+            let exclude = () => callback(null, `commonjs ${request}`);
+
             if (request.match(/^\//)) {
                 return callback();
             }
@@ -58,8 +58,9 @@ module.exports = {
                 return callback();
             }
             if (request.match(/^[\w@]/)) {
-                return callback(null, `commonjs ${request}`);
+                return exclude();
             }
+
             let normalizePath = path.normalize(path.join(context, request));
             if (normalizePath.match(/\/node_modules\/webpack\//)) {
                 return callback();
@@ -74,8 +75,9 @@ module.exports = {
                 return callback();
             }
             if (normalizePath.match(/\/node_modules\//)) {
-                return callback(null, `commonjs ${request}`);
+                return exclude();
             }
+
             callback();
         },
     ],

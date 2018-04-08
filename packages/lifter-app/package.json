@@ -19,24 +19,16 @@
     "electron-ipc": "^0.3.0",
     "electron-unhandled": "^1.0.0",
     "element-ui": "^2.2.2",
-    "execa": "^0.10.0",
     "http-mitm-proxy": "^0.6.1",
-    "ifconfig": "^0.0.1",
     "micromatch": "^3.1.10",
     "mime": "^2.2.0",
-    "monapt": "^2.0.0",
-    "nedb": "^1.8.0",
     "source-map-support": "^0.5.4",
-    "stat-mode": "^0.2.2",
-    "sudo-prompt": "^8.2.0",
-    "typescript-dddbase": "^0.0.5",
     "vue": "^2.5.16",
     "vue-i18n": "^7.6.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",
-    "@types/nedb": "^1.8.5",
     "@vue/test-utils": "^1.0.0-beta.12",
     "devtron": "^1.4.0",
     "electron": "^1.8.4",
@@ -50,8 +42,8 @@
     "jsdom-global": "^3.0.2",
     "mocha-webpack": "^1.1.0",
     "node-sass": "^4.8.3",
+    "renamer": "^0.6.1",
     "sass-loader": "^6.0.7",
-    "spectron": "^3.8.0",
     "webpack": "^3.11.0"
   },
   "electronWebpack": {
@@ -68,7 +60,7 @@
   "scripts": {
     "build": "tsc -p .",
     "clean": "rm -fr dist lib",
-    "compile": "electron-webpack --env.production",
+    "compile": "renamer -e -f '(mock|spec)\\.ts' -r '$1.t_s' 'src/**' && electron-webpack && renamer -e -f '(mock|spec)\\.t_s$' -r '$1.ts' 'src/**'",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
     "dist": "yarn compile && electron-builder",
