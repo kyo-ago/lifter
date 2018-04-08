@@ -26,20 +26,20 @@
 <template>
     <el-dialog
         title="Settings"
-        :visible="viewSettingModalPageState"
+        :visible="isShowing"
         v-bind:fullscreen="true"
         v-bind:modal="false"
         width="95%"
-        @close="hideSettingModalPage"
+        @close="hideSettingDialog"
     >
         <div>
             <div>
                 <el-switch
-                    v-model="currentCertificateState"
-                    @change="changeCertificateState"
+                    v-model="currentcertificateStatus"
+                    @change="changecertificateStatus"
                 ></el-switch>
                 {{
-                    currentCertificateState
+                    currentcertificateStatus
                         ? $t("CurrentLifterProxyCertificationIsInstalled")
                         : $t("CurrentLifterProxyCertificationIsMissing")
                 }}
@@ -82,50 +82,58 @@
 </template>
 
 <script lang="ts">
-    import { mapMutations, mapState } from 'vuex';
-    import { VueComponent } from "../index";
+import { VueComponent } from "../index";
 
-    export default {
-        name: "setting-dialog",
-        data() {
-            return {
-                currentCertificateState: this.$store.state.certificateState === "installed",
-                currentProxyCommandGrantStatus: this.$store.state.proxyCommandGrantStatus === "On",
-                currentNoAutoEnableProxySetting: !this.$store.state.noAutoEnableProxySetting,
-                currentNoPacFileProxySetting: !this.$store.state.noPacFileProxySetting,
-            };
+export default {
+    name: "setting-dialog",
+    data() {
+        return {
+            currentcertificateStatus: this.$store.state.proxySettings.certificateState === "installed",
+            currentProxyCommandGrantStatus: this.$store.state.proxySettings.proxyCommandGrantStatus === "On",
+            currentNoAutoEnableProxySetting: !this.$store.state.proxySettings.noAutoEnableProxySetting,
+            currentNoPacFileProxySetting: !this.$store.state.proxySettings.noPacFileProxySetting,
+        };
+    },
+    computed: {
+        certificateStatus() {
+            return this.$store.state.proxySettings.certificateState;
         },
-        computed: {
-            ...mapState([
-                'viewSettingModalPageState',
-                'certificateState',
-                'proxyCommandGrantStatus',
-                'noAutoEnableProxySetting',
-                'noPacFileProxySetting',
-            ]),
+        proxyCommandGrantStatus() {
+            return this.$store.state.proxySettings.proxyCommandGrantStatus;
         },
-        methods: {
-            ...mapMutations([
-                'hideSettingModalPage',
-            ]),
-            async changeCertificateState() {
-                await this.$store.dispatch('changeCertificateState');
-                this.$data.currentCertificateState = this.$store.state.certificateState === "installed";
-            },
-            async changeProxyCommandGrantStatus() {
-                await this.$store.dispatch('changeProxyCommandGrantStatus');
-                this.$data.currentProxyCommandGrantStatus = this.$store.state.proxyCommandGrantStatus === "On";
-            },
-            async changeNoAutoEnableProxySetting() {
-                await this.$store.dispatch('changeNoAutoEnableProxySetting');
-                this.$data.currentNoAutoEnableProxySetting = !this.$store.state.noAutoEnableProxySetting;
-            },
-            async changeNoPacFileProxySetting() {
-                await this.$store.dispatch('changeNoPacFileProxySetting');
-                this.$data.currentNoPacFileProxySetting = !this.$store.state.noPacFileProxySetting;
-            },
+        noAutoEnableProxySetting() {
+            return this.$store.state.proxySettings.noAutoEnableProxySetting;
         },
-    } as VueComponent;
+        noPacFileProxySetting() {
+            return this.$store.state.proxySettings.noPacFileProxySetting;
+        },
+        isShowing() {
+            return this.$store.state.settingDialog.isShowing;
+        },
+    },
+    methods: {
+        hideSettingDialog() {
+            this.$store.commit("settingDialog/hide");
+        },
+        async changecertificateStatus() {
+            await this.$store.dispatch("proxySettings/changeCertificateStatus");
+            this.$data.currentcertificateStatus = this.$store.state.proxySettings.certificateState === "installed";
+        },
+        async changeProxyCommandGrantStatus() {
+            await this.$store.dispatch("proxySettings/changeProxyCommandGrantStatus");
+            this.$data.currentProxyCommandGrantStatus =
+                this.$store.state.proxySettings.proxyCommandGrantStatus === "On";
+        },
+        async changeNoAutoEnableProxySetting() {
+            await this.$store.dispatch("proxySettings/changeNoAutoEnableProxySetting");
+            this.$data.currentNoAutoEnableProxySetting = !this.$store.state.proxySettings.noAutoEnableProxySetting;
+        },
+        async changeNoPacFileProxySetting() {
+            await this.$store.dispatch("proxySettings/changeNoPacFileProxySetting");
+            this.$data.currentNoPacFileProxySetting = !this.$store.state.proxySettings.noPacFileProxySetting;
+        },
+    },
+} as VueComponent;
 </script>
 
 <style scoped lang="scss">

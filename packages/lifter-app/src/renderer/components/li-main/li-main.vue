@@ -8,26 +8,25 @@
 </template>
 
 <script lang="ts">
-    import { mapState } from 'vuex';
-    import AutoResponder from "./auto-responder.vue";
-    import Connection from "./connection.vue";
-    import ProxyBypassDomain from "./proxy-bypass-domain.vue";
-    import RewriteRule from "./rewrite-rule.vue";
+import AutoResponder from "./auto-responder.vue";
+import Connection from "./connection.vue";
+import ProxyBypassDomain from "./proxy-bypass-domain.vue";
+import RewriteRule from "./rewrite-rule.vue";
 
-    export default {
-        name: "LiMain",
-        computed: {
-            ...mapState([
-                'selectedTabIndex',
-            ]),
+export default {
+    name: "LiMain",
+    computed: {
+        selectedTabIndex() {
+            return this.$store.state.headerTab.index;
         },
-        components: {
-            Connection,
-            AutoResponder,
-            RewriteRule,
-            ProxyBypassDomain,
-        }
-    }
+    },
+    components: {
+        Connection,
+        AutoResponder,
+        RewriteRule,
+        ProxyBypassDomain,
+    },
+};
 </script>
 
 <style scoped lang="scss">

@@ -3,14 +3,11 @@
   "description": "lifter proxy common modules",
   "version": "0.0.15",
   "author": "@kyo_ago",
-  "dependencies": {
-    "electron-ipc": "^0.3.0"
-  },
   "license": "GPL-3.0",
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p .",
-    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
+    "clean": "rm -fr build",
     "test": "tsc -p ."
   },
   "types": "./build/index.d.ts"

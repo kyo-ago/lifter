@@ -8,30 +8,34 @@ describe("messages", () => {
         assert(messages["en-US"]);
     });
 
+    it("globalMessages", () => {
+        assert(messages["en-US"]["delete"]);
+    });
+
     it("getLocale", () => {
         assert(
-            getLocale({
+            getLocale(<NavigatorLanguage>{
                 languages: [],
                 language: "en",
             }) === "en-US",
         );
 
         assert(
-            getLocale({
+            getLocale(<NavigatorLanguage>{
                 languages: [],
                 language: "en-US",
             }) === "en-US",
         );
 
         assert(
-            getLocale({
+            getLocale(<NavigatorLanguage>{
                 languages: [],
                 language: "ja",
             }) === "ja",
         );
 
         assert(
-            getLocale({
+            getLocale(<NavigatorLanguage>{
                 languages: [],
                 language: "zh-CN",
             }) === "zh-CN",

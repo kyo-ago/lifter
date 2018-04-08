@@ -1,23 +1,25 @@
 <template>
     <div>
-        <auto-responder-file-drop-dialog />
+        <file-drop-dialog />
+        <rewrite-rule-modifiers-dialog />
         <setting-dialog />
     </div>
 </template>
 
 <script lang="ts">
-    import AutoResponderFileDropDialog from "./auto-responder-file-drop-dialog.vue";
-    import SettingDialog from "./setting-dialog.vue";
+import FileDropDialog from "./file-drop-dialog.vue";
+import RewriteRuleModifiersDialog from "./rewrite-rule-modifiers-dialog/rewrite-rule-modifiers-dialog.vue";
+import SettingDialog from "./setting-dialog.vue";
 
-    export default {
-        name: "LiDialog",
-        components: {
-            AutoResponderFileDropDialog,
-            SettingDialog,
-        },
-    }
+export default {
+    name: "LiDialog",
+    components: {
+        FileDropDialog,
+        RewriteRuleModifiersDialog,
+        SettingDialog,
+    },
+};
 </script>
 
 <style scoped lang="scss">
-
 </style>

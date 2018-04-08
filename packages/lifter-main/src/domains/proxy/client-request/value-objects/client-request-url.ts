@@ -6,11 +6,15 @@ export class ClientRequestUrl extends BaseValueObject<Url> {
         super(reqestUrl);
     }
 
-    getPathname() {
-        return this.reqestUrl.pathname;
+    getPathname(): string {
+        return this.reqestUrl.pathname || "";
     }
 
-    getHref() {
+    getPathSearch(): string {
+        return `${this.getPathname()}${this.reqestUrl.search || ""}`;
+    }
+
+    getHref(): string {
         return this.reqestUrl.href || "";
     }
 }

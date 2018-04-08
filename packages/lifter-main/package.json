@@ -4,16 +4,16 @@
   "version": "0.0.15",
   "author": "@kyo_ago",
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.15",
-    "@lifter/lifter-common": "^0.0.15",
-    "@lifter/networksetup-proxy": "^0.0.15",
-    "execa": "^0.9.0",
+    "@lifter/electron-window-manager": "^0.1.0",
+    "@lifter/lifter-common": "^0.1.0",
+    "@lifter/networksetup-proxy": "^0.1.0",
+    "execa": "^0.10.0",
     "http-mitm-proxy": "^0.6.1",
     "ifconfig": "^0.0.1",
-    "micromatch": "^3.1.9",
+    "micromatch": "^3.1.10",
     "mime": "^2.2.0",
     "nedb": "^1.8.0",
-    "rxjs": "^5.5.6",
+    "rxjs": "^5.5.7",
     "typescript-dddbase": "^0.0.5"
   },
   "devDependencies": {
@@ -27,9 +27,9 @@
   "main": "./build/index.js",
   "scripts": {
     "build": "tsc -p . --rootDir ./src/",
-    "clean": "rm -fr package-lock.json yarn.lock node_modules build",
+    "clean": "rm -fr build",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
-    "test": "NODE_ENV='test' mocha --require ts-node/register tests/mocks/require-mocks/*.ts tests/mocks/require-mocks/**/*.ts {src,tests}/**/*.spec.ts"
+    "test": "NODE_ENV='test' mocha --require ts-node/register test/mocks/require-mocks/*.ts test/mocks/require-mocks/**/*.ts src/**/*.spec.ts"
   },
   "types": "./build/index.d.ts"
 }

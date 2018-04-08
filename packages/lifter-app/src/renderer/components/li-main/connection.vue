@@ -12,18 +12,15 @@
 </template>
 
 <script lang="ts">
-    import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
-    export default {
-        name: "connection",
-        computed: {
-            ...mapState([
-                'clientRequestEntries',
-            ]),
-        },
-    };
+export default {
+    name: "connection",
+    computed: {
+        ...mapState(["clientRequestEntries"]),
+    },
+};
 </script>
 
 <style scoped lang="scss">
-
 </style>

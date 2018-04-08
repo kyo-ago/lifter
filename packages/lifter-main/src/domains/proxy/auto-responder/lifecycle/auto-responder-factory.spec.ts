@@ -1,7 +1,7 @@
 import { AutoResponderType } from "@lifter/lifter-common";
 import * as assert from "assert";
 import "mocha";
-import { createLifecycleContextService } from "../../../../../tests/mocks/create-services";
+import { createLifecycleContextService } from "../../../../../test/mocks/create-services";
 import { AutoResponderDirectoryEntity } from "../auto-responder-directory/auto-responder-directory-entity";
 import { AutoResponderFileEntity } from "../auto-responder-file/auto-responder-file-entity";
 import { AutoResponderGlobEntity } from "../auto-responder-glob/auto-responder-glob-entity";

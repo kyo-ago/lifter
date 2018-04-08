@@ -2,10 +2,18 @@ import * as Datastore from "nedb";
 import { promisify } from "util";
 import { ProjectEntity } from "../proxy/project/project-entity";
 
+export interface getUserSetting {
+    getNoAutoEnableProxy: () => boolean;
+    changeNoAutoEnableProxy: () => Promise<boolean>;
+    getNoPacFileProxy: () => boolean;
+    changeNoPacFileProxy: () => Promise<boolean>;
+}
+
 export interface UserSettings {
     noAutoEnableProxy: boolean;
     noPacFileProxy: boolean;
 }
+
 const DefaultUserSettings: UserSettings = {
     noAutoEnableProxy: false,
     noPacFileProxy: false,
@@ -17,7 +25,6 @@ export class UserSettingStorage {
 
     private find: (query: any) => Promise<any[]>;
     private update: (query: any, value: any, option: any) => Promise<any>;
-    private remove: (query: any, option: any) => Promise<any>;
     private loadDatabase: () => Promise<void>;
 
     constructor(projectEntity: ProjectEntity) {
@@ -26,7 +33,6 @@ export class UserSettingStorage {
 
         this.find = promisify(this.datastore.find.bind(this.datastore));
         this.update = promisify(this.datastore.update.bind(this.datastore));
-        this.remove = promisify(this.datastore.remove.bind(this.datastore));
         this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
     }
 
@@ -39,11 +45,28 @@ export class UserSettingStorage {
         }, this.userSettings);
     }
 
+    getUserSetting(): getUserSetting {
+        return {
+            getNoAutoEnableProxy: (): boolean => {
+                return this.resolve("noAutoEnableProxy");
+            },
+            changeNoAutoEnableProxy: (): Promise<boolean> => {
+                return this.toggle("noAutoEnableProxy");
+            },
+            getNoPacFileProxy: (): boolean => {
+                return this.resolve("noPacFileProxy");
+            },
+            changeNoPacFileProxy: (): Promise<boolean> => {
+                return this.toggle("noPacFileProxy");
+            },
+        };
+    }
+
     resolve<S extends keyof UserSettings>(name: S): UserSettings[S] {
         return this.userSettings[name];
     }
 
-    async store<S extends keyof UserSettings>(name: S, value: UserSettings[S]): Promise<UserSettings[S]> {
+    private async store<S extends keyof UserSettings>(name: S, value: UserSettings[S]): Promise<UserSettings[S]> {
         await this.update(
             { name: name },
             {
@@ -56,12 +79,7 @@ export class UserSettingStorage {
         return value;
     }
 
-    async delete<S extends keyof UserSettings>(name: S) {
-        await this.remove({ name: name }, {});
-        this.userSettings[name] = DefaultUserSettings[name];
-    }
-
-    toggle<S extends keyof UserSettings>(name: S): Promise<UserSettings[S]> {
+    private toggle<S extends keyof UserSettings>(name: S): Promise<UserSettings[S]> {
         return this.store(name, !this.userSettings[name]);
     }
 }

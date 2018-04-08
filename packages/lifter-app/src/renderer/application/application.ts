@@ -1,23 +1,23 @@
 import {
-    ApplicationMainStateJSON,
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
-    ipc,
+    CreateRewriteRuleModifierEntityJSON,
+    ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
+    RewriteRuleEntityJSON,
+    RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
-import { ContextMenuService } from "../../domains/context-menu/context-menu-service";
+import { ipc } from "../../lib/ipc";
+import { ApplicationMainStateJSON } from "../../main/window-manager";
+import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 
 export class Application {
-    public contextMenuService: ContextMenuService;
+    constructor(public contextMenuService = new ContextMenuService()) {}
 
-    constructor() {
-        this.contextMenuService = new ContextMenuService();
-    }
-
-    load() {
+    load(): void {
         this.contextMenuService.bind();
     }
 
@@ -64,13 +64,49 @@ export class Application {
         return ipc.publish("changeNoPacFileProxySetting");
     }
 
-    setOnUpdateClientRequestEntityEvent(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
+    async getProxyBypassDomains(): Promise<ProxyBypassDomainEntityJSON[]> {
+        return ipc.publish("getProxyBypassDomains");
+    }
+
+    async saveProxyBypassDomains(domains: ProxyBypassDomainEntityJSON[]): Promise<void> {
+        return ipc.publish("saveProxyBypassDomains", domains);
+    }
+
+    async getRewriteRules(): Promise<RewriteRuleEntityJSON[]> {
+        return ipc.publish("getRewriteRules");
+    }
+
+    async addRewriteRule(url: string): Promise<RewriteRuleEntityJSON> {
+        return ipc.publish("addRewriteRule", url);
+    }
+
+    async deleteRewriteRules(rewriteRules: RewriteRuleEntityJSON[]): Promise<void> {
+        await ipc.publish("deleteRewriteRules", rewriteRules.map(entity => entity.id));
+    }
+
+    async addRewriteRuleModifier(
+        action: string,
+        entityId: number,
+        param: CreateRewriteRuleModifierEntityJSON,
+    ): Promise<void> {
+        await ipc.publish("addRewriteRuleModifier", { action, entityId, param });
+    }
+
+    async deleteRewriteRuleModifiers(
+        action: string,
+        entityId: number,
+        modifiers: RewriteRuleModifierEntityJSON[],
+    ): Promise<void> {
+        await ipc.publish("deleteRewriteRuleModifiers", { action, entityId, modifiers });
+    }
+
+    onAddClientRequestEntity(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
         ipc.subscribe("addClientRequestEntity", (_, clientRequestEntityJSON: ClientRequestEntityJSON) => {
             callback(clientRequestEntityJSON);
         });
     }
 
-    setOnFileDropEvent(global: Window, dragenter: () => void, dragleave: () => void, drop: (files: File[]) => void) {
+    onFileDropEvent(global: Window, dragenter: () => void, dragleave: () => void, drop: (files: File[]) => void) {
         global.addEventListener("dragover", e => e.preventDefault());
         global.addEventListener("dragenter", dragenter);
         global.addEventListener("dragleave", event => {

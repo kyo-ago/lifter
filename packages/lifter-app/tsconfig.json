@@ -6,7 +6,6 @@
     "declaration": false,
     "outDir": "./lib/",
     "rootDir": "./src/",
-    "jsx": "React",
     "lib": ["dom", "es2017", "es2017.object"]
   },
   "extends": "../../tsconfig-base.json",

@@ -11,7 +11,7 @@
     "typings/global.d.ts"
   ],
   "exclude": [
-    "tests",
+    "test",
     "src/**/*.spec.ts"
   ]
 }

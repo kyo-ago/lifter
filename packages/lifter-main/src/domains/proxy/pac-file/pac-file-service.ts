@@ -1,9 +1,8 @@
 import { async } from "rxjs/scheduler/async";
-import { PROXY_SERVER_NAME } from "../../../settings";
 import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { ClientResponderContext } from "../client-responder/lib/client-responder-context";
+import { ClientResponderContext } from "../client-request/lib/client-responder-context";
 
 export class PacFileService {
     constructor(
@@ -47,13 +46,10 @@ export class PacFileService {
     }
 
     private async getContent(): Promise<string> {
-        let autoResponderEntries = await this.autoResponderService.fetchAll();
-        let codeSttrings = autoResponderEntries.map(autoResponderEntity => {
-            return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
-        });
+        let codeString = await this.autoResponderService.fetchMatchCodes();
         return `
             function FindProxyForURL(url, host) {
-                ${codeSttrings.join("\n")}
+                ${codeString}
             	return "DIRECT";
             }
         `;

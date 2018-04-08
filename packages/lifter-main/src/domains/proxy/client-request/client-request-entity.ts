@@ -8,12 +8,16 @@ export class ClientRequestEntity extends BaseEntity<ClientRequestIdentity> {
         super(identity);
     }
 
-    get href() {
+    get href(): string {
         return this._url.getHref();
     }
 
-    get pathname() {
+    get pathname(): string {
         return this._url.getPathname();
+    }
+
+    get pathSearch(): string {
+        return this._url.getPathSearch();
     }
 
     get json(): ClientRequestEntityJSON {

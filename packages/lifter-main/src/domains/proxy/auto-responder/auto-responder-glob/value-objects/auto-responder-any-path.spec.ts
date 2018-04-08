@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import "mocha";
 import * as Path from "path";
-import { createLifecycleContextService } from "../../../../../../tests/mocks/create-services";
+import { createLifecycleContextService } from "../../../../../../test/mocks/create-services";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderAnyPath } from "./auto-responder-any-path";
 

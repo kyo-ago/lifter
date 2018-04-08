@@ -7,6 +7,11 @@ import { NetworkInterfaceRepository } from "../network-interface/lifecycle/netwo
 import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 
+export interface getNetworksetupProxyService {
+    getProxyCommandGrantStatus: () => ProxyCommandGrantStatus;
+    changeProxyCommandGrantStatus: () => Promise<ProxyCommandGrantStatus>;
+}
+
 export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
     private _isGranted: ProxyCommandGrantStatus;
@@ -22,12 +27,15 @@ export class NetworksetupProxyService {
         this._isGranted = (await this._networksetupProxy.hasGrant()) ? "On" : "Off";
     }
 
-    hasGrant(): boolean {
-        return this.getCurrentStatus() === "On";
-    }
-
-    getCurrentStatus(): ProxyCommandGrantStatus {
-        return this._isGranted;
+    getNetworksetupProxyService(): getNetworksetupProxyService {
+        return {
+            getProxyCommandGrantStatus: (): ProxyCommandGrantStatus => {
+                return this.getCurrentStatus();
+            },
+            changeProxyCommandGrantStatus: (): Promise<ProxyCommandGrantStatus> => {
+                return this.toggleGrantProxyCommand();
+            },
+        };
     }
 
     async startProxy() {
@@ -40,31 +48,14 @@ export class NetworksetupProxyService {
         }
     }
 
-    getNetworksetupProxy(): NetworksetupProxy | null {
-        return this.hasGrant() ? this._networksetupProxy : null;
-    }
-
-    async toggleGrantProxyCommand(): Promise<ProxyCommandGrantStatus> {
-        if (!this.hasGrant()) {
-            try {
-                await this._networksetupProxy.grant();
-                this._isGranted = "On";
-            } catch (e) {
-                // user cancel
-                this._isGranted = "Off";
-            }
-        } else {
-            await this._networksetupProxy.removeGrant();
-            this._isGranted = "Off";
-        }
-        return this._isGranted;
-    }
-
     enableProxy() {
         return this.callAllEnableInterface((np, ni) => ni.enableProxy(np));
     }
 
     disableProxy() {
+        if (!this.hasGrant()) {
+            return Promise.resolve(void 0);
+        }
         return this.callAllEnableInterface((np, ni) => ni.disableProxy(np));
     }
 
@@ -84,12 +75,40 @@ export class NetworksetupProxyService {
         return this.callAllEnableInterface((np, ni) => ni.setProxyBypassDomains(np, proxyBypassDomainEntities));
     }
 
+    private getNetworksetupProxy(): NetworksetupProxy | null {
+        return this.hasGrant() ? this._networksetupProxy : null;
+    }
+
+    private async toggleGrantProxyCommand(): Promise<ProxyCommandGrantStatus> {
+        if (!this.hasGrant()) {
+            try {
+                await this._networksetupProxy.grant();
+                this._isGranted = "On";
+            } catch (e) {
+                // user cancel
+                this._isGranted = "Off";
+            }
+        } else {
+            await this._networksetupProxy.removeGrant();
+            this._isGranted = "Off";
+        }
+        return this._isGranted;
+    }
+
+    private hasGrant(): boolean {
+        return this.getCurrentStatus() === "On";
+    }
+
+    private getCurrentStatus(): ProxyCommandGrantStatus {
+        return this._isGranted;
+    }
+
     private async callAllEnableInterface(
         callback: (
             networksetupProxy: NetworksetupProxy,
             networkInterfaceEntity: NetworkInterfaceEntity,
         ) => Promise<any>,
-    ) {
+    ): Promise<any> {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
         let networksetupProxy = this.getNetworksetupProxy();
         await Promise.all(

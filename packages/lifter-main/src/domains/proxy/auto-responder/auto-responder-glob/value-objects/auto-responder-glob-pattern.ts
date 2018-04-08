@@ -26,9 +26,9 @@ export class AutoResponderGlobPattern extends AutoResponderPattern {
     }
 
     isMatchPath(clientRequestEntity: ClientRequestEntity): boolean {
-        let href = clientRequestEntity.href;
+        let pathSearch = clientRequestEntity.pathSearch;
 
         // similar matchBase option
-        return this.matchRegexp.test(href) || this.matchRegexp.test(Path.basename(href));
+        return this.matchRegexp.test(pathSearch) || this.matchRegexp.test(Path.basename(pathSearch));
     }
 }

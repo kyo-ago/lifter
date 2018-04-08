@@ -11,26 +11,26 @@
 </template>
 
 <script lang="ts">
-    import LiDialog from "./li-dialog/li-dialog.vue";
-    import LiHeader from "./li-header/li-header.vue";
-    import LiMain from "./li-main/li-main.vue";
+import LiDialog from "./li-dialog/li-dialog.vue";
+import LiHeader from "./li-header/li-header.vue";
+import LiMain from "./li-main/li-main.vue";
 
-    export default {
-        name: "App",
-        components: {
-            LiHeader,
-            LiMain,
-            LiDialog,
-        },
-    };
+export default {
+    name: "App",
+    components: {
+        LiHeader,
+        LiMain,
+        LiDialog,
+    },
+};
 </script>
 
 <style scoped lang="scss">
-    .el-header {
-        padding: 0;
-    }
+.el-header {
+    padding: 0;
+}
 
-    .el-main {
-        padding: 0;
-    }
+.el-main {
+    padding: 0;
+}
 </style>
