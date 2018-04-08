@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "author": "@kyo_ago",
   "build": {
     "productName": "Lifter Proxy",
@@ -11,18 +11,29 @@
     }
   },
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.0.15",
-    "@lifter/lifter-common": "^0.0.15",
-    "@lifter/lifter-main": "^0.0.15",
-    "@lifter/networksetup-proxy": "^0.0.15",
+    "@lifter/electron-window-manager": "^0.1.0",
+    "@lifter/lifter-common": "^0.1.0",
+    "@lifter/lifter-main": "^0.1.0",
+    "@lifter/networksetup-proxy": "^0.1.0",
     "electron-context-menu": "^0.9.1",
     "electron-ipc": "^0.3.0",
+    "electron-localshortcut": "^3.1.0",
     "electron-unhandled": "^1.0.0",
-    "element-ui": "^2.2.2",
+    "electron-window-state": "^4.1.1",
+    "element-ui": "2.3.2",
+    "execa": "^0.10.0",
     "http-mitm-proxy": "^0.6.1",
+    "ifconfig": "^0.0.1",
+    "melanke-watchjs": "^1.4.3",
     "micromatch": "^3.1.10",
     "mime": "^2.2.0",
+    "monapt": "^2.0.0",
+    "nedb": "^1.8.0",
+    "rxjs": "^5.5.8",
     "source-map-support": "^0.5.4",
+    "stat-mode": "^0.2.2",
+    "sudo-prompt": "^8.2.0",
+    "typescript-dddbase": "^0.0.5",
     "vue": "^2.5.16",
     "vue-i18n": "^7.6.0",
     "vuex": "^3.0.1"
@@ -55,7 +66,8 @@
   "main": "lib/main/index.js",
   "productName": "Lifter Proxy",
   "resolutions": {
-    "webpack-sources": "1.0.1"
+    "webpack-sources": "1.0.1",
+    "element-ui": "2.3.2"
   },
   "scripts": {
     "build": "tsc -p .",
