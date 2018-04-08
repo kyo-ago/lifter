@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-common",
   "description": "lifter proxy common modules",
-  "version": "0.0.15",
+  "version": "0.1.1",
   "author": "@kyo_ago",
   "license": "GPL-3.0",
   "main": "./build/index.js",
