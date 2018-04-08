@@ -1,7 +1,7 @@
 {
   "name": "@lifter/electron-window-manager",
   "description": "A NodeJs module that handles window management for Electron (Atom Shell, previously)",
-  "version": "0.1.0",
+  "version": "0.0.15",
   "author": "Ahmed Zain <tamkeenlms@gmail.com>",
   "dependencies": {
     "electron-localshortcut": "^3.1.0",
