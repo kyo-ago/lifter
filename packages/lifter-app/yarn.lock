@@ -45,43 +45,45 @@
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@kazupon/vue-i18n-loader/-/vue-i18n-loader-0.3.0.tgz#e068de2d75d891275814ae28ad1fcaf1b537694f"
 
-"@lifter/electron-window-manager@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@lifter/electron-window-manager/-/electron-window-manager-0.0.15.tgz#4a48a2188276617cea4d925c16dcc04b13e5398c"
+"@lifter/electron-window-manager@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lifter/electron-window-manager/-/electron-window-manager-0.1.0.tgz#bdaf113ce100a2fe2cf2a988aaa87ebeaa79fad4"
   dependencies:
     electron-localshortcut "^3.1.0"
     electron-window-state "^4.1.1"
     melanke-watchjs "^1.3.1"
 
-"@lifter/lifter-common@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@lifter/lifter-common/-/lifter-common-0.0.15.tgz#10cfbcf8ec588fbbf1383729df11b6e4732bfdab"
-  dependencies:
-    electron-ipc "^0.3.0"
+"@lifter/lifter-common@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lifter/lifter-common/-/lifter-common-0.1.0.tgz#db1276ebd739825bcffe91d981de138dda8944a8"
 
-"@lifter/lifter-main@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@lifter/lifter-main/-/lifter-main-0.0.15.tgz#0accbc2d8230844c25309c7f94e21e039ce40a97"
+"@lifter/lifter-main@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lifter/lifter-main/-/lifter-main-0.1.0.tgz#c29b1a98d4dd45b8e4feac2248485dd1b212beb3"
   dependencies:
-    "@lifter/electron-window-manager" "^0.0.15"
-    "@lifter/lifter-common" "^0.0.15"
-    "@lifter/networksetup-proxy" "^0.0.15"
-    execa "^0.9.0"
+    "@lifter/electron-window-manager" "^0.1.0"
+    "@lifter/lifter-common" "^0.1.0"
+    "@lifter/networksetup-proxy" "^0.1.0"
+    execa "^0.10.0"
     http-mitm-proxy "^0.6.1"
     ifconfig "^0.0.1"
-    micromatch "^3.1.9"
+    micromatch "^3.1.10"
     mime "^2.2.0"
     nedb "^1.8.0"
-    rxjs "^5.5.6"
+    rxjs "^5.5.7"
     typescript-dddbase "^0.0.5"
 
-"@lifter/networksetup-proxy@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@lifter/networksetup-proxy/-/networksetup-proxy-0.0.15.tgz#79e2532a4164a58976f90c406b7ac408c582bf3a"
+"@lifter/networksetup-proxy@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@lifter/networksetup-proxy/-/networksetup-proxy-0.1.0.tgz#fc192dd9cc516c26cc9b71ee4c16255432a4973d"
   dependencies:
-    execa "^0.9.0"
+    execa "^0.10.0"
     stat-mode "^0.2.2"
-    sudo-prompt "^8.0.0"
+    sudo-prompt "^8.2.0"
+
+"@types/nedb@^1.8.5":
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/@types/nedb/-/nedb-1.8.5.tgz#badacf5f70e8c4ae1d6c3ad09dddc055ed2e044f"
 
 "@types/node@*":
   version "9.6.2"
@@ -3151,18 +3153,6 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-execa@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/execa/-/execa-0.9.0.tgz#adb7ce62cf985071f60580deb4a88b9e34712d01"
-  dependencies:
-    cross-spawn "^5.0.1"
-    get-stream "^3.0.0"
-    is-stream "^1.1.0"
-    npm-run-path "^2.0.0"
-    p-finally "^1.0.0"
-    signal-exit "^3.0.0"
-    strip-eof "^1.0.0"
-
 exit-hook@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/exit-hook/-/exit-hook-1.1.1.tgz#f05ca233b48c05d54fff07765df8507e95c02ff8"
@@ -5077,7 +5067,7 @@ micromatch@^2.1.5, micromatch@^2.3.11:
     parse-glob "^3.0.4"
     regex-cache "^0.4.2"
 
-micromatch@^3.1.10, micromatch@^3.1.4, micromatch@^3.1.9:
+micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
   dependencies:
@@ -6844,7 +6834,7 @@ rx-lite@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-3.1.2.tgz#19ce502ca572665f3b647b10939f97fd1615f102"
 
-rxjs@^5.5.6, rxjs@^5.5.8:
+rxjs@^5.5.7, rxjs@^5.5.8:
   version "5.5.8"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.8.tgz#b2b0809a57614ad6254c03d7446dea0d83ca3791"
   dependencies:
@@ -6861,8 +6851,8 @@ safe-regex@^1.1.0:
     ret "~0.1.10"
 
 safer-buffer@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.0.tgz#d9f653a55538c8d7829cb1a92e90bbcbc5ff5d3b"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.1.tgz#2e945f82c9a380e8e3b7c1a1bc21c976bb49f3ea"
 
 sanitize-filename@^1.6.1:
   version "1.6.1"
@@ -7203,7 +7193,7 @@ source-map@0.4.x, source-map@^0.4.2:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
+source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
@@ -7456,7 +7446,7 @@ style-loader@^0.20.2:
     loader-utils "^1.1.0"
     schema-utils "^0.4.5"
 
-sudo-prompt@^8.0.0, sudo-prompt@^8.2.0:
+sudo-prompt@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-8.2.0.tgz#bcd4aaacdb367b77b4bffcce1c658c2b1dd327f3"
 
@@ -8216,12 +8206,12 @@ webpack-merge@^4.1.1:
   dependencies:
     lodash "^4.17.5"
 
-webpack-sources@1.0.1, webpack-sources@^1.0.1, webpack-sources@^1.1.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.1.tgz#c7356436a4d13123be2e2426a05d1dad9cbe65cf"
+webpack-sources@^1.0.1, webpack-sources@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.1.0.tgz#a101ebae59d6507354d71d8013950a3a8b7a5a54"
   dependencies:
     source-list-map "^2.0.0"
-    source-map "~0.5.3"
+    source-map "~0.6.1"
 
 webpack@^3.11.0:
   version "3.11.0"
