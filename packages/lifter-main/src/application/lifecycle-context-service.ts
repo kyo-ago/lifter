@@ -10,6 +10,7 @@ import { NetworkInterfaceFactory } from "../domains/settings/network-interface/l
 import { NetworkInterfaceRepository } from "../domains/settings/network-interface/lifecycle/network-interface-repository";
 import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainRepository } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository";
+import { UserSettingsStorage } from "../domains/settings/user-settings/user-settings-storage";
 
 export class LifecycleContextService {
     public clientRequestRepository = new ClientRequestRepository();
@@ -24,6 +25,7 @@ export class LifecycleContextService {
     public proxyBypassDomainRepository: ProxyBypassDomainRepository;
     public rewriteRuleFactory: RewriteRuleFactory;
     public rewriteRuleRepository: RewriteRuleRepository;
+    public userSettingsStorage: UserSettingsStorage;
 
     constructor(projectEntity: ProjectEntity) {
         this.networkInterfaceRepository = new NetworkInterfaceRepository(this.networkInterfaceFactory);
@@ -32,6 +34,7 @@ export class LifecycleContextService {
         this.autoResponderFactory = new AutoResponderFactory(projectEntity);
         this.rewriteRuleFactory = new RewriteRuleFactory(projectEntity);
         this.rewriteRuleRepository = new RewriteRuleRepository(projectEntity);
+        this.userSettingsStorage = new UserSettingsStorage(projectEntity);
     }
 
     load() {
@@ -40,6 +43,7 @@ export class LifecycleContextService {
             this.rewriteRuleFactory.load(),
             this.rewriteRuleRepository.load(),
             this.proxyBypassDomainRepository.load(),
+            this.userSettingsStorage.load(),
         ]);
     }
 }

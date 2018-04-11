@@ -27,7 +27,7 @@ export class TestApplication extends Application {
 export async function createApplication(): Promise<TestApplication> {
     let projectEntity = createProjectEntity();
     let lifecycleContextService = new LifecycleContextService(projectEntity);
-    let serviceContext = new ServiceContext(".", projectEntity, lifecycleContextService);
+    let serviceContext = new ServiceContext(".", lifecycleContextService);
     let application = new TestApplication(lifecycleContextService, serviceContext);
     await application.load();
     return application;

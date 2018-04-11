@@ -101,8 +101,8 @@ export class NetworksetupProxy {
         return this.exec(`-setproxybypassdomains`, [networkservice].concat(domains));
     }
 
-    setautoproxyurl(networkservice: string, post: string): Promise<IOResult> {
-        return this.exec(`-setautoproxyurl`, [networkservice, post]);
+    setautoproxyurl(networkservice: string, port: string): Promise<IOResult> {
+        return this.exec(`-setautoproxyurl`, [networkservice, port]);
     }
 
     setautoproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {

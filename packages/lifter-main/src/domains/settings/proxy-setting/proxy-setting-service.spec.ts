@@ -3,15 +3,18 @@ import "mocha";
 import { createApplication } from "../../../../test/mocks/create-services";
 import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
 import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
+import { UserSettingsService } from "../user-settings/user-settings-service";
 import { ProxySettingService } from "./proxy-setting-service";
 
 describe("ProxySettingService", () => {
     let proxySettingService: ProxySettingService;
     let networksetupProxyService: NetworksetupProxyService;
+    let userSettingsService: UserSettingsService;
     beforeEach(async () => {
         let application = await createApplication();
         proxySettingService = application.getServiceContext().proxySettingService;
         networksetupProxyService = application.getServiceContext().networksetupProxyService;
+        userSettingsService = application.getServiceContext().userSettingsService;
     });
 
     let getNetworksetupProxyService = () => {

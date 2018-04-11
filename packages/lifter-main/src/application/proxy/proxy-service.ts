@@ -1,7 +1,6 @@
 import * as HttpMitmProxy from "http-mitm-proxy";
 import { ClientRequestService } from "../../domains/proxy/client-request/client-request-service";
 import { ClientResponderContext } from "../../domains/proxy/client-request/lib/client-responder-context";
-import { NetworksetupProxyService } from "../../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 
 export class ProxyService {
@@ -9,13 +8,10 @@ export class ProxyService {
 
     constructor(
         private sslCaDir: string,
-        private networksetupProxyService: NetworksetupProxyService,
         private clientRequestService: ClientRequestService,
     ) {}
 
-    async start() {
-        await this.networksetupProxyService.startProxy();
-
+    async listen() {
         this.mitmProxy.onError((context: HttpMitmProxy.IContext | null, err?: Error, errorKind?: string) => {
             // context may be null
             let url = context && context.clientToProxyRequest ? context.clientToProxyRequest.url : "";

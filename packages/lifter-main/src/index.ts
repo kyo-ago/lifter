@@ -10,6 +10,6 @@ export function createApplication(projectBaseDir: string, userDataPath: string):
     let httpSslCaDirPath = `${userDataPath}/${HTTP_SSL_CA_DIR_NAME}`;
     let projectEntity = new ProjectFactory().create(projectBaseDir);
     let lifecycleContextService = new LifecycleContextService(projectEntity);
-    let serviceContext = new ServiceContext(httpSslCaDirPath, projectEntity, lifecycleContextService);
+    let serviceContext = new ServiceContext(httpSslCaDirPath, lifecycleContextService);
     return new App.Application(lifecycleContextService, serviceContext);
 }

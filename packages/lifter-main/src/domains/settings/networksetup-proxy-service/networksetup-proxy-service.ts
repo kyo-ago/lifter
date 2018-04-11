@@ -2,7 +2,6 @@ import { APPLICATION_NAME, ProxyCommandGrantStatus } from "@lifter/lifter-common
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import * as fs from "fs";
 import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../settings";
-import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
 import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
@@ -17,7 +16,6 @@ export class NetworksetupProxyService {
     private _isGranted: ProxyCommandGrantStatus;
 
     constructor(
-        private userSettingStorage: UserSettingStorage,
         private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {}
 
@@ -38,17 +36,10 @@ export class NetworksetupProxyService {
         };
     }
 
-    async startProxy() {
-        let noAutoEnableProxy = this.userSettingStorage.resolve("noAutoEnableProxy");
-        if (noAutoEnableProxy) {
-            return;
-        }
-        if (this.hasGrant()) {
-            await this.enableProxy();
-        }
-    }
-
     enableProxy() {
+        if (!this.hasGrant()) {
+            return Promise.resolve(void 0);
+        }
         return this.callAllEnableInterface((np, ni) => ni.enableProxy(np));
     }
 

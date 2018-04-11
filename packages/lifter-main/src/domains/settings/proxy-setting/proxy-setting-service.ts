@@ -1,6 +1,8 @@
 import { ProxySettingStatus } from "@lifter/lifter-common";
+import { PacFileService } from "../../proxy/pac-file/pac-file-service";
 import { NetworkInterfaceRepository } from "../network-interface/lifecycle/network-interface-repository";
 import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
+import { UserSettingsService } from "../user-settings/user-settings-service";
 
 export interface getProxySettingService {
     fetch: () => Promise<ProxySettingStatus>;
@@ -9,6 +11,8 @@ export interface getProxySettingService {
 
 export class ProxySettingService {
     constructor(
+        private userSettingsService: UserSettingsService,
+        private pacFileService: PacFileService,
         private networksetupProxyService: NetworksetupProxyService,
         private networkInterfaceRepository: NetworkInterfaceRepository,
     ) {}
@@ -24,8 +28,12 @@ export class ProxySettingService {
         };
     }
 
-    async clearProxyState(): Promise<void> {
-        return await this.networksetupProxyService.disableProxy();
+    async startup(): Promise<void> {
+        await this.enable();
+    }
+
+    async shutwodn(): Promise<void> {
+        await this.disable();
     }
 
     private async getCurrentStatus(): Promise<ProxySettingStatus> {
@@ -36,10 +44,10 @@ export class ProxySettingService {
     private async getNewStatus(): Promise<ProxySettingStatus> {
         let isProxing = await this.isProxing();
         if (isProxing) {
-            await this.networksetupProxyService.disableProxy();
+            await this.disable();
             return "Off";
         } else {
-            await this.networksetupProxyService.enableProxy();
+            await this.enable();
             return "On";
         }
     }
@@ -48,5 +56,19 @@ export class ProxySettingService {
         let networkInterfaceEntities = await this.networkInterfaceRepository.resolveAllInterface();
         let results = await Promise.all(networkInterfaceEntities.map(ni => ni.isProxing()));
         return results.find(result => result) || false;
+    }
+
+    private async enable(): Promise<void> {
+        await this.userSettingsService.isPacFileProxy({
+            Some: () => this.pacFileService.start(),
+            None: () => this.networksetupProxyService.enableProxy(),
+        });
+    }
+
+    private async disable() {
+        await this.userSettingsService.isPacFileProxy({
+            Some: () => this.pacFileService.stop(),
+            None: () => this.networksetupProxyService.disableProxy(),
+        });
     }
 }

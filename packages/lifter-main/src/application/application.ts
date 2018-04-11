@@ -1,4 +1,4 @@
-import { getUserSetting } from "../domains/libs/user-setting-storage";
+import { getUserSetting } from "../domains/settings/user-settings/user-settings-service";
 import { getAutoResponder } from "../domains/proxy/auto-responder/auto-responder-service";
 import { getClientRequestService } from "../domains/proxy/client-request/client-request-service";
 import { getRewriteRules } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
@@ -17,15 +17,16 @@ export class Application {
         await this.serviceContext.load();
     }
 
-    start() {
-        return this.serviceContext.proxyService.start();
+    async startup() {
+        await this.serviceContext.userSettingsService.isAutoEnableProxy({
+            Some: () => this.serviceContext.proxySettingService.startup(),
+            None: () => Promise.resolve(),
+        });
+        await this.serviceContext.proxyService.listen();
     }
 
-    async quit(): Promise<void> {
-        await Promise.all([
-            this.serviceContext.networksetupProxyService.clearAutoProxyUrl(),
-            this.serviceContext.proxySettingService.clearProxyState(),
-        ]);
+    async shutdown(): Promise<void> {
+        await this.serviceContext.proxySettingService.shutwodn();
     }
 
     getAutoResponder(): getAutoResponder {
@@ -53,7 +54,7 @@ export class Application {
     }
 
     getUserSetting(): getUserSetting {
-        return this.serviceContext.userSettingStorage.getUserSetting();
+        return this.serviceContext.userSettingsService.getUserSetting();
     }
 
     getProxySettingService(): getProxySettingService {

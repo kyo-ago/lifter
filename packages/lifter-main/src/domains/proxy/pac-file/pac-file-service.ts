@@ -1,5 +1,3 @@
-import { async } from "rxjs/scheduler/async";
-import { UserSettingStorage } from "../../libs/user-setting-storage";
 import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientResponderContext } from "../client-request/lib/client-responder-context";
@@ -8,30 +6,19 @@ export class PacFileService {
     constructor(
         private autoResponderService: AutoResponderService,
         private networksetupProxyService: NetworksetupProxyService,
-        private userSettingStorage: UserSettingStorage,
     ) {}
-
-    async load() {
-        if (this.userSettingStorage.resolve("noPacFileProxy")) {
-            return;
-        }
-
-        await this.networksetupProxyService.setAutoProxyUrl();
-
-        this.autoResponderService.observable
-            .throttleTime(300, async, {
-                leading: true,
-                trailing: true,
-            })
-            .subscribe(() => this.networksetupProxyService.reloadAutoProxyUrl());
-    }
+    private unsubscribe: (() => void) | null = null;
 
     async start() {
         await this.networksetupProxyService.setAutoProxyUrl();
+        this.unsubscribe && this.unsubscribe();
+        this.unsubscribe = this.autoResponderService.bind(() => this.networksetupProxyService.reloadAutoProxyUrl());
     }
 
     async stop() {
         await this.networksetupProxyService.clearAutoProxyUrl();
+        this.unsubscribe && this.unsubscribe();
+        this.unsubscribe = null;
     }
 
     async response(clientResponderContext: ClientResponderContext) {

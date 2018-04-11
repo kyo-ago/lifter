@@ -1,17 +1,17 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../test/mocks/create-services";
-import { UserSettingStorage } from "./user-setting-storage";
+import { createApplication } from "../../../../test/mocks/create-services";
+import { UserSettingsService } from "./user-settings-service";
 
-describe("UserSettingStorage", () => {
-    let userSettingStorage: UserSettingStorage;
+describe("UserSettingsService", () => {
+    let userSettingsService: UserSettingsService;
     beforeEach(async () => {
         let application = await createApplication();
-        userSettingStorage = application.getServiceContext().userSettingStorage;
+        userSettingsService = application.getServiceContext().userSettingsService;
     });
 
     let getUserSetting = () => {
-        return userSettingStorage.getUserSetting();
+        return userSettingsService.getUserSetting();
     };
 
     it("getNoAutoEnableProxy", async () => {
