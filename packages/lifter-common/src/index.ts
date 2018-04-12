@@ -1,8 +1,8 @@
 export const APPLICATION_NAME = "Lifter Proxy";
 
-export type CertificateStatus = "missing" | "installed";
+export type CertificateStatus = "Missing" | "Installed";
 
-export type ProxySettingStatus = "On" | "Off";
+export type ProxySettingStatus = "On" | "Off" | "NoTargetInterfaces";
 
 export type ProxyCommandGrantStatus = "On" | "Off";
 

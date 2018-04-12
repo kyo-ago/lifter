@@ -88,7 +88,7 @@ export default {
     name: "setting-dialog",
     data() {
         return {
-            currentcertificateStatus: this.$store.state.proxySettings.certificateState === "installed",
+            currentcertificateStatus: this.$store.state.proxySettings.certificateState === "Installed",
             currentProxyCommandGrantStatus: this.$store.state.proxySettings.proxyCommandGrantStatus === "On",
             currentNoAutoEnableProxySetting: !this.$store.state.proxySettings.noAutoEnableProxySetting,
             currentNoPacFileProxySetting: !this.$store.state.proxySettings.noPacFileProxySetting,
@@ -117,7 +117,7 @@ export default {
         },
         async changecertificateStatus() {
             await this.$store.dispatch("proxySettings/changeCertificateStatus");
-            this.$data.currentcertificateStatus = this.$store.state.proxySettings.certificateState === "installed";
+            this.$data.currentcertificateStatus = this.$store.state.proxySettings.certificateState === "Installed";
         },
         async changeProxyCommandGrantStatus() {
             await this.$store.dispatch("proxySettings/changeProxyCommandGrantStatus");

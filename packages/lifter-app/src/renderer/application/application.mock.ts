@@ -13,7 +13,7 @@ beforeEach(() => {
         clientRequestEntries: [],
         proxyBypassDomainEntries: [],
         rewriteRuleEntries: [],
-        certificateState: "missing",
+        certificateState: "Missing",
         proxySettingStatus: "Off",
         proxyCommandGrantStatus: "Off",
         noAutoEnableProxySetting: false,
@@ -25,7 +25,7 @@ beforeEach(() => {
     applicationMock.selectDialogEntry.resolves([]);
     applicationMock.fetchAutoResponderEntities.resolves([]);
     applicationMock.deleteAutoResponderEntities.resolves();
-    applicationMock.changeCertificateStatus.resolves("installed");
+    applicationMock.changeCertificateStatus.resolves("Installed");
     applicationMock.changeProxySettingStatus.resolves("On");
     applicationMock.changeProxyCommandGrantStatus.resolves("On");
     applicationMock.changeNoAutoEnableProxySetting.resolves(true);
