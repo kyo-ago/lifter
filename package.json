@@ -51,7 +51,7 @@
     "clean": "yarn run clean:packages && yarn run clean:local",
     "clean:local": "rm -fr lerna-debug.log yarn-error.log package-lock.json yarn.lock node_modules app dist",
     "clean:packages": "rm -fr packages/*/{node_modules,npm-debug.log,package-lock.json,yarn.lock,yarn-error.log} && lerna run clean",
-    "cli": "node packages/lifter-cli/",
+    "cli": "cd packages/lifter-cli && node ./",
     "compile": "lerna run compile --scope @lifter/lifter-app",
     "fix": "lerna exec fixpack && yarn run fixpack",
     "postcommit": "git reset",

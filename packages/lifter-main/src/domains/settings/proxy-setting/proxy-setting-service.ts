@@ -32,7 +32,7 @@ export class ProxySettingService {
         await this.enable();
     }
 
-    async shutwodn(): Promise<void> {
+    async shutdown(): Promise<void> {
         await this.disable();
     }
 
