@@ -1,1 +1,5 @@
-/// <reference path="./ifconfig/ifconfig.d.ts" />
+interface Ifconfig {
+    [name: string]: {
+        status?: "inactive" | "active";
+    };
+}

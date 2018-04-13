@@ -6,6 +6,7 @@
             :type="buttonType"
             @click="changeProxySettingStatus"
             :data-test-type="buttonType"
+            :plain="buttonType==='info'"
             data-test="changeProxySettingStatus"
         />
         <divider />
@@ -20,11 +21,14 @@ export default {
     name: "left-toolbar",
     computed: {
         buttonType() {
+            if (this.$store.state.proxySettings.proxySettingStatus === "NoTargetInterfaces") {
+                return "info";
+            }
             if (this.$store.state.proxySettings.proxySettingStatus === "On") {
-                return "primary";
+                return "danger";
             }
             if (this.$store.state.proxySettings.proxySettingStatus === "Off") {
-                return "info";
+                return "";
             }
             console.error(`invalid proxySettingStatus "${this.$store.state.proxySettings.proxySettingStatus}"`);
             return "";

@@ -7,7 +7,7 @@ import { NetworkInterfaceEntity } from "../network-interface/network-interface-e
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 
 export interface getNetworksetupProxyService {
-    getProxyCommandGrantStatus: () => ProxyCommandGrantStatus;
+    fetchProxyCommandGrantStatus: () => Promise<ProxyCommandGrantStatus>;
     changeProxyCommandGrantStatus: () => Promise<ProxyCommandGrantStatus>;
 }
 
@@ -27,7 +27,7 @@ export class NetworksetupProxyService {
 
     getNetworksetupProxyService(): getNetworksetupProxyService {
         return {
-            getProxyCommandGrantStatus: (): ProxyCommandGrantStatus => {
+            fetchProxyCommandGrantStatus: async (): Promise<ProxyCommandGrantStatus> => {
                 return this.getCurrentStatus();
             },
             changeProxyCommandGrantStatus: (): Promise<ProxyCommandGrantStatus> => {

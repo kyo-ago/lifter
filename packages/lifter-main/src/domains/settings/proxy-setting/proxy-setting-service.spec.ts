@@ -21,7 +21,7 @@ describe("ProxySettingService", () => {
         return proxySettingService.getProxySettingService();
     };
 
-    it("getProxyCommandGrantStatus", async () => {
+    it("fetchProxyCommandGrantStatus", async () => {
         let result = await getNetworksetupProxyService().fetch();
         assert(result === "Off");
     });

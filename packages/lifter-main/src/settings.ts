@@ -1,4 +1,5 @@
 export const PROXY_PORT = 8888;
+export const IFCONFIG_COMMAND = "/sbin/ifconfig";
 export const NETWORK_SETUP_COMMAND = "/usr/sbin/networksetup";
 export const NETWORK_HOST_NAME = "localhost";
 export const BIND_HOST_NAME = "127.0.0.1";
