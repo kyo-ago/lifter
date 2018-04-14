@@ -15,8 +15,8 @@ describe("NetworksetupProxyService", () => {
         return networksetupProxyService.getNetworksetupProxyService();
     };
 
-    it("getProxyCommandGrantStatus", async () => {
-        let result = await getNetworksetupProxyService().getProxyCommandGrantStatus();
+    it("fetchProxyCommandGrantStatus", async () => {
+        let result = await getNetworksetupProxyService().fetchProxyCommandGrantStatus();
         assert(result === "Off");
     });
 
@@ -35,7 +35,7 @@ describe("NetworksetupProxyService", () => {
         let result = await getNetworksetupProxyService().changeProxyCommandGrantStatus();
         assert(result === "On");
 
-        let fetchResult = await getNetworksetupProxyService().getProxyCommandGrantStatus();
+        let fetchResult = await getNetworksetupProxyService().fetchProxyCommandGrantStatus();
         assert(fetchResult === "On");
     });
 });

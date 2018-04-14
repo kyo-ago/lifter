@@ -17,27 +17,27 @@ describe("CertificateService", () => {
 
     it("fetch", async () => {
         let result = await getCertificateService().fetchCurrentStatus();
-        assert(result === "missing");
+        assert(result === "Missing");
     });
 
-    it("change missing to installed", async () => {
-        MockStateEvent.emit("updateCertificateState", "missing");
+    it("change Missing to Installed", async () => {
+        MockStateEvent.emit("updateCertificateState", "Missing");
         let result = await getCertificateService().changeCertificateStatus();
-        assert(result === "installed");
+        assert(result === "Installed");
     });
 
-    it("change installed to missing", async () => {
-        MockStateEvent.emit("updateCertificateState", "installed");
+    it("change Installed to Missing", async () => {
+        MockStateEvent.emit("updateCertificateState", "Installed");
         let result = await getCertificateService().changeCertificateStatus();
-        assert(result === "missing");
+        assert(result === "Missing");
     });
 
     it("change to fetch", async () => {
-        MockStateEvent.emit("updateCertificateState", "missing");
+        MockStateEvent.emit("updateCertificateState", "Missing");
         let result = await getCertificateService().changeCertificateStatus();
-        assert(result === "installed");
+        assert(result === "Installed");
 
         let fetchResult = await getCertificateService().fetchCurrentStatus();
-        assert(fetchResult === "installed");
+        assert(fetchResult === "Installed");
     });
 });

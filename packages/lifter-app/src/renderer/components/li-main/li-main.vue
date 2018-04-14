@@ -3,14 +3,12 @@
         <connection v-if="selectedTabIndex === 0" />
         <auto-responder v-if="selectedTabIndex === 1" />
         <rewrite-rule v-if="selectedTabIndex === 2" />
-        <proxy-bypass-domain v-if="selectedTabIndex === 3" />
     </div>
 </template>
 
 <script lang="ts">
 import AutoResponder from "./auto-responder.vue";
 import Connection from "./connection.vue";
-import ProxyBypassDomain from "./proxy-bypass-domain.vue";
 import RewriteRule from "./rewrite-rule.vue";
 
 export default {
@@ -24,7 +22,6 @@ export default {
         Connection,
         AutoResponder,
         RewriteRule,
-        ProxyBypassDomain,
     },
 };
 </script>

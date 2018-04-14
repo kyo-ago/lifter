@@ -1,5 +1,6 @@
 import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import * as Rx from "rxjs/Rx";
+import { async } from "rxjs/scheduler/async";
 import { PROXY_SERVER_NAME } from "../../../settings";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { ClientResponderContext } from "../client-request/lib/client-responder-context";
@@ -17,7 +18,7 @@ export interface getAutoResponder {
 }
 
 export class AutoResponderService {
-    public observable: Rx.Subject<void> = new Rx.Subject();
+    private observable: Rx.Subject<void> = new Rx.Subject();
 
     constructor(
         private autoResponderFactory: AutoResponderFactory,
@@ -82,6 +83,16 @@ export class AutoResponderService {
         return entries.reduce((promise, entity) => {
             return this.findMatchEntry.getLocalFileResponse(promise, clientRequestEntity, entity);
         }, Promise.resolve(<LocalFileResponseEntity | null>null));
+    }
+
+    bind(callback: () => void): () => void {
+        return this.observable
+            .throttleTime(300, async, {
+                leading: true,
+                trailing: true,
+            })
+            .subscribe(callback)
+            .unsubscribe;
     }
 
     private async deletes(ids: number[]): Promise<void> {

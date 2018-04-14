@@ -7,10 +7,10 @@ import { ExecCommandsStub } from "./exec-commands";
 export type MockCertificateStatus = CertificateStatus | "initialize";
 
 export function setCetificateState(newState: MockCertificateStatus) {
-    if (newState === "missing") {
+    if (newState === "Missing") {
         return setMissingState;
     }
-    if (newState === "installed") {
+    if (newState === "Installed") {
         return setInstalledState;
     }
     if (newState === "initialize") {
@@ -27,7 +27,7 @@ let setMissingState = (stub: ExecCommandsStub) => {
     stub.deleteCertificate.rejects(new Error(`\nUnable to delete certificate matching "${CERTIFICATE_NAME}"\n`));
 
     stub.importCert.callsFake(() => {
-        MockStateEvent.emit("updateCertificateState", "installed");
+        MockStateEvent.emit("updateCertificateState", "Installed");
         return Promise.resolve(`\n1 certificate imported.\n`);
     });
 
@@ -50,7 +50,7 @@ attributes:
     "subj"<blob>=0x307D311830160603550403130F4E4F44454D49544D50524F585943413111300F06035504061308494E5445524E45543111300F06035504081308494E5445524E45543111300F06035504071308494E5445524E4554311B3019060355040A13124E4F4445204D49544D2050524F5859204341310B3009060355040B13024341  "0}1\\0300\\026\\006\\003U\\004\\003\\023\\017NODEMITMPROXYCA1\\0210\\017\\006\\003U\\004\\006\\023\\010INTERNET1\\0210\\017\\006\\003U\\004\\010\\023\\010INTERNET1\\0210\\017\\006\\003U\\004\\007\\023\\010INTERNET1\\0330\\031\\006\\003U\\004\\012\\023\\022NODE MITM PROXY CA1\\0130\\011\\006\\003U\\004\\013\\023\\002CA"\n`);
 
     stub.deleteCertificate.callsFake(() => {
-        MockStateEvent.emit("updateCertificateState", "missing");
+        MockStateEvent.emit("updateCertificateState", "Missing");
         return Promise.resolve(``);
     });
 

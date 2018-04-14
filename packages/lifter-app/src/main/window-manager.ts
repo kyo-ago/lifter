@@ -123,7 +123,7 @@ export class WindowManager {
             this.application.getRewriteRules().fetchAll(),
             this.application.getCertificateService().fetchCurrentStatus(),
             this.application.getProxySettingService().fetch(),
-            this.application.getNetworksetupProxyService().getProxyCommandGrantStatus(),
+            this.application.getNetworksetupProxyService().fetchProxyCommandGrantStatus(),
             this.application.getUserSetting().getNoAutoEnableProxy(),
             this.application.getUserSetting().getNoPacFileProxy(),
         ]);

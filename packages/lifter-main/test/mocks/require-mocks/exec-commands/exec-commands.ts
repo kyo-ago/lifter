@@ -20,6 +20,14 @@ MockStateEvent.on("updateProxySettingState", (newState: MockProxySettingStatus) 
     setStub(stub);
 });
 
+stub.getIfconfig.resolves(`
+lo0: flags=8049<UP,LOOPBACK,RUNNING,MULTICAST> mtu 16384
+        inet 127.0.0.1 netmask 0xff000000 
+en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
+        inet 192.168.150.51 netmask 0xffffff00 broadcast 192.168.150.255
+        status: active
+`);
+
 mockRequire("../../../../src/libs/exec-commands", stub);
 
 afterEach(() => {

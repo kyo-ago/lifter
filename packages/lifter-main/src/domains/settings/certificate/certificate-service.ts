@@ -26,7 +26,7 @@ export class CertificateService {
 
     private async fetchCurrentStatus(): Promise<CertificateStatus> {
         let result = await this.findCertificate();
-        return result ? "installed" : "missing";
+        return result ? "Installed" : "Missing";
     }
 
     private async changeCertificateStatus(): Promise<CertificateStatus> {

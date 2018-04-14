@@ -1,0 +1,18 @@
+{
+  "name": "@lifter/lifter-cli",
+  "description": "lifter proxy main process",
+  "version": "0.1.1",
+  "author": "@kyo_ago",
+  "dependencies": {
+    "@lifter/lifter-main": "^0.1.1",
+    "inquirer": "^5.2.0"
+  },
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "true",
+    "clean": "true",
+    "cli": "node index.js",
+    "test": "true"
+  }
+}

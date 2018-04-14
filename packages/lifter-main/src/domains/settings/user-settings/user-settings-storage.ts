@@ -1,13 +1,6 @@
 import * as Datastore from "nedb";
 import { promisify } from "util";
-import { ProjectEntity } from "../proxy/project/project-entity";
-
-export interface getUserSetting {
-    getNoAutoEnableProxy: () => boolean;
-    changeNoAutoEnableProxy: () => Promise<boolean>;
-    getNoPacFileProxy: () => boolean;
-    changeNoPacFileProxy: () => Promise<boolean>;
-}
+import { ProjectEntity } from "../../proxy/project/project-entity";
 
 export interface UserSettings {
     noAutoEnableProxy: boolean;
@@ -19,16 +12,16 @@ const DefaultUserSettings: UserSettings = {
     noPacFileProxy: false,
 };
 
-export class UserSettingStorage {
-    private datastore: Datastore;
+export class UserSettingsStorage {
     private userSettings: UserSettings = DefaultUserSettings;
 
-    private find: (query: any) => Promise<any[]>;
-    private update: (query: any, value: any, option: any) => Promise<any>;
-    private loadDatabase: () => Promise<void>;
+    private readonly datastore: Datastore;
+    private readonly find: (query: any) => Promise<any[]>;
+    private readonly update: (query: any, value: any, option: any) => Promise<any>;
+    private readonly loadDatabase: () => Promise<void>;
 
     constructor(projectEntity: ProjectEntity) {
-        let dataStoreOptions = projectEntity.getDataStoreOptions("userSettingStorage");
+        let dataStoreOptions = projectEntity.getDataStoreOptions("userSettingsStorage");
         this.datastore = new Datastore(dataStoreOptions);
 
         this.find = promisify(this.datastore.find.bind(this.datastore));
@@ -45,25 +38,12 @@ export class UserSettingStorage {
         }, this.userSettings);
     }
 
-    getUserSetting(): getUserSetting {
-        return {
-            getNoAutoEnableProxy: (): boolean => {
-                return this.resolve("noAutoEnableProxy");
-            },
-            changeNoAutoEnableProxy: (): Promise<boolean> => {
-                return this.toggle("noAutoEnableProxy");
-            },
-            getNoPacFileProxy: (): boolean => {
-                return this.resolve("noPacFileProxy");
-            },
-            changeNoPacFileProxy: (): Promise<boolean> => {
-                return this.toggle("noPacFileProxy");
-            },
-        };
-    }
-
     resolve<S extends keyof UserSettings>(name: S): UserSettings[S] {
         return this.userSettings[name];
+    }
+
+    toggle<S extends keyof UserSettings>(name: S): Promise<UserSettings[S]> {
+        return this.store(name, !this.userSettings[name]);
     }
 
     private async store<S extends keyof UserSettings>(name: S, value: UserSettings[S]): Promise<UserSettings[S]> {
@@ -77,9 +57,5 @@ export class UserSettingStorage {
         );
         this.userSettings[name] = value;
         return value;
-    }
-
-    private toggle<S extends keyof UserSettings>(name: S): Promise<UserSettings[S]> {
-        return this.store(name, !this.userSettings[name]);
     }
 }
