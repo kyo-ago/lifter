@@ -32,4 +32,8 @@ export class ProxyService {
             sslCaDir: this.sslCaDir,
         });
     }
+
+    close() {
+        this.mitmProxy.close();
+    }
 }

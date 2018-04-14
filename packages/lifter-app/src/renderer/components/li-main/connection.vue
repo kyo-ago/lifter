@@ -1,6 +1,6 @@
 <template>
     <el-table
-        :data="clientRequestEntries"
+        :data="clientRequests"
         stripe
         border
     >
@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
-
 export default {
     name: "connection",
     computed: {
-        ...mapState(["clientRequestEntries"]),
+        clientRequests() {
+            return this.$store.state.clientRequest.entries;
+        },
     },
 };
 </script>
