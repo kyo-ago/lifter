@@ -5,11 +5,7 @@ let sandbox = sinon.createSandbox();
 
 mockRequire(
     "electron",
-    sandbox.stub({
-        remote: {
-            require: () => {},
-        },
-    }),
+    sandbox.stub(require("../../mocks/electron")),
 );
 
 afterEach(() => {

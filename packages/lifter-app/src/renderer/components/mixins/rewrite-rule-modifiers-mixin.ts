@@ -4,6 +4,14 @@ export function makeRewriteRuleModifiersMixin(rewriteRuleActionType: RewriteRule
     let components = undefined;
     if (global.process.env.NODE_ENV === "test") {
         components = {
+            "el-input": {
+                name: "el-input",
+                render: () => "",
+            },
+            "el-table": {
+                name: "el-table",
+                render: () => "",
+            },
             "el-autocomplete": {
                 name: "el-autocomplete",
                 render: () => "",

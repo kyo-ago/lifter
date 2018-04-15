@@ -30,7 +30,7 @@ module.exports = {
                         loader: "ts-loader",
                         options: {
                             appendTsSuffixTo: [/\.vue$/],
-                            configFile: "test/tsconfig.json",
+                            configFile: path.join(__dirname, "tsconfig.json"),
                             happyPackMode: true,
                         },
                     },
@@ -81,5 +81,8 @@ module.exports = {
             callback();
         },
     ],
+    performance: {
+        hints: false,
+    },
     plugins: [new ForkTsCheckerWebpackPlugin({ checkSyntacticErrors: true })],
 };

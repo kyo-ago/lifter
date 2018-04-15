@@ -40,8 +40,13 @@
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",
+    "@storybook/addon-actions": "^3.4.1",
+    "@storybook/addon-links": "^3.4.1",
+    "@storybook/addons": "^3.4.1",
+    "@storybook/vue": "^3.4.1",
     "@types/nedb": "^1.8.5",
     "@vue/test-utils": "^1.0.0-beta.12",
+    "babel-core": "^6.26.0",
     "devtron": "^1.4.0",
     "electron": "^1.8.4",
     "electron-builder": "^20.6.2",
@@ -72,6 +77,7 @@
   },
   "scripts": {
     "build": "tsc -p .",
+    "build-storybook": "build-storybook",
     "clean": "rm -fr dist lib",
     "compile": "renamer -e -f '(mock|spec)\\.ts' -r '$1.t_s' 'src/**' && electron-webpack && renamer -e -f '(mock|spec)\\.t_s$' -r '$1.ts' 'src/**'",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
@@ -80,6 +86,7 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "release": "yarn compile && electron-builder --publish always",
     "start": "run-p dev",
+    "storybook": "start-storybook -p 9001 -c storybook",
     "test": "NODE_ENV=test mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
     "watch": "yarn run test -- --watch"
   }
