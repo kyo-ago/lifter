@@ -1,1 +1,1 @@
-exports = function electronContextMenu () {};
+export default function electronContextMenu () {};

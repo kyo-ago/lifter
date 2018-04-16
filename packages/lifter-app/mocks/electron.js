@@ -1,3 +1,3 @@
-exports.remote = {
+export const remote = {
     require: () => {},
 };
