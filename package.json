@@ -57,6 +57,7 @@
     "prettier": "prettier --trailing-comma all --write '**/*.{js,jsx,ts,tsx,css,vue}'",
     "publish": "lerna publish && yarn run publish:app",
     "publish:app": "lerna run release --stream --scope @lifter/lifter-app",
+    "storybook": "lerna run storybook --scope @lifter/lifter-app",
     "test": "lerna run test"
   }
 }

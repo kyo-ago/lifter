@@ -45,6 +45,42 @@
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@kazupon/vue-i18n-loader/-/vue-i18n-loader-0.3.0.tgz#e068de2d75d891275814ae28ad1fcaf1b537694f"
 
+"@lifter/electron-window-manager@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@lifter/electron-window-manager/-/electron-window-manager-0.1.1.tgz#628a2a47b83be66a2efcf8362cf100fe7f73217d"
+  dependencies:
+    electron-localshortcut "^3.1.0"
+    electron-window-state "^4.1.1"
+    melanke-watchjs "^1.3.1"
+
+"@lifter/lifter-common@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@lifter/lifter-common/-/lifter-common-0.1.1.tgz#9f3eda867a0637b19d0d52583bbd32122ee11de8"
+
+"@lifter/lifter-main@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@lifter/lifter-main/-/lifter-main-0.1.1.tgz#b18de2a7949f40e22203aad20b2c62f2a9aa2a6e"
+  dependencies:
+    "@lifter/electron-window-manager" "^0.1.1"
+    "@lifter/lifter-common" "^0.1.1"
+    "@lifter/networksetup-proxy" "^0.1.1"
+    execa "^0.10.0"
+    http-mitm-proxy "^0.6.1"
+    ifconfig "^0.0.1"
+    micromatch "^3.1.10"
+    mime "^2.2.0"
+    nedb "^1.8.0"
+    rxjs "^5.5.7"
+    typescript-dddbase "^0.0.5"
+
+"@lifter/networksetup-proxy@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@lifter/networksetup-proxy/-/networksetup-proxy-0.1.1.tgz#19cb6770896b0ee245928c97f76769fb6a4c49ab"
+  dependencies:
+    execa "^0.10.0"
+    stat-mode "^0.2.2"
+    sudo-prompt "^8.2.0"
+
 "@storybook/addon-actions@^3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.4.1.tgz#6ec5dc337e4af301d2f0f8fbc0ad2dee812cfa29"
@@ -5918,7 +5954,7 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-melanke-watchjs@^1.4.3:
+melanke-watchjs@^1.3.1, melanke-watchjs@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/melanke-watchjs/-/melanke-watchjs-1.4.3.tgz#fbf772259cb6c4829e6ef9dd47d74cfc17cac982"
 
@@ -8028,7 +8064,7 @@ rx-lite@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-3.1.2.tgz#19ce502ca572665f3b647b10939f97fd1615f102"
 
-rxjs@^5.5.8:
+rxjs@^5.5.7, rxjs@^5.5.8:
   version "5.5.10"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.10.tgz#fde02d7a614f6c8683d0d1957827f492e09db045"
   dependencies:
@@ -8420,7 +8456,7 @@ source-map@0.4.x, source-map@^0.4.2:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1:
+source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.0, source-map@~0.5.1, source-map@~0.5.3:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 
@@ -9489,18 +9525,18 @@ webpack-hot-middleware@^2.21.2:
     querystring "^0.2.0"
     strip-ansi "^3.0.0"
 
-webpack-merge@^4.1.1:
+webpack-merge@^4.1.1, webpack-merge@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.2.tgz#5d372dddd3e1e5f8874f5bf5a8e929db09feb216"
   dependencies:
     lodash "^4.17.5"
 
-webpack-sources@^1.0.1, webpack-sources@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.1.0.tgz#a101ebae59d6507354d71d8013950a3a8b7a5a54"
+webpack-sources@1.0.1, webpack-sources@^1.0.1, webpack-sources@^1.1.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.0.1.tgz#c7356436a4d13123be2e2426a05d1dad9cbe65cf"
   dependencies:
     source-list-map "^2.0.0"
-    source-map "~0.6.1"
+    source-map "~0.5.3"
 
 webpack@^3.11.0:
   version "3.11.0"
