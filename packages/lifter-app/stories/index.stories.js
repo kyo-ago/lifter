@@ -7,8 +7,6 @@ import { getStore } from "../src/renderer/store";
 import { ApplicationMock } from "../src/renderer/application/application.mock";
 import { getLocale, messages } from "../src/renderer/messages";
 import VueI18n from "vue-i18n";
-// import { action } from '@storybook/addon-actions';
-// import { linkTo } from "@storybook/addon-links";
 
 let i18n = new VueI18n({
     locale: getLocale(navigator),
