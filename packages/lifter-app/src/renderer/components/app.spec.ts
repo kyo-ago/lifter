@@ -21,15 +21,13 @@ describe("app.vue", () => {
         let appWrapper = createAppMock();
 
         let target = appWrapper.find('[data-test="changeProxySettingStatus"]');
-
-        assert(target.attributes()["data-test-type"] === "info");
+        assert(ApplicationMock.changeProxySettingStatus.notCalled);
 
         target.trigger("click");
 
         await new Promise(setTimeout);
 
         assert(ApplicationMock.changeProxySettingStatus.calledOnce);
-        assert(target.attributes()["data-test-type"] === "primary");
     });
 
     context("RewriteRuleModifier", () => {

@@ -11,12 +11,7 @@ import { render } from "./components";
 import { getLocale, messages } from "./messages";
 import { getStore } from "./store";
 
-function requireAll(r: any) {
-    r.keys().forEach(r);
-}
-
-requireAll(require.context("./", true, /\.css$/));
-require("./index.css");
+((context: any) => context.keys().forEach(context))(require.context("./", true, /\.css$/));
 
 Vue.use(Vuex);
 Vue.use(VueI18n);

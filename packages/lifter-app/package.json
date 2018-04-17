@@ -36,21 +36,24 @@
     "typescript-dddbase": "^0.0.5",
     "vue": "^2.5.16",
     "vue-i18n": "^7.6.0",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack-merge": "^4.1.2"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",
+    "@storybook/vue": "^3.4.1",
     "@types/nedb": "^1.8.5",
     "@vue/test-utils": "^1.0.0-beta.12",
+    "babel-core": "^6.26.0",
     "devtron": "^1.4.0",
     "electron": "^1.8.4",
-    "electron-builder": "^20.6.2",
+    "electron-builder": "^20.8.2",
     "electron-load-devtool": "^1.0.0",
     "electron-webpack": "^1.13.0",
     "electron-webpack-ts": "^1.4.0",
     "electron-webpack-vue": "^1.4.0",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
-    "jsdom": "^11.6.2",
+    "jsdom": "^11.8.0",
     "jsdom-global": "^3.0.2",
     "mocha-webpack": "^1.1.0",
     "node-sass": "^4.8.3",
@@ -72,6 +75,7 @@
   },
   "scripts": {
     "build": "tsc -p .",
+    "build-storybook": "build-storybook",
     "clean": "rm -fr dist lib",
     "compile": "renamer -e -f '(mock|spec)\\.ts' -r '$1.t_s' 'src/**' && electron-webpack && renamer -e -f '(mock|spec)\\.t_s$' -r '$1.ts' 'src/**'",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
@@ -80,6 +84,7 @@
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "release": "yarn compile && electron-builder --publish always",
     "start": "run-p dev",
+    "storybook": "start-storybook -p 9001 -c storybook",
     "test": "NODE_ENV=test mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
     "watch": "yarn run test -- --watch"
   }

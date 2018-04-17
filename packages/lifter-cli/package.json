@@ -11,7 +11,7 @@
   "main": "index.js",
   "scripts": {
     "build": "true",
-    "clean": "true",
+    "clean": "rm -fr repositories http-mitm-proxy",
     "cli": "node index.js",
     "test": "true"
   }

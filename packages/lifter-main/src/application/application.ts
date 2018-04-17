@@ -27,7 +27,7 @@ export class Application {
 
     async shutdown(): Promise<void> {
         await this.serviceContext.proxySettingService.shutdown();
-        await this.serviceContext.proxyService.close();
+        await this.serviceContext.proxyService.shutdown();
     }
 
     getAutoResponder(): getAutoResponder {

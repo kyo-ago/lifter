@@ -33,7 +33,7 @@ export class ProxyService {
         });
     }
 
-    close() {
+    shutdown() {
         this.mitmProxy.close();
     }
 }
