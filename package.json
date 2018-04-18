@@ -1,7 +1,6 @@
 {
   "name": "@lifter/lifter",
   "description": "Local Proxy for frontend developers",
-  "version": "0.1.1",
   "author": "kyo_ago",
   "bugs": {
     "url": "https://github.com/kyo-ago/lifter/issues"
@@ -55,7 +54,7 @@
     "postcommit": "git reset",
     "prepublish": "yarn run bootstrap",
     "prettier": "prettier --trailing-comma all --write '**/*.{js,jsx,ts,tsx,css,vue}'",
-    "publish": "lerna publish && yarn run publish:app",
+    "publish": "lerna publish",
     "publish:app": "lerna run release --stream --scope @lifter/lifter-app",
     "storybook": "lerna run storybook --scope @lifter/lifter-app",
     "test": "lerna run test"

@@ -1,0 +1,16 @@
+appId: com.electron.lifter
+productName: Lifter Proxy
+
+directories:
+  output: dist
+
+publish:
+  provider: github
+  owner: kyo-ago
+  repo: lifter
+
+mac:
+  target:
+    - zip
+    - dmg
+  category: public.app-category.developer-tools
