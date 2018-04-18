@@ -14,43 +14,43 @@ let application = createApplication(`${__dirname}/repositories`, __dirname);
         choices: [
             {
                 name: "application.getCertificateService().fetchCurrentStatus()",
-                value: application.getCertificateService().fetchCurrentStatus
+                value: application.getCertificateService().fetchCurrentStatus,
             },
             {
                 name: "application.getCertificateService().changeCertificateStatus()",
-                value: application.getCertificateService().changeCertificateStatus
+                value: application.getCertificateService().changeCertificateStatus,
             },
             {
                 name: "application.getNetworksetupProxyService().fetchProxyCommandGrantStatus()",
-                value: application.getNetworksetupProxyService().fetchProxyCommandGrantStatus
+                value: application.getNetworksetupProxyService().fetchProxyCommandGrantStatus,
             },
             {
                 name: "application.getNetworksetupProxyService().changeProxyCommandGrantStatus()",
-                value: application.getNetworksetupProxyService().changeProxyCommandGrantStatus
+                value: application.getNetworksetupProxyService().changeProxyCommandGrantStatus,
             },
             {
                 name: "application.getUserSetting().getNoAutoEnableProxy()",
-                value: application.getUserSetting().getNoAutoEnableProxy
+                value: application.getUserSetting().getNoAutoEnableProxy,
             },
             {
                 name: "application.getUserSetting().changeNoPacFileProxy()",
-                value: application.getUserSetting().changeNoPacFileProxy
+                value: application.getUserSetting().changeNoPacFileProxy,
             },
             {
                 name: "application.getUserSetting().getNoPacFileProxy()",
-                value: application.getUserSetting().getNoPacFileProxy
+                value: application.getUserSetting().getNoPacFileProxy,
             },
             {
                 name: "application.getUserSetting().changeNoAutoEnableProxy()",
-                value: application.getUserSetting().changeNoAutoEnableProxy
+                value: application.getUserSetting().changeNoAutoEnableProxy,
             },
             {
                 name: "application.getProxySettingService().fetch()",
-                value: application.getProxySettingService().fetch
+                value: application.getProxySettingService().fetch,
             },
             {
                 name: "application.getProxySettingService().change()",
-                value: application.getProxySettingService().change
+                value: application.getProxySettingService().change,
             },
         ],
     });

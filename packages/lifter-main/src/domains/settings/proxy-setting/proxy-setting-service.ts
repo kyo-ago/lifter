@@ -42,10 +42,11 @@ export class ProxySettingService {
 
     private async getNewStatus(): Promise<ProxySettingStatus> {
         return await this.getMatchStatus({
-            NoTargetInterfaces: (): Promise<ProxySettingStatus> => Promise.resolve(<ProxySettingStatus>"NoTargetInterfaces"),
+            NoTargetInterfaces: (): Promise<ProxySettingStatus> =>
+                Promise.resolve(<ProxySettingStatus>"NoTargetInterfaces"),
             On: async (): Promise<ProxySettingStatus> => {
                 await this.disable();
-                return "Off"
+                return "Off";
             },
             Off: async (): Promise<ProxySettingStatus> => {
                 await this.enable();
@@ -54,7 +55,7 @@ export class ProxySettingService {
         });
     }
 
-    private async getMatchStatus<R>(matcher: {[key in ProxySettingStatus]: () => R}): Promise<R> {
+    private async getMatchStatus<R>(matcher: { [key in ProxySettingStatus]: () => R }): Promise<R> {
         let status = await this.getStatus();
         return matcher[status]();
     }

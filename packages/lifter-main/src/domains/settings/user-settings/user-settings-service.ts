@@ -8,14 +8,12 @@ export interface getUserSetting {
 }
 
 export interface MatchPattern {
-    Some?: () => any,
-    None?: () => any,
+    Some?: () => any;
+    None?: () => any;
 }
 
 export class UserSettingsService {
-    constructor(
-        private readonly userSettingsStorage: UserSettingsStorage,
-    ) {}
+    constructor(private readonly userSettingsStorage: UserSettingsStorage) {}
 
     getUserSetting(): getUserSetting {
         return {
@@ -37,14 +35,12 @@ export class UserSettingsService {
     isAutoEnableProxy(matchPattern: MatchPattern): any {
         return this.userSettingsStorage.resolve("noAutoEnableProxy")
             ? matchPattern.Some && matchPattern.Some()
-            : matchPattern.None && matchPattern.None()
-        ;
+            : matchPattern.None && matchPattern.None();
     }
 
     isPacFileProxy(matchPattern: MatchPattern): any {
         return this.userSettingsStorage.resolve("noPacFileProxy")
             ? matchPattern.Some && matchPattern.Some()
-            : matchPattern.None && matchPattern.None()
-        ;
+            : matchPattern.None && matchPattern.None();
     }
 }

@@ -1,7 +1,7 @@
-import { configure } from '@storybook/vue';
+import { configure } from "@storybook/vue";
 
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 import VueI18n from "vue-i18n";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
@@ -25,9 +25,9 @@ Vue.use(Element, {
 });
 
 // automatically import all files ending in *.stories.js
-let loadStories = (context) => {
+let loadStories = context => {
     context.keys().forEach(filename => context(filename));
 };
 
-const stories = require.context('../stories', true, /.stories.js$/);
+const stories = require.context("../stories", true, /.stories.js$/);
 configure(() => loadStories(stories), module);

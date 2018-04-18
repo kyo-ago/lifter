@@ -13,29 +13,28 @@ let i18n = new VueI18n({
     messages,
 });
 
-storiesOf('App', module)
-    .add('app', () => ({
+storiesOf("App", module)
+    .add("app", () => ({
         components: { App },
-        template: '<App />',
+        template: "<App />",
         store: getStore(ApplicationMock),
         i18n,
     }))
-    .add('li-header', () => ({
+    .add("li-header", () => ({
         components: { LiHeader },
-        template: '<li-header />',
+        template: "<li-header />",
         store: getStore(ApplicationMock),
         i18n,
     }))
-    .add('li-main', () => ({
+    .add("li-main", () => ({
         components: { LiMain },
-        template: '<li-main />',
+        template: "<li-main />",
         store: getStore(ApplicationMock),
         i18n,
     }))
-    .add('li-dialog', () => ({
+    .add("li-dialog", () => ({
         components: { LiDialog },
-        template: '<li-dialog />',
+        template: "<li-dialog />",
         store: getStore(ApplicationMock),
         i18n,
-    }))
-;
+    }));

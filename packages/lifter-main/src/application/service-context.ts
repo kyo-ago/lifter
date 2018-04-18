@@ -23,10 +23,7 @@ export class ServiceContext {
     public pacFileService: PacFileService;
     public rewriteRuleService: RewriteRuleService;
 
-    constructor(
-        httpSslCaDirPath: string,
-        lifecycleContextService: LifecycleContextService,
-    ) {
+    constructor(httpSslCaDirPath: string, lifecycleContextService: LifecycleContextService) {
         this.rewriteRuleService = new RewriteRuleService(
             lifecycleContextService.rewriteRuleFactory,
             lifecycleContextService.rewriteRuleRepository,
@@ -44,14 +41,9 @@ export class ServiceContext {
         );
 
         this.certificateService = new CertificateService(httpSslCaDirPath);
-        this.userSettingsService = new UserSettingsService(
-            lifecycleContextService.userSettingsStorage,
-        );
+        this.userSettingsService = new UserSettingsService(lifecycleContextService.userSettingsStorage);
 
-        this.pacFileService = new PacFileService(
-            this.autoResponderService,
-            this.networksetupProxyService,
-        );
+        this.pacFileService = new PacFileService(this.autoResponderService, this.networksetupProxyService);
 
         this.proxySettingService = new ProxySettingService(
             this.userSettingsService,
@@ -67,10 +59,7 @@ export class ServiceContext {
             lifecycleContextService.clientRequestRepository,
         );
 
-        this.proxyService = new ProxyService(
-            httpSslCaDirPath,
-            this.clientRequestService,
-        );
+        this.proxyService = new ProxyService(httpSslCaDirPath, this.clientRequestService);
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
             lifecycleContextService.proxyBypassDomainFactory,
@@ -78,9 +67,7 @@ export class ServiceContext {
             this.networksetupProxyService,
         );
 
-        this.userSettingsService = new UserSettingsService(
-            lifecycleContextService.userSettingsStorage,
-        );
+        this.userSettingsService = new UserSettingsService(lifecycleContextService.userSettingsStorage);
     }
 
     async load() {

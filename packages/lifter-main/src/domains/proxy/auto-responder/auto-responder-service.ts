@@ -91,8 +91,7 @@ export class AutoResponderService {
                 leading: true,
                 trailing: true,
             })
-            .subscribe(callback)
-            .unsubscribe;
+            .subscribe(callback).unsubscribe;
     }
 
     private async deletes(ids: number[]): Promise<void> {

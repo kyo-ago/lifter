@@ -1,4 +1,3 @@
-import { getUserSetting } from "../domains/settings/user-settings/user-settings-service";
 import { getAutoResponder } from "../domains/proxy/auto-responder/auto-responder-service";
 import { getClientRequestService } from "../domains/proxy/client-request/client-request-service";
 import { getRewriteRules } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
@@ -6,6 +5,7 @@ import { getCertificateService } from "../domains/settings/certificate/certifica
 import { getNetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
 import { getProxyBypassDomains } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import { getProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
+import { getUserSetting } from "../domains/settings/user-settings/user-settings-service";
 import { LifecycleContextService } from "./lifecycle-context-service";
 import { ServiceContext } from "./service-context";
 

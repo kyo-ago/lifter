@@ -6,10 +6,7 @@ import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
 
-    constructor(
-        private sslCaDir: string,
-        private clientRequestService: ClientRequestService,
-    ) {}
+    constructor(private sslCaDir: string, private clientRequestService: ClientRequestService) {}
 
     async listen() {
         this.mitmProxy.onError((context: HttpMitmProxy.IContext | null, err?: Error, errorKind?: string) => {

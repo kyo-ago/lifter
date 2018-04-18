@@ -15,9 +15,7 @@ export class NetworksetupProxyService {
     private _networksetupProxy: NetworksetupProxy;
     private _isGranted: ProxyCommandGrantStatus;
 
-    constructor(
-        private networkInterfaceRepository: NetworkInterfaceRepository,
-    ) {}
+    constructor(private networkInterfaceRepository: NetworkInterfaceRepository) {}
 
     async load() {
         let path = await this.getCommandPath();

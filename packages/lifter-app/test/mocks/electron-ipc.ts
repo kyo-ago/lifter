@@ -3,10 +3,7 @@ import * as sinon from "sinon";
 
 let sandbox = sinon.createSandbox();
 
-mockRequire(
-    "electron-ipc",
-    sandbox.stub(require("../../mocks/electron-ipc")),
-);
+mockRequire("electron-ipc", sandbox.stub(require("../../mocks/electron-ipc")));
 
 afterEach(() => {
     sandbox.resetHistory();
