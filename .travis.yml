@@ -22,4 +22,4 @@ script:
   - yarn run build
   - yarn run compile
   - yarn run test
-  - if [[ $TRAVIS_BRANCH =~ release/.+ ]]; then yarn run publish; fi
+  - if [[ $TRAVIS_BRANCH =~ release/.+ ]]; then yarn run publish:app; fi
