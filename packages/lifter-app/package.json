@@ -3,13 +3,6 @@
   "description": "lifter proxy application",
   "version": "0.2.0",
   "author": "@kyo_ago",
-  "build": {
-    "productName": "Lifter Proxy",
-    "appId": "com.electron.lifter",
-    "mac": {
-      "category": "public.app-category.developer-tools"
-    }
-  },
   "dependencies": {
     "@lifter/electron-window-manager": "^0.1.1",
     "@lifter/lifter-common": "^0.2.0",
@@ -81,7 +74,7 @@
     "dev": "electron-webpack dev",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "release": "yarn compile && electron-builder --publish always",
+    "release": "yarn compile && electron-builder build --config electron-builder.yml --publish always",
     "start": "run-p dev",
     "storybook": "start-storybook -p 9001 -c storybook",
     "test": "NODE_ENV=test mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
