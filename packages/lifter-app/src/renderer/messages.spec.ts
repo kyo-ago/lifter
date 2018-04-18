@@ -14,28 +14,28 @@ describe("messages", () => {
 
     it("getLocale", () => {
         assert(
-            getLocale(<NavigatorLanguage>{
+            getLocale(<any>{
                 languages: [],
                 language: "en",
             }) === "en-US",
         );
 
         assert(
-            getLocale(<NavigatorLanguage>{
+            getLocale(<any>{
                 languages: [],
                 language: "en-US",
             }) === "en-US",
         );
 
         assert(
-            getLocale(<NavigatorLanguage>{
+            getLocale(<any>{
                 languages: [],
                 language: "ja",
             }) === "ja",
         );
 
         assert(
-            getLocale(<NavigatorLanguage>{
+            getLocale(<any>{
                 languages: [],
                 language: "zh-CN",
             }) === "zh-CN",

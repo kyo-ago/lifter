@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-import { VueComponent } from "../index";
 import Divider from "./divider.vue";
 
 export default {
@@ -42,7 +41,7 @@ export default {
     components: {
         Divider,
     },
-} as VueComponent;
+};
 </script>
 
 <style scoped lang="scss">

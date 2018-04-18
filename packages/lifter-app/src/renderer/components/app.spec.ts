@@ -5,7 +5,6 @@ import { ApplicationMainStateJSON } from "../../main/window-manager";
 import { ApplicationMock } from "../application/application.mock";
 import { HeaderTabNameToIndex } from "../store/modules/get-header-tab-module";
 import { createAppMock } from "./app.mock";
-import App from "./app.vue";
 import DeleteModifiersTable from "./li-dialog/rewrite-rule-modifiers-dialog/delete-modifiers-table.vue";
 import UpdateModifiersTable from "./li-dialog/rewrite-rule-modifiers-dialog/update-modifiers-table.vue";
 import TabContents from "./li-header/tab-contents.vue";
@@ -39,7 +38,7 @@ describe("app.vue", () => {
                 DELETE: [],
             },
         };
-        let appWrapper: Wrapper<App>;
+        let appWrapper: Wrapper<any>;
         beforeEach(async () => {
             let currentState = ApplicationMock.getCurrentState();
             ApplicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({

@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-import { VueComponent } from "../index";
 import { makeTableHandlerMixin } from "../mixins/table-handler-mixin";
 
 export default {
@@ -75,7 +74,7 @@ export default {
         },
     },
     mixins: [makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deletes", entities))],
-} as VueComponent;
+};
 </script>
 
 <style scoped lang="scss">

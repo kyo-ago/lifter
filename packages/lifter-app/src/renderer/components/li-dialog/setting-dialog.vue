@@ -82,8 +82,6 @@
 </template>
 
 <script lang="ts">
-import { VueComponent } from "../index";
-
 export default {
     name: "setting-dialog",
     data() {
@@ -133,7 +131,7 @@ export default {
             this.$data.currentNoPacFileProxySetting = !this.$store.state.proxySettings.noPacFileProxySetting;
         },
     },
-} as VueComponent;
+};
 </script>
 
 <style scoped lang="scss">

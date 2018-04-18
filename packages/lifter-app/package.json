@@ -47,7 +47,7 @@
     "babel-core": "^6.26.0",
     "devtron": "^1.4.0",
     "electron": "^1.8.4",
-    "electron-builder": "^20.8.2",
+    "electron-builder": "^20.8.1",
     "electron-load-devtool": "^1.0.0",
     "electron-webpack": "^1.13.0",
     "electron-webpack-ts": "^1.4.0",
@@ -57,13 +57,12 @@
     "jsdom-global": "^3.0.2",
     "mocha-webpack": "^1.1.0",
     "node-sass": "^4.8.3",
-    "renamer": "^0.6.1",
     "sass-loader": "^6.0.7",
     "webpack": "^3.11.0"
   },
   "electronWebpack": {
     "renderer": {
-      "webpackConfig": "./webpack.renderer.js"
+      "webpackConfig": "webpack.renderer.js"
     }
   },
   "license": "GPL-3.0",
@@ -77,7 +76,7 @@
     "build": "tsc -p .",
     "build-storybook": "build-storybook",
     "clean": "rm -fr dist lib",
-    "compile": "renamer -e -f '(mock|spec)\\.ts' -r '$1.t_s' 'src/**' && electron-webpack && renamer -e -f '(mock|spec)\\.t_s$' -r '$1.ts' 'src/**'",
+    "compile": "electron-webpack",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
     "dist": "yarn compile && electron-builder",

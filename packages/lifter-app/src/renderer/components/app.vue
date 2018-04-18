@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts">
+import { VueComponent } from "./index";
 import LiDialog from "./li-dialog/li-dialog.vue";
 import LiHeader from "./li-header/li-header.vue";
 import LiMain from "./li-main/li-main.vue";
@@ -22,7 +23,7 @@ export default {
         LiMain,
         LiDialog,
     },
-};
+} as VueComponent;
 </script>
 
 <style scoped lang="scss">
