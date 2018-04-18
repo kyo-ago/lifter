@@ -1,7 +1,7 @@
 {
   "name": "@lifter/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "@kyo_ago",
   "dependencies": {
     "@lifter/electron-window-manager": "^0.1.1",
