@@ -20,6 +20,5 @@ cache:
 script:
   - yarn run bootstrap
   - yarn run build
-  - yarn run compile
   - yarn run test
   - if [[ $TRAVIS_BRANCH =~ release/.+ ]]; then yarn run publish:app; fi
