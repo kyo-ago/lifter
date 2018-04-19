@@ -1,6 +1,7 @@
 import { Application } from "../../src/application/application";
 import { LifecycleContextService } from "../../src/application/lifecycle-context-service";
 import { ServiceContext } from "../../src/application/service-context";
+import { SslCertificatePath } from "../../src/domains/libs/ssl-certificate-path";
 import { ProjectFactory } from "../../src/domains/proxy/project/lifecycle/project-factory";
 import { ProjectEntity } from "../../src/domains/proxy/project/project-entity";
 import { TEST_REPOSITORY_BASE_DIR_PATH, TEST_USER_DATA_PATH } from "../settings";
@@ -27,8 +28,9 @@ export class TestApplication extends Application {
 
 export async function createApplication(): Promise<TestApplication> {
     let projectEntity = createProjectEntity();
+    let sslCertificatePath = new SslCertificatePath(TEST_USER_DATA_PATH)
     let lifecycleContextService = new LifecycleContextService(projectEntity);
-    let serviceContext = new ServiceContext(TEST_USER_DATA_PATH, lifecycleContextService);
+    let serviceContext = new ServiceContext(sslCertificatePath, lifecycleContextService);
     let application = new TestApplication(lifecycleContextService, serviceContext);
     await application.load();
     return application;

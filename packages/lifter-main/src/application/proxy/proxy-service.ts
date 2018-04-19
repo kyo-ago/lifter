@@ -1,4 +1,5 @@
 import * as HttpMitmProxy from "http-mitm-proxy";
+import { SslCertificatePath } from "../../domains/libs/ssl-certificate-path";
 import { ClientRequestService } from "../../domains/proxy/client-request/client-request-service";
 import { ClientResponderContext } from "../../domains/proxy/client-request/lib/client-responder-context";
 import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
@@ -6,7 +7,7 @@ import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
 
-    constructor(private sslCaDir: string, private clientRequestService: ClientRequestService) {}
+    constructor(private sslCertificatePath: SslCertificatePath, private clientRequestService: ClientRequestService) {}
 
     async listen() {
         this.mitmProxy.onError((context: HttpMitmProxy.IContext | null, err?: Error, errorKind?: string) => {
@@ -26,7 +27,7 @@ export class ProxyService {
             port: PROXY_PORT,
             host: BIND_HOST_NAME,
             silent: true,
-            sslCaDir: this.sslCaDir,
+            sslCaDir: this.sslCertificatePath.getCaDir(),
         });
     }
 

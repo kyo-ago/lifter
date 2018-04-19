@@ -1,3 +1,4 @@
+import { SslCertificatePath } from "../domains/libs/ssl-certificate-path";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
 import { FindMatchEntry } from "../domains/proxy/auto-responder/specs/find-match-entry";
 import { ClientRequestService } from "../domains/proxy/client-request/client-request-service";
@@ -23,7 +24,7 @@ export class ServiceContext {
     public pacFileService: PacFileService;
     public rewriteRuleService: RewriteRuleService;
 
-    constructor(httpSslCaDirPath: string, lifecycleContextService: LifecycleContextService) {
+    constructor(sslCertificatePath: SslCertificatePath, lifecycleContextService: LifecycleContextService) {
         this.rewriteRuleService = new RewriteRuleService(
             lifecycleContextService.rewriteRuleFactory,
             lifecycleContextService.rewriteRuleRepository,
@@ -40,7 +41,7 @@ export class ServiceContext {
             lifecycleContextService.networkInterfaceRepository,
         );
 
-        this.certificateService = new CertificateService(httpSslCaDirPath);
+        this.certificateService = new CertificateService(sslCertificatePath);
         this.userSettingsService = new UserSettingsService(lifecycleContextService.userSettingsStorage);
 
         this.pacFileService = new PacFileService(this.autoResponderService, this.networksetupProxyService);
@@ -59,7 +60,7 @@ export class ServiceContext {
             lifecycleContextService.clientRequestRepository,
         );
 
-        this.proxyService = new ProxyService(httpSslCaDirPath, this.clientRequestService);
+        this.proxyService = new ProxyService(sslCertificatePath, this.clientRequestService);
 
         this.proxyBypassDomainService = new ProxyBypassDomainService(
             lifecycleContextService.proxyBypassDomainFactory,

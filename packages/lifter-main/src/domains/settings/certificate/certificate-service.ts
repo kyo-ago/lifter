@@ -1,5 +1,6 @@
 import { CertificateStatus } from "@lifter/lifter-common";
 import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../../libs/exec-commands";
+import { SslCertificatePath } from "../../libs/ssl-certificate-path";
 
 export interface getCertificateService {
     fetchCurrentStatus: () => Promise<CertificateStatus>;
@@ -7,10 +8,7 @@ export interface getCertificateService {
 }
 
 export class CertificateService {
-    private certificatePath: string;
-
-    constructor(sslCaDir: string) {
-        this.certificatePath = `${sslCaDir}/certs/ca.pem`;
+    constructor(private sslCertificatePath: SslCertificatePath) {
     }
 
     getCertificateService(): getCertificateService {
@@ -53,12 +51,12 @@ export class CertificateService {
     }
 
     private async installCertificate(): Promise<boolean> {
-        let importResult = await importCert(this.certificatePath);
+        let importResult = await importCert(this.sslCertificatePath.getCaPath());
         if (!importResult.match(/1 certificate imported\./)) {
             throw new Error(importResult);
         }
         try {
-            await addTrustedCert(this.certificatePath);
+            await addTrustedCert(this.sslCertificatePath.getCaPath());
             return true;
         } catch (e) {
             // user cancel
