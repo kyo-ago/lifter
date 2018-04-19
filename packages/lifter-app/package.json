@@ -29,8 +29,7 @@
     "typescript-dddbase": "^0.0.5",
     "vue": "^2.5.16",
     "vue-i18n": "^7.6.0",
-    "vuex": "^3.0.1",
-    "webpack-merge": "^4.1.2"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@kazupon/vue-i18n-loader": "^0.3.0",
@@ -50,12 +49,37 @@
     "jsdom-global": "^3.0.2",
     "mocha-webpack": "^1.1.0",
     "node-sass": "^4.8.3",
+    "npm-run-all": "^4.1.2",
     "sass-loader": "^6.0.7",
-    "webpack": "^3.11.0"
+    "webpack": "^3.11.0",
+    "webpack-merge": "^4.1.2"
   },
   "electronWebpack": {
     "renderer": {
-      "webpackConfig": "webpack.renderer.js"
+      "dll": [
+        "electron-context-menu",
+        "electron-ipc",
+        "electron-localshortcut",
+        "electron-unhandled",
+        "electron-window-state",
+        "element-ui",
+        "execa",
+        "http-mitm-proxy",
+        "ifconfig",
+        "melanke-watchjs",
+        "micromatch",
+        "mime",
+        "monapt",
+        "nedb",
+        "rxjs",
+        "source-map-support",
+        "stat-mode",
+        "sudo-prompt",
+        "typescript-dddbase",
+        "vue",
+        "vue-i18n",
+        "vuex"
+      ]
     }
   },
   "license": "GPL-3.0",
@@ -66,15 +90,17 @@
     "element-ui": "2.3.2"
   },
   "scripts": {
-    "build": "tsc -p .",
+    "build": "npm-run-all --parallel build:**",
     "build-storybook": "build-storybook",
+    "build:main": "electron-webpack main",
+    "build:renderer": "webpack --config config/webpack.renderer.js",
     "clean": "rm -fr dist lib",
-    "compile": "electron-webpack",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
-    "dist": "yarn compile && electron-builder",
+    "dist": "yarn build && electron-builder --config config/electron-builder.yml",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "release": "yarn compile && electron-builder build --config electron-builder.yml --publish always",
+    "postinstall": "electron-webpack dll",
+    "release": "yarn run dist -- build --publish onTag",
     "start": "run-p dev",
     "storybook": "start-storybook -p 9001 -c storybook",
     "test": "NODE_ENV=test mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
