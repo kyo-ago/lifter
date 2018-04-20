@@ -1,9 +1,17 @@
 import { CertificateStatus } from "@lifter/lifter-common";
-import { addTrustedCert, deleteCertificate, findCertificate, importCert } from "../../../libs/exec-commands";
+import {
+    addTrustedCert,
+    deleteCertificate,
+    findCertificate,
+    getAddTrustedCertCommandString,
+    getDeleteCertificateCommandString, getImportCertCommandString,
+    importCert
+} from "../../../libs/exec-commands";
 import { SslCertificatePath } from "../../libs/ssl-certificate-path";
 
 export interface getCertificateService {
     fetchCurrentStatus: () => Promise<CertificateStatus>;
+    fetchCurrentCommand: () => Promise<string[]>;
     changeCertificateStatus: () => Promise<CertificateStatus>;
 }
 
@@ -16,6 +24,9 @@ export class CertificateService {
             fetchCurrentStatus: (): Promise<CertificateStatus> => {
                 return this.fetchCurrentStatus();
             },
+            fetchCurrentCommand: (): Promise<string[]> => {
+                return this.fetchCurrentCommand();
+            },
             changeCertificateStatus: (): Promise<CertificateStatus> => {
                 return this.changeCertificateStatus();
             },
@@ -25,6 +36,18 @@ export class CertificateService {
     private async fetchCurrentStatus(): Promise<CertificateStatus> {
         let result = await this.findCertificate();
         return result ? "Installed" : "Missing";
+    }
+
+    private async fetchCurrentCommand(): Promise<string[]> {
+        let result = await this.findCertificate();
+        if (result) {
+            return [getDeleteCertificateCommandString()];
+        }
+        let caPath = this.sslCertificatePath.getCaPath();
+        return [
+            getImportCertCommandString(caPath),
+            getAddTrustedCertCommandString(caPath),
+        ];
     }
 
     private async changeCertificateStatus(): Promise<CertificateStatus> {
@@ -51,12 +74,13 @@ export class CertificateService {
     }
 
     private async installCertificate(): Promise<boolean> {
-        let importResult = await importCert(this.sslCertificatePath.getCaPath());
+        let caPath = this.sslCertificatePath.getCaPath();
+        let importResult = await importCert(caPath);
         if (!importResult.match(/1 certificate imported\./)) {
             throw new Error(importResult);
         }
         try {
-            await addTrustedCert(this.sslCertificatePath.getCaPath());
+            await addTrustedCert(caPath);
             return true;
         } catch (e) {
             // user cancel

@@ -4,9 +4,19 @@ import { CERTIFICATE_NAME, IFCONFIG_COMMAND, NETWORK_SETUP_COMMAND, SECURITY_COM
 import { throwableCommand } from "./throwable-command";
 
 function ExecCommand(commandPath: string, args: string[]): Promise<string> {
-    let filteredArgs = args.filter(arg => arg).map(arg => (arg.match(/\W/) ? `"${arg}"` : arg));
-    return throwableCommand(execa.shell(`${commandPath} ${filteredArgs.join(" ")}`));
+    let commandString = GetCommandString(commandPath, args);
+    return ExecCommandFromString(commandString);
 }
+
+function ExecCommandFromString(commandString: string): Promise<string> {
+    return throwableCommand(execa.shell(commandString));
+}
+
+function GetCommandString(commandPath: string, args: string[]): string {
+    let filteredArgs = args.filter(arg => arg).map(arg => (arg.match(/\W/) ? `"${arg}"` : arg));
+    return `${commandPath} ${filteredArgs.join(" ")}`;
+}
+
 
 export function getIfconfig(): Promise<string> {
     return ExecCommand(IFCONFIG_COMMAND, []);
@@ -33,13 +43,28 @@ export function findCertificate(): Promise<string> {
 }
 
 export function deleteCertificate(): Promise<string> {
-    return ExecCommand(SECURITY_COMMAND, ["delete-certificate", "-c", CERTIFICATE_NAME]);
+    let commandString = getDeleteCertificateCommandString();
+    return ExecCommandFromString(commandString);
+}
+
+export function getDeleteCertificateCommandString(): string {
+    return GetCommandString(SECURITY_COMMAND, ["delete-certificate", "-c", CERTIFICATE_NAME]);
 }
 
 export function importCert(certificatePath: string): Promise<string> {
-    return ExecCommand(SECURITY_COMMAND, ["import", certificatePath]);
+    let commandString = getImportCertCommandString(certificatePath);
+    return ExecCommandFromString(commandString);
+}
+
+export function getImportCertCommandString(certificatePath: string): string {
+    return GetCommandString(SECURITY_COMMAND, ["import", certificatePath]);
 }
 
 export function addTrustedCert(certificatePath: string): Promise<string> {
-    return ExecCommand(SECURITY_COMMAND, ["add-trusted-cert", "-p", "ssl", certificatePath]);
+    let commandString = getAddTrustedCertCommandString(certificatePath);
+    return ExecCommandFromString(commandString);
+}
+
+export function getAddTrustedCertCommandString(certificatePath: string): string {
+    return GetCommandString(SECURITY_COMMAND, ["add-trusted-cert", "-p", "ssl", certificatePath]);
 }
