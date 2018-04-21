@@ -6,9 +6,11 @@ export function getProxySettingsModule(application: Application, state: Applicat
     return {
         namespaced: true,
         state: {
+            certificateState: state.certificateState,
+            certificateCommands: state.certificateCommands,
             proxySettingStatus: state.proxySettingStatus,
             proxyCommandGrantStatus: state.proxyCommandGrantStatus,
-            certificateState: state.certificateState,
+            proxyCommandGrantCommands: state.proxyCommandGrantCommands,
             noAutoEnableProxySetting: state.noAutoEnableProxySetting,
             noPacFileProxySetting: state.noPacFileProxySetting,
         },

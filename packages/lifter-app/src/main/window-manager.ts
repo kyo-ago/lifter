@@ -19,8 +19,10 @@ export interface ApplicationMainStateJSON {
     proxyBypassDomainEntries: ProxyBypassDomainEntityJSON[];
     rewriteRuleEntries: RewriteRuleEntityJSON[];
     certificateState: CertificateStatus;
+    certificateCommands: string[];
     proxySettingStatus: ProxySettingStatus;
     proxyCommandGrantStatus: ProxyCommandGrantStatus;
+    proxyCommandGrantCommands: string[];
     noAutoEnableProxySetting: boolean;
     noPacFileProxySetting: boolean;
 }
@@ -106,35 +108,46 @@ export class WindowManager {
             ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
             : `file://${__dirname}/index.html`;
 
+        // Promise.all max 10 arguments (d.ts)
         let [
             autoResponderEntries,
             clientRequestEntries,
             proxyBypassDomainEntries,
             rewriteRuleEntries,
             certificateState,
-            proxySettingStatus,
-            proxyCommandGrantStatus,
-            noAutoEnableProxySetting,
-            noPacFileProxySetting,
         ] = await Promise.all([
             this.application.getAutoResponder().fetchAll(),
             this.application.getClientRequestService().fetchAll(),
             this.application.getProxyBypassDomains().fetchAll(),
             this.application.getRewriteRules().fetchAll(),
             this.application.getCertificateService().fetchCurrentStatus(),
+        ]);
+        let [
+            certificateCommands,
+            proxySettingStatus,
+            proxyCommandGrantStatus,
+            proxyCommandGrantCommands,
+            noAutoEnableProxySetting,
+            noPacFileProxySetting,
+        ] = await Promise.all([
+            this.application.getCertificateService().fetchCurrentCommands(),
             this.application.getProxySettingService().fetch(),
             this.application.getNetworksetupProxyService().fetchProxyCommandGrantStatus(),
+            this.application.getNetworksetupProxyService().fetchProxyCommandGrantCommands(),
             this.application.getUserSetting().getNoAutoEnableProxy(),
             this.application.getUserSetting().getNoPacFileProxy(),
         ]);
+
         let state: ApplicationMainStateJSON = {
             autoResponderEntries,
             clientRequestEntries,
             proxyBypassDomainEntries,
             rewriteRuleEntries,
             certificateState,
+            certificateCommands,
             proxySettingStatus,
             proxyCommandGrantStatus,
+            proxyCommandGrantCommands,
             noAutoEnableProxySetting,
             noPacFileProxySetting,
         };

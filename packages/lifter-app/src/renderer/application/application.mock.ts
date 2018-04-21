@@ -13,8 +13,10 @@ applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
     proxyBypassDomainEntries: [],
     rewriteRuleEntries: [],
     certificateState: "Missing",
+    certificateCommands: [],
     proxySettingStatus: "Off",
     proxyCommandGrantStatus: "Off",
+    proxyCommandGrantCommands: [],
     noAutoEnableProxySetting: false,
     noPacFileProxySetting: false,
 }));

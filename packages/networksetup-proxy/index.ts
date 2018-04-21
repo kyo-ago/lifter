@@ -47,12 +47,16 @@ export class NetworksetupProxy {
 
     async grant(): Promise<IOResult> {
         let [stdout, stderr]: string[] = await promisedSudoExec(
-            `chown 0:0 "${this.PROXY_SETTING_COMMAND}" && chmod 4755 "${this.PROXY_SETTING_COMMAND}"`,
+            this.getGrantCommand(),
             {
                 name: this.sudoApplicationName,
             },
         );
         return { stdout, stderr };
+    }
+
+    getGrantCommand(): string {
+        return `chown 0:0 "${this.PROXY_SETTING_COMMAND}" && chmod 4755 "${this.PROXY_SETTING_COMMAND}"`;
     }
 
     async removeGrant(): Promise<IOResult> {
@@ -63,6 +67,18 @@ export class NetworksetupProxy {
         await promisedFsUnlink(this.PROXY_SETTING_COMMAND);
         await promisedFsRename(tempolaryFileName, this.PROXY_SETTING_COMMAND);
         return { stdout: "", stderr: "" };
+    }
+
+    getRemoveGrantCommands(): string[] {
+        let basename = path.basename(this.PROXY_SETTING_COMMAND);
+        let dirname = path.dirname(this.PROXY_SETTING_COMMAND);
+        let tempolaryFileName = `${dirname}/tmp_${basename}`;
+        return [
+            `cp ${this.PROXY_SETTING_COMMAND} ${tempolaryFileName}`,
+            `rm -f ${this.PROXY_SETTING_COMMAND}`,
+            `cp ${tempolaryFileName} ${this.PROXY_SETTING_COMMAND}`,
+
+        ];
     }
 
     setwebproxy(

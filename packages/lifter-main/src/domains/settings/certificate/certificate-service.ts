@@ -11,7 +11,7 @@ import { SslCertificatePath } from "../../libs/ssl-certificate-path";
 
 export interface getCertificateService {
     fetchCurrentStatus: () => Promise<CertificateStatus>;
-    fetchCurrentCommand: () => Promise<string[]>;
+    fetchCurrentCommands: () => Promise<string[]>;
     changeCertificateStatus: () => Promise<CertificateStatus>;
 }
 
@@ -24,8 +24,8 @@ export class CertificateService {
             fetchCurrentStatus: (): Promise<CertificateStatus> => {
                 return this.fetchCurrentStatus();
             },
-            fetchCurrentCommand: (): Promise<string[]> => {
-                return this.fetchCurrentCommand();
+            fetchCurrentCommands: (): Promise<string[]> => {
+                return this.fetchCurrentCommands();
             },
             changeCertificateStatus: (): Promise<CertificateStatus> => {
                 return this.changeCertificateStatus();
@@ -38,7 +38,7 @@ export class CertificateService {
         return result ? "Installed" : "Missing";
     }
 
-    private async fetchCurrentCommand(): Promise<string[]> {
+    private async fetchCurrentCommands(): Promise<string[]> {
         let result = await this.findCertificate();
         if (result) {
             return [getDeleteCertificateCommandString()];
