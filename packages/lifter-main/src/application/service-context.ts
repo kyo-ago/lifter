@@ -5,7 +5,8 @@ import { ClientRequestService } from "../domains/proxy/client-request/client-req
 import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
 import { CertificateService } from "../domains/settings/certificate/certificate-service";
-import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy-service/networksetup-proxy-service";
+import { NetworkInterfaceService } from "../domains/settings/network-interface/network-interface-service";
+import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy/networksetup-proxy-service";
 import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
 import { UserSettingsService } from "../domains/settings/user-settings/user-settings-service";
@@ -14,6 +15,7 @@ import { ProxyService } from "./proxy/proxy-service";
 
 export class ServiceContext {
     public clientRequestService: ClientRequestService;
+    public networkInterfaceService: NetworkInterfaceService;
     public networksetupProxyService: NetworksetupProxyService;
     public proxyService: ProxyService;
     public certificateService: CertificateService;
@@ -37,8 +39,11 @@ export class ServiceContext {
             this.rewriteRuleService,
         );
 
+        this.networkInterfaceService = new NetworkInterfaceService(lifecycleContextService.networkInterfaceFactory);
+
         this.networksetupProxyService = new NetworksetupProxyService(
-            lifecycleContextService.networkInterfaceRepository,
+            lifecycleContextService.networksetupProxyFactory,
+            this.networkInterfaceService,
         );
 
         this.certificateService = new CertificateService(sslCertificatePath);
@@ -50,7 +55,7 @@ export class ServiceContext {
             this.userSettingsService,
             this.pacFileService,
             this.networksetupProxyService,
-            lifecycleContextService.networkInterfaceRepository,
+            this.networkInterfaceService,
         );
 
         this.clientRequestService = new ClientRequestService(

@@ -1,4 +1,4 @@
-import { NetworksetupProxyService } from "../../settings/networksetup-proxy-service/networksetup-proxy-service";
+import { NetworksetupProxyService } from "../../settings/networksetup-proxy/networksetup-proxy-service";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientResponderContext } from "../client-request/lib/client-responder-context";
 

@@ -15,14 +15,14 @@ export interface getClientRequestService {
 }
 
 export class ClientRequestService {
+    private observable: Rx.Subject<ClientRequestEntityJSON> = new Rx.Subject();
+
     constructor(
         private autoResponderService: AutoResponderService,
         private pacFileService: PacFileService,
         private clientRequestFactory: ClientRequestFactory,
         private clientRequestRepository: ClientRequestRepository,
     ) {}
-
-    private observable: Rx.Subject<ClientRequestEntityJSON> = new Rx.Subject();
 
     store(url: URL.Url): ClientRequestEntity {
         let clientRequestEntity = this.clientRequestFactory.create(url);

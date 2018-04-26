@@ -7,7 +7,7 @@ import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
 import { RewriteRuleRepository } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
 import { NetworkInterfaceFactory } from "../domains/settings/network-interface/lifecycle/network-interface-factory";
-import { NetworkInterfaceRepository } from "../domains/settings/network-interface/lifecycle/network-interface-repository";
+import { NetworksetupProxyFactory } from "../domains/settings/networksetup-proxy/lifecycle/networksetup-proxy-factory";
 import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainRepository } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository";
 import { UserSettingsStorage } from "../domains/settings/user-settings/user-settings-storage";
@@ -18,17 +18,16 @@ export class LifecycleContextService {
     public localFileResponseFactory = new LocalFileResponseFactory();
     public networkInterfaceFactory = new NetworkInterfaceFactory();
     public proxyBypassDomainFactory = new ProxyBypassDomainFactory();
+    public networksetupProxyFactory = new NetworksetupProxyFactory();
 
     public autoResponderRepository: AutoResponderRepository;
     public autoResponderFactory: AutoResponderFactory;
-    public networkInterfaceRepository: NetworkInterfaceRepository;
     public proxyBypassDomainRepository: ProxyBypassDomainRepository;
     public rewriteRuleFactory: RewriteRuleFactory;
     public rewriteRuleRepository: RewriteRuleRepository;
     public userSettingsStorage: UserSettingsStorage;
 
     constructor(projectEntity: ProjectEntity) {
-        this.networkInterfaceRepository = new NetworkInterfaceRepository(this.networkInterfaceFactory);
         this.autoResponderRepository = new AutoResponderRepository(projectEntity);
         this.proxyBypassDomainRepository = new ProxyBypassDomainRepository(projectEntity);
         this.autoResponderFactory = new AutoResponderFactory(projectEntity);

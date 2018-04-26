@@ -1,6 +1,6 @@
 {
   "name": "@lifter/lifter-cli",
-  "description": "lifter proxy main process",
+  "description": "lifter proxy cli client",
   "version": "0.2.0",
   "author": "@kyo_ago",
   "dependencies": {

@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "author": "@kyo_ago",
   "dependencies": {
+    "@lifter/file-watcher": "^0.2.0",
     "execa": "^0.10.0",
     "stat-mode": "^0.2.2",
     "sudo-prompt": "^8.2.0"

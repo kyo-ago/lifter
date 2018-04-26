@@ -108,7 +108,7 @@ export class WindowManager {
             ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
             : `file://${__dirname}/index.html`;
 
-        // Promise.all max 10 arguments (d.ts)
+        // Promise.all is max 10 arguments (d.ts limit)
         let [
             autoResponderEntries,
             clientRequestEntries,

@@ -6,6 +6,7 @@ import * as path from "path";
 import * as Mode from "stat-mode";
 import { exec } from "sudo-prompt";
 import { promisify } from "util";
+import * as Watch from "@lifter/file-watcher";
 
 export type IOResult = {
     stdout: string;
@@ -79,6 +80,10 @@ export class NetworksetupProxy {
             `cp ${tempolaryFileName} ${this.PROXY_SETTING_COMMAND}`,
 
         ];
+    }
+
+    watchGrantCommands(callback: (result: boolean) => void): () => void {
+        return Watch(this.PROXY_SETTING_COMMAND, async () => callback(await this.hasGrant()));
     }
 
     setwebproxy(

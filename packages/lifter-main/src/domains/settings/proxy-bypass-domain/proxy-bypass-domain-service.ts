@@ -1,5 +1,5 @@
 import { ProxyBypassDomainEntityJSON } from "@lifter/lifter-common";
-import { NetworksetupProxyService } from "../networksetup-proxy-service/networksetup-proxy-service";
+import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
 import { ProxyBypassDomainFactory } from "./lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainRepository } from "./lifecycle/proxy-bypass-domain-repository";
 

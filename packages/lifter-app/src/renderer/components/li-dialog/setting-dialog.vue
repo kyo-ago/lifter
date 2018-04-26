@@ -43,6 +43,9 @@
                         ? $t("CurrentLifterProxyCertificationIsInstalled")
                         : $t("CurrentLifterProxyCertificationIsMissing")
                 }}
+                or
+                {{
+                }}
             </div>
             <div>
                 <el-switch
