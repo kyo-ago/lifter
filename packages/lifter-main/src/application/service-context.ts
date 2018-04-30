@@ -8,6 +8,7 @@ import { CertificateService } from "../domains/settings/certificate/certificate-
 import { NetworkInterfaceService } from "../domains/settings/network-interface/network-interface-service";
 import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy/networksetup-proxy-service";
 import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
+import { ProxyCommandGrantService } from "../domains/settings/proxy-command-grant/proxy-command-grant-service";
 import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
 import { UserSettingsService } from "../domains/settings/user-settings/user-settings-service";
 import { LifecycleContextService } from "./lifecycle-context-service";
@@ -25,6 +26,7 @@ export class ServiceContext {
     public autoResponderService: AutoResponderService;
     public pacFileService: PacFileService;
     public rewriteRuleService: RewriteRuleService;
+    public proxyCommandGrantService: ProxyCommandGrantService;
 
     constructor(sslCertificatePath: SslCertificatePath, lifecycleContextService: LifecycleContextService) {
         this.rewriteRuleService = new RewriteRuleService(
@@ -39,11 +41,14 @@ export class ServiceContext {
             this.rewriteRuleService,
         );
 
+        this.proxyCommandGrantService = new ProxyCommandGrantService(lifecycleContextService.networksetupProxyFactory);
+
         this.networkInterfaceService = new NetworkInterfaceService(lifecycleContextService.networkInterfaceFactory);
 
         this.networksetupProxyService = new NetworksetupProxyService(
             lifecycleContextService.networksetupProxyFactory,
             this.networkInterfaceService,
+            this.proxyCommandGrantService,
         );
 
         this.certificateService = new CertificateService(sslCertificatePath);
@@ -77,7 +82,10 @@ export class ServiceContext {
     }
 
     async load() {
+        await Promise.all([
+            this.networksetupProxyService.load(),
+            this.proxyCommandGrantService.load(),
+        ]);
         await this.proxyBypassDomainService.load();
-        await this.networksetupProxyService.load();
     }
 }

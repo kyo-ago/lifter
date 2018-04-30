@@ -2,8 +2,8 @@ import { getAutoResponder } from "../domains/proxy/auto-responder/auto-responder
 import { getClientRequestService } from "../domains/proxy/client-request/client-request-service";
 import { getRewriteRules } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
 import { getCertificateService } from "../domains/settings/certificate/certificate-service";
-import { getNetworksetupProxyService } from "../domains/settings/networksetup-proxy/networksetup-proxy-service";
 import { getProxyBypassDomains } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
+import { getProxyCommandGrantService } from "../domains/settings/proxy-command-grant/proxy-command-grant-service";
 import { getProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
 import { getUserSetting } from "../domains/settings/user-settings/user-settings-service";
 import { LifecycleContextService } from "./lifecycle-context-service";
@@ -38,8 +38,8 @@ export class Application {
         return this.serviceContext.certificateService.getCertificateService();
     }
 
-    getNetworksetupProxyService(): getNetworksetupProxyService {
-        return this.serviceContext.networksetupProxyService.getNetworksetupProxyService();
+    getProxyCommandGrantService(): getProxyCommandGrantService {
+        return this.serviceContext.proxyCommandGrantService.getProxyCommandGrantService();
     }
 
     getClientRequestService(): getClientRequestService {

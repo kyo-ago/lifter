@@ -2,18 +2,18 @@ import * as assert from "assert";
 import "mocha";
 import { createApplication } from "../../../../test/mocks/create-services";
 import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
-import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
+import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
 import { UserSettingsService } from "../user-settings/user-settings-service";
 import { ProxySettingService } from "./proxy-setting-service";
 
 describe("ProxySettingService", () => {
     let proxySettingService: ProxySettingService;
-    let networksetupProxyService: NetworksetupProxyService;
+    let proxyCommandGrantService: ProxyCommandGrantService;
     let userSettingsService: UserSettingsService;
     beforeEach(async () => {
         let application = await createApplication();
         proxySettingService = application.getServiceContext().proxySettingService;
-        networksetupProxyService = application.getServiceContext().networksetupProxyService;
+        proxyCommandGrantService = application.getServiceContext().proxyCommandGrantService;
         userSettingsService = application.getServiceContext().userSettingsService;
     });
 
@@ -37,7 +37,8 @@ describe("ProxySettingService", () => {
     it("change to fetch", async () => {
         MockStateEvent.emit("updateProxyCommandGrantStatus", "On");
         MockStateEvent.emit("updateProxySettingState", "Off");
-        await networksetupProxyService.load();
+        // reload updateProxyCommandGrantStatus
+        await proxyCommandGrantService.load();
         let result = await getNetworksetupProxyService().change();
         assert(result === "On");
 

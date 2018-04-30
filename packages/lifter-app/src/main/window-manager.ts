@@ -7,7 +7,7 @@ import {
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
-    RewriteRuleEntityJSON,
+    RewriteRuleEntityJSON
 } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
 import { addRewriteRuleModifierParam, deleteRewriteRuleModifierParam, ipc } from "../lib/ipc";
@@ -58,7 +58,7 @@ export class WindowManager {
         });
 
         ipc.subscribe("changeProxyCommandGrantStatus", () => {
-            return this.application.getNetworksetupProxyService().changeProxyCommandGrantStatus();
+            return this.application.getProxyCommandGrantService().changeStatus();
         });
 
         ipc.subscribe("changeNoAutoEnableProxySetting", () => {
@@ -132,8 +132,8 @@ export class WindowManager {
         ] = await Promise.all([
             this.application.getCertificateService().fetchCurrentCommands(),
             this.application.getProxySettingService().fetch(),
-            this.application.getNetworksetupProxyService().fetchProxyCommandGrantStatus(),
-            this.application.getNetworksetupProxyService().fetchProxyCommandGrantCommands(),
+            this.application.getProxyCommandGrantService().fetchStatus(),
+            this.application.getProxyCommandGrantService().fetchCommands(),
             this.application.getUserSetting().getNoAutoEnableProxy(),
             this.application.getUserSetting().getNoPacFileProxy(),
         ]);

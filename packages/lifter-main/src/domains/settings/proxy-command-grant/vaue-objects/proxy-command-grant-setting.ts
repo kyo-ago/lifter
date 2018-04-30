@@ -1,12 +1,12 @@
 import { ProxyCommandGrantStatus } from "@lifter/lifter-common";
 import { BaseValueObject } from "../../../base/value-objects/base-value-object";
 
-export class NetworksetupProxyGranted extends BaseValueObject<boolean> {
-    static getGranted(): NetworksetupProxyGranted {
-        return new NetworksetupProxyGranted(true);
+export class ProxyCommandGrantSetting extends BaseValueObject<boolean> {
+    static getGranted(): ProxyCommandGrantSetting {
+        return new ProxyCommandGrantSetting(true);
     }
-    static getNotGranted(): NetworksetupProxyGranted {
-        return new NetworksetupProxyGranted(false);
+    static getNotGranted(): ProxyCommandGrantSetting {
+        return new ProxyCommandGrantSetting(false);
     }
 
     isGranted(): boolean {

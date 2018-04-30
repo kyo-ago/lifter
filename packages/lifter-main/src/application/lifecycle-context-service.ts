@@ -43,6 +43,7 @@ export class LifecycleContextService {
             this.rewriteRuleRepository.load(),
             this.proxyBypassDomainRepository.load(),
             this.userSettingsStorage.load(),
+            this.networksetupProxyFactory.load(),
         ]);
     }
 }

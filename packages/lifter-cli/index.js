@@ -1,3 +1,5 @@
+import { getProxyCommandGrantService } from "../lifter-main/src/domains/settings/proxy-command-grant/proxy-command-grant-service";
+
 const { createApplication } = require("@lifter/lifter-main");
 const inquirer = require("inquirer");
 
@@ -21,12 +23,12 @@ let application = createApplication(`${__dirname}/repositories`, __dirname);
                 value: application.getCertificateService().changeCertificateStatus,
             },
             {
-                name: "application.getNetworksetupProxyService().fetchProxyCommandGrantStatus()",
-                value: application.getNetworksetupProxyService().fetchProxyCommandGrantStatus,
+                name: "application.getProxyCommandGrantService().fetchStatus()",
+                value: application.getProxyCommandGrantService().fetchStatus,
             },
             {
-                name: "application.getNetworksetupProxyService().changeProxyCommandGrantStatus()",
-                value: application.getNetworksetupProxyService().changeProxyCommandGrantStatus,
+                name: "application.getProxyCommandGrantService().changeStatus()",
+                value: application.getProxyCommandGrantService().changeStatus,
             },
             {
                 name: "application.getUserSetting().getNoAutoEnableProxy()",

@@ -28,9 +28,11 @@ export class TestApplication extends Application {
 
 export async function createApplication(): Promise<TestApplication> {
     let projectEntity = createProjectEntity();
-    let sslCertificatePath = new SslCertificatePath(TEST_USER_DATA_PATH)
+    let sslCertificatePath = new SslCertificatePath(TEST_USER_DATA_PATH);
     let lifecycleContextService = new LifecycleContextService(projectEntity);
+    await lifecycleContextService.load();
     let serviceContext = new ServiceContext(sslCertificatePath, lifecycleContextService);
+    await serviceContext.load();
     let application = new TestApplication(lifecycleContextService, serviceContext);
     await application.load();
     return application;

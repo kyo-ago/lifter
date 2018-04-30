@@ -2,21 +2,21 @@ import * as assert from "assert";
 import "mocha";
 import { createApplication } from "../../../../test/mocks/create-services";
 import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
-import { NetworksetupProxyService } from "./networksetup-proxy-service";
+import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
 
-describe("NetworksetupProxyService", () => {
-    let networksetupProxyService: NetworksetupProxyService;
+describe("ProxyCommandGrantService", () => {
+    let proxyCommandGrantService: ProxyCommandGrantService;
     beforeEach(async () => {
         let application = await createApplication();
-        networksetupProxyService = application.getServiceContext().networksetupProxyService;
+        proxyCommandGrantService = application.getServiceContext().proxyCommandGrantService;
     });
 
-    let getNetworksetupProxyService = () => {
-        return networksetupProxyService.getNetworksetupProxyService();
+    let getProxyCommandGrantService = () => {
+        return proxyCommandGrantService.getProxyCommandGrantService();
     };
 
-    it("fetchProxyCommandGrantStatus", async () => {
-        let result = await getNetworksetupProxyService().fetchProxyCommandGrantStatus();
+    it("fetchStatus", async () => {
+        let result = await getProxyCommandGrantService().fetchStatus();
         assert(result === "Off");
     });
 
@@ -24,18 +24,18 @@ describe("NetworksetupProxyService", () => {
         it(`changeProxyCommandGrantStatus ${from} to ${to}`, async () => {
             MockStateEvent.emit("updateProxyCommandGrantStatus", <any>from);
             // reload MockStateEvent state
-            await networksetupProxyService.load();
+            await proxyCommandGrantService.load();
 
-            let result = await getNetworksetupProxyService().changeProxyCommandGrantStatus();
+            let result = await getProxyCommandGrantService().changeStatus();
             assert(result === to);
         });
     });
 
-    it("changeProxyCommandGrantStatus to fetch", async () => {
-        let result = await getNetworksetupProxyService().changeProxyCommandGrantStatus();
+    it("changeStatus to fetch", async () => {
+        let result = await getProxyCommandGrantService().changeStatus();
         assert(result === "On");
 
-        let fetchResult = await getNetworksetupProxyService().fetchProxyCommandGrantStatus();
+        let fetchResult = await getProxyCommandGrantService().fetchStatus();
         assert(fetchResult === "On");
     });
 });
