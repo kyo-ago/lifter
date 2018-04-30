@@ -1,6 +1,6 @@
-import * as fs from "fs";
 import { APPLICATION_NAME } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
+import * as fs from "fs";
 import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../../settings";
 
 export class NetworksetupProxyFactory {

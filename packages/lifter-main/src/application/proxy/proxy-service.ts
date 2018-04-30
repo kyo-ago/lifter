@@ -1,7 +1,7 @@
 import * as HttpMitmProxy from "http-mitm-proxy";
-import { SslCertificatePath } from "../../domains/libs/ssl-certificate-path";
 import { ClientRequestService } from "../../domains/proxy/client-request/client-request-service";
 import { ClientResponderContext } from "../../domains/proxy/client-request/lib/client-responder-context";
+import { SslCertificatePath } from "../../libs/ssl-certificate-path";
 import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 
 export class ProxyService {

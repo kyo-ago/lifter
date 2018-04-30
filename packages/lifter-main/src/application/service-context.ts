@@ -1,18 +1,18 @@
-import { SslCertificatePath } from "../domains/libs/ssl-certificate-path";
 import { AutoResponderService } from "../domains/proxy/auto-responder/auto-responder-service";
 import { FindMatchEntry } from "../domains/proxy/auto-responder/specs/find-match-entry";
 import { ClientRequestService } from "../domains/proxy/client-request/client-request-service";
-import { PacFileService } from "../domains/proxy/pac-file/pac-file-service";
 import { RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
-import { CertificateService } from "../domains/settings/certificate/certificate-service";
-import { NetworkInterfaceService } from "../domains/settings/network-interface/network-interface-service";
-import { NetworksetupProxyService } from "../domains/settings/networksetup-proxy/networksetup-proxy-service";
-import { ProxyBypassDomainService } from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import { ProxyCommandGrantService } from "../domains/settings/proxy-command-grant/proxy-command-grant-service";
-import { ProxySettingService } from "../domains/settings/proxy-setting/proxy-setting-service";
-import { UserSettingsService } from "../domains/settings/user-settings/user-settings-service";
+import { SslCertificatePath } from "../libs/ssl-certificate-path";
 import { LifecycleContextService } from "./lifecycle-context-service";
 import { ProxyService } from "./proxy/proxy-service";
+import { CertificateService } from "./settings/certificate/certificate-service";
+import { NetworkInterfaceService } from "./settings/network-interface/network-interface-service";
+import { NetworksetupProxyService } from "./settings/networksetup-proxy/networksetup-proxy-service";
+import { PacFileService } from "./settings/pac-file/pac-file-service";
+import { ProxyBypassDomainService } from "./settings/proxy-bypass-domain/proxy-bypass-domain-service";
+import { ProxyCommandGrantService } from "./settings/proxy-command-grant/proxy-command-grant-service";
+import { ProxySettingService } from "./settings/proxy-setting/proxy-setting-service";
+import { UserSettingsService } from "./settings/user-settings/user-settings-service";
 
 export class ServiceContext {
     public clientRequestService: ClientRequestService;

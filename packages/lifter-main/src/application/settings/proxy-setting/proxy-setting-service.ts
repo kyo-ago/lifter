@@ -1,8 +1,8 @@
 import { ProxySettingStatus } from "@lifter/lifter-common";
 import { PROXY_PREFERENCES_PLIST_PATH } from "../../../settings";
-import { PacFileService } from "../../proxy/pac-file/pac-file-service";
 import { NetworkInterfaceService } from "../network-interface/network-interface-service";
 import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
+import { PacFileService } from "../pac-file/pac-file-service";
 import { UserSettingsService } from "../user-settings/user-settings-service";
 
 export interface getProxySettingService {

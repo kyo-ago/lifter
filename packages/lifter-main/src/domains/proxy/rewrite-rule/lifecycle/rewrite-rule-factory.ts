@@ -7,7 +7,7 @@ import {
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
     RewriteRuleModifierMapJSON,
-    RewriteRuleUpdateModifierEntityJSON,
+    RewriteRuleUpdateModifierEntityJSON
 } from "@lifter/lifter-common";
 import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";

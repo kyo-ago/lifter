@@ -1,6 +1,6 @@
-import { HTTP_SSL_CA_DIR_NAME } from "../../settings";
-import { BaseValueObject } from "../base/value-objects/base-value-object";
 import * as Path from "path";
+import { BaseValueObject } from "../domains/base/value-objects/base-value-object";
+import { HTTP_SSL_CA_DIR_NAME } from "../settings";
 
 export class SslCertificatePath extends BaseValueObject<string> {
     getCaPath() {

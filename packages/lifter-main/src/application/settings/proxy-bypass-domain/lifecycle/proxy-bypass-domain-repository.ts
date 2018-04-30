@@ -1,5 +1,5 @@
-import { AsyncOnNedbRepository } from "../../../base/async-on-nedb-repository";
-import { ProjectEntity } from "../../../proxy/project/project-entity";
+import { AsyncOnNedbRepository } from "../../../../domains/base/async-on-nedb-repository";
+import { ProjectEntity } from "../../../../domains/proxy/project/project-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain-entity";
 import { ProxyBypassDomainIdentity } from "../proxy-bypass-domain-identity";
 import { ProxyBypassDomainFactory } from "./proxy-bypass-domain-factory";

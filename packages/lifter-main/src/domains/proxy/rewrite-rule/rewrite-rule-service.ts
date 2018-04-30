@@ -1,7 +1,7 @@
 import {
     CreateRewriteRuleModifierEntityJSON,
     RewriteRuleEntityJSON,
-    RewriteRuleModifierEntityJSON,
+    RewriteRuleModifierEntityJSON
 } from "@lifter/lifter-common";
 import { OutgoingHttpHeaders } from "http";
 import { ClientRequestEntity } from "../client-request/client-request-entity";

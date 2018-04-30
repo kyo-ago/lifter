@@ -6,11 +6,11 @@ import { LocalFileResponseFactory } from "../domains/proxy/local-file-response/l
 import { ProjectEntity } from "../domains/proxy/project/project-entity";
 import { RewriteRuleFactory } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
 import { RewriteRuleRepository } from "../domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
-import { NetworkInterfaceFactory } from "../domains/settings/network-interface/lifecycle/network-interface-factory";
-import { NetworksetupProxyFactory } from "../domains/settings/networksetup-proxy/lifecycle/networksetup-proxy-factory";
-import { ProxyBypassDomainFactory } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
-import { ProxyBypassDomainRepository } from "../domains/settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository";
-import { UserSettingsStorage } from "../domains/settings/user-settings/user-settings-storage";
+import { NetworkInterfaceFactory } from "./settings/network-interface/lifecycle/network-interface-factory";
+import { NetworksetupProxyFactory } from "./settings/networksetup-proxy/lifecycle/networksetup-proxy-factory";
+import { ProxyBypassDomainFactory } from "./settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-factory";
+import { ProxyBypassDomainRepository } from "./settings/proxy-bypass-domain/lifecycle/proxy-bypass-domain-repository";
+import { UserSettingsStorage } from "./settings/user-settings/user-settings-storage";
 
 export class LifecycleContextService {
     public clientRequestRepository = new ClientRequestRepository();

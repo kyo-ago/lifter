@@ -1,5 +1,5 @@
 import { ProxyCommandGrantStatus } from "@lifter/lifter-common";
-import { BaseValueObject } from "../../../base/value-objects/base-value-object";
+import { BaseValueObject } from "../../../../domains/base/value-objects/base-value-object";
 
 export class ProxyCommandGrantSetting extends BaseValueObject<boolean> {
     static getGranted(): ProxyCommandGrantSetting {

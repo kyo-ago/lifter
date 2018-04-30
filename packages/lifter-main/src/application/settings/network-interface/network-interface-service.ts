@@ -1,5 +1,5 @@
+import { fetchIfconfig } from "../../../application/libs/fetch-ifconfig";
 import { getListnetworkserviceorder } from "../../../libs/exec-commands";
-import { fetchIfconfig } from "../../libs/fetch-ifconfig";
 import { NetworkDeviceParam, NetworkInterfaceFactory } from "./lifecycle/network-interface-factory";
 import { NetworkInterfaceEntity } from "./network-interface-entity";
 import { ParseNetworkDevices } from "./specs/parse-network-devices";

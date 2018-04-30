@@ -1,8 +1,8 @@
 import * as App from "./application/application";
 import { LifecycleContextService } from "./application/lifecycle-context-service";
 import { ServiceContext } from "./application/service-context";
-import { SslCertificatePath } from "./domains/libs/ssl-certificate-path";
 import { ProjectFactory } from "./domains/proxy/project/lifecycle/project-factory";
+import { SslCertificatePath } from "./libs/ssl-certificate-path";
 
 export type Application = App.Application;
 

@@ -1,6 +1,6 @@
 import {
     CreateRewriteRuleDeleteModifierEntityJSON,
-    CreateRewriteRuleUpdateModifierEntityJSON,
+    CreateRewriteRuleUpdateModifierEntityJSON
 } from "@lifter/lifter-common";
 import * as assert from "assert";
 import "mocha";

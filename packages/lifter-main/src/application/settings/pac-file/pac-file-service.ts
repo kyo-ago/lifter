@@ -1,6 +1,6 @@
-import { NetworksetupProxyService } from "../../settings/networksetup-proxy/networksetup-proxy-service";
-import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { ClientResponderContext } from "../client-request/lib/client-responder-context";
+import { AutoResponderService } from "../../../domains/proxy/auto-responder/auto-responder-service";
+import { ClientResponderContext } from "../../../domains/proxy/client-request/lib/client-responder-context";
+import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
 
 export class PacFileService {
     constructor(

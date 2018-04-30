@@ -4,10 +4,11 @@ import {
     deleteCertificate,
     findCertificate,
     getAddTrustedCertCommandString,
-    getDeleteCertificateCommandString, getImportCertCommandString,
+    getDeleteCertificateCommandString,
+    getImportCertCommandString,
     importCert
 } from "../../../libs/exec-commands";
-import { SslCertificatePath } from "../../libs/ssl-certificate-path";
+import { SslCertificatePath } from "../../../libs/ssl-certificate-path";
 
 export interface getCertificateService {
     fetchCurrentStatus: () => Promise<CertificateStatus>;

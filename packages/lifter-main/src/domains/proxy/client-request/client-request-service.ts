@@ -1,9 +1,9 @@
 import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import * as Rx from "rxjs/Rx";
 import * as URL from "url";
+import { PacFileService } from "../../../application/settings/pac-file/pac-file-service";
 import { LOCAL_PAC_FILE_URL } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
-import { PacFileService } from "../pac-file/pac-file-service";
 import { ClientRequestEntity } from "./client-request-entity";
 import { ClientResponderContext } from "./lib/client-responder-context";
 import { ClientRequestFactory } from "./lifecycle/client-request-factory";
