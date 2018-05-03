@@ -1,5 +1,6 @@
 import { injectable } from "inversify";
 import * as Datastore from "nedb";
+import "reflect-metadata";
 import { promisify } from "util";
 
 @injectable()
