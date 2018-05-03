@@ -11,13 +11,16 @@ export class ProxyBypassDomainRepository extends AsyncOnNedbRepository<
     ProxyBypassDomainEntity
 > {
     constructor(projectEntity: ProjectEntity) {
-        super(projectEntity.getDataStoreOptions(ProxyBypassDomainRepository.name), {
-            toEntity: (json: any): ProxyBypassDomainEntity => {
-                return ProxyBypassDomainFactory.fromJSON(json);
+        super(
+            projectEntity.getDataStoreOptions(ProxyBypassDomainRepository.name),
+            {
+                toEntity: (json: any): ProxyBypassDomainEntity => {
+                    return ProxyBypassDomainFactory.fromJSON(json);
+                },
+                toJSON: (entity: ProxyBypassDomainEntity): any => {
+                    return entity.json;
+                },
             },
-            toJSON: (entity: ProxyBypassDomainEntity): any => {
-                return entity.json;
-            },
-        });
+        );
     }
 }

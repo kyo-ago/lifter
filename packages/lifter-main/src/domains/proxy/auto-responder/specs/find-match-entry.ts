@@ -16,7 +16,9 @@ export class FindMatchEntry {
         let result = await promise;
         if (result) return result;
 
-        let localFileResponseParam = await autoResponderEntity.getMatchResponder(clientRequestEntity);
+        let localFileResponseParam = await autoResponderEntity.getMatchResponder(
+            clientRequestEntity,
+        );
         if (!localFileResponseParam) {
             return null;
         }

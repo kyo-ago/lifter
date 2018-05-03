@@ -44,11 +44,15 @@ export class AutoResponderService {
     }
 
     async store(paths: string[]): Promise<AutoResponderEntityJSON[]> {
-        let filePromises = paths.map(path => this.autoResponderFactory.createFromPath(path));
+        let filePromises = paths.map(path =>
+            this.autoResponderFactory.createFromPath(path),
+        );
         let autoResponderEntities = await Promise.all(filePromises);
         await this.autoResponderRepository.storeList(autoResponderEntities);
         this.observable.next();
-        return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
+        return autoResponderEntities.map(
+            autoResponderEntity => autoResponderEntity.json,
+        );
     }
 
     async response(
@@ -62,7 +66,10 @@ export class AutoResponderService {
         }
 
         let body = await localFileResponseEntity.getBody();
-        let header = await this.rewriteRuleService.getHeader(localFileResponseEntity, clientRequestEntity);
+        let header = await this.rewriteRuleService.getHeader(
+            localFileResponseEntity,
+            clientRequestEntity,
+        );
         clientResponderContext.response(header, body);
     }
 
@@ -70,20 +77,30 @@ export class AutoResponderService {
         let entities = await this.autoResponderRepository.resolveAll();
         return entities
             .map(autoResponderEntity => {
-                return autoResponderEntity.pattern.getMatchCodeString(`PROXY ${PROXY_SERVER_NAME}`);
+                return autoResponderEntity.pattern.getMatchCodeString(
+                    `PROXY ${PROXY_SERVER_NAME}`,
+                );
             })
             .join("\n");
     }
 
     private async fetchAllJSONs(): Promise<AutoResponderEntityJSON[]> {
         let autoResponderEntities = await this.autoResponderRepository.resolveAll();
-        return autoResponderEntities.map(autoResponderEntity => autoResponderEntity.json);
+        return autoResponderEntities.map(
+            autoResponderEntity => autoResponderEntity.json,
+        );
     }
 
-    async find(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseEntity | null> {
+    async find(
+        clientRequestEntity: ClientRequestEntity,
+    ): Promise<LocalFileResponseEntity | null> {
         let entries = await this.autoResponderRepository.resolveAll();
         return entries.reduce((promise, entity) => {
-            return this.findMatchEntry.getLocalFileResponse(promise, clientRequestEntity, entity);
+            return this.findMatchEntry.getLocalFileResponse(
+                promise,
+                clientRequestEntity,
+                entity,
+            );
         }, Promise.resolve(<LocalFileResponseEntity | null>null));
     }
 
@@ -98,9 +115,13 @@ export class AutoResponderService {
 
     private async deletes(ids: number[]): Promise<void> {
         await Promise.all(
-            ids.map(id => new AutoResponderIdentity(id)).map(autoResponderIdentity => {
-                return this.autoResponderRepository.deleteByIdentity(autoResponderIdentity);
-            }),
+            ids
+                .map(id => new AutoResponderIdentity(id))
+                .map(autoResponderIdentity => {
+                    return this.autoResponderRepository.deleteByIdentity(
+                        autoResponderIdentity,
+                    );
+                }),
         );
         this.observable.next();
     }

@@ -41,14 +41,20 @@ describe("app.vue", () => {
         let appWrapper: Wrapper<any>;
         beforeEach(async () => {
             let currentState = ApplicationMock.getCurrentState();
-            ApplicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
-                ...currentState,
-                rewriteRuleEntries: [entity],
-            }));
+            ApplicationMock.getCurrentState.callsFake(
+                (): ApplicationMainStateJSON => ({
+                    ...currentState,
+                    rewriteRuleEntries: [entity],
+                }),
+            );
             ApplicationMock.getRewriteRules.resolves([entity]);
             appWrapper = createAppMock();
-            appWrapper.find(TabContents).vm["changeTabIndex"](HeaderTabNameToIndex["Rewrite rule"]);
-            appWrapper.find(RewriteRule).vm["onClickModifiersButton"](entity.id);
+            appWrapper
+                .find(TabContents)
+                .vm["changeTabIndex"](HeaderTabNameToIndex["Rewrite rule"]);
+            appWrapper
+                .find(RewriteRule)
+                .vm["onClickModifiersButton"](entity.id);
             await appWrapper.vm.$nextTick();
         });
 

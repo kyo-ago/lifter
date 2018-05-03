@@ -1,4 +1,6 @@
-export function makeTableHandlerMixin(deleteDispatcher: (store: any, entities: any[]) => Promise<any>) {
+export function makeTableHandlerMixin(
+    deleteDispatcher: (store: any, entities: any[]) => Promise<any>,
+) {
     return {
         data() {
             return {
@@ -22,18 +24,25 @@ export function makeTableHandlerMixin(deleteDispatcher: (store: any, entities: a
             },
         },
         mounted() {
-            this.$data.contextMenuHandler = this.$store.state.contextMenuService.subscribe(event => {
-                if (event.type !== "append") {
-                    return null;
-                }
-                if (!this.$refs.table.selection.length) {
-                    return null;
-                }
-                return {
-                    click: () => deleteDispatcher.call(this, this.$store, this.$refs.table.selection),
-                    label: this.$t("delete"),
-                };
-            });
+            this.$data.contextMenuHandler = this.$store.state.contextMenuService.subscribe(
+                event => {
+                    if (event.type !== "append") {
+                        return null;
+                    }
+                    if (!this.$refs.table.selection.length) {
+                        return null;
+                    }
+                    return {
+                        click: () =>
+                            deleteDispatcher.call(
+                                this,
+                                this.$store,
+                                this.$refs.table.selection,
+                            ),
+                        label: this.$t("delete"),
+                    };
+                },
+            );
         },
         async destroyed() {
             if (this.$data.contextMenuHandler) {

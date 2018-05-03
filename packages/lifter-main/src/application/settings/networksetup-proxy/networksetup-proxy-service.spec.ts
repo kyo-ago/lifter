@@ -20,7 +20,12 @@ describe("ProxyCommandGrantService", () => {
         assert(result === "Off");
     });
 
-    [["initialize", "On"], ["CancelGrant", "Off"], ["Off", "On"], ["On", "Off"]].forEach(([from, to]) => {
+    [
+        ["initialize", "On"],
+        ["CancelGrant", "Off"],
+        ["Off", "On"],
+        ["On", "Off"],
+    ].forEach(([from, to]) => {
         it(`changeProxyCommandGrantStatus ${from} to ${to}`, async () => {
             MockStateEvent.emit("updateProxyCommandGrantStatus", <any>from);
             // reload MockStateEvent state

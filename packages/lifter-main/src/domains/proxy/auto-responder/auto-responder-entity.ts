@@ -1,4 +1,7 @@
-import { AutoResponderEntityJSON, AutoResponderType } from "@lifter/lifter-common";
+import {
+    AutoResponderEntityJSON,
+    AutoResponderType,
+} from "@lifter/lifter-common";
 import * as mime from "mime";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
@@ -9,7 +12,10 @@ import { AutoResponderIdentity } from "./auto-responder-identity";
 import { AutoResponderPath } from "./value-objects/auto-responder-path";
 import { AutoResponderPattern } from "./value-objects/auto-responder-pattern";
 
-export type AbstractAutoResponderEntity = AutoResponderEntity<AutoResponderPattern, AutoResponderPath>;
+export type AbstractAutoResponderEntity = AutoResponderEntity<
+    AutoResponderPattern,
+    AutoResponderPath
+>;
 
 export abstract class AutoResponderEntity<
     Pattern extends AutoResponderPattern,
@@ -25,7 +31,9 @@ export abstract class AutoResponderEntity<
         super(identity);
     }
 
-    abstract getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseParam | null>;
+    abstract getMatchResponder(
+        clientRequestEntity: ClientRequestEntity,
+    ): Promise<LocalFileResponseParam | null>;
 
     get json(): AutoResponderEntityJSON {
         return {

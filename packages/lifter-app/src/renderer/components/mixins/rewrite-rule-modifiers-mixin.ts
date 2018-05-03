@@ -1,6 +1,8 @@
 import { RewriteRuleActionType } from "@lifter/lifter-common";
 
-export function makeRewriteRuleModifiersMixin(rewriteRuleActionType: RewriteRuleActionType) {
+export function makeRewriteRuleModifiersMixin(
+    rewriteRuleActionType: RewriteRuleActionType,
+) {
     let components = undefined;
     if (global.process.env.NODE_ENV === "test") {
         components = {
@@ -28,7 +30,10 @@ export function makeRewriteRuleModifiersMixin(rewriteRuleActionType: RewriteRule
         },
         computed: {
             modifiers() {
-                return this.$store.getters["rewriteRule/modifiers"](this.rewriteRoleId, rewriteRuleActionType);
+                return this.$store.getters["rewriteRule/modifiers"](
+                    this.rewriteRoleId,
+                    rewriteRuleActionType,
+                );
             },
         },
         methods: {

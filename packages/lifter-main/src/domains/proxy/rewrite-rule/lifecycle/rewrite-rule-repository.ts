@@ -6,7 +6,10 @@ import { RewriteRuleIdentity } from "../rewrite-rule-identity";
 import { RewriteRuleFactory } from "./rewrite-rule-factory";
 
 @injectable()
-export class RewriteRuleRepository extends AsyncOnNedbRepository<RewriteRuleIdentity, RewriteRuleEntity> {
+export class RewriteRuleRepository extends AsyncOnNedbRepository<
+    RewriteRuleIdentity,
+    RewriteRuleEntity
+> {
     constructor(projectEntity: ProjectEntity) {
         super(projectEntity.getDataStoreOptions(RewriteRuleRepository.name), {
             toEntity: (json: any): RewriteRuleEntity => {

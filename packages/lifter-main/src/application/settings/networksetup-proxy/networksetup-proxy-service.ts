@@ -21,33 +21,50 @@ export class NetworksetupProxyService {
     }
 
     enableProxy(): Promise<void> {
-        return this.callAllInterface(ni => ni.enableProxy(this.networksetupProxy));
+        return this.callAllInterface(ni =>
+            ni.enableProxy(this.networksetupProxy),
+        );
     }
 
     disableProxy(): Promise<void> {
-        return this.callAllInterface(ni => ni.disableProxy(this.networksetupProxy));
+        return this.callAllInterface(ni =>
+            ni.disableProxy(this.networksetupProxy),
+        );
     }
 
     clearAutoProxyUrl() {
-        return this.callAllInterface(ni => ni.clearAutoProxyUrl(this.networksetupProxy));
+        return this.callAllInterface(ni =>
+            ni.clearAutoProxyUrl(this.networksetupProxy),
+        );
     }
 
     setAutoProxyUrl() {
-        return this.callAllInterface(ni => ni.setAutoProxyUrl(this.networksetupProxy));
+        return this.callAllInterface(ni =>
+            ni.setAutoProxyUrl(this.networksetupProxy),
+        );
     }
 
     reloadAutoProxyUrl() {
-        return this.callAllInterface(ni => ni.reloadAutoProxyUrl(this.networksetupProxy));
+        return this.callAllInterface(ni =>
+            ni.reloadAutoProxyUrl(this.networksetupProxy),
+        );
     }
 
-    setProxyBypassDomains(proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
+    setProxyBypassDomains(
+        proxyBypassDomainEntities: ProxyBypassDomainEntity[],
+    ) {
         return this.callAllInterface(async ni => {
-            await ni.setProxyBypassDomains(this.networksetupProxy, proxyBypassDomainEntities);
+            await ni.setProxyBypassDomains(
+                this.networksetupProxy,
+                proxyBypassDomainEntities,
+            );
         });
     }
 
     private async callAllInterface(
-        callback: (networkInterfaceEntity: NetworkInterfaceEntity) => Promise<void>,
+        callback: (
+            networkInterfaceEntity: NetworkInterfaceEntity,
+        ) => Promise<void>,
     ): Promise<void> {
         return this.proxyCommandGrantService.callGranted(async () => {
             let networkInterfaceEntities = await this.networkInterfaceService.fetchAllInterface();

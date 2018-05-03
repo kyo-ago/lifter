@@ -17,7 +17,9 @@ export abstract class AsyncNedbIdGenerator {
         this.datastore = new Datastore(dataStoreOptions);
         this.find = promisify(this.datastore.find.bind(this.datastore));
         this.update = promisify(this.datastore.update.bind(this.datastore));
-        this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
+        this.loadDatabase = promisify(
+            this.datastore.loadDatabase.bind(this.datastore),
+        );
     }
 
     async load() {

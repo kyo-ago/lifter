@@ -12,7 +12,9 @@ describe("PacFileService", () => {
     let pacFileService: PacFileService;
     let autoResponderService: AutoResponderService;
     let sandbox = sinon.createSandbox();
-    let clientResponderContext = sandbox.createStubInstance(ClientResponderContext);
+    let clientResponderContext = sandbox.createStubInstance(
+        ClientResponderContext,
+    );
 
     beforeEach(async () => {
         let container = await getTestContainer();
@@ -27,7 +29,10 @@ describe("PacFileService", () => {
         await pacFileService.response(clientResponderContext);
         let spyCall = clientResponderContext.response.lastCall;
         assert(spyCall.args[0]["content-length"] === spyCall.args[1].length);
-        assert(spyCall.args[0]["content-type"] === "application/x-ns-proxy-autoconfig");
+        assert(
+            spyCall.args[0]["content-type"] ===
+                "application/x-ns-proxy-autoconfig",
+        );
     });
     it("getContent.body", async () => {
         await autoResponderService.store([__filename]);

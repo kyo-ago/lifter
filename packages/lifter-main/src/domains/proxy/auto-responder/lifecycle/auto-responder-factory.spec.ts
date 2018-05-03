@@ -11,7 +11,9 @@ describe("AutoResponderFactory", () => {
     let autoResponderFactory: AutoResponderFactory;
 
     beforeEach(async () => {
-        autoResponderFactory = (await getTestContainer()).get(AutoResponderFactory);
+        autoResponderFactory = (await getTestContainer()).get(
+            AutoResponderFactory,
+        );
     });
 
     describe("create", () => {

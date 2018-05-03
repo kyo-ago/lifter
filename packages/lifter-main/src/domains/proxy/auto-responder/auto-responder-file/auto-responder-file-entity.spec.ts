@@ -18,21 +18,45 @@ describe("AutoResponderFileEntity", () => {
     describe("getMatchResponder", () => {
         it("match filename", async () => {
             let filename = Path.basename(__filename);
-            let autoResponderFileEntity = autoResponderFactory.create("File", filename, __filename);
-            let clientRequestEntity = clientRequestFactory.createFromString(`/hgoe/${filename}`);
-            let result = await autoResponderFileEntity.getMatchResponder(clientRequestEntity);
+            let autoResponderFileEntity = autoResponderFactory.create(
+                "File",
+                filename,
+                __filename,
+            );
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                `/hgoe/${filename}`,
+            );
+            let result = await autoResponderFileEntity.getMatchResponder(
+                clientRequestEntity,
+            );
             assert(result.path === __filename);
         });
         it("match url", async () => {
-            let autoResponderFileEntity = autoResponderFactory.create("File", "a", __filename);
-            let clientRequestEntity = clientRequestFactory.createFromString(`/a`);
-            let result = await autoResponderFileEntity.getMatchResponder(clientRequestEntity);
+            let autoResponderFileEntity = autoResponderFactory.create(
+                "File",
+                "a",
+                __filename,
+            );
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                `/a`,
+            );
+            let result = await autoResponderFileEntity.getMatchResponder(
+                clientRequestEntity,
+            );
             assert(result.path === __filename);
         });
         it("unmatch", async () => {
-            let autoResponderFileEntity = autoResponderFactory.create("File", "aaaa", __filename);
-            let clientRequestEntity = clientRequestFactory.createFromString(`/a`);
-            let result = await autoResponderFileEntity.getMatchResponder(clientRequestEntity);
+            let autoResponderFileEntity = autoResponderFactory.create(
+                "File",
+                "aaaa",
+                __filename,
+            );
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                `/a`,
+            );
+            let result = await autoResponderFileEntity.getMatchResponder(
+                clientRequestEntity,
+            );
             assert(!result);
         });
     });

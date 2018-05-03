@@ -23,7 +23,9 @@ import { RewriteRuleModifierValue } from "../rewrite-rule-modifier/value-objects
 import { RewriteRuleModifierMap } from "../value-objects/rewrite-rule-modifier-map";
 import { RewriteRuleUrlPattern } from "../value-objects/rewrite-rule-url-pattern";
 
-export function stringToRewriteRuleActionType(action: string): RewriteRuleActionType {
+export function stringToRewriteRuleActionType(
+    action: string,
+): RewriteRuleActionType {
     if (action === "UPDATE") {
         return action;
     }
@@ -35,11 +37,16 @@ export function stringToRewriteRuleActionType(action: string): RewriteRuleAction
 
 type MatchCase = {
     [key in RewriteRuleActionType]: (
-        modifier: RewriteRuleModifierEntityJSON | CreateRewriteRuleModifierEntityJSON,
+        modifier:
+            | RewriteRuleModifierEntityJSON
+            | CreateRewriteRuleModifierEntityJSON,
     ) => RewriteRuleModifierEntity
 };
 
-function SwitchTypeArray(modifier: RewriteRuleModifierMapJSON, matchCase: MatchCase) {
+function SwitchTypeArray(
+    modifier: RewriteRuleModifierMapJSON,
+    matchCase: MatchCase,
+) {
     return Object.keys(modifier).reduce(
         (base, cur) => {
             base[cur] = modifier[cur].map(modifier => matchCase[cur](modifier));
@@ -49,7 +56,11 @@ function SwitchTypeArray(modifier: RewriteRuleModifierMapJSON, matchCase: MatchC
     );
 }
 
-function SwitchType(action: RewriteRuleActionType, param: CreateRewriteRuleModifierEntityJSON, matchCase: MatchCase) {
+function SwitchType(
+    action: RewriteRuleActionType,
+    param: CreateRewriteRuleModifierEntityJSON,
+    matchCase: MatchCase,
+) {
     return matchCase[action](param);
 }
 
@@ -66,9 +77,16 @@ export class RewriteRuleFactory extends AsyncNedbIdGenerator {
             new RewriteRuleModifierMap(
                 SwitchTypeArray(json.modifier, {
                     UPDATE: (modifier: RewriteRuleUpdateModifierEntityJSON) =>
-                        RewriteRuleFactory.createUpdateModifier(modifier.id, modifier.header, modifier.value),
+                        RewriteRuleFactory.createUpdateModifier(
+                            modifier.id,
+                            modifier.header,
+                            modifier.value,
+                        ),
                     DELETE: (modifier: RewriteRuleDeleteModifierEntityJSON) =>
-                        RewriteRuleFactory.createDeleteModifier(modifier.id, modifier.header),
+                        RewriteRuleFactory.createDeleteModifier(
+                            modifier.id,
+                            modifier.header,
+                        ),
                 }),
             ),
         );
@@ -93,7 +111,11 @@ export class RewriteRuleFactory extends AsyncNedbIdGenerator {
         let id = this.getNextIdNumber();
         return SwitchType(action, param, {
             UPDATE: (modifier: CreateRewriteRuleUpdateModifierEntityJSON) =>
-                RewriteRuleFactory.createUpdateModifier(id, modifier.header, modifier.value),
+                RewriteRuleFactory.createUpdateModifier(
+                    id,
+                    modifier.header,
+                    modifier.value,
+                ),
             DELETE: (modifier: CreateRewriteRuleDeleteModifierEntityJSON) =>
                 RewriteRuleFactory.createDeleteModifier(id, modifier.header),
         });

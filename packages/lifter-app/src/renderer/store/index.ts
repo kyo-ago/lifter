@@ -26,14 +26,26 @@ export function getStore(application: Application): Store<any> {
             },
         },
         modules: {
-            autoResponder: getAutoResponderModule(application, currentState.autoResponderEntries),
-            clientRequest: getClientRequestModule(application, currentState.clientRequestEntries),
+            autoResponder: getAutoResponderModule(
+                application,
+                currentState.autoResponderEntries,
+            ),
+            clientRequest: getClientRequestModule(
+                application,
+                currentState.clientRequestEntries,
+            ),
             fileDropDialog: getFileDropDialogModule(),
             headerTab: getHeaderTabModule(),
-            proxyBypassDomain: getProxyBypassDomainModule(application, currentState.proxyBypassDomainEntries),
+            proxyBypassDomain: getProxyBypassDomainModule(
+                application,
+                currentState.proxyBypassDomainEntries,
+            ),
             proxySettings: getProxySettingsModule(application, currentState),
             rewriteRuleModifiersDialog: getRewriteRuleModifiersDialogModule(),
-            rewriteRule: getRewriteRuleModule(application, currentState.rewriteRuleEntries),
+            rewriteRule: getRewriteRuleModule(
+                application,
+                currentState.rewriteRuleEntries,
+            ),
             settingDialog: getSettingDialogModule(),
         },
     });

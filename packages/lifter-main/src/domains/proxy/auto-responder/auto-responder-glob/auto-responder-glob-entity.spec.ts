@@ -14,22 +14,43 @@ describe("AutoResponderGlobEntity.getMatchResponder", () => {
         autoResponderFactory = container.get(AutoResponderFactory);
         clientRequestFactory = container.get(ClientRequestFactory);
     });
-    let createAutoResponderGlobEntity = (pattern: string, path: string): AutoResponderGlobEntity => {
-        return <AutoResponderGlobEntity>autoResponderFactory.create("Glob", pattern, path);
+    let createAutoResponderGlobEntity = (
+        pattern: string,
+        path: string,
+    ): AutoResponderGlobEntity => {
+        return <AutoResponderGlobEntity>autoResponderFactory.create(
+            "Glob",
+            pattern,
+            path,
+        );
     };
 
     it("file path", async () => {
-        let autoResponderGlobEntity = createAutoResponderGlobEntity("/*", __filename);
-        let clientRequestEntity = clientRequestFactory.createFromString("/hoge");
-        let result = await autoResponderGlobEntity.getMatchResponder(clientRequestEntity);
+        let autoResponderGlobEntity = createAutoResponderGlobEntity(
+            "/*",
+            __filename,
+        );
+        let clientRequestEntity = clientRequestFactory.createFromString(
+            "/hoge",
+        );
+        let result = await autoResponderGlobEntity.getMatchResponder(
+            clientRequestEntity,
+        );
         assert(result.path === __filename);
     });
 
     it("directory path", async () => {
         let filename = Path.basename(__filename);
-        let autoResponderGlobEntity = createAutoResponderGlobEntity("/*", __dirname);
-        let clientRequestEntity = clientRequestFactory.createFromString(`/${filename}`);
-        let result = await autoResponderGlobEntity.getMatchResponder(clientRequestEntity);
+        let autoResponderGlobEntity = createAutoResponderGlobEntity(
+            "/*",
+            __dirname,
+        );
+        let clientRequestEntity = clientRequestFactory.createFromString(
+            `/${filename}`,
+        );
+        let result = await autoResponderGlobEntity.getMatchResponder(
+            clientRequestEntity,
+        );
         assert(result.path === __filename);
     });
 });

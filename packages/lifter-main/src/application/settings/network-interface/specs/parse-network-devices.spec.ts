@@ -43,12 +43,14 @@ describe("ParseNetworkDevices", () => {
                 },
                 en0: {
                     ether: "ff:ff:ff:ff:ff:ff",
-                    inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
+                    inet:
+                        "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
                     status: "active",
                 },
                 en1: {
                     ether: "ff:ff:ff:ff:ff:ff",
-                    inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
+                    inet:
+                        "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
                     status: "active",
                 },
             },
@@ -86,7 +88,8 @@ describe("ParseNetworkDevices", () => {
                 },
                 en0: {
                     ether: "ff:ff:ff:ff:ff:ff",
-                    inet: "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
+                    inet:
+                        "192.168.0.1 netmask 0xffffff00 broadcast 192.168.0.255",
                     status: "inactive",
                 },
             },

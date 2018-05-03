@@ -20,7 +20,9 @@ applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
     noAutoEnableProxySetting: false,
     noPacFileProxySetting: false,
 }));
-let contextMenuService = sandbox.createStubInstance<ContextMenuService>(ContextMenuService);
+let contextMenuService = sandbox.createStubInstance<ContextMenuService>(
+    ContextMenuService,
+);
 applicationMock.contextMenuService = <any>contextMenuService;
 applicationMock.addDropFiles.resolves([]);
 applicationMock.selectDialogEntry.resolves([]);

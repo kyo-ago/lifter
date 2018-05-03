@@ -10,7 +10,11 @@ import {
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
-import { addRewriteRuleModifierParam, deleteRewriteRuleModifierParam, ipc } from "../lib/ipc";
+import {
+    addRewriteRuleModifierParam,
+    deleteRewriteRuleModifierParam,
+    ipc,
+} from "../lib/ipc";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
 
 export interface ApplicationMainStateJSON {
@@ -45,12 +49,19 @@ export class WindowManager {
             return this.application.getAutoResponder().deletes(ids);
         });
 
-        this.application.getClientRequestService().subscribe(clientRequestEntityJSON => {
-            return ipc.publish("addClientRequestEntity", clientRequestEntityJSON);
-        });
+        this.application
+            .getClientRequestService()
+            .subscribe(clientRequestEntityJSON => {
+                return ipc.publish(
+                    "addClientRequestEntity",
+                    clientRequestEntityJSON,
+                );
+            });
 
         ipc.subscribe("changeCertificateStatus", () => {
-            return this.application.getCertificateService().changeCertificateStatus();
+            return this.application
+                .getCertificateService()
+                .changeCertificateStatus();
         });
 
         ipc.subscribe("changeProxySettingStatus", () => {
@@ -58,7 +69,9 @@ export class WindowManager {
         });
 
         ipc.subscribe("changeProxyCommandGrantStatus", () => {
-            return this.application.getProxyCommandGrantService().changeStatus();
+            return this.application
+                .getProxyCommandGrantService()
+                .changeStatus();
         });
 
         ipc.subscribe("changeNoAutoEnableProxySetting", () => {
@@ -85,14 +98,24 @@ export class WindowManager {
             return this.application.getRewriteRules().deleteRules(ids);
         });
 
-        ipc.subscribe("addRewriteRuleModifier", (_, { action, entityId, param }: addRewriteRuleModifierParam) => {
-            return this.application.getRewriteRules().addModifier(action, entityId, param);
-        });
+        ipc.subscribe(
+            "addRewriteRuleModifier",
+            (_, { action, entityId, param }: addRewriteRuleModifierParam) => {
+                return this.application
+                    .getRewriteRules()
+                    .addModifier(action, entityId, param);
+            },
+        );
 
         ipc.subscribe(
             "deleteRewriteRuleModifiers",
-            (_, { action, entityId, modifiers }: deleteRewriteRuleModifierParam) => {
-                return this.application.getRewriteRules().deleteModifiers(action, entityId, modifiers);
+            (
+                _,
+                { action, entityId, modifiers }: deleteRewriteRuleModifierParam,
+            ) => {
+                return this.application
+                    .getRewriteRules()
+                    .deleteModifiers(action, entityId, modifiers);
             },
         );
     }

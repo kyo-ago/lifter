@@ -4,8 +4,12 @@ import { AutoResponderFilePath } from "../../auto-responder-file/value-objects/a
 import { AutoResponderPath } from "../../value-objects/auto-responder-path";
 
 export class AutoResponderDirectoryPath extends AutoResponderPath {
-    getAutoResponderFilePath(clientRequestEntity: ClientRequestEntity): AutoResponderFilePath {
-        let lastPath = clientRequestEntity.pathname.split(`/${Path.basename(this.value)}/`).pop();
+    getAutoResponderFilePath(
+        clientRequestEntity: ClientRequestEntity,
+    ): AutoResponderFilePath {
+        let lastPath = clientRequestEntity.pathname
+            .split(`/${Path.basename(this.value)}/`)
+            .pop();
         return new AutoResponderFilePath(Path.join(this.value, lastPath));
     }
 }

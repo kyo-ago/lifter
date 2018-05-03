@@ -9,18 +9,36 @@ import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
 
-    constructor(private sslCertificatePath: SslCertificatePath, private clientRequestService: ClientRequestService) {}
+    constructor(
+        private sslCertificatePath: SslCertificatePath,
+        private clientRequestService: ClientRequestService,
+    ) {}
 
     async listen() {
-        this.mitmProxy.onError((context: HttpMitmProxy.IContext | null, err?: Error, errorKind?: string) => {
-            // context may be null
-            let url = context && context.clientToProxyRequest ? context.clientToProxyRequest.url : "";
-            console.error(`${errorKind} on ${url}:${err}`);
-        });
+        this.mitmProxy.onError(
+            (
+                context: HttpMitmProxy.IContext | null,
+                err?: Error,
+                errorKind?: string,
+            ) => {
+                // context may be null
+                let url =
+                    context && context.clientToProxyRequest
+                        ? context.clientToProxyRequest.url
+                        : "";
+                console.error(`${errorKind} on ${url}:${err}`);
+            },
+        );
 
         this.mitmProxy.onRequest(
-            async (ctx: HttpMitmProxy.IContext, passCallback: (error: Error | undefined) => void) => {
-                let clientResponderContext = new ClientResponderContext(ctx, passCallback);
+            async (
+                ctx: HttpMitmProxy.IContext,
+                passCallback: (error: Error | undefined) => void,
+            ) => {
+                let clientResponderContext = new ClientResponderContext(
+                    ctx,
+                    passCallback,
+                );
                 this.clientRequestService.onRequest(clientResponderContext);
             },
         );

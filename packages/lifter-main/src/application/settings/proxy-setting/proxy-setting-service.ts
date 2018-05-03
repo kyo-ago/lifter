@@ -9,7 +9,9 @@ import { UserSettingsService } from "../user-settings/user-settings-service";
 export interface getProxySettingService {
     fetch: () => Promise<ProxySettingStatus>;
     change: () => Promise<ProxySettingStatus>;
-    onChange: (callback: (proxySettingStatus: ProxySettingStatus) => void) => void;
+    onChange: (
+        callback: (proxySettingStatus: ProxySettingStatus) => void,
+    ) => void;
 }
 
 @injectable()
@@ -29,7 +31,9 @@ export class ProxySettingService {
             change: (): Promise<ProxySettingStatus> => {
                 return this.getNewStatus();
             },
-            onChange: (_: (proxySettingStatus: ProxySettingStatus) => void): void => {
+            onChange: (
+                _: (proxySettingStatus: ProxySettingStatus) => void,
+            ): void => {
                 PROXY_PREFERENCES_PLIST_PATH;
             },
         };
@@ -62,7 +66,9 @@ export class ProxySettingService {
         });
     }
 
-    private async getMatchStatus<R>(matcher: { [key in ProxySettingStatus]: () => R }): Promise<R> {
+    private async getMatchStatus<R>(
+        matcher: { [key in ProxySettingStatus]: () => R },
+    ): Promise<R> {
         let status = await this.getStatus();
         return matcher[status]();
     }
@@ -72,7 +78,9 @@ export class ProxySettingService {
         if (!networkInterfaceEntities.length) {
             return "NoTargetInterfaces";
         }
-        let results = await Promise.all(networkInterfaceEntities.map(ni => ni.isProxing()));
+        let results = await Promise.all(
+            networkInterfaceEntities.map(ni => ni.isProxing()),
+        );
         let result = results.find(result => result) || false;
         return result ? "On" : "Off";
     }

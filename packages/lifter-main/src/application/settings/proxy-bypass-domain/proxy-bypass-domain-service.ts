@@ -33,7 +33,9 @@ export class ProxyBypassDomainService {
     }
 
     private async overwriteAll(domains: string[]): Promise<void> {
-        let entities = domains.map(domain => this.proxyBypassDomainFactory.create(domain));
+        let entities = domains.map(domain =>
+            this.proxyBypassDomainFactory.create(domain),
+        );
         await this.proxyBypassDomainRepository.overwriteAll(entities);
         return await this.setProxyBypassDomains();
     }
@@ -45,6 +47,8 @@ export class ProxyBypassDomainService {
 
     private async setProxyBypassDomains(): Promise<void> {
         let proxyBypassDomainEntities = await this.proxyBypassDomainRepository.resolveAll();
-        return await this.networksetupProxyService.setProxyBypassDomains(proxyBypassDomainEntities);
+        return await this.networksetupProxyService.setProxyBypassDomains(
+            proxyBypassDomainEntities,
+        );
     }
 }

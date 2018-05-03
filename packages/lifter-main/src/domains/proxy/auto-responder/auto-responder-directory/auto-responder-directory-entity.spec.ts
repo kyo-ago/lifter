@@ -23,23 +23,37 @@ describe("AutoResponderDirectoryEntity", () => {
 
     describe("getMatchResponder", () => {
         it("file exist", async () => {
-            let url = `/${Path.basename(__dirname)}/${Path.basename(__filename)}`;
-            let clientRequestEntity = clientRequestFactory.createFromString(url);
-            let result = await autoResponderDirectoryEntity.getMatchResponder(clientRequestEntity);
+            let url = `/${Path.basename(__dirname)}/${Path.basename(
+                __filename,
+            )}`;
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                url,
+            );
+            let result = await autoResponderDirectoryEntity.getMatchResponder(
+                clientRequestEntity,
+            );
             assert(result.path === __filename);
         });
 
         it("file not exist", async () => {
             let url = `/${Path.basename(__dirname)}/not_exist.txt`;
-            let clientRequestEntity = clientRequestFactory.createFromString(url);
-            let result = await autoResponderDirectoryEntity.getMatchResponder(clientRequestEntity);
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                url,
+            );
+            let result = await autoResponderDirectoryEntity.getMatchResponder(
+                clientRequestEntity,
+            );
             assert(!result);
         });
 
         it("unmatch", async () => {
             let url = `/unknown-dir/${Path.basename(__filename)}`;
-            let clientRequestEntity = clientRequestFactory.createFromString(url);
-            let result = await autoResponderDirectoryEntity.getMatchResponder(clientRequestEntity);
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                url,
+            );
+            let result = await autoResponderDirectoryEntity.getMatchResponder(
+                clientRequestEntity,
+            );
             assert(!result);
         });
     });

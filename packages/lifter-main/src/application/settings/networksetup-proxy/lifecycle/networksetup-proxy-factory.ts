@@ -2,7 +2,10 @@ import { APPLICATION_NAME } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import * as fs from "fs";
 import { injectable } from "inversify";
-import { DEVELOP_PROXY_SETTING_COMMAND_PATH, PRODUCTION_PROXY_SETTING_COMMAND_PATH } from "../../../../settings";
+import {
+    DEVELOP_PROXY_SETTING_COMMAND_PATH,
+    PRODUCTION_PROXY_SETTING_COMMAND_PATH,
+} from "../../../../settings";
 
 @injectable()
 export class NetworksetupProxyFactory {
@@ -10,7 +13,10 @@ export class NetworksetupProxyFactory {
 
     async load() {
         let path = await this.getCommandPath();
-        this.networksetupProxy = new NetworksetupProxy(`${APPLICATION_NAME} sudo prompt`, path);
+        this.networksetupProxy = new NetworksetupProxy(
+            `${APPLICATION_NAME} sudo prompt`,
+            path,
+        );
     }
 
     getNetworksetupProxy() {
@@ -18,7 +24,8 @@ export class NetworksetupProxyFactory {
     }
 
     private async getCommandPath(): Promise<string> {
-        let fsExists = (path: string) => new Promise(resolve => fs.exists(path, resolve));
+        let fsExists = (path: string) =>
+            new Promise(resolve => fs.exists(path, resolve));
         if (await fsExists(DEVELOP_PROXY_SETTING_COMMAND_PATH)) {
             return DEVELOP_PROXY_SETTING_COMMAND_PATH;
         }

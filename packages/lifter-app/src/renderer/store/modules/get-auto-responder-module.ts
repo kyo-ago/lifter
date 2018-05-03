@@ -1,7 +1,10 @@
 import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
-export function getAutoResponderModule(application: Application, autoResponders: AutoResponderEntityJSON[]) {
+export function getAutoResponderModule(
+    application: Application,
+    autoResponders: AutoResponderEntityJSON[],
+) {
     return {
         namespaced: true,
         state: {
@@ -20,8 +23,13 @@ export function getAutoResponderModule(application: Application, autoResponders:
                 let autoResponders = await application.addDropFiles(files);
                 commit("add", autoResponders);
             },
-            async deletes({ commit }, targetAutoResponders: AutoResponderEntityJSON[]) {
-                await application.deleteAutoResponderEntities(targetAutoResponders);
+            async deletes(
+                { commit },
+                targetAutoResponders: AutoResponderEntityJSON[],
+            ) {
+                await application.deleteAutoResponderEntities(
+                    targetAutoResponders,
+                );
                 let autoResponders = await application.fetchAutoResponderEntities();
                 commit("save", autoResponders);
             },

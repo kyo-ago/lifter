@@ -1,8 +1,11 @@
 export const HeaderTabs = ["Connection", "Auto responder", "Rewrite rule"];
-export const HeaderTabNameToIndex = HeaderTabs.reduce((base, _, index, array) => {
-    base[array[index]] = index;
-    return base;
-}, {});
+export const HeaderTabNameToIndex = HeaderTabs.reduce(
+    (base, _, index, array) => {
+        base[array[index]] = index;
+        return base;
+    },
+    {},
+);
 
 export function getHeaderTabModule() {
     return {

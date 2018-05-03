@@ -13,10 +13,21 @@ import { RewriteRuleFactory } from "./domains/proxy/rewrite-rule/lifecycle/rewri
 import { RewriteRuleRepository } from "./domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
 import { SslCertificatePath } from "./libs/ssl-certificate-path";
 
-export async function getContainer(projectBaseDir: string, userDataPath: string): Promise<Container> {
-    let container = new Container({ defaultScope: "Singleton", autoBindInjectable: true, skipBaseClassChecks: true });
-    container.bind(SslCertificatePath).toConstantValue(new SslCertificatePath(userDataPath));
-    container.bind(ProjectEntity).toConstantValue(new ProjectFactory().create(projectBaseDir));
+export async function getContainer(
+    projectBaseDir: string,
+    userDataPath: string,
+): Promise<Container> {
+    let container = new Container({
+        defaultScope: "Singleton",
+        autoBindInjectable: true,
+        skipBaseClassChecks: true,
+    });
+    container
+        .bind(SslCertificatePath)
+        .toConstantValue(new SslCertificatePath(userDataPath));
+    container
+        .bind(ProjectEntity)
+        .toConstantValue(new ProjectFactory().create(projectBaseDir));
 
     await Promise.all([
         container.get(AutoResponderRepository).load(),
@@ -27,7 +38,10 @@ export async function getContainer(projectBaseDir: string, userDataPath: string)
         container.get(NetworksetupProxyFactory).load(),
     ]);
 
-    await Promise.all([container.get(NetworksetupProxyService).load(), container.get(ProxyCommandGrantService).load()]);
+    await Promise.all([
+        container.get(NetworksetupProxyService).load(),
+        container.get(ProxyCommandGrantService).load(),
+    ]);
     await container.get(ProxyBypassDomainService).load();
 
     return container;

@@ -11,7 +11,9 @@ import { ClientRequestFactory } from "./lifecycle/client-request-factory";
 import { ClientRequestRepository } from "./lifecycle/client-request-repository";
 
 export interface getClientRequestService {
-    subscribe: (callback: (clientRequestEntity: ClientRequestEntityJSON) => void) => void;
+    subscribe: (
+        callback: (clientRequestEntity: ClientRequestEntityJSON) => void,
+    ) => void;
     fetchAll: () => Promise<ClientRequestEntityJSON[]>;
 }
 
@@ -35,7 +37,11 @@ export class ClientRequestService {
 
     getClientRequestService(): getClientRequestService {
         return {
-            subscribe: (callback: (clientRequestEntity: ClientRequestEntityJSON) => void): void => {
+            subscribe: (
+                callback: (
+                    clientRequestEntity: ClientRequestEntityJSON,
+                ) => void,
+            ): void => {
                 this.observable.subscribe(callback);
             },
             fetchAll: (): Promise<ClientRequestEntityJSON[]> => {
@@ -44,18 +50,25 @@ export class ClientRequestService {
         };
     }
 
-    async onRequest(clientResponderContext: ClientResponderContext): Promise<void> {
+    async onRequest(
+        clientResponderContext: ClientResponderContext,
+    ): Promise<void> {
         let clientRequestEntity = this.store(clientResponderContext.getUrl());
 
         if (clientRequestEntity.href === LOCAL_PAC_FILE_URL) {
             return await this.pacFileService.response(clientResponderContext);
         }
 
-        return await this.autoResponderService.response(clientResponderContext, clientRequestEntity);
+        return await this.autoResponderService.response(
+            clientResponderContext,
+            clientRequestEntity,
+        );
     }
 
     private async resolveAll(): Promise<ClientRequestEntityJSON[]> {
         let clientRequestEntries = await this.clientRequestRepository.resolveAll();
-        return clientRequestEntries.map((entity): ClientRequestEntityJSON => entity.json);
+        return clientRequestEntries.map(
+            (entity): ClientRequestEntityJSON => entity.json,
+        );
     }
 }

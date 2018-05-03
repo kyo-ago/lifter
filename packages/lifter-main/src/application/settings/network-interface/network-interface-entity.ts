@@ -1,6 +1,10 @@
 import { IOResult, NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { BaseEntity } from "../../../domains/base/base-entity";
-import { getProxyByPassDomains, getSecureWebproxy, getWebproxy } from "../../../libs/exec-commands";
+import {
+    getProxyByPassDomains,
+    getSecureWebproxy,
+    getWebproxy,
+} from "../../../libs/exec-commands";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";
@@ -8,7 +12,9 @@ import { ParseGetwebproxyCommand } from "./specs/parse-getwebproxy-command";
 import { NetworkInterfaceName } from "./value-objects/network-interface-name";
 import { NetworkInterfaceServiceName } from "./value-objects/network-interface-service-name";
 
-export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity> {
+export class NetworkInterfaceEntity extends BaseEntity<
+    NetworkInterfaceIdentity
+> {
     constructor(
         identity: NetworkInterfaceIdentity,
         private _name: NetworkInterfaceName,
@@ -30,8 +36,16 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
         if (await this.isProxing()) return;
 
         await Promise.all([
-            networksetupProxy.setwebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
-            networksetupProxy.setsecurewebproxy(this.serviceName, NETWORK_HOST_NAME, String(PROXY_PORT)),
+            networksetupProxy.setwebproxy(
+                this.serviceName,
+                NETWORK_HOST_NAME,
+                String(PROXY_PORT),
+            ),
+            networksetupProxy.setsecurewebproxy(
+                this.serviceName,
+                NETWORK_HOST_NAME,
+                String(PROXY_PORT),
+            ),
         ]);
     }
 
@@ -50,12 +64,17 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
     ): Promise<IOResult | undefined> {
         if (!(await this.isProxing())) return undefined;
 
-        let proxyBypassDomains = proxyBypassDomainEntities.map(entity => entity.name);
+        let proxyBypassDomains = proxyBypassDomainEntities.map(
+            entity => entity.name,
+        );
 
         let domain = await getProxyByPassDomains(this);
         let domains = domain.split(/\n/).concat(proxyBypassDomains);
         let uniqueDomains = Array.from(new Set(domains));
-        return await networksetupProxy.setproxybypassdomains(this.serviceName, uniqueDomains);
+        return await networksetupProxy.setproxybypassdomains(
+            this.serviceName,
+            uniqueDomains,
+        );
     }
 
     async setAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
@@ -63,7 +82,10 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return;
         }
 
-        await networksetupProxy.setautoproxyurl(this.serviceName, String(PROXY_PORT));
+        await networksetupProxy.setautoproxyurl(
+            this.serviceName,
+            String(PROXY_PORT),
+        );
     }
 
     async reloadAutoProxyUrl(networksetupProxy: NetworksetupProxy) {
@@ -89,7 +111,10 @@ export class NetworkInterfaceEntity extends BaseEntity<NetworkInterfaceIdentity>
             return false;
         }
 
-        let results: string[] = await Promise.all([getWebproxy(this), getSecureWebproxy(this)]);
+        let results: string[] = await Promise.all([
+            getWebproxy(this),
+            getSecureWebproxy(this),
+        ]);
         let result = results.find(stdout => ParseGetwebproxyCommand(stdout));
         return Boolean(result);
     }

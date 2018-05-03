@@ -1,9 +1,21 @@
 import { injectable } from "inversify";
-import { AutoResponderService, getAutoResponder } from "../domains/proxy/auto-responder/auto-responder-service";
-import { ClientRequestService, getClientRequestService } from "../domains/proxy/client-request/client-request-service";
-import { getRewriteRules, RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
+import {
+    AutoResponderService,
+    getAutoResponder,
+} from "../domains/proxy/auto-responder/auto-responder-service";
+import {
+    ClientRequestService,
+    getClientRequestService,
+} from "../domains/proxy/client-request/client-request-service";
+import {
+    getRewriteRules,
+    RewriteRuleService,
+} from "../domains/proxy/rewrite-rule/rewrite-rule-service";
 import { ProxyService } from "./proxy/proxy-service";
-import { CertificateService, getCertificateService } from "./settings/certificate/certificate-service";
+import {
+    CertificateService,
+    getCertificateService,
+} from "./settings/certificate/certificate-service";
 import {
     getProxyBypassDomains,
     ProxyBypassDomainService,
@@ -12,8 +24,14 @@ import {
     getProxyCommandGrantService,
     ProxyCommandGrantService,
 } from "./settings/proxy-command-grant/proxy-command-grant-service";
-import { getProxySettingService, ProxySettingService } from "./settings/proxy-setting/proxy-setting-service";
-import { getUserSetting, UserSettingsService } from "./settings/user-settings/user-settings-service";
+import {
+    getProxySettingService,
+    ProxySettingService,
+} from "./settings/proxy-setting/proxy-setting-service";
+import {
+    getUserSetting,
+    UserSettingsService,
+} from "./settings/user-settings/user-settings-service";
 
 @injectable()
 export class Application {

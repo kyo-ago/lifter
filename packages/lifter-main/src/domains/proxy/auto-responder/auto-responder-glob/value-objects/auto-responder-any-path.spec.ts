@@ -12,7 +12,9 @@ describe("AutoResponderAnyPath", () => {
 
         let clientRequestFactory: ClientRequestFactory;
         beforeEach(async () => {
-            clientRequestFactory = (await getTestContainer()).get(ClientRequestFactory);
+            clientRequestFactory = (await getTestContainer()).get(
+                ClientRequestFactory,
+            );
         });
 
         [
@@ -42,17 +44,27 @@ describe("AutoResponderAnyPath", () => {
             },
         ].forEach(pattern => {
             it(pattern.name, async () => {
-                let autoResponderAnyPath = new AutoResponderAnyPath(pattern.path);
-                let clientRequestEntity = clientRequestFactory.createFromString(pattern.request);
-                let result = await autoResponderAnyPath.getAutoResponderFilePath(clientRequestEntity);
+                let autoResponderAnyPath = new AutoResponderAnyPath(
+                    pattern.path,
+                );
+                let clientRequestEntity = clientRequestFactory.createFromString(
+                    pattern.request,
+                );
+                let result = await autoResponderAnyPath.getAutoResponderFilePath(
+                    clientRequestEntity,
+                );
                 assert(result.value === pattern.result);
             });
         });
 
         it("unmatch directory", async () => {
             let autoResponderAnyPath = new AutoResponderAnyPath(__dirname);
-            let clientRequestEntity = clientRequestFactory.createFromString(`/hoge/${filename}`);
-            let result = await autoResponderAnyPath.getAutoResponderFilePath(clientRequestEntity);
+            let clientRequestEntity = clientRequestFactory.createFromString(
+                `/hoge/${filename}`,
+            );
+            let result = await autoResponderAnyPath.getAutoResponderFilePath(
+                clientRequestEntity,
+            );
             assert(result === null);
         });
     });

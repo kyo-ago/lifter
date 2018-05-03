@@ -101,7 +101,10 @@ export interface ElectronIpcMap {
 export const ipc = class {
     static subscribe<K extends keyof ElectronIpcMap>(
         key: K,
-        callback: (event: any, message: ElectronIpcMap[K]["param"]) => Promise<ElectronIpcMap[K]["result"]> | void,
+        callback: (
+            event: any,
+            message: ElectronIpcMap[K]["param"],
+        ) => Promise<ElectronIpcMap[K]["result"]> | void,
     ): void {
         return Ipc.subscribe(key, callback);
     }

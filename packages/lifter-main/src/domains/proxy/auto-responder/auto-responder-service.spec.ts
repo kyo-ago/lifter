@@ -60,7 +60,9 @@ describe("AutoResponderService", () => {
 
     it("find result is not null", async () => {
         await autoResponderService.store([__filename]);
-        let clientRequestEntity = clientRequestFactory.createFromString(__filename);
+        let clientRequestEntity = clientRequestFactory.createFromString(
+            __filename,
+        );
         let result = await autoResponderService.find(clientRequestEntity);
         assert(result);
     });

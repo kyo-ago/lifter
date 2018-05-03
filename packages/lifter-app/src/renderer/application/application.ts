@@ -32,7 +32,9 @@ export class Application {
         return await ipc.publish("addAutoResponderEntities", paths);
     }
 
-    async selectDialogEntry(fileNames: string[]): Promise<AutoResponderEntityJSON[]> {
+    async selectDialogEntry(
+        fileNames: string[],
+    ): Promise<AutoResponderEntityJSON[]> {
         return await ipc.publish("addAutoResponderEntities", fileNames);
     }
 
@@ -40,8 +42,13 @@ export class Application {
         return await ipc.publish("fetchAutoResponderEntities");
     }
 
-    async deleteAutoResponderEntities(autoResponderEntities: AutoResponderEntityJSON[]): Promise<void> {
-        await ipc.publish("deleteAutoResponderEntities", autoResponderEntities.map(entity => entity.id));
+    async deleteAutoResponderEntities(
+        autoResponderEntities: AutoResponderEntityJSON[],
+    ): Promise<void> {
+        await ipc.publish(
+            "deleteAutoResponderEntities",
+            autoResponderEntities.map(entity => entity.id),
+        );
     }
 
     changeCertificateStatus(): Promise<CertificateStatus> {
@@ -68,7 +75,9 @@ export class Application {
         return ipc.publish("getProxyBypassDomains");
     }
 
-    async saveProxyBypassDomains(domains: ProxyBypassDomainEntityJSON[]): Promise<void> {
+    async saveProxyBypassDomains(
+        domains: ProxyBypassDomainEntityJSON[],
+    ): Promise<void> {
         return ipc.publish("saveProxyBypassDomains", domains);
     }
 
@@ -80,8 +89,13 @@ export class Application {
         return ipc.publish("addRewriteRule", url);
     }
 
-    async deleteRewriteRules(rewriteRules: RewriteRuleEntityJSON[]): Promise<void> {
-        await ipc.publish("deleteRewriteRules", rewriteRules.map(entity => entity.id));
+    async deleteRewriteRules(
+        rewriteRules: RewriteRuleEntityJSON[],
+    ): Promise<void> {
+        await ipc.publish(
+            "deleteRewriteRules",
+            rewriteRules.map(entity => entity.id),
+        );
     }
 
     async addRewriteRuleModifier(
@@ -89,7 +103,11 @@ export class Application {
         entityId: number,
         param: CreateRewriteRuleModifierEntityJSON,
     ): Promise<void> {
-        await ipc.publish("addRewriteRuleModifier", { action, entityId, param });
+        await ipc.publish("addRewriteRuleModifier", {
+            action,
+            entityId,
+            param,
+        });
     }
 
     async deleteRewriteRuleModifiers(
@@ -97,20 +115,39 @@ export class Application {
         entityId: number,
         modifiers: RewriteRuleModifierEntityJSON[],
     ): Promise<void> {
-        await ipc.publish("deleteRewriteRuleModifiers", { action, entityId, modifiers });
-    }
-
-    onAddClientRequestEntity(callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void) {
-        ipc.subscribe("addClientRequestEntity", (_, clientRequestEntityJSON: ClientRequestEntityJSON) => {
-            callback(clientRequestEntityJSON);
+        await ipc.publish("deleteRewriteRuleModifiers", {
+            action,
+            entityId,
+            modifiers,
         });
     }
 
-    onFileDropEvent(global: Window, dragenter: () => void, dragleave: () => void, drop: (files: File[]) => void) {
+    onAddClientRequestEntity(
+        callback: (clientRequestEntityJSON: ClientRequestEntityJSON) => void,
+    ) {
+        ipc.subscribe(
+            "addClientRequestEntity",
+            (_, clientRequestEntityJSON: ClientRequestEntityJSON) => {
+                callback(clientRequestEntityJSON);
+            },
+        );
+    }
+
+    onFileDropEvent(
+        global: Window,
+        dragenter: () => void,
+        dragleave: () => void,
+        drop: (files: File[]) => void,
+    ) {
         global.addEventListener("dragover", e => e.preventDefault());
         global.addEventListener("dragenter", dragenter);
         global.addEventListener("dragleave", event => {
-            if (event.clientX && event.clientY && event.offsetX && event.offsetY) {
+            if (
+                event.clientX &&
+                event.clientY &&
+                event.offsetX &&
+                event.offsetY
+            ) {
                 return;
             }
             dragleave();

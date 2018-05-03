@@ -14,7 +14,9 @@ describe("ClientRequestService", () => {
     let clientRequestService: ClientRequestService;
     let autoResponderService: AutoResponderService;
     let sandbox = sinon.createSandbox();
-    let clientResponderContext = sandbox.createStubInstance(ClientResponderContext);
+    let clientResponderContext = sandbox.createStubInstance(
+        ClientResponderContext,
+    );
 
     beforeEach(async () => {
         let container = await getTestContainer();
@@ -59,7 +61,9 @@ describe("ClientRequestService", () => {
 
     it("onRequest.response localfile", async () => {
         await autoResponderService.store([__filename]);
-        clientResponderContext.getUrl.returns(URL.parse(`http://example.com/${Path.basename(__filename)}`));
+        clientResponderContext.getUrl.returns(
+            URL.parse(`http://example.com/${Path.basename(__filename)}`),
+        );
         await clientRequestService.onRequest(clientResponderContext);
         assert(clientResponderContext.response.calledOnce);
         let args = clientResponderContext.response.lastCall.args;
@@ -69,7 +73,9 @@ describe("ClientRequestService", () => {
 
     it("onRequest.pass no match files", async () => {
         await autoResponderService.store([__filename]);
-        clientResponderContext.getUrl.returns(URL.parse(`http://example.com/unknown.txt`));
+        clientResponderContext.getUrl.returns(
+            URL.parse(`http://example.com/unknown.txt`),
+        );
         await clientRequestService.onRequest(clientResponderContext);
         assert(clientResponderContext.pass.calledOnce);
         assert(clientResponderContext.response.notCalled);

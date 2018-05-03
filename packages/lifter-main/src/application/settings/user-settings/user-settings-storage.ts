@@ -19,16 +19,24 @@ export class UserSettingsStorage {
 
     private readonly datastore: Datastore;
     private readonly find: (query: any) => Promise<any[]>;
-    private readonly update: (query: any, value: any, option: any) => Promise<any>;
+    private readonly update: (
+        query: any,
+        value: any,
+        option: any,
+    ) => Promise<any>;
     private readonly loadDatabase: () => Promise<void>;
 
     constructor(projectEntity: ProjectEntity) {
-        let dataStoreOptions = projectEntity.getDataStoreOptions(UserSettingsStorage.name);
+        let dataStoreOptions = projectEntity.getDataStoreOptions(
+            UserSettingsStorage.name,
+        );
         this.datastore = new Datastore(dataStoreOptions);
 
         this.find = promisify(this.datastore.find.bind(this.datastore));
         this.update = promisify(this.datastore.update.bind(this.datastore));
-        this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
+        this.loadDatabase = promisify(
+            this.datastore.loadDatabase.bind(this.datastore),
+        );
     }
 
     async load(): Promise<void> {
@@ -48,7 +56,10 @@ export class UserSettingsStorage {
         return this.store(name, !this.userSettings[name]);
     }
 
-    private async store<S extends keyof UserSettings>(name: S, value: UserSettings[S]): Promise<UserSettings[S]> {
+    private async store<S extends keyof UserSettings>(
+        name: S,
+        value: UserSettings[S],
+    ): Promise<UserSettings[S]> {
         await this.update(
             { name: name },
             {

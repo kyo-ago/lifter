@@ -46,7 +46,10 @@ export class CertificateService {
             return [getDeleteCertificateCommandString()];
         }
         let caPath = this.sslCertificatePath.getCaPath();
-        return [getImportCertCommandString(caPath), getAddTrustedCertCommandString(caPath)];
+        return [
+            getImportCertCommandString(caPath),
+            getAddTrustedCertCommandString(caPath),
+        ];
     }
 
     private async changeCertificateStatus(): Promise<CertificateStatus> {

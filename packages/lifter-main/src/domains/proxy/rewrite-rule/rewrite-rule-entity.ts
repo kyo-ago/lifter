@@ -1,4 +1,7 @@
-import { RewriteRuleActionType, RewriteRuleEntityJSON } from "@lifter/lifter-common";
+import {
+    RewriteRuleActionType,
+    RewriteRuleEntityJSON,
+} from "@lifter/lifter-common";
 import { OutgoingHttpHeaders } from "http";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
@@ -25,15 +28,24 @@ export class RewriteRuleEntity extends BaseEntity<RewriteRuleIdentity> {
         };
     }
 
-    addModifier(action: RewriteRuleActionType, modifier: RewriteRuleModifierEntity): void {
+    addModifier(
+        action: RewriteRuleActionType,
+        modifier: RewriteRuleModifierEntity,
+    ): void {
         return this.modifier.addModifier(action, modifier);
     }
 
-    deleteModifier(action: RewriteRuleActionType, modifierId: RewriteRuleModifierIdentity): void {
+    deleteModifier(
+        action: RewriteRuleActionType,
+        modifierId: RewriteRuleModifierIdentity,
+    ): void {
         return this.modifier.deleteModifier(action, modifierId);
     }
 
-    applyHeader(clientRequestEntity: ClientRequestEntity, header: OutgoingHttpHeaders): OutgoingHttpHeaders {
+    applyHeader(
+        clientRequestEntity: ClientRequestEntity,
+        header: OutgoingHttpHeaders,
+    ): OutgoingHttpHeaders {
         if (!this.url.isMatchUrl(clientRequestEntity.pathSearch)) {
             return header;
         }

@@ -5,7 +5,10 @@ interface Device {
     Device: string;
 }
 
-export function ParseNetworkDevices(serviceorder: string, ifconfig: Ifconfig): NetworkDeviceParam[] {
+export function ParseNetworkDevices(
+    serviceorder: string,
+    ifconfig: Ifconfig,
+): NetworkDeviceParam[] {
     // drop first line
     let services = serviceorder
         .trim()
@@ -23,12 +26,14 @@ export function ParseNetworkDevices(serviceorder: string, ifconfig: Ifconfig): N
             };
         });
 
-    return deviceOrder.filter((device: Device) => ifconfig[device["Device"]]).map((device: Device) => {
-        let conf = ifconfig[device["Device"]];
-        return {
-            name: device["Device"],
-            serviceName: device["ServiceName"],
-            enable: conf.status === "active",
-        };
-    });
+    return deviceOrder
+        .filter((device: Device) => ifconfig[device["Device"]])
+        .map((device: Device) => {
+            let conf = ifconfig[device["Device"]];
+            return {
+                name: device["Device"],
+                serviceName: device["ServiceName"],
+                enable: conf.status === "active",
+            };
+        });
 }

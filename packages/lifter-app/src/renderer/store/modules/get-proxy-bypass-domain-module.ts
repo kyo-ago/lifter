@@ -25,7 +25,9 @@ export function getProxyBypassDomainModule(
                 { dispatch },
                 targetProxyBypassDomains: ProxyBypassDomainEntityJSON[],
             ): Promise<ProxyBypassDomainEntityJSON[]> {
-                await application.saveProxyBypassDomains(targetProxyBypassDomains);
+                await application.saveProxyBypassDomains(
+                    targetProxyBypassDomains,
+                );
                 return await dispatch("gets");
             },
         },

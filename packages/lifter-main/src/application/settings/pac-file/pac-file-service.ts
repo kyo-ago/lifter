@@ -14,7 +14,9 @@ export class PacFileService {
     async start() {
         await this.networksetupProxyService.setAutoProxyUrl();
         this.unsubscribe && this.unsubscribe();
-        this.unsubscribe = this.autoResponderService.bind(() => this.networksetupProxyService.reloadAutoProxyUrl());
+        this.unsubscribe = this.autoResponderService.bind(() =>
+            this.networksetupProxyService.reloadAutoProxyUrl(),
+        );
     }
 
     async stop() {

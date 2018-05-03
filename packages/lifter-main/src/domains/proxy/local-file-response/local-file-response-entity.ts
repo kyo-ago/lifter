@@ -6,7 +6,9 @@ import { LocalFileResponsePath } from "./value-objects/local-file-response-path"
 import { LocalFileResponseSize } from "./value-objects/local-file-response-size";
 import { LocalFileResponseType } from "./value-objects/local-file-response-type";
 
-export class LocalFileResponseEntity extends BaseEntity<LocalFilResponseIdentity> {
+export class LocalFileResponseEntity extends BaseEntity<
+    LocalFilResponseIdentity
+> {
     constructor(
         identity: LocalFilResponseIdentity,
         private path: LocalFileResponsePath,

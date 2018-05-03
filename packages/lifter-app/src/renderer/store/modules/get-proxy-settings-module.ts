@@ -1,8 +1,15 @@
-import { CertificateStatus, ProxyCommandGrantStatus, ProxySettingStatus } from "@lifter/lifter-common";
+import {
+    CertificateStatus,
+    ProxyCommandGrantStatus,
+    ProxySettingStatus,
+} from "@lifter/lifter-common";
 import { ApplicationMainStateJSON } from "../../../main/window-manager";
 import { Application } from "../../application/application";
 
-export function getProxySettingsModule(application: Application, state: ApplicationMainStateJSON) {
+export function getProxySettingsModule(
+    application: Application,
+    state: ApplicationMainStateJSON,
+) {
     return {
         namespaced: true,
         state: {
@@ -18,7 +25,10 @@ export function getProxySettingsModule(application: Application, state: Applicat
             changeProxySettingStatus(state, newStatus: ProxySettingStatus) {
                 state.proxySettingStatus = newStatus;
             },
-            changeProxyCommandGrantStatus(state, newStatus: ProxyCommandGrantStatus) {
+            changeProxyCommandGrantStatus(
+                state,
+                newStatus: ProxyCommandGrantStatus,
+            ) {
                 state.proxyCommandGrantStatus = newStatus;
             },
             changeCertificateStatus(state, newStatus: CertificateStatus) {

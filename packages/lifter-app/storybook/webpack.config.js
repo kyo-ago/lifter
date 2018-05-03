@@ -4,9 +4,11 @@ const testConfig = require("../test/webpack.config");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = storybookBaseConfig => {
-    storybookBaseConfig.module.rules = storybookBaseConfig.module.rules.filter(item => {
-        return !item.test.toString().match(/\.vue\W/);
-    });
+    storybookBaseConfig.module.rules = storybookBaseConfig.module.rules.filter(
+        item => {
+            return !item.test.toString().match(/\.vue\W/);
+        },
+    );
     delete testConfig.externals;
     let resultConfig = webpackMerge.smart(storybookBaseConfig, testConfig, {
         module: {
@@ -26,8 +28,10 @@ module.exports = storybookBaseConfig => {
                                             happyPackMode: true,
                                         },
                                     },
-                                    scss: "vue-style-loader!css-loader!sass-loader",
-                                    sass: "vue-style-loader!css-loader!sass-loader?indentedSyntax",
+                                    scss:
+                                        "vue-style-loader!css-loader!sass-loader",
+                                    sass:
+                                        "vue-style-loader!css-loader!sass-loader?indentedSyntax",
                                 },
                             },
                         },
@@ -56,8 +60,14 @@ module.exports = storybookBaseConfig => {
         resolve: {
             alias: {
                 electron: path.resolve(__dirname, "../mocks/electron"),
-                "electron-ipc": path.resolve(__dirname, "../mocks/electron-ipc"),
-                "electron-context-menu": path.resolve(__dirname, "../mocks/electron-context-menu"),
+                "electron-ipc": path.resolve(
+                    __dirname,
+                    "../mocks/electron-ipc",
+                ),
+                "electron-context-menu": path.resolve(
+                    __dirname,
+                    "../mocks/electron-context-menu",
+                ),
             },
         },
     });

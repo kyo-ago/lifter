@@ -29,6 +29,9 @@ export class AutoResponderGlobPattern extends AutoResponderPattern {
         let pathSearch = clientRequestEntity.pathSearch;
 
         // similar matchBase option
-        return this.matchRegexp.test(pathSearch) || this.matchRegexp.test(Path.basename(pathSearch));
+        return (
+            this.matchRegexp.test(pathSearch) ||
+            this.matchRegexp.test(Path.basename(pathSearch))
+        );
     }
 }

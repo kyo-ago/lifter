@@ -15,19 +15,23 @@ let application = createApplication(`${__dirname}/repositories`, __dirname);
         message: "call method",
         choices: [
             {
-                name: "application.getCertificateService().fetchCurrentStatus()",
+                name:
+                    "application.getCertificateService().fetchCurrentStatus()",
                 value: application.getCertificateService().fetchCurrentStatus,
             },
             {
-                name: "application.getCertificateService().changeCertificateStatus()",
-                value: application.getCertificateService().changeCertificateStatus,
+                name:
+                    "application.getCertificateService().changeCertificateStatus()",
+                value: application.getCertificateService()
+                    .changeCertificateStatus,
             },
             {
                 name: "application.getProxyCommandGrantService().fetchStatus()",
                 value: application.getProxyCommandGrantService().fetchStatus,
             },
             {
-                name: "application.getProxyCommandGrantService().changeStatus()",
+                name:
+                    "application.getProxyCommandGrantService().changeStatus()",
                 value: application.getProxyCommandGrantService().changeStatus,
             },
             {

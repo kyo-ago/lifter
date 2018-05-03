@@ -6,7 +6,10 @@ import { ProjectIdentity } from "../project-identity";
 import { ProjectFactory } from "./project-factory";
 
 @injectable()
-export class ProjectRepository extends AsyncOnNedbRepository<ProjectIdentity, ProjectEntity> {
+export class ProjectRepository extends AsyncOnNedbRepository<
+    ProjectIdentity,
+    ProjectEntity
+> {
     constructor(dataStoreOptions: Datastore.DataStoreOptions) {
         super(dataStoreOptions, {
             toEntity: (json: any): ProjectEntity => {

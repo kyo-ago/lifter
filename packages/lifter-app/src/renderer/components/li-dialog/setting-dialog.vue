@@ -89,10 +89,16 @@ export default {
     name: "setting-dialog",
     data() {
         return {
-            currentcertificateStatus: this.$store.state.proxySettings.certificateState === "Installed",
-            currentProxyCommandGrantStatus: this.$store.state.proxySettings.proxyCommandGrantStatus === "On",
-            currentNoAutoEnableProxySetting: !this.$store.state.proxySettings.noAutoEnableProxySetting,
-            currentNoPacFileProxySetting: !this.$store.state.proxySettings.noPacFileProxySetting,
+            currentcertificateStatus:
+                this.$store.state.proxySettings.certificateState ===
+                "Installed",
+            currentProxyCommandGrantStatus:
+                this.$store.state.proxySettings.proxyCommandGrantStatus ===
+                "On",
+            currentNoAutoEnableProxySetting: !this.$store.state.proxySettings
+                .noAutoEnableProxySetting,
+            currentNoPacFileProxySetting: !this.$store.state.proxySettings
+                .noPacFileProxySetting,
         };
     },
     computed: {
@@ -118,20 +124,31 @@ export default {
         },
         async changecertificateStatus() {
             await this.$store.dispatch("proxySettings/changeCertificateStatus");
-            this.$data.currentcertificateStatus = this.$store.state.proxySettings.certificateState === "Installed";
+            this.$data.currentcertificateStatus =
+                this.$store.state.proxySettings.certificateState ===
+                "Installed";
         },
         async changeProxyCommandGrantStatus() {
-            await this.$store.dispatch("proxySettings/changeProxyCommandGrantStatus");
+            await this.$store.dispatch(
+                "proxySettings/changeProxyCommandGrantStatus",
+            );
             this.$data.currentProxyCommandGrantStatus =
-                this.$store.state.proxySettings.proxyCommandGrantStatus === "On";
+                this.$store.state.proxySettings.proxyCommandGrantStatus ===
+                "On";
         },
         async changeNoAutoEnableProxySetting() {
-            await this.$store.dispatch("proxySettings/changeNoAutoEnableProxySetting");
-            this.$data.currentNoAutoEnableProxySetting = !this.$store.state.proxySettings.noAutoEnableProxySetting;
+            await this.$store.dispatch(
+                "proxySettings/changeNoAutoEnableProxySetting",
+            );
+            this.$data.currentNoAutoEnableProxySetting = !this.$store.state
+                .proxySettings.noAutoEnableProxySetting;
         },
         async changeNoPacFileProxySetting() {
-            await this.$store.dispatch("proxySettings/changeNoPacFileProxySetting");
-            this.$data.currentNoPacFileProxySetting = !this.$store.state.proxySettings.noPacFileProxySetting;
+            await this.$store.dispatch(
+                "proxySettings/changeNoPacFileProxySetting",
+            );
+            this.$data.currentNoPacFileProxySetting = !this.$store.state
+                .proxySettings.noPacFileProxySetting;
         },
     },
 };

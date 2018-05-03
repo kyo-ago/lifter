@@ -9,14 +9,20 @@ import { MockStateEvent } from "../../mock-state-event";
 let grantSuccessResult = { stdout: undefined, stderr: undefined };
 let commandSuccessResult = { stdout: ``, stderr: `` };
 
-let setProxyCommandGrantStatus = (newStatus: ProxyCommandGrantStatus, result: IOResult) => {
+let setProxyCommandGrantStatus = (
+    newStatus: ProxyCommandGrantStatus,
+    result: IOResult,
+) => {
     return () => {
         MockStateEvent.emit("updateProxyCommandGrantStatus", newStatus);
         return Promise.resolve(result);
     };
 };
 
-let setProxySettingStatus = (newStatus: ProxySettingStatus, result: IOResult) => {
+let setProxySettingStatus = (
+    newStatus: ProxySettingStatus,
+    result: IOResult,
+) => {
     return () => {
         MockStateEvent.emit("updateProxySettingState", newStatus);
         return Promise.resolve(result);
@@ -36,7 +42,10 @@ mockRequire("@lifter/networksetup-proxy", {
     },
 });
 
-export type MockProxyCommandGrantStatus = ProxyCommandGrantStatus | "initialize" | "CancelGrant";
+export type MockProxyCommandGrantStatus =
+    | ProxyCommandGrantStatus
+    | "initialize"
+    | "CancelGrant";
 
 MockStateEvent.on("updateProxyCommandGrantStatus", newStatus => {
     if (newStatus === "CancelGrant") {
@@ -44,7 +53,9 @@ MockStateEvent.on("updateProxyCommandGrantStatus", newStatus => {
         return setUnknownState(stub);
     }
     if (newStatus === "initialize") {
-        stub.grant.callsFake(setProxyCommandGrantStatus("Off", grantSuccessResult));
+        stub.grant.callsFake(
+            setProxyCommandGrantStatus("Off", grantSuccessResult),
+        );
         return setUnknownState(stub);
     }
     if (newStatus === "On") {
@@ -65,7 +76,10 @@ let setUnknownState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) => {
         [stub.setsecurewebproxy, `-setsecurewebproxy "Wi-Fi" 8888`],
         [stub.setwebproxystate, `-setwebproxystate "Wi-Fi" on`],
         [stub.setsecurewebproxystate, `-setsecurewebproxystate "Wi-Fi" on`],
-        [stub.setproxybypassdomains, `-setproxybypassdomains "Wi-Fi" "localhost"`],
+        [
+            stub.setproxybypassdomains,
+            `-setproxybypassdomains "Wi-Fi" "localhost"`,
+        ],
         [stub.setautoproxyurl, `-setautoproxyurl "Wi-Fi" 8888`],
         [stub.setautoproxystate, `-setautoproxystate "Wi-Fi" on`],
     ].forEach(([stub, cmd]: [sinon.SinonStub, string]) => {
@@ -77,14 +91,24 @@ note: Run with \`RUST_BACKTRACE=1\` for a backtrace.\n`),
     });
 };
 
-let setPermittedState = (stub: sinon.SinonStubbedInstance<NetworksetupProxy>) => {
+let setPermittedState = (
+    stub: sinon.SinonStubbedInstance<NetworksetupProxy>,
+) => {
     stub.grant.callsFake(setProxyCommandGrantStatus("On", grantSuccessResult));
-    stub.setwebproxy.callsFake(setProxySettingStatus("On", commandSuccessResult));
-    stub.setsecurewebproxy.callsFake(setProxySettingStatus("On", commandSuccessResult));
+    stub.setwebproxy.callsFake(
+        setProxySettingStatus("On", commandSuccessResult),
+    );
+    stub.setsecurewebproxy.callsFake(
+        setProxySettingStatus("On", commandSuccessResult),
+    );
     [stub.setwebproxystate, stub.setsecurewebproxystate].forEach(stub => {
         stub.resolves(commandSuccessResult);
-        stub.withArgs(sinon.match.string, "off").callsFake(setProxySettingStatus("Off", commandSuccessResult));
-        stub.withArgs(sinon.match.string, "on").callsFake(setProxySettingStatus("On", commandSuccessResult));
+        stub
+            .withArgs(sinon.match.string, "off")
+            .callsFake(setProxySettingStatus("Off", commandSuccessResult));
+        stub
+            .withArgs(sinon.match.string, "on")
+            .callsFake(setProxySettingStatus("On", commandSuccessResult));
     });
     stub.setproxybypassdomains.resolves(commandSuccessResult);
     stub.setautoproxyurl.resolves(commandSuccessResult);

@@ -17,7 +17,10 @@ export class ClientRequestFactory {
     }
 
     create(url: URL.Url): ClientRequestEntity {
-        return new ClientRequestEntity(new ClientRequestIdentity(this.identity++), new ClientRequestUrl(url));
+        return new ClientRequestEntity(
+            new ClientRequestIdentity(this.identity++),
+            new ClientRequestUrl(url),
+        );
     }
 
     createFromString(href: string): ClientRequestEntity {

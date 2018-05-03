@@ -3,8 +3,13 @@ import { BaseEntity } from "../../../domains/base/base-entity";
 import { ProxyBypassDomainIdentity } from "./proxy-bypass-domain-identity";
 import { ProxyBypassDomainName } from "./vaue-objects/proxy-bypass-domain-name";
 
-export class ProxyBypassDomainEntity extends BaseEntity<ProxyBypassDomainIdentity> {
-    constructor(identity: ProxyBypassDomainIdentity, private _name: ProxyBypassDomainName) {
+export class ProxyBypassDomainEntity extends BaseEntity<
+    ProxyBypassDomainIdentity
+> {
+    constructor(
+        identity: ProxyBypassDomainIdentity,
+        private _name: ProxyBypassDomainName,
+    ) {
         super(identity);
     }
 

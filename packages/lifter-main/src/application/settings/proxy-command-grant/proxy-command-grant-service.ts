@@ -5,7 +5,9 @@ import { NetworksetupProxyFactory } from "../networksetup-proxy/lifecycle/networ
 import { ProxyCommandGrantSetting } from "./vaue-objects/proxy-command-grant-setting";
 
 export interface getProxyCommandGrantService {
-    onChange: (callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void) => void;
+    onChange: (
+        callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void,
+    ) => void;
     fetchStatus: () => Promise<ProxyCommandGrantStatus>;
     fetchCommands: () => Promise<string[]>;
     changeStatus: () => Promise<ProxyCommandGrantStatus>;
@@ -26,7 +28,11 @@ export class ProxyCommandGrantService {
 
     getProxyCommandGrantService(): getProxyCommandGrantService {
         return {
-            onChange: (callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void): void => {
+            onChange: (
+                callback: (
+                    proxyCommandGrantStatus: ProxyCommandGrantStatus,
+                ) => void,
+            ): void => {
                 this.onChangeStatus(callback);
             },
             fetchStatus: async (): Promise<ProxyCommandGrantStatus> => {
@@ -42,21 +48,23 @@ export class ProxyCommandGrantService {
     }
 
     async toggleGranted(): Promise<ProxyCommandGrantStatus> {
-        this.proxyCommandGrantSetting = await this.proxyCommandGrantSetting.match({
-            Grant: async () => {
-                await this.networksetupProxy.removeGrant();
-                return ProxyCommandGrantSetting.getNotGranted();
-            },
-            notGrant: async () => {
-                try {
-                    await this.networksetupProxy.grant();
-                    return ProxyCommandGrantSetting.getGranted();
-                } catch (e) {
-                    // user cancel
+        this.proxyCommandGrantSetting = await this.proxyCommandGrantSetting.match(
+            {
+                Grant: async () => {
+                    await this.networksetupProxy.removeGrant();
                     return ProxyCommandGrantSetting.getNotGranted();
-                }
+                },
+                notGrant: async () => {
+                    try {
+                        await this.networksetupProxy.grant();
+                        return ProxyCommandGrantSetting.getGranted();
+                    } catch (e) {
+                        // user cancel
+                        return ProxyCommandGrantSetting.getNotGranted();
+                    }
+                },
             },
-        });
+        );
         return this.proxyCommandGrantSetting.getStatus();
     }
 
@@ -75,9 +83,13 @@ export class ProxyCommandGrantService {
         });
     }
 
-    onChangeStatus(callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void): void {
+    onChangeStatus(
+        callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void,
+    ): void {
         this.networksetupProxy.watchGrantCommands((result: boolean) => {
-            this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(result);
+            this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(
+                result,
+            );
             callback(this.proxyCommandGrantSetting.getStatus());
         });
     }
