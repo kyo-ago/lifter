@@ -5,6 +5,7 @@
   "author": "@kyo_ago",
   "dependencies": {
     "@lifter/electron-window-manager": "^0.1.1",
+    "@lifter/file-watcher": "^0.2.0",
     "@lifter/lifter-common": "^0.2.0",
     "@lifter/lifter-main": "^0.2.0",
     "@lifter/networksetup-proxy": "^0.2.0",
