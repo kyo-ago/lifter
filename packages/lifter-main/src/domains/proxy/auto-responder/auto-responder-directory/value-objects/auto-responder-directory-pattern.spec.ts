@@ -1,13 +1,13 @@
 import * as assert from "assert";
 import "mocha";
-import { createLifecycleContextService } from "../../../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../../../test/mocks/get-test-container";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderDirectoryPattern } from "./auto-responder-directory-pattern";
 
 describe("AutoResponderDirectoryPattern", () => {
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
-        clientRequestFactory = (await createLifecycleContextService()).clientRequestFactory;
+        clientRequestFactory = (await getTestContainer()).get(ClientRequestFactory);
     });
     let testPattern = [
         {

@@ -1,64 +1,76 @@
-import { getAutoResponder } from "../domains/proxy/auto-responder/auto-responder-service";
-import { getClientRequestService } from "../domains/proxy/client-request/client-request-service";
-import { getRewriteRules } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
-import { LifecycleContextService } from "./lifecycle-context-service";
-import { ServiceContext } from "./service-context";
-import { getCertificateService } from "./settings/certificate/certificate-service";
-import { getProxyBypassDomains } from "./settings/proxy-bypass-domain/proxy-bypass-domain-service";
-import { getProxyCommandGrantService } from "./settings/proxy-command-grant/proxy-command-grant-service";
-import { getProxySettingService } from "./settings/proxy-setting/proxy-setting-service";
-import { getUserSetting } from "./settings/user-settings/user-settings-service";
+import { injectable } from "inversify";
+import { AutoResponderService, getAutoResponder } from "../domains/proxy/auto-responder/auto-responder-service";
+import { ClientRequestService, getClientRequestService } from "../domains/proxy/client-request/client-request-service";
+import { getRewriteRules, RewriteRuleService } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
+import { ProxyService } from "./proxy/proxy-service";
+import { CertificateService, getCertificateService } from "./settings/certificate/certificate-service";
+import {
+    getProxyBypassDomains,
+    ProxyBypassDomainService,
+} from "./settings/proxy-bypass-domain/proxy-bypass-domain-service";
+import {
+    getProxyCommandGrantService,
+    ProxyCommandGrantService,
+} from "./settings/proxy-command-grant/proxy-command-grant-service";
+import { getProxySettingService, ProxySettingService } from "./settings/proxy-setting/proxy-setting-service";
+import { getUserSetting, UserSettingsService } from "./settings/user-settings/user-settings-service";
 
+@injectable()
 export class Application {
-    constructor(protected lifecycleContextService: LifecycleContextService, protected serviceContext: ServiceContext) {}
-
-    async load() {
-        await this.lifecycleContextService.load();
-        await this.serviceContext.load();
-    }
+    constructor(
+        private userSettingsService: UserSettingsService,
+        private proxySettingService: ProxySettingService,
+        private proxyService: ProxyService,
+        private autoResponderService: AutoResponderService,
+        private certificateService: CertificateService,
+        private proxyCommandGrantService: ProxyCommandGrantService,
+        private clientRequestService: ClientRequestService,
+        private proxyBypassDomainService: ProxyBypassDomainService,
+        private rewriteRuleService: RewriteRuleService,
+    ) {}
 
     async startup() {
-        await this.serviceContext.userSettingsService.isAutoEnableProxy({
-            Some: () => this.serviceContext.proxySettingService.startup(),
+        await this.userSettingsService.isAutoEnableProxy({
+            Some: () => this.proxySettingService.startup(),
             None: () => Promise.resolve(),
         });
-        await this.serviceContext.proxyService.listen();
+        await this.proxyService.listen();
     }
 
     async shutdown(): Promise<void> {
-        await this.serviceContext.proxySettingService.shutdown();
-        await this.serviceContext.proxyService.shutdown();
+        await this.proxySettingService.shutdown();
+        await this.proxyService.shutdown();
     }
 
     getAutoResponder(): getAutoResponder {
-        return this.serviceContext.autoResponderService.getAutoResponder();
+        return this.autoResponderService.getAutoResponder();
     }
 
     getCertificateService(): getCertificateService {
-        return this.serviceContext.certificateService.getCertificateService();
+        return this.certificateService.getCertificateService();
     }
 
     getProxyCommandGrantService(): getProxyCommandGrantService {
-        return this.serviceContext.proxyCommandGrantService.getProxyCommandGrantService();
+        return this.proxyCommandGrantService.getProxyCommandGrantService();
     }
 
     getClientRequestService(): getClientRequestService {
-        return this.serviceContext.clientRequestService.getClientRequestService();
+        return this.clientRequestService.getClientRequestService();
     }
 
     getProxyBypassDomains(): getProxyBypassDomains {
-        return this.serviceContext.proxyBypassDomainService.getProxyBypassDomains();
+        return this.proxyBypassDomainService.getProxyBypassDomains();
     }
 
     getRewriteRules(): getRewriteRules {
-        return this.serviceContext.rewriteRuleService.getRewriteRules();
+        return this.rewriteRuleService.getRewriteRules();
     }
 
     getUserSetting(): getUserSetting {
-        return this.serviceContext.userSettingsService.getUserSetting();
+        return this.userSettingsService.getUserSetting();
     }
 
     getProxySettingService(): getProxySettingService {
-        return this.serviceContext.proxySettingService.getProxySettingService();
+        return this.proxySettingService.getProxySettingService();
     }
 }

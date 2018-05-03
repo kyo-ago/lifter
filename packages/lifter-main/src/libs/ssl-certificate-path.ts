@@ -4,7 +4,7 @@ import { HTTP_SSL_CA_DIR_NAME } from "../settings";
 
 export class SslCertificatePath extends BaseValueObject<string> {
     getCaPath() {
-        return Path.join(this.getCaDir(), 'certs', 'ca.pem');
+        return Path.join(this.getCaDir(), "certs", "ca.pem");
     }
 
     getCaDir() {

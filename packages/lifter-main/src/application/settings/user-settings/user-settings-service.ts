@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import { UserSettingsStorage } from "./user-settings-storage";
 
 export interface getUserSetting {
@@ -12,6 +13,7 @@ export interface MatchPattern {
     None?: () => any;
 }
 
+@injectable()
 export class UserSettingsService {
     constructor(private readonly userSettingsStorage: UserSettingsStorage) {}
 

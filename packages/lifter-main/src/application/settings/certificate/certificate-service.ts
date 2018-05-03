@@ -1,4 +1,5 @@
 import { CertificateStatus } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import {
     addTrustedCert,
     deleteCertificate,
@@ -6,7 +7,7 @@ import {
     getAddTrustedCertCommandString,
     getDeleteCertificateCommandString,
     getImportCertCommandString,
-    importCert
+    importCert,
 } from "../../../libs/exec-commands";
 import { SslCertificatePath } from "../../../libs/ssl-certificate-path";
 
@@ -16,9 +17,9 @@ export interface getCertificateService {
     changeCertificateStatus: () => Promise<CertificateStatus>;
 }
 
+@injectable()
 export class CertificateService {
-    constructor(private sslCertificatePath: SslCertificatePath) {
-    }
+    constructor(private sslCertificatePath: SslCertificatePath) {}
 
     getCertificateService(): getCertificateService {
         return {
@@ -45,10 +46,7 @@ export class CertificateService {
             return [getDeleteCertificateCommandString()];
         }
         let caPath = this.sslCertificatePath.getCaPath();
-        return [
-            getImportCertCommandString(caPath),
-            getAddTrustedCertCommandString(caPath),
-        ];
+        return [getImportCertCommandString(caPath), getAddTrustedCertCommandString(caPath)];
     }
 
     private async changeCertificateStatus(): Promise<CertificateStatus> {

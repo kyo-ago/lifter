@@ -7,7 +7,7 @@ import {
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
-    RewriteRuleEntityJSON
+    RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
 import { addRewriteRuleModifierParam, deleteRewriteRuleModifierParam, ipc } from "../lib/ipc";

@@ -1,5 +1,6 @@
 import { ProxyCommandGrantStatus } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
+import { injectable } from "inversify";
 import { NetworksetupProxyFactory } from "../networksetup-proxy/lifecycle/networksetup-proxy-factory";
 import { ProxyCommandGrantSetting } from "./vaue-objects/proxy-command-grant-setting";
 
@@ -10,13 +11,12 @@ export interface getProxyCommandGrantService {
     changeStatus: () => Promise<ProxyCommandGrantStatus>;
 }
 
+@injectable()
 export class ProxyCommandGrantService {
     private proxyCommandGrantSetting: ProxyCommandGrantSetting;
     private networksetupProxy: NetworksetupProxy;
 
-    constructor(
-        private networksetupProxyFactory: NetworksetupProxyFactory,
-    ) {}
+    constructor(private networksetupProxyFactory: NetworksetupProxyFactory) {}
 
     async load() {
         this.networksetupProxy = this.networksetupProxyFactory.getNetworksetupProxy();

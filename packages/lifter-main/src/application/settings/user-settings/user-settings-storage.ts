@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as Datastore from "nedb";
 import { promisify } from "util";
 import { ProjectEntity } from "../../../domains/proxy/project/project-entity";
@@ -12,6 +13,7 @@ const DefaultUserSettings: UserSettings = {
     noPacFileProxy: false,
 };
 
+@injectable()
 export class UserSettingsStorage {
     private userSettings: UserSettings = DefaultUserSettings;
 
@@ -21,7 +23,7 @@ export class UserSettingsStorage {
     private readonly loadDatabase: () => Promise<void>;
 
     constructor(projectEntity: ProjectEntity) {
-        let dataStoreOptions = projectEntity.getDataStoreOptions("userSettingsStorage");
+        let dataStoreOptions = projectEntity.getDataStoreOptions(UserSettingsStorage.name);
         this.datastore = new Datastore(dataStoreOptions);
 
         this.find = promisify(this.datastore.find.bind(this.datastore));

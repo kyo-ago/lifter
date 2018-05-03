@@ -1,30 +1,35 @@
 import {
     CreateRewriteRuleDeleteModifierEntityJSON,
-    CreateRewriteRuleUpdateModifierEntityJSON
+    CreateRewriteRuleUpdateModifierEntityJSON,
 } from "@lifter/lifter-common";
 import * as assert from "assert";
 import "mocha";
 import * as URL from "url";
-import { createApplication, TestApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
+import { ClientRequestFactory } from "../client-request/lifecycle/client-request-factory";
+import { LocalFileResponseFactory } from "../local-file-response/lifecycle/local-file-response-factory";
 import { RewriteRuleService } from "./rewrite-rule-service";
 
 describe("RewriteRuleService", () => {
-    let application: TestApplication;
     let rewriteRuleService: RewriteRuleService;
+    let localFileResponseFactory: LocalFileResponseFactory;
+    let clientRequestFactory: ClientRequestFactory;
 
     let getHeader = async (url: string) => {
-        let localFileResponse = application.getLifecycleContextService().localFileResponseFactory.create({
+        let localFileResponse = localFileResponseFactory.create({
             path: "/local/file/path.js",
             type: "application/javascript",
             size: 100,
         });
-        let clientRequestEntity = application.getLifecycleContextService().clientRequestFactory.create(URL.parse(url));
+        let clientRequestEntity = clientRequestFactory.create(URL.parse(url));
         return await rewriteRuleService.getHeader(localFileResponse, clientRequestEntity);
     };
 
     beforeEach(async () => {
-        application = await createApplication();
-        rewriteRuleService = application.getServiceContext().rewriteRuleService;
+        let container = await getTestContainer();
+        rewriteRuleService = container.get(RewriteRuleService);
+        localFileResponseFactory = container.get(LocalFileResponseFactory);
+        clientRequestFactory = container.get(ClientRequestFactory);
     });
 
     it("getHeader match", async () => {

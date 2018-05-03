@@ -1,13 +1,13 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { ProxyBypassDomainService } from "./proxy-bypass-domain-service";
 
 describe("ProxyBypassDomainService", () => {
     let proxyBypassDomainService: ProxyBypassDomainService;
     beforeEach(async () => {
-        let application = await createApplication();
-        proxyBypassDomainService = application.getServiceContext().proxyBypassDomainService;
+        let container = await getTestContainer();
+        proxyBypassDomainService = container.get(ProxyBypassDomainService);
     });
 
     let getProxyBypassDomains = () => {

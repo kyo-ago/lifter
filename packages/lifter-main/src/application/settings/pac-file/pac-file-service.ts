@@ -1,7 +1,9 @@
+import { injectable } from "inversify";
 import { AutoResponderService } from "../../../domains/proxy/auto-responder/auto-responder-service";
 import { ClientResponderContext } from "../../../domains/proxy/client-request/lib/client-responder-context";
 import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
 
+@injectable()
 export class PacFileService {
     constructor(
         private autoResponderService: AutoResponderService,

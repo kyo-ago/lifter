@@ -17,7 +17,6 @@ function GetCommandString(commandPath: string, args: string[]): string {
     return `${commandPath} ${filteredArgs.join(" ")}`;
 }
 
-
 export function getIfconfig(): Promise<string> {
     return ExecCommand(IFCONFIG_COMMAND, []);
 }

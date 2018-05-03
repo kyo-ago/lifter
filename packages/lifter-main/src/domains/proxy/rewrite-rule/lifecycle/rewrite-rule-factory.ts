@@ -7,8 +7,9 @@ import {
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
     RewriteRuleModifierMapJSON,
-    RewriteRuleUpdateModifierEntityJSON
+    RewriteRuleUpdateModifierEntityJSON,
 } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";
 import { RewriteRuleEntity } from "../rewrite-rule-entity";
@@ -52,9 +53,10 @@ function SwitchType(action: RewriteRuleActionType, param: CreateRewriteRuleModif
     return matchCase[action](param);
 }
 
+@injectable()
 export class RewriteRuleFactory extends AsyncNedbIdGenerator {
     constructor(projectEntity: ProjectEntity) {
-        super(projectEntity.getDataStoreOptions("rewriteRuleFactory"));
+        super(projectEntity.getDataStoreOptions(RewriteRuleFactory.name));
     }
 
     static fromJSON(json: RewriteRuleEntityJSON): RewriteRuleEntity {

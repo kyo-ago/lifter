@@ -1,5 +1,6 @@
 import { AutoResponderEntityJSON, AutoResponderType } from "@lifter/lifter-common";
 import * as fs from "fs";
+import { injectable } from "inversify";
 import * as Path from "path";
 import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";
@@ -16,9 +17,10 @@ import { AutoResponderAnyPath } from "../auto-responder-glob/value-objects/auto-
 import { AutoResponderGlobPattern } from "../auto-responder-glob/value-objects/auto-responder-glob-pattern";
 import { AutoResponderIdentity } from "../auto-responder-identity";
 
+@injectable()
 export class AutoResponderFactory extends AsyncNedbIdGenerator {
     constructor(private projectEntity: ProjectEntity) {
-        super(projectEntity.getDataStoreOptions("autoResponderFactory"));
+        super(projectEntity.getDataStoreOptions(AutoResponderFactory.name));
     }
 
     static fromJSON(autoResponderEntityJSON: AutoResponderEntityJSON) {

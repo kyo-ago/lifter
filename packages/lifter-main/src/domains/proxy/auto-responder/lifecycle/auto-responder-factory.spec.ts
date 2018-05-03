@@ -1,7 +1,7 @@
 import { AutoResponderType } from "@lifter/lifter-common";
 import * as assert from "assert";
 import "mocha";
-import { createLifecycleContextService } from "../../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../../test/mocks/get-test-container";
 import { AutoResponderDirectoryEntity } from "../auto-responder-directory/auto-responder-directory-entity";
 import { AutoResponderFileEntity } from "../auto-responder-file/auto-responder-file-entity";
 import { AutoResponderGlobEntity } from "../auto-responder-glob/auto-responder-glob-entity";
@@ -11,8 +11,7 @@ describe("AutoResponderFactory", () => {
     let autoResponderFactory: AutoResponderFactory;
 
     beforeEach(async () => {
-        let lifecycleContextService = await createLifecycleContextService();
-        autoResponderFactory = lifecycleContextService.autoResponderFactory;
+        autoResponderFactory = (await getTestContainer()).get(AutoResponderFactory);
     });
 
     describe("create", () => {

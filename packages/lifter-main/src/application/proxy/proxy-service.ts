@@ -1,9 +1,11 @@
 import * as HttpMitmProxy from "http-mitm-proxy";
+import { injectable } from "inversify";
 import { ClientRequestService } from "../../domains/proxy/client-request/client-request-service";
 import { ClientResponderContext } from "../../domains/proxy/client-request/lib/client-responder-context";
 import { SslCertificatePath } from "../../libs/ssl-certificate-path";
 import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
 
+@injectable()
 export class ProxyService {
     private mitmProxy: HttpMitmProxy.IProxy = HttpMitmProxy();
 

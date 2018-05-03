@@ -2,7 +2,7 @@ import * as assert from "assert";
 import "mocha";
 import * as Path from "path";
 import * as sinon from "sinon";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { AutoResponderService } from "../../../domains/proxy/auto-responder/auto-responder-service";
 import { ClientResponderContext } from "../../../domains/proxy/client-request/lib/client-responder-context";
 import { PROXY_SERVER_NAME } from "../../../settings";
@@ -15,9 +15,9 @@ describe("PacFileService", () => {
     let clientResponderContext = sandbox.createStubInstance(ClientResponderContext);
 
     beforeEach(async () => {
-        let application = await createApplication();
-        pacFileService = application.getServiceContext().pacFileService;
-        autoResponderService = application.getServiceContext().autoResponderService;
+        let container = await getTestContainer();
+        pacFileService = container.get(PacFileService);
+        autoResponderService = container.get(AutoResponderService);
     });
     afterEach(() => {
         sandbox.resetHistory();

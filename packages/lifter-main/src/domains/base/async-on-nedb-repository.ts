@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as Datastore from "nedb";
 import { Entity, Identity } from "typescript-dddbase";
 import { promisify } from "util";
@@ -8,6 +9,7 @@ export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {
     toJSON(entity: E): any;
 }
 
+@injectable()
 export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID>> {
     private datastore: Datastore;
     private find: (query: any) => Promise<any[]>;

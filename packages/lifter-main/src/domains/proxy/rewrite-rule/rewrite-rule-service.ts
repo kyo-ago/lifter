@@ -1,9 +1,10 @@
 import {
     CreateRewriteRuleModifierEntityJSON,
     RewriteRuleEntityJSON,
-    RewriteRuleModifierEntityJSON
+    RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import { OutgoingHttpHeaders } from "http";
+import { injectable } from "inversify";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponseEntity } from "../local-file-response/local-file-response-entity";
 import { RewriteRuleFactory, stringToRewriteRuleActionType } from "./lifecycle/rewrite-rule-factory";
@@ -23,6 +24,7 @@ export interface getRewriteRules {
     deleteModifiers: (action: string, entityId: number, modifiers: RewriteRuleModifierEntityJSON[]) => Promise<void>;
 }
 
+@injectable()
 export class RewriteRuleService {
     constructor(private rewriteRuleFactory: RewriteRuleFactory, private rewriteRuleRepository: RewriteRuleRepository) {}
 

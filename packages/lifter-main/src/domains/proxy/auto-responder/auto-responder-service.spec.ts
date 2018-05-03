@@ -1,17 +1,23 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../../test/mocks/create-services";
-import { LifecycleContextService } from "../../../application/lifecycle-context-service";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
+import { ClientRequestFactory } from "../client-request/lifecycle/client-request-factory";
 import { AutoResponderService } from "./auto-responder-service";
+import { AutoResponderFactory } from "./lifecycle/auto-responder-factory";
+import { AutoResponderRepository } from "./lifecycle/auto-responder-repositoty";
 
 describe("AutoResponderService", () => {
-    let lifecycleContextService: LifecycleContextService;
+    let clientRequestFactory: ClientRequestFactory;
+    let autoResponderFactory: AutoResponderFactory;
+    let autoResponderRepository: AutoResponderRepository;
     let autoResponderService: AutoResponderService;
 
     beforeEach(async () => {
-        let application = await createApplication();
-        lifecycleContextService = application.getLifecycleContextService();
-        autoResponderService = application.getServiceContext().autoResponderService;
+        let container = await getTestContainer();
+        clientRequestFactory = container.get(ClientRequestFactory);
+        autoResponderFactory = container.get(AutoResponderFactory);
+        autoResponderRepository = container.get(AutoResponderRepository);
+        autoResponderService = container.get(AutoResponderService);
     });
 
     it("getAutoResponder.add", async () => {
@@ -47,25 +53,25 @@ describe("AutoResponderService", () => {
     });
 
     it("find result is null", async () => {
-        let clientRequestEntity = lifecycleContextService.clientRequestFactory.createFromString("");
+        let clientRequestEntity = clientRequestFactory.createFromString("");
         let result = await autoResponderService.find(clientRequestEntity);
         assert(!result);
     });
 
     it("find result is not null", async () => {
         await autoResponderService.store([__filename]);
-        let clientRequestEntity = lifecycleContextService.clientRequestFactory.createFromString(__filename);
+        let clientRequestEntity = clientRequestFactory.createFromString(__filename);
         let result = await autoResponderService.find(clientRequestEntity);
         assert(result);
     });
 
     it("find choose from entities", async () => {
         let entities = Array.from(Array(10)).map((_, index) =>
-            lifecycleContextService.autoResponderFactory.create("File", String(index), __filename),
+            autoResponderFactory.create("File", String(index), __filename),
         );
-        await lifecycleContextService.autoResponderRepository.storeList(entities);
+        await autoResponderRepository.storeList(entities);
 
-        let clientRequestEntity = lifecycleContextService.clientRequestFactory.createFromString("/2");
+        let clientRequestEntity = clientRequestFactory.createFromString("/2");
         let result = await autoResponderService.find(clientRequestEntity);
         assert(result);
     });

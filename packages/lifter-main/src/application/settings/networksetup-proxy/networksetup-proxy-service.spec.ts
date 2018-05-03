@@ -1,14 +1,14 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
 import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
 
 describe("ProxyCommandGrantService", () => {
     let proxyCommandGrantService: ProxyCommandGrantService;
     beforeEach(async () => {
-        let application = await createApplication();
-        proxyCommandGrantService = application.getServiceContext().proxyCommandGrantService;
+        let container = await getTestContainer();
+        proxyCommandGrantService = container.get(ProxyCommandGrantService);
     });
 
     let getProxyCommandGrantService = () => {

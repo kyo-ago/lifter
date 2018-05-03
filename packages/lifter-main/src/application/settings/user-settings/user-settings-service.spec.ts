@@ -1,13 +1,13 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { UserSettingsService } from "./user-settings-service";
 
 describe("UserSettingsService", () => {
     let userSettingsService: UserSettingsService;
     beforeEach(async () => {
-        let application = await createApplication();
-        userSettingsService = application.getServiceContext().userSettingsService;
+        let container = await getTestContainer();
+        userSettingsService = container.get(UserSettingsService);
     });
 
     let getUserSetting = () => {

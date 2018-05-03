@@ -1,4 +1,5 @@
 import { ProxyBypassDomainEntityJSON } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
 import { ProxyBypassDomainFactory } from "./lifecycle/proxy-bypass-domain-factory";
 import { ProxyBypassDomainRepository } from "./lifecycle/proxy-bypass-domain-repository";
@@ -8,6 +9,7 @@ export interface getProxyBypassDomains {
     fetchAll: () => Promise<ProxyBypassDomainEntityJSON[]>;
 }
 
+@injectable()
 export class ProxyBypassDomainService {
     constructor(
         private proxyBypassDomainFactory: ProxyBypassDomainFactory,

@@ -1,4 +1,5 @@
 import { ProxySettingStatus } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import { PROXY_PREFERENCES_PLIST_PATH } from "../../../settings";
 import { NetworkInterfaceService } from "../network-interface/network-interface-service";
 import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
@@ -11,6 +12,7 @@ export interface getProxySettingService {
     onChange: (callback: (proxySettingStatus: ProxySettingStatus) => void) => void;
 }
 
+@injectable()
 export class ProxySettingService {
     constructor(
         private userSettingsService: UserSettingsService,
@@ -28,7 +30,7 @@ export class ProxySettingService {
                 return this.getNewStatus();
             },
             onChange: (_: (proxySettingStatus: ProxySettingStatus) => void): void => {
-                PROXY_PREFERENCES_PLIST_PATH
+                PROXY_PREFERENCES_PLIST_PATH;
             },
         };
     }

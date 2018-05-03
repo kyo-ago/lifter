@@ -1,9 +1,11 @@
 import { ClientRequestEntityJSON } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import * as URL from "url";
 import { ClientRequestEntity } from "../client-request-entity";
 import { ClientRequestIdentity } from "../client-request-identity";
 import { ClientRequestUrl } from "../value-objects/client-request-url";
 
+@injectable()
 export class ClientRequestFactory {
     private identity = 0;
 

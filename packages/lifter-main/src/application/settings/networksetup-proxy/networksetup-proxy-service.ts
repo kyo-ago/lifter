@@ -1,10 +1,12 @@
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
+import { injectable } from "inversify";
 import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
 import { NetworkInterfaceService } from "../network-interface/network-interface-service";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
 import { NetworksetupProxyFactory } from "./lifecycle/networksetup-proxy-factory";
 
+@injectable()
 export class NetworksetupProxyService {
     private networksetupProxy: NetworksetupProxy;
 
@@ -19,27 +21,27 @@ export class NetworksetupProxyService {
     }
 
     enableProxy(): Promise<void> {
-        return this.callAllInterface((ni) => ni.enableProxy(this.networksetupProxy));
+        return this.callAllInterface(ni => ni.enableProxy(this.networksetupProxy));
     }
 
     disableProxy(): Promise<void> {
-        return this.callAllInterface((ni) => ni.disableProxy(this.networksetupProxy));
+        return this.callAllInterface(ni => ni.disableProxy(this.networksetupProxy));
     }
 
     clearAutoProxyUrl() {
-        return this.callAllInterface((ni) => ni.clearAutoProxyUrl(this.networksetupProxy));
+        return this.callAllInterface(ni => ni.clearAutoProxyUrl(this.networksetupProxy));
     }
 
     setAutoProxyUrl() {
-        return this.callAllInterface((ni) => ni.setAutoProxyUrl(this.networksetupProxy));
+        return this.callAllInterface(ni => ni.setAutoProxyUrl(this.networksetupProxy));
     }
 
     reloadAutoProxyUrl() {
-        return this.callAllInterface((ni) => ni.reloadAutoProxyUrl(this.networksetupProxy));
+        return this.callAllInterface(ni => ni.reloadAutoProxyUrl(this.networksetupProxy));
     }
 
     setProxyBypassDomains(proxyBypassDomainEntities: ProxyBypassDomainEntity[]) {
-        return this.callAllInterface(async (ni) => {
+        return this.callAllInterface(async ni => {
             await ni.setProxyBypassDomains(this.networksetupProxy, proxyBypassDomainEntities);
         });
     }

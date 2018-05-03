@@ -1,14 +1,14 @@
 import * as assert from "assert";
 import "mocha";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
 import { CertificateService } from "./certificate-service";
 
 describe("CertificateService", () => {
     let certificateService: CertificateService;
     beforeEach(async () => {
-        let application = await createApplication();
-        certificateService = application.getServiceContext().certificateService;
+        let container = await getTestContainer();
+        certificateService = container.get(CertificateService);
     });
 
     let getCertificateService = () => {

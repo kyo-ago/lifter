@@ -47,12 +47,9 @@ export class NetworksetupProxy {
     }
 
     async grant(): Promise<IOResult> {
-        let [stdout, stderr]: string[] = await promisedSudoExec(
-            this.getGrantCommand(),
-            {
-                name: this.sudoApplicationName,
-            },
-        );
+        let [stdout, stderr]: string[] = await promisedSudoExec(this.getGrantCommand(), {
+            name: this.sudoApplicationName,
+        });
         return { stdout, stderr };
     }
 
@@ -78,7 +75,6 @@ export class NetworksetupProxy {
             `cp ${this.PROXY_SETTING_COMMAND} ${tempolaryFileName}`,
             `rm -f ${this.PROXY_SETTING_COMMAND}`,
             `cp ${tempolaryFileName} ${this.PROXY_SETTING_COMMAND}`,
-
         ];
     }
 

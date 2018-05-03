@@ -1,6 +1,8 @@
+import { injectable } from "inversify";
 import * as Datastore from "nedb";
 import { promisify } from "util";
 
+@injectable()
 export abstract class AsyncNedbIdGenerator {
     private datastore: Datastore;
     private identity = 0;

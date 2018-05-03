@@ -1,4 +1,5 @@
 import { ClientRequestEntityJSON } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import * as Rx from "rxjs/Rx";
 import * as URL from "url";
 import { PacFileService } from "../../../application/settings/pac-file/pac-file-service";
@@ -14,6 +15,7 @@ export interface getClientRequestService {
     fetchAll: () => Promise<ClientRequestEntityJSON[]>;
 }
 
+@injectable()
 export class ClientRequestService {
     private observable: Rx.Subject<ClientRequestEntityJSON> = new Rx.Subject();
 

@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import "mocha";
 import * as Path from "path";
-import { createLifecycleContextService } from "../../../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../../../test/mocks/get-test-container";
 import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
 import { AutoResponderAnyPath } from "./auto-responder-any-path";
 
@@ -12,7 +12,7 @@ describe("AutoResponderAnyPath", () => {
 
         let clientRequestFactory: ClientRequestFactory;
         beforeEach(async () => {
-            clientRequestFactory = (await createLifecycleContextService()).clientRequestFactory;
+            clientRequestFactory = (await getTestContainer()).get(ClientRequestFactory);
         });
 
         [

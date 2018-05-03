@@ -4,7 +4,7 @@ import "mocha";
 import * as Path from "path";
 import * as sinon from "sinon";
 import * as URL from "url";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { LOCAL_PAC_FILE_URL } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientRequestService } from "./client-request-service";
@@ -17,9 +17,9 @@ describe("ClientRequestService", () => {
     let clientResponderContext = sandbox.createStubInstance(ClientResponderContext);
 
     beforeEach(async () => {
-        let application = await createApplication();
-        clientRequestService = application.getServiceContext().clientRequestService;
-        autoResponderService = application.getServiceContext().autoResponderService;
+        let container = await getTestContainer();
+        clientRequestService = container.get(ClientRequestService);
+        autoResponderService = container.get(AutoResponderService);
         sandbox.resetHistory();
     });
 

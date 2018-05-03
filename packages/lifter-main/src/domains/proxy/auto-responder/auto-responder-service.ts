@@ -1,4 +1,5 @@
 import { AutoResponderEntityJSON } from "@lifter/lifter-common";
+import { injectable } from "inversify";
 import * as Rx from "rxjs/Rx";
 import { async } from "rxjs/scheduler/async";
 import { PROXY_SERVER_NAME } from "../../../settings";
@@ -17,6 +18,7 @@ export interface getAutoResponder {
     deletes: (ids: number[]) => Promise<void>;
 }
 
+@injectable()
 export class AutoResponderService {
     private observable: Rx.Subject<void> = new Rx.Subject();
 

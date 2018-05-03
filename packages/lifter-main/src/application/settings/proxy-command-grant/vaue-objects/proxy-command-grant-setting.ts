@@ -20,14 +20,8 @@ export class ProxyCommandGrantSetting extends BaseValueObject<boolean> {
         });
     }
 
-    match<T>(matchCase: {
-        Grant: () => T;
-        notGrant: () => T;
-    }): T {
-        return this.isGranted()
-            ? matchCase.Grant()
-            : matchCase.notGrant()
-        ;
+    match<T>(matchCase: { Grant: () => T; notGrant: () => T }): T {
+        return this.isGranted() ? matchCase.Grant() : matchCase.notGrant();
     }
 
     getStatus(): ProxyCommandGrantStatus {

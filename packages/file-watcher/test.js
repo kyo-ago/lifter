@@ -8,8 +8,8 @@ describe("file-watch", () => {
     afterEach(() => {
         fs.existsSync(testFileName) && fs.unlinkSync(testFileName);
     });
-    let waitFor = (check) => {
-        return new Promise((resolve) => {
+    let waitFor = check => {
+        return new Promise(resolve => {
             let interva = setInterval(() => {
                 if (check()) {
                     return;
@@ -73,7 +73,7 @@ describe("file-watch", () => {
         let spy = sinon.spy();
         let unwatch = watch(testFileName, spy, 0);
         fs.writeFileSync(newPath, "hoge");
-        await new Promise((resolve) => setTimeout(resolve, 50));
+        await new Promise(resolve => setTimeout(resolve, 50));
         unwatch();
         assert(!spy.called);
         fs.unlinkSync(newPath);
