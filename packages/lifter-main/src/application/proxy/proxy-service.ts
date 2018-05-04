@@ -4,6 +4,7 @@ import { ClientRequestService } from "../../domains/proxy/client-request/client-
 import { ClientResponderContext } from "../../domains/proxy/client-request/lib/client-responder-context";
 import { SslCertificatePath } from "../../libs/ssl-certificate-path";
 import { BIND_HOST_NAME, PROXY_PORT } from "../../settings";
+import { promisify } from "util";
 
 @injectable()
 export class ProxyService {
@@ -39,11 +40,12 @@ export class ProxyService {
                     ctx,
                     passCallback,
                 );
-                this.clientRequestService.onRequest(clientResponderContext);
+                /// ignore promise
+                void this.clientRequestService.onRequest(clientResponderContext);
             },
         );
 
-        this.mitmProxy.listen({
+        await promisify(this.mitmProxy.listen.bind(this.mitmProxy))({
             port: PROXY_PORT,
             host: BIND_HOST_NAME,
             silent: true,

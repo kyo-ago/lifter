@@ -1,12 +1,9 @@
-import { getProxyCommandGrantService } from "../lifter-main/src/domains/settings/proxy-command-grant/proxy-command-grant-service";
-
 const { createApplication } = require("@lifter/lifter-main");
 const inquirer = require("inquirer");
 
-let application = createApplication(`${__dirname}/repositories`, __dirname);
-
 (async () => {
-    await application.load();
+    let application = await createApplication(`${__dirname}/repositories`, __dirname);
+
     await application.startup();
 
     let answer = await inquirer.prompt({
