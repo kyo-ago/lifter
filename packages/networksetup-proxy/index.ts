@@ -1,12 +1,12 @@
 /// <reference path="./global.d.ts" />
 
+import * as Watch from "@lifter/file-watcher";
 import * as execa from "execa";
 import * as fs from "fs";
 import * as path from "path";
 import * as Mode from "stat-mode";
 import { exec } from "sudo-prompt";
 import { promisify } from "util";
-import * as Watch from "@lifter/file-watcher";
 
 export type IOResult = {
     stdout: string;

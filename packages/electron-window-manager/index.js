@@ -176,7 +176,7 @@ Window.prototype.create = function(url) {
 
     // Create the new browser window instance, with the passed setup
     var state = windowStateKeeper(this.setup);
-    this.object = new BrowserWindow(state);
+    this.object = new BrowserWindow(Object.assign({}, this.setup, state));
     state.manage(this.object);
 
     // Log the action

@@ -94,7 +94,6 @@
   },
   "scripts": {
     "build": "npm-run-all --parallel build:**",
-    "build-storybook": "build-storybook",
     "build:main": "electron-webpack main",
     "build:renderer": "webpack --config config/webpack.renderer.js",
     "clean": "rm -fr dist lib",
@@ -106,6 +105,7 @@
     "release": "yarn run dist -- build --publish onTag",
     "start": "run-p dev",
     "storybook": "start-storybook -p 9001 -c storybook",
+    "storybook:build": "build-storybook",
     "test": "NODE_ENV=test mocha-webpack --webpack-config test/webpack.config.js --require test/setup.js 'test/**/*.ts' 'src/**/*.mock.*' 'src/**/*.spec.*'",
     "watch": "yarn run test -- --watch"
   }

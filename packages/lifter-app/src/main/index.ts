@@ -5,11 +5,14 @@ import * as unhandled from "electron-unhandled";
 import { REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH } from "../settings";
 import { ApplicationSubscriber } from "./application-subscriber";
 import { WindowManager } from "./window-manager";
-import { Application } from "@lifter/lifter-main";
 
 unhandled();
 
-createApplication(REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH).then(async (application: Application) => {
+(async () => {
+    let [application] = await Promise.all([
+        createApplication(REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH),
+        new Promise(resolve => app.on("ready", resolve)),
+    ]);
     ApplicationSubscriber(application);
     let windowManager = new WindowManager(application);
     windowManager.load();
@@ -20,13 +23,11 @@ createApplication(REPOSITORY_BASE_DIR_PATH, USER_DATA_PATH).then(async (applicat
     });
     app.on("activate", () => windowManager.createMainWindow());
 
-    await new Promise(resolve => app.on("ready", resolve));
-
     try {
         application.startup();
         loadDevtool(loadDevtool.VUEJS_DEVTOOLS);
-        windowManager.createMainWindow();
+        await windowManager.createMainWindow();
     } catch (err) {
         console.error(err);
     }
-});
+})();
