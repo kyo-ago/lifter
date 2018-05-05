@@ -59,6 +59,7 @@
   },
   "electronWebpack": {
     "renderer": {
+      "webpackConfig": "config/webpack.renderer.dev.js",
       "dll": [
         "electron-context-menu",
         "electron-ipc",
@@ -95,7 +96,7 @@
   "scripts": {
     "build": "npm-run-all --parallel build:**",
     "build:main": "electron-webpack main",
-    "build:renderer": "webpack --config config/webpack.renderer.js",
+    "build:renderer": "webpack --config config/webpack.renderer.build.js",
     "clean": "rm -fr dist lib",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
