@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import { ApplicationMainStateJSON } from "../../main/window-manager";
+import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { Application } from "./application";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 

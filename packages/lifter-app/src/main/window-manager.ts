@@ -1,31 +1,9 @@
 import * as windowManager from "@lifter/electron-window-manager";
-import {
-    APPLICATION_NAME,
-    AutoResponderEntityJSON,
-    CertificateStatus,
-    ClientRequestEntityJSON,
-    ProxyBypassDomainEntityJSON,
-    ProxyCommandGrantStatus,
-    ProxySettingStatus,
-    RewriteRuleEntityJSON
-} from "@lifter/lifter-common";
+import { APPLICATION_NAME } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
 import { ipc } from "../lib/ipc";
 import { WINDOW_STATE_DIR, WindowManagerInit } from "../settings";
-
-export interface ApplicationMainStateJSON {
-    autoResponderEntries: AutoResponderEntityJSON[];
-    clientRequestEntries: ClientRequestEntityJSON[];
-    proxyBypassDomainEntries: ProxyBypassDomainEntityJSON[];
-    rewriteRuleEntries: RewriteRuleEntityJSON[];
-    certificateState: CertificateStatus;
-    certificateCommands: string[];
-    proxySettingStatus: ProxySettingStatus;
-    proxyCommandGrantStatus: ProxyCommandGrantStatus;
-    proxyCommandGrantCommands: string[];
-    noAutoEnableProxySetting: boolean;
-    noPacFileProxySetting: boolean;
-}
+import { getApplicationMainStateJSON } from "./application-main-state";
 
 export class WindowManager {
     constructor(private application: Application) {}
@@ -45,49 +23,7 @@ export class WindowManager {
             ? `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
             : `file://${__dirname}/index.html`;
 
-        // Promise.all is max 10 arguments (d.ts limit)
-        let [
-            autoResponderEntries,
-            clientRequestEntries,
-            proxyBypassDomainEntries,
-            rewriteRuleEntries,
-            certificateState,
-        ] = await Promise.all([
-            this.application.getAutoResponder().fetchAll(),
-            this.application.getClientRequestService().fetchAll(),
-            this.application.getProxyBypassDomains().fetchAll(),
-            this.application.getRewriteRules().fetchAll(),
-            this.application.getCertificateService().fetchCurrentStatus(),
-        ]);
-        let [
-            certificateCommands,
-            proxySettingStatus,
-            proxyCommandGrantStatus,
-            proxyCommandGrantCommands,
-            noAutoEnableProxySetting,
-            noPacFileProxySetting,
-        ] = await Promise.all([
-            this.application.getCertificateService().fetchCurrentCommands(),
-            this.application.getProxySettingService().fetch(),
-            this.application.getProxyCommandGrantService().fetchStatus(),
-            this.application.getProxyCommandGrantService().fetchCommands(),
-            this.application.getUserSetting().getNoAutoEnableProxy(),
-            this.application.getUserSetting().getNoPacFileProxy(),
-        ]);
-
-        let state: ApplicationMainStateJSON = {
-            autoResponderEntries,
-            clientRequestEntries,
-            proxyBypassDomainEntries,
-            rewriteRuleEntries,
-            certificateState,
-            certificateCommands,
-            proxySettingStatus,
-            proxyCommandGrantStatus,
-            proxyCommandGrantCommands,
-            noAutoEnableProxySetting,
-            noPacFileProxySetting,
-        };
+        let state = await getApplicationMainStateJSON(this.application);
         windowManager.sharedData.set("mainApps", state);
         windowManager.open(name, APPLICATION_NAME, url, "default", {
             file: `${WINDOW_STATE_DIR}main-window-state.json`,

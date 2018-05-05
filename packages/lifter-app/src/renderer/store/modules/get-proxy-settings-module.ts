@@ -3,7 +3,7 @@ import {
     ProxyCommandGrantStatus,
     ProxySettingStatus,
 } from "@lifter/lifter-common";
-import { ApplicationMainStateJSON } from "../../../main/window-manager";
+import { ApplicationMainStateJSON } from "../../../main/application-main-state";
 import { Application } from "../../application/application";
 
 export function getProxySettingsModule(

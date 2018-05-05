@@ -3,7 +3,7 @@ import {
     RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { remote } from "electron";
-import { ApplicationMainStateJSON } from "../../../main/window-manager";
+import { ApplicationMainStateJSON } from "../../../main/application-main-state";
 
 type WindowId = "mainWindow";
 

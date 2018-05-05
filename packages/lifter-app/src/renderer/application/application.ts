@@ -10,7 +10,7 @@ import {
     RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import { ipc } from "../../lib/ipc";
-import { ApplicationMainStateJSON } from "../../main/window-manager";
+import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
 
