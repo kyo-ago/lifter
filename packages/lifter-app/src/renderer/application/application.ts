@@ -1,15 +1,17 @@
 import {
     AutoResponderEntityJSON,
-    CertificateStatus,
     ClientRequestEntityJSON,
     CreateRewriteRuleModifierEntityJSON,
     ProxyBypassDomainEntityJSON,
-    ProxyCommandGrantStatus,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
     RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
-import { ipc } from "../../lib/ipc";
+import {
+    ipc,
+    onChangeCertificateStatusParam,
+    onChangeProxyCommandGrantStatusParam,
+} from "../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 import { windowManager } from "./libs/get-window-manager";
@@ -51,7 +53,7 @@ export class Application {
         );
     }
 
-    changeCertificateStatus(): Promise<CertificateStatus> {
+    changeCertificateStatus(): Promise<onChangeCertificateStatusParam> {
         return ipc.publish("changeCertificateStatus");
     }
 
@@ -59,8 +61,18 @@ export class Application {
         return ipc.publish("changeProxySettingStatus");
     }
 
-    changeProxyCommandGrantStatus(): Promise<ProxyCommandGrantStatus> {
+    changeProxyCommandGrantStatus(): Promise<
+        onChangeProxyCommandGrantStatusParam
+    > {
         return ipc.publish("changeProxyCommandGrantStatus");
+    }
+
+    onChangeProxyCommandGrantStatus(
+        callback: (param: onChangeProxyCommandGrantStatusParam) => void,
+    ) {
+        ipc.subscribe("onChangeProxyCommandGrantStatus", (_, param) =>
+            callback(param),
+        );
     }
 
     changeNoAutoEnableProxySetting(): Promise<boolean> {

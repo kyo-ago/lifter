@@ -26,8 +26,7 @@ module.exports = {
                                         happyPackMode: true,
                                     },
                                 },
-                                scss:
-                                    "vue-style-loader!css-loader!sass-loader",
+                                scss: "vue-style-loader!css-loader!sass-loader",
                                 sass:
                                     "vue-style-loader!css-loader!sass-loader?indentedSyntax",
                             },

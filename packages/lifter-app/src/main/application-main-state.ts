@@ -5,7 +5,7 @@ import {
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
-    RewriteRuleEntityJSON
+    RewriteRuleEntityJSON,
 } from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
 
@@ -23,7 +23,9 @@ export interface ApplicationMainStateJSON {
     noPacFileProxySetting: boolean;
 }
 
-export async function getApplicationMainStateJSON(application: Application): Promise<ApplicationMainStateJSON> {
+export async function getApplicationMainStateJSON(
+    application: Application,
+): Promise<ApplicationMainStateJSON> {
     // Promise.all is max 10 arguments (d.ts limit)
     let [
         autoResponderEntries,

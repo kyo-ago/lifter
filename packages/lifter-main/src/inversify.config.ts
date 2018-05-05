@@ -12,10 +12,12 @@ import { ProjectEntity } from "./domains/proxy/project/project-entity";
 import { RewriteRuleFactory } from "./domains/proxy/rewrite-rule/lifecycle/rewrite-rule-factory";
 import { RewriteRuleRepository } from "./domains/proxy/rewrite-rule/lifecycle/rewrite-rule-repository";
 import { SslCertificatePath } from "./libs/ssl-certificate-path";
+import { UserKeychainsPath } from "./libs/user-keychains-path";
 
 export async function getContainer(
     projectBaseDir: string,
     userDataPath: string,
+    userHomePath: string,
 ): Promise<Container> {
     let container = new Container({
         defaultScope: "Singleton",
@@ -25,6 +27,9 @@ export async function getContainer(
     container
         .bind(SslCertificatePath)
         .toConstantValue(new SslCertificatePath(userDataPath));
+    container
+        .bind(UserKeychainsPath)
+        .toConstantValue(new UserKeychainsPath(userHomePath));
     container
         .bind(ProjectEntity)
         .toConstantValue(new ProjectFactory().create(projectBaseDir));

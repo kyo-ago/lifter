@@ -1,3 +1,4 @@
+import * as Watch from "@lifter/file-watcher";
 import { CertificateStatus } from "@lifter/lifter-common";
 import { injectable } from "inversify";
 import {
@@ -10,16 +11,23 @@ import {
     importCert,
 } from "../../../libs/exec-commands";
 import { SslCertificatePath } from "../../../libs/ssl-certificate-path";
+import { UserKeychainsPath } from "../../../libs/user-keychains-path";
 
 export interface getCertificateService {
     fetchCurrentStatus: () => Promise<CertificateStatus>;
     fetchCurrentCommands: () => Promise<string[]>;
     changeCertificateStatus: () => Promise<CertificateStatus>;
+    onChangeCertificateStatus: (
+        callback: (certificateStatus: CertificateStatus) => void,
+    ) => void;
 }
 
 @injectable()
 export class CertificateService {
-    constructor(private sslCertificatePath: SslCertificatePath) {}
+    constructor(
+        private sslCertificatePath: SslCertificatePath,
+        private userKeychainsPath: UserKeychainsPath,
+    ) {}
 
     getCertificateService(): getCertificateService {
         return {
@@ -31,6 +39,11 @@ export class CertificateService {
             },
             changeCertificateStatus: (): Promise<CertificateStatus> => {
                 return this.changeCertificateStatus();
+            },
+            onChangeCertificateStatus: (
+                callback: (certificateStatus: CertificateStatus) => void,
+            ): void => {
+                return this.onChangeCertificateStatus(callback);
             },
         };
     }
@@ -105,5 +118,13 @@ export class CertificateService {
             }
             throw e;
         }
+    }
+
+    onChangeCertificateStatus(
+        callback: (certificateStatus: CertificateStatus) => void,
+    ): void {
+        Watch(this.userKeychainsPath.getPath(), async () =>
+            callback(await this.fetchCurrentStatus()),
+        );
     }
 }

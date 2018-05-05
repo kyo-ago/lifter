@@ -41,7 +41,9 @@ export class ProxyService {
                     passCallback,
                 );
                 /// ignore promise
-                void this.clientRequestService.onRequest(clientResponderContext);
+                void this.clientRequestService.onRequest(
+                    clientResponderContext,
+                );
             },
         );
 

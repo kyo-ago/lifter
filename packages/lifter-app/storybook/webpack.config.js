@@ -4,7 +4,9 @@ const testConfig = require("../test/webpack.config");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = storybookBaseConfig => {
-    storybookBaseConfig.module.rules = storybookBaseConfig.module.rules.filter(rule => !rule.test.test(".vue"));
+    storybookBaseConfig.module.rules = storybookBaseConfig.module.rules.filter(
+        rule => !rule.test.test(".vue"),
+    );
     delete testConfig.externals;
     let resultConfig = webpackMerge.smart(storybookBaseConfig, testConfig, {
         module: {

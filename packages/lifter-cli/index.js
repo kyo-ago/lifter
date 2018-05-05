@@ -2,7 +2,10 @@ const { createApplication } = require("@lifter/lifter-main");
 const inquirer = require("inquirer");
 
 (async () => {
-    let application = await createApplication(`${__dirname}/repositories`, __dirname);
+    let application = await createApplication(
+        `${__dirname}/repositories`,
+        __dirname,
+    );
 
     await application.startup();
 

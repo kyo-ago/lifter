@@ -1,6 +1,15 @@
+import {
+    CertificateStatus,
+    ProxyCommandGrantStatus,
+    ProxySettingStatus,
+    RewriteRuleEntityJSON,
+} from "@lifter/lifter-common";
 import { Application } from "@lifter/lifter-main";
-import { RewriteRuleEntityJSON } from "@lifter/lifter-common";
-import { addRewriteRuleModifierParam, deleteRewriteRuleModifierParam, ipc } from "../lib/ipc";
+import {
+    addRewriteRuleModifierParam,
+    deleteRewriteRuleModifierParam,
+    ipc,
+} from "../lib/ipc";
 
 export function ApplicationSubscriber(application: Application) {
     ipc.subscribe("addAutoResponderEntities", (_, paths: string[]) => {
@@ -15,30 +24,65 @@ export function ApplicationSubscriber(application: Application) {
         return application.getAutoResponder().deletes(ids);
     });
 
-    application
-        .getClientRequestService()
-        .subscribe(clientRequestEntityJSON => {
-            return ipc.publish(
-                "addClientRequestEntity",
-                clientRequestEntityJSON,
-            );
-        });
+    application.getClientRequestService().subscribe(clientRequestEntityJSON => {
+        return ipc.publish("addClientRequestEntity", clientRequestEntityJSON);
+    });
 
-    ipc.subscribe("changeCertificateStatus", () => {
-        return application
+    ipc.subscribe("changeCertificateStatus", async () => {
+        let status = await application
             .getCertificateService()
             .changeCertificateStatus();
+        let command = await application
+            .getCertificateService()
+            .fetchCurrentCommands();
+        return { status, command };
     });
+    application
+        .getCertificateService()
+        .onChangeCertificateStatus(
+            async (certificateStatus: CertificateStatus) => {
+                let command = await application
+                    .getCertificateService()
+                    .fetchCurrentCommands();
+                return await ipc.publish("onChangeCertificateStatus", {
+                    status: certificateStatus,
+                    command: command,
+                });
+            },
+        );
 
     ipc.subscribe("changeProxySettingStatus", () => {
         return application.getProxySettingService().change();
     });
+    application
+        .getProxySettingService()
+        .onChange((proxySettingStatus: ProxySettingStatus) => {
+            return ipc.publish(
+                "onChangeProxySettingService",
+                proxySettingStatus,
+            );
+        });
 
-    ipc.subscribe("changeProxyCommandGrantStatus", () => {
-        return application
+    ipc.subscribe("changeProxyCommandGrantStatus", async () => {
+        let status = await application
             .getProxyCommandGrantService()
             .changeStatus();
+        let command = await application
+            .getProxyCommandGrantService()
+            .fetchCommands();
+        return { status, command };
     });
+    application
+        .getProxyCommandGrantService()
+        .onChange(async (proxyCommandGrantStatus: ProxyCommandGrantStatus) => {
+            let command = await application
+                .getProxyCommandGrantService()
+                .fetchCommands();
+            return await ipc.publish("onChangeProxyCommandGrantStatus", {
+                status: proxyCommandGrantStatus,
+                command: command,
+            });
+        });
 
     ipc.subscribe("changeNoAutoEnableProxySetting", () => {
         return application.getUserSetting().changeNoAutoEnableProxy();
