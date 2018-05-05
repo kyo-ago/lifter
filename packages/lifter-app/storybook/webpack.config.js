@@ -4,39 +4,11 @@ const testConfig = require("../test/webpack.config");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = storybookBaseConfig => {
-    storybookBaseConfig.module.rules = storybookBaseConfig.module.rules.filter(
-        item => {
-            return !item.test.toString().match(/\.vue\W/);
-        },
-    );
+    storybookBaseConfig.module.rules = storybookBaseConfig.module.rules.filter(rule => !rule.test.test(".vue"));
     delete testConfig.externals;
     let resultConfig = webpackMerge.smart(storybookBaseConfig, testConfig, {
         module: {
             rules: [
-                {
-                    test: /\.vue$/,
-                    use: [
-                        {
-                            loader: "vue-loader",
-                            options: {
-                                extractCSS: true,
-                                loaders: {
-                                    ts: {
-                                        loader: "ts-loader",
-                                        options: {
-                                            appendTsSuffixTo: [/\.vue$/],
-                                            happyPackMode: true,
-                                        },
-                                    },
-                                    scss:
-                                        "vue-style-loader!css-loader!sass-loader",
-                                    sass:
-                                        "vue-style-loader!css-loader!sass-loader?indentedSyntax",
-                                },
-                            },
-                        },
-                    ],
-                },
                 {
                     test: /\.css$/,
                     use: ExtractTextPlugin.extract({

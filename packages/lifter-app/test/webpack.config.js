@@ -16,8 +16,20 @@ module.exports = {
                     {
                         loader: "vue-loader",
                         options: {
+                            extractCSS: true,
                             loaders: {
                                 i18n: "@kazupon/vue-i18n-loader",
+                                ts: {
+                                    loader: "ts-loader",
+                                    options: {
+                                        appendTsSuffixTo: [/\.vue$/],
+                                        happyPackMode: true,
+                                    },
+                                },
+                                scss:
+                                    "vue-style-loader!css-loader!sass-loader",
+                                sass:
+                                    "vue-style-loader!css-loader!sass-loader?indentedSyntax",
                             },
                         },
                     },
