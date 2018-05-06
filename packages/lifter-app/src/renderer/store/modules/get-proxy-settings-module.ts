@@ -1,8 +1,5 @@
-import {
-    CertificateStatus,
-    ProxyCommandGrantStatus,
-    ProxySettingStatus,
-} from "@lifter/lifter-common";
+import { ProxySettingStatus } from "@lifter/lifter-common";
+import { ChangeCertificateStatusParam, ChangeProxyCommandGrantStatusParam } from "../../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../../main/application-main-state";
 import { Application } from "../../application/application";
 
@@ -25,14 +22,16 @@ export function getProxySettingsModule(
             changeProxySettingStatus(state, newStatus: ProxySettingStatus) {
                 state.proxySettingStatus = newStatus;
             },
+            changeCertificateStatus(state, param: ChangeCertificateStatusParam) {
+                state.certificateState = param.status;
+                state.certificateCommands = param.command;
+            },
             changeProxyCommandGrantStatus(
                 state,
-                newStatus: ProxyCommandGrantStatus,
+                param: ChangeProxyCommandGrantStatusParam,
             ) {
-                state.proxyCommandGrantStatus = newStatus;
-            },
-            changeCertificateStatus(state, newStatus: CertificateStatus) {
-                state.certificateState = newStatus;
+                state.proxyCommandGrantStatus = param.status;
+                state.proxyCommandGrantCommands = param.command;
             },
             changeNoAutoEnableProxySetting(state, newState: boolean) {
                 state.noAutoEnableProxySetting = newState;
@@ -48,14 +47,14 @@ export function getProxySettingsModule(
                 return newStatus;
             },
             async changeProxyCommandGrantStatus({ commit }) {
-                let newStatus = await application.changeProxyCommandGrantStatus();
-                commit("changeProxyCommandGrantStatus", newStatus);
-                return newStatus;
+                let param = await application.changeProxyCommandGrantStatus();
+                commit("changeProxyCommandGrantStatus", param);
+                return param;
             },
             async changeCertificateStatus({ commit }) {
-                let newStatus = await application.changeCertificateStatus();
-                commit("changeCertificateStatus", newStatus);
-                return newStatus;
+                let param = await application.changeCertificateStatus();
+                commit("changeCertificateStatus", param);
+                return param;
             },
             async changeNoAutoEnableProxySetting({ commit }) {
                 let newState = await application.changeNoAutoEnableProxySetting();

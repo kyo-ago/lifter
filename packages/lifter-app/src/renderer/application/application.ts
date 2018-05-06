@@ -9,8 +9,8 @@ import {
 } from "@lifter/lifter-common";
 import {
     ipc,
-    onChangeCertificateStatusParam,
-    onChangeProxyCommandGrantStatusParam,
+    ChangeCertificateStatusParam,
+    ChangeProxyCommandGrantStatusParam,
 } from "../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { ContextMenuService } from "./context-menu/context-menu-service";
@@ -53,8 +53,16 @@ export class Application {
         );
     }
 
-    changeCertificateStatus(): Promise<onChangeCertificateStatusParam> {
+    changeCertificateStatus(): Promise<ChangeCertificateStatusParam> {
         return ipc.publish("changeCertificateStatus");
+    }
+
+    onChangeCertificateStatus(
+        callback: (param: ChangeCertificateStatusParam) => void,
+    ) {
+        ipc.subscribe("onChangeCertificateStatus", (_, param) =>
+            callback(param),
+        );
     }
 
     changeProxySettingStatus(): Promise<ProxySettingStatus> {
@@ -62,13 +70,13 @@ export class Application {
     }
 
     changeProxyCommandGrantStatus(): Promise<
-        onChangeProxyCommandGrantStatusParam
+        ChangeProxyCommandGrantStatusParam
     > {
         return ipc.publish("changeProxyCommandGrantStatus");
     }
 
     onChangeProxyCommandGrantStatus(
-        callback: (param: onChangeProxyCommandGrantStatusParam) => void,
+        callback: (param: ChangeProxyCommandGrantStatusParam) => void,
     ) {
         ipc.subscribe("onChangeProxyCommandGrantStatus", (_, param) =>
             callback(param),

@@ -14,5 +14,6 @@ export const WindowManagerInit = {
         defaultWidth: 1000,
         defaultHeight: 800,
         acceptFirstMouse: true,
+        resizable: true,
     },
 };

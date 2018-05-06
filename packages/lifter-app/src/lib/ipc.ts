@@ -23,12 +23,12 @@ export interface deleteRewriteRuleModifierParam {
     modifiers: RewriteRuleModifierEntityJSON[];
 }
 
-export interface onChangeCertificateStatusParam {
+export interface ChangeCertificateStatusParam {
     status: CertificateStatus;
     command: string[];
 }
 
-export interface onChangeProxyCommandGrantStatusParam {
+export interface ChangeProxyCommandGrantStatusParam {
     status: ProxyCommandGrantStatus;
     command: string[];
 }
@@ -54,11 +54,11 @@ export interface ElectronIpcMap {
 
     changeCertificateStatus: {
         param: void;
-        result: onChangeCertificateStatusParam;
+        result: ChangeCertificateStatusParam;
     };
     onChangeCertificateStatus: {
-        param: onChangeCertificateStatusParam;
-        result: onChangeCertificateStatusParam;
+        param: ChangeCertificateStatusParam;
+        result: ChangeCertificateStatusParam;
     };
     changeProxySettingStatus: {
         param: void;
@@ -70,11 +70,11 @@ export interface ElectronIpcMap {
     };
     changeProxyCommandGrantStatus: {
         param: void;
-        result: onChangeProxyCommandGrantStatusParam;
+        result: ChangeProxyCommandGrantStatusParam;
     };
     onChangeProxyCommandGrantStatus: {
-        param: onChangeProxyCommandGrantStatusParam;
-        result: onChangeProxyCommandGrantStatusParam;
+        param: ChangeProxyCommandGrantStatusParam;
+        result: ChangeProxyCommandGrantStatusParam;
     };
     changeNoAutoEnableProxySetting: {
         param: void;

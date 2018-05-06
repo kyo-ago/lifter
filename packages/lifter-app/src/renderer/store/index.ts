@@ -67,5 +67,13 @@ export function getStore(application: Application): Store<any> {
         store.commit("clientRequest/add", clientRequest);
     });
 
+    application.onChangeCertificateStatus(param => {
+        store.commit("proxySettings/changeCertificateStatus", param);
+    });
+
+    application.onChangeProxyCommandGrantStatus(param => {
+        store.commit("proxySettings/changeProxyCommandGrantStatus", param);
+    });
+
     return store;
 }
