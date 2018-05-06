@@ -35,28 +35,31 @@
         <div>
             <div>
                 <el-switch
-                    v-model="currentcertificateStatus"
+                    v-model="currentCertificateStatus"
                     @change="changecertificateStatus"
                 ></el-switch>
-                {{
-                    currentcertificateStatus
-                        ? $t("CurrentLifterProxyCertificationIsInstalled")
-                        : $t("CurrentLifterProxyCertificationIsMissing")
-                }}
-                or
-                {{
-                }}
+                <span>
+                    {{
+                        currentCertificateStatus
+                            ? $t("CurrentLifterProxyCertificationIsInstalled")
+                            : $t("CurrentLifterProxyCertificationIsMissing")
+                    }}
+                </span>
+                <textarea @focus="$event.target.select()">{{currentCertificateCommand.join("\n")}}</textarea>
             </div>
             <div>
                 <el-switch
                     v-model="currentProxyCommandGrantStatus"
                     @change="changeProxyCommandGrantStatus"
                 ></el-switch>
-                {{
-                    currentProxyCommandGrantStatus
-                        ? $t("NetworkProxyCommandIsGranted")
-                        : $t("NetworkProxyCommandIsNotGranted")
-                }}
+                <span>
+                    {{
+                        currentProxyCommandGrantStatus
+                            ? $t("NetworkProxyCommandIsGranted")
+                            : $t("NetworkProxyCommandIsNotGranted")
+                    }}
+                </span>
+                <textarea @focus="$event.target.select()">{{currentProxyCommandGrantCommands.join("\n")}}</textarea>
             </div>
             <div>
                 <el-switch
@@ -89,12 +92,16 @@ export default {
     name: "setting-dialog",
     data() {
         return {
-            currentcertificateStatus:
-                this.$store.state.proxySettings.certificateState ===
-                "Installed",
+            currentCertificateStatus:
+            this.$store.state.proxySettings.certificateState ===
+            "Installed",
+            currentCertificateCommand:
+            this.$store.state.proxySettings.certificateCommands,
             currentProxyCommandGrantStatus:
-                this.$store.state.proxySettings.proxyCommandGrantStatus ===
-                "On",
+            this.$store.state.proxySettings.proxyCommandGrantStatus ===
+            "On",
+            currentProxyCommandGrantCommands:
+            this.$store.state.proxySettings.proxyCommandGrantCommands,
             currentNoAutoEnableProxySetting: !this.$store.state.proxySettings
                 .noAutoEnableProxySetting,
             currentNoPacFileProxySetting: !this.$store.state.proxySettings
@@ -124,7 +131,7 @@ export default {
         },
         async changecertificateStatus() {
             await this.$store.dispatch("proxySettings/changeCertificateStatus");
-            this.$data.currentcertificateStatus =
+            this.$data.currentCertificateStatus =
                 this.$store.state.proxySettings.certificateState ===
                 "Installed";
         },
@@ -155,4 +162,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    textarea {
+        width: 100%;
+        border: none;
+        resize: none;
+        background-color: lightgrey;
+        margin: 5px;
+    }
 </style>
