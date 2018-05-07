@@ -95,7 +95,7 @@ export default {
             return this.$store.state.proxySettings.certificateState === "Installed";
         },
         certificateCommands() {
-            return this.$store.state.proxySettings.certificateCommands.join("\n");
+            return this.$store.state.proxySettings.certificateCommands.join(" && ");
         },
         proxyCommandGrantStatus() {
             return this.$store.state.proxySettings.proxyCommandGrantStatus === "On";
