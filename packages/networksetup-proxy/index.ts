@@ -33,13 +33,19 @@ const promisedFsRename = promisify(fs.rename);
 const promisedSudoExec = promisify(exec);
 
 export class NetworksetupProxy {
+    private grantCommand: string[];
     constructor(
         private sudoApplicationName: string = "electron sudo application",
         private PROXY_SETTING_COMMAND = path.join(
             __dirname,
             `./rust/proxy-setting`,
         ),
-    ) {}
+    ) {
+        this.grantCommand = [
+            `chown 0:0 "${this.PROXY_SETTING_COMMAND}"`,
+            `chmod 4755 "${this.PROXY_SETTING_COMMAND}"`,
+        ];
+    }
 
     async hasGrant(): Promise<boolean> {
         let stat = await promisedFsStat(this.PROXY_SETTING_COMMAND);
@@ -51,7 +57,7 @@ export class NetworksetupProxy {
 
     async grant(): Promise<IOResult> {
         let [stdout, stderr]: string[] = await promisedSudoExec(
-            this.getGrantCommand(),
+            this.grantCommand.join(" && "),
             {
                 name: this.sudoApplicationName,
             },
@@ -60,9 +66,7 @@ export class NetworksetupProxy {
     }
 
     getGrantCommand(): string {
-        return `chown 0:0 "${this.PROXY_SETTING_COMMAND}" && chmod 4755 "${
-            this.PROXY_SETTING_COMMAND
-        }"`;
+        return `sudo ${this.grantCommand.join(" && sudo ")}`;
     }
 
     async removeGrant(): Promise<IOResult> {
