@@ -21,4 +21,4 @@ script:
   - yarn run bootstrap
   - yarn run build
   - yarn run test
-  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && yarn run publish:app
+  - if [[ $TRAVIS_PULL_REQUEST = "false" && $TRAVIS_BRANCH == "master" ]]; then yarn run publish:app; fi
