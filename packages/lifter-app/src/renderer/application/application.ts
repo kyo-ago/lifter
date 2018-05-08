@@ -8,9 +8,9 @@ import {
     RewriteRuleModifierEntityJSON,
 } from "@lifter/lifter-common";
 import {
-    ipc,
     ChangeCertificateStatusParam,
     ChangeProxyCommandGrantStatusParam,
+    ipc,
 } from "../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { ContextMenuService } from "./context-menu/context-menu-service";

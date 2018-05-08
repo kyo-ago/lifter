@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
-import { UserSettingsStorage } from "./user-settings-storage";
 import * as Rx from "rxjs/Rx";
+import { UserSettingsStorage } from "./user-settings-storage";
 
 export interface getUserSetting {
     getNoAutoEnableProxy: () => boolean;
