@@ -1,7 +1,7 @@
 {
   "name": "@lifter/file-watcher",
   "description": "file watcher",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "author": "@kyo_ago",
   "dependencies": {
     "throttle-debounce": "^1.0.1"
