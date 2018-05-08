@@ -1,3 +1,4 @@
+import * as Watch from "@lifter/file-watcher";
 import { ProxySettingStatus } from "@lifter/lifter-common";
 import { injectable } from "inversify";
 import { PROXY_PREFERENCES_PLIST_PATH } from "../../../settings";
@@ -23,6 +24,13 @@ export class ProxySettingService {
         private networkInterfaceService: NetworkInterfaceService,
     ) {}
 
+    load() {
+        this.userSettingsService.onChangeNoPacFileProxy((_: boolean) => {
+            // ignore return value
+            void this.changeProxyType();
+        });
+    }
+
     getProxySettingService(): getProxySettingService {
         return {
             fetch: (): Promise<ProxySettingStatus> => {
@@ -32,9 +40,9 @@ export class ProxySettingService {
                 return this.getNewStatus();
             },
             onChange: (
-                _: (proxySettingStatus: ProxySettingStatus) => void,
+                callback: (proxySettingStatus: ProxySettingStatus) => void,
             ): void => {
-                PROXY_PREFERENCES_PLIST_PATH;
+                this.onChange(callback);
             },
         };
     }
@@ -62,6 +70,26 @@ export class ProxySettingService {
             Off: async (): Promise<ProxySettingStatus> => {
                 await this.enable();
                 return "On";
+            },
+        });
+    }
+
+    private onChange(callback: (proxySettingStatus: ProxySettingStatus) => void) {
+        return Watch(PROXY_PREFERENCES_PLIST_PATH, async () =>
+            callback(await this.getCurrentStatus()),
+        );
+    }
+
+    private async changeProxyType() {
+        await this.getMatchStatus({
+            NoTargetInterfaces: (): Promise<void> => Promise.resolve(),
+            Off: async (): Promise<void> => Promise.resolve(),
+            On: async (): Promise<void> => {
+                await this.userSettingsService.isPacFileProxy({
+                    Some: () => this.networksetupProxyService.disableProxy(),
+                    None: () => this.pacFileService.stop(),
+                });
+                await this.enable();
             },
         });
     }
