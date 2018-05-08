@@ -48,7 +48,9 @@ export class UserSettingsService {
         return this.userSettingsStorage.resolve("noPacFileProxy");
     }
     async changeNoPacFileProxy() {
-        let newSetting = await this.userSettingsStorage.toggle("noPacFileProxy");
+        let newSetting = await this.userSettingsStorage.toggle(
+            "noPacFileProxy",
+        );
         this.observable.next(newSetting);
         return newSetting;
     }

@@ -1,5 +1,8 @@
 import { ProxySettingStatus } from "@lifter/lifter-common";
-import { ChangeCertificateStatusParam, ChangeProxyCommandGrantStatusParam } from "../../../lib/ipc";
+import {
+    ChangeCertificateStatusParam,
+    ChangeProxyCommandGrantStatusParam,
+} from "../../../lib/ipc";
 import { ApplicationMainStateJSON } from "../../../main/application-main-state";
 import { Application } from "../../application/application";
 
@@ -22,7 +25,10 @@ export function getProxySettingsModule(
             changeProxySettingStatus(state, newStatus: ProxySettingStatus) {
                 state.proxySettingStatus = newStatus;
             },
-            changeCertificateStatus(state, param: ChangeCertificateStatusParam) {
+            changeCertificateStatus(
+                state,
+                param: ChangeCertificateStatusParam,
+            ) {
                 state.certificateState = param.status;
                 state.certificateCommands = param.command;
             },

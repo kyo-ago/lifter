@@ -92,16 +92,24 @@ export default {
     name: "setting-dialog",
     computed: {
         certificateStatus() {
-            return this.$store.state.proxySettings.certificateState === "Installed";
+            return (
+                this.$store.state.proxySettings.certificateState === "Installed"
+            );
         },
         certificateCommands() {
-            return this.$store.state.proxySettings.certificateCommands.join(" && ");
+            return this.$store.state.proxySettings.certificateCommands.join(
+                " && ",
+            );
         },
         proxyCommandGrantStatus() {
-            return this.$store.state.proxySettings.proxyCommandGrantStatus === "On";
+            return (
+                this.$store.state.proxySettings.proxyCommandGrantStatus === "On"
+            );
         },
         proxyCommandGrantCommands() {
-            return this.$store.state.proxySettings.proxyCommandGrantCommands.join("\n");
+            return this.$store.state.proxySettings.proxyCommandGrantCommands.join(
+                "\n",
+            );
         },
         noAutoEnableProxySetting() {
             return !this.$store.state.proxySettings.noAutoEnableProxySetting;
@@ -140,11 +148,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    textarea {
-        width: 100%;
-        border: none;
-        resize: none;
-        background-color: lightgrey;
-        margin: 5px;
-    }
+textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    background-color: lightgrey;
+    margin: 5px;
+}
 </style>

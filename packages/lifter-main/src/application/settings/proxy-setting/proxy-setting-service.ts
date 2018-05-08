@@ -74,7 +74,9 @@ export class ProxySettingService {
         });
     }
 
-    private onChange(callback: (proxySettingStatus: ProxySettingStatus) => void) {
+    private onChange(
+        callback: (proxySettingStatus: ProxySettingStatus) => void,
+    ) {
         return Watch(PROXY_PREFERENCES_PLIST_PATH, async () =>
             callback(await this.getCurrentStatus()),
         );
