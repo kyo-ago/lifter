@@ -5,26 +5,34 @@ import {
 import * as assert from "assert";
 import "mocha";
 import * as URL from "url";
-import { createApplication, TestApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
+import { ClientRequestFactory } from "../client-request/lifecycle/client-request-factory";
+import { LocalFileResponseFactory } from "../local-file-response/lifecycle/local-file-response-factory";
 import { RewriteRuleService } from "./rewrite-rule-service";
 
 describe("RewriteRuleService", () => {
-    let application: TestApplication;
     let rewriteRuleService: RewriteRuleService;
+    let localFileResponseFactory: LocalFileResponseFactory;
+    let clientRequestFactory: ClientRequestFactory;
 
     let getHeader = async (url: string) => {
-        let localFileResponse = application.getLifecycleContextService().localFileResponseFactory.create({
+        let localFileResponse = localFileResponseFactory.create({
             path: "/local/file/path.js",
             type: "application/javascript",
             size: 100,
         });
-        let clientRequestEntity = application.getLifecycleContextService().clientRequestFactory.create(URL.parse(url));
-        return await rewriteRuleService.getHeader(localFileResponse, clientRequestEntity);
+        let clientRequestEntity = clientRequestFactory.create(URL.parse(url));
+        return await rewriteRuleService.getHeader(
+            localFileResponse,
+            clientRequestEntity,
+        );
     };
 
     beforeEach(async () => {
-        application = await createApplication();
-        rewriteRuleService = application.getServiceContext().rewriteRuleService;
+        let container = await getTestContainer();
+        rewriteRuleService = container.get(RewriteRuleService);
+        localFileResponseFactory = container.get(LocalFileResponseFactory);
+        clientRequestFactory = container.get(ClientRequestFactory);
     });
 
     it("getHeader match", async () => {
@@ -34,36 +42,54 @@ describe("RewriteRuleService", () => {
     });
 
     it("getHeader match update", async () => {
-        let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
+        let entity = await rewriteRuleService
+            .getRewriteRules()
+            .addRule("/hoge/huga.js");
         await rewriteRuleService
             .getRewriteRules()
-            .addModifier("UPDATE", entity.id, <CreateRewriteRuleUpdateModifierEntityJSON>{
-                header: "content-type",
-                value: "text/plain",
-            });
+            .addModifier(
+                "UPDATE",
+                entity.id,
+                <CreateRewriteRuleUpdateModifierEntityJSON>{
+                    header: "content-type",
+                    value: "text/plain",
+                },
+            );
         let result = await getHeader("http://example.com/hoge/huga.js");
         assert(result["content-type"] === "text/plain");
     });
 
     it("getHeader match append", async () => {
-        let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
+        let entity = await rewriteRuleService
+            .getRewriteRules()
+            .addRule("/hoge/huga.js");
         await rewriteRuleService
             .getRewriteRules()
-            .addModifier("UPDATE", entity.id, <CreateRewriteRuleUpdateModifierEntityJSON>{
-                header: "hoge",
-                value: "huga",
-            });
+            .addModifier(
+                "UPDATE",
+                entity.id,
+                <CreateRewriteRuleUpdateModifierEntityJSON>{
+                    header: "hoge",
+                    value: "huga",
+                },
+            );
         let result = await getHeader("http://example.com/hoge/huga.js");
         assert(result["hoge"] === "huga");
     });
 
     it("getHeader match delete", async () => {
-        let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
+        let entity = await rewriteRuleService
+            .getRewriteRules()
+            .addRule("/hoge/huga.js");
         await rewriteRuleService
             .getRewriteRules()
-            .addModifier("DELETE", entity.id, <CreateRewriteRuleDeleteModifierEntityJSON>{
-                header: "content-type",
-            });
+            .addModifier(
+                "DELETE",
+                entity.id,
+                <CreateRewriteRuleDeleteModifierEntityJSON>{
+                    header: "content-type",
+                },
+            );
         let result = await getHeader("http://example.com/hoge/huga.js");
         assert(!("hoge" in result));
     });
@@ -79,7 +105,9 @@ describe("RewriteRuleService", () => {
     };
 
     it("add modifier", async () => {
-        let entity = await rewriteRuleService.getRewriteRules().addRule("/hoge/huga.js");
+        let entity = await rewriteRuleService
+            .getRewriteRules()
+            .addRule("/hoge/huga.js");
         await getNetworksetupProxyService().addModifier("DELETE", entity.id, {
             header: "bar",
         });

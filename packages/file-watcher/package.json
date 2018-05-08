@@ -1,0 +1,16 @@
+{
+  "name": "@lifter/file-watcher",
+  "description": "file watcher",
+  "version": "0.2.2",
+  "author": "@kyo_ago",
+  "dependencies": {
+    "throttle-debounce": "^1.0.1"
+  },
+  "license": "GPL-3.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "true",
+    "clean": "true",
+    "test": "mocha"
+  }
+}

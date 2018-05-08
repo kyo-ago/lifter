@@ -1,5 +1,9 @@
-import { AutoResponderEntityJSON, AutoResponderType } from "@lifter/lifter-common";
+import {
+    AutoResponderEntityJSON,
+    AutoResponderType,
+} from "@lifter/lifter-common";
 import * as fs from "fs";
+import { injectable } from "inversify";
 import * as Path from "path";
 import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";
@@ -16,9 +20,10 @@ import { AutoResponderAnyPath } from "../auto-responder-glob/value-objects/auto-
 import { AutoResponderGlobPattern } from "../auto-responder-glob/value-objects/auto-responder-glob-pattern";
 import { AutoResponderIdentity } from "../auto-responder-identity";
 
+@injectable()
 export class AutoResponderFactory extends AsyncNedbIdGenerator {
     constructor(private projectEntity: ProjectEntity) {
-        super(projectEntity.getDataStoreOptions("autoResponderFactory"));
+        super(projectEntity.getDataStoreOptions(AutoResponderFactory.name));
     }
 
     static fromJSON(autoResponderEntityJSON: AutoResponderEntityJSON) {
@@ -34,7 +39,9 @@ export class AutoResponderFactory extends AsyncNedbIdGenerator {
             return new AutoResponderDirectoryEntity(
                 new AutoResponderIdentity(autoResponderEntityJSON.id),
                 "Directory",
-                AutoResponderDirectoryPattern.createSafeValue(autoResponderEntityJSON.pattern),
+                AutoResponderDirectoryPattern.createSafeValue(
+                    autoResponderEntityJSON.pattern,
+                ),
                 new AutoResponderDirectoryPath(autoResponderEntityJSON.path),
                 new ProjectIdentity(autoResponderEntityJSON.projectId),
             );
@@ -47,11 +54,17 @@ export class AutoResponderFactory extends AsyncNedbIdGenerator {
                 new ProjectIdentity(autoResponderEntityJSON.projectId),
             );
         } else {
-            throw new Error(`Invalid type, type = "${autoResponderEntityJSON.type}"`);
+            throw new Error(
+                `Invalid type, type = "${autoResponderEntityJSON.type}"`,
+            );
         }
     }
 
-    create(type: AutoResponderType, pattern: string, path: string): AbstractAutoResponderEntity {
+    create(
+        type: AutoResponderType,
+        pattern: string,
+        path: string,
+    ): AbstractAutoResponderEntity {
         if (type === "File") {
             return new AutoResponderFileEntity(
                 new AutoResponderIdentity(this.getNextIdNumber()),
@@ -89,13 +102,20 @@ export class AutoResponderFactory extends AsyncNedbIdGenerator {
         return this.createFrom(Path.basename(path), path);
     }
 
-    private createFrom(pattern: string, path: string): Promise<AbstractAutoResponderEntity> {
+    private createFrom(
+        pattern: string,
+        path: string,
+    ): Promise<AbstractAutoResponderEntity> {
         return new Promise((resolve, reject) => {
             fs.stat(path, (err, stat) => {
                 if (err) {
                     return reject(err);
                 }
-                let autoResponderEntity = this.create(stat.isFile() ? "File" : "Directory", pattern, path);
+                let autoResponderEntity = this.create(
+                    stat.isFile() ? "File" : "Directory",
+                    pattern,
+                    path,
+                );
                 resolve(autoResponderEntity);
             });
         });

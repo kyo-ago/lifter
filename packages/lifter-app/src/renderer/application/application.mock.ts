@@ -1,5 +1,5 @@
 import * as sinon from "sinon";
-import { ApplicationMainStateJSON } from "../../main/window-manager";
+import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { Application } from "./application";
 import { ContextMenuService } from "./context-menu/context-menu-service";
 
@@ -13,12 +13,16 @@ applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
     proxyBypassDomainEntries: [],
     rewriteRuleEntries: [],
     certificateState: "Missing",
+    certificateCommands: [],
     proxySettingStatus: "Off",
     proxyCommandGrantStatus: "Off",
+    proxyCommandGrantCommands: [],
     noAutoEnableProxySetting: false,
     noPacFileProxySetting: false,
 }));
-let contextMenuService = sandbox.createStubInstance<ContextMenuService>(ContextMenuService);
+let contextMenuService = sandbox.createStubInstance<ContextMenuService>(
+    ContextMenuService,
+);
 applicationMock.contextMenuService = <any>contextMenuService;
 applicationMock.addDropFiles.resolves([]);
 applicationMock.selectDialogEntry.resolves([]);

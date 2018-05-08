@@ -1,23 +1,27 @@
 {
   "name": "@lifter/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "author": "@kyo_ago",
   "dependencies": {
-    "@lifter/electron-window-manager": "^0.1.1",
-    "@lifter/lifter-common": "^0.2.0",
-    "@lifter/networksetup-proxy": "^0.2.0",
+    "@lifter/electron-window-manager": "^0.2.2",
+    "@lifter/file-watcher": "^0.2.2",
+    "@lifter/lifter-common": "^0.2.2",
+    "@lifter/networksetup-proxy": "^0.2.2",
     "execa": "^0.10.0",
     "http-mitm-proxy": "^0.6.1",
+    "inversify": "^4.13.0",
     "micromatch": "^3.1.10",
     "mime": "^2.2.0",
     "nedb": "^1.8.0",
+    "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.7",
     "typescript-dddbase": "^0.0.5"
   },
   "devDependencies": {
     "@types/mime": "^2.0.0",
     "@types/nedb": "^1.8.5",
+    "dependency-cruiser": "^3.1.1",
     "ts-node": "^5.0.1"
   },
   "directories": {
@@ -28,7 +32,7 @@
   "scripts": {
     "build": "tsc -p . --rootDir ./src/",
     "clean": "rm -fr build",
-    "depcruise": "depcruise --validate .dependency-cruiser.json src",
+    "depcruise": "depcruise --validate .dependency-cruiser.json ./src",
     "test": "NODE_ENV='test' mocha --require ts-node/register test/mocks/require-mocks/*.ts test/mocks/require-mocks/**/*.ts src/**/*.spec.ts"
   },
   "types": "./build/index.d.ts"

@@ -1,5 +1,6 @@
 /// <reference path="./global.d.ts" />
 
+import * as Watch from "@lifter/file-watcher";
 import * as execa from "execa";
 import * as fs from "fs";
 import * as path from "path";
@@ -32,10 +33,19 @@ const promisedFsRename = promisify(fs.rename);
 const promisedSudoExec = promisify(exec);
 
 export class NetworksetupProxy {
+    private grantCommand: string[];
     constructor(
         private sudoApplicationName: string = "electron sudo application",
-        private PROXY_SETTING_COMMAND = path.join(__dirname, `./rust/proxy-setting`),
-    ) {}
+        private PROXY_SETTING_COMMAND = path.join(
+            __dirname,
+            `./rust/proxy-setting`,
+        ),
+    ) {
+        this.grantCommand = [
+            `chown 0:0 "${this.PROXY_SETTING_COMMAND}"`,
+            `chmod 4755 "${this.PROXY_SETTING_COMMAND}"`,
+        ];
+    }
 
     async hasGrant(): Promise<boolean> {
         let stat = await promisedFsStat(this.PROXY_SETTING_COMMAND);
@@ -47,12 +57,16 @@ export class NetworksetupProxy {
 
     async grant(): Promise<IOResult> {
         let [stdout, stderr]: string[] = await promisedSudoExec(
-            `chown 0:0 "${this.PROXY_SETTING_COMMAND}" && chmod 4755 "${this.PROXY_SETTING_COMMAND}"`,
+            this.grantCommand.join(" && "),
             {
                 name: this.sudoApplicationName,
             },
         );
         return { stdout, stderr };
+    }
+
+    getGrantCommand(): string {
+        return `sudo ${this.grantCommand.join(" && sudo ")}`;
     }
 
     async removeGrant(): Promise<IOResult> {
@@ -65,6 +79,23 @@ export class NetworksetupProxy {
         return { stdout: "", stderr: "" };
     }
 
+    getRemoveGrantCommands(): string[] {
+        let basename = path.basename(this.PROXY_SETTING_COMMAND);
+        let dirname = path.dirname(this.PROXY_SETTING_COMMAND);
+        let tempolaryFileName = `${dirname}/tmp_${basename}`;
+        return [
+            `cp ${this.PROXY_SETTING_COMMAND} ${tempolaryFileName}`,
+            `rm -f ${this.PROXY_SETTING_COMMAND}`,
+            `cp ${tempolaryFileName} ${this.PROXY_SETTING_COMMAND}`,
+        ];
+    }
+
+    watchGrantCommands(callback: (result: boolean) => void): () => void {
+        return Watch(this.PROXY_SETTING_COMMAND, async () =>
+            callback(await this.hasGrant()),
+        );
+    }
+
     setwebproxy(
         networkservice: string,
         _: string, // domain
@@ -74,7 +105,10 @@ export class NetworksetupProxy {
         password?: string,
     ): Promise<IOResult> {
         let args = [authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setwebproxy`, [networkservice, port].concat(<string[]>args));
+        return this.exec(
+            `-setwebproxy`,
+            [networkservice, port].concat(<string[]>args),
+        );
     }
 
     setsecurewebproxy(
@@ -86,31 +120,52 @@ export class NetworksetupProxy {
         password?: string,
     ): Promise<IOResult> {
         let args = [authenticated, username, password].filter(arg => arg);
-        return this.exec(`-setsecurewebproxy`, [networkservice, port].concat(<string[]>args));
+        return this.exec(
+            `-setsecurewebproxy`,
+            [networkservice, port].concat(<string[]>args),
+        );
     }
 
-    setwebproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {
+    setwebproxystate(
+        networkservice: string,
+        enabled: Enabled,
+    ): Promise<IOResult> {
         return this.exec(`-setwebproxystate`, [networkservice, enabled]);
     }
 
-    setsecurewebproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {
+    setsecurewebproxystate(
+        networkservice: string,
+        enabled: Enabled,
+    ): Promise<IOResult> {
         return this.exec(`-setsecurewebproxystate`, [networkservice, enabled]);
     }
 
-    setproxybypassdomains(networkservice: string, domains: string[]): Promise<IOResult> {
-        return this.exec(`-setproxybypassdomains`, [networkservice].concat(domains));
+    setproxybypassdomains(
+        networkservice: string,
+        domains: string[],
+    ): Promise<IOResult> {
+        return this.exec(
+            `-setproxybypassdomains`,
+            [networkservice].concat(domains),
+        );
     }
 
     setautoproxyurl(networkservice: string, port: string): Promise<IOResult> {
         return this.exec(`-setautoproxyurl`, [networkservice, port]);
     }
 
-    setautoproxystate(networkservice: string, enabled: Enabled): Promise<IOResult> {
+    setautoproxystate(
+        networkservice: string,
+        enabled: Enabled,
+    ): Promise<IOResult> {
         return this.exec(`-setautoproxystate`, [networkservice, enabled]);
     }
 
     private exec(command: string, params: string[]): Promise<IOResult> {
-        return execa(this.PROXY_SETTING_COMMAND, [command].concat(this.getSscapedParams(params)));
+        return execa(
+            this.PROXY_SETTING_COMMAND,
+            [command].concat(this.getSscapedParams(params)),
+        );
     }
 
     private getSscapedParams(params: string[]): string[] {

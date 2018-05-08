@@ -17,6 +17,7 @@ Vue.use(Vuex);
 Vue.use(VueI18n);
 let i18n = new VueI18n({
     locale: getLocale(navigator),
+    fallbackLocale: "en-US",
     messages,
 });
 

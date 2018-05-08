@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import * as Datastore from "nedb";
 import { Entity, Identity } from "typescript-dddbase";
 import { promisify } from "util";
@@ -8,7 +9,11 @@ export interface NedbMapper<ID extends Identity<any>, E extends Entity<ID>> {
     toJSON(entity: E): any;
 }
 
-export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends Entity<ID>> {
+@injectable()
+export abstract class AsyncOnNedbRepository<
+    ID extends Identity<any>,
+    E extends Entity<ID>
+> {
     private datastore: Datastore;
     private find: (query: any) => Promise<any[]>;
     private update: (query: any, value: any, option: any) => Promise<any>;
@@ -17,12 +22,17 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
 
     private entities: { [key: string]: E } = {};
 
-    constructor(dataStoreOptions: Datastore.DataStoreOptions, private mapper: NedbMapper<ID, E>) {
+    constructor(
+        dataStoreOptions: Datastore.DataStoreOptions,
+        private mapper: NedbMapper<ID, E>,
+    ) {
         this.datastore = new Datastore(dataStoreOptions);
         this.find = promisify(this.datastore.find.bind(this.datastore));
         this.update = promisify(this.datastore.update.bind(this.datastore));
         this.remove = promisify(this.datastore.remove.bind(this.datastore));
-        this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
+        this.loadDatabase = promisify(
+            this.datastore.loadDatabase.bind(this.datastore),
+        );
     }
 
     async load(): Promise<void> {
@@ -61,7 +71,9 @@ export abstract class AsyncOnNedbRepository<ID extends Identity<any>, E extends 
         return this.deleteByIdentity(entity.getIdentity());
     }
 
-    async deleteByIdentity(identity: ID): Promise<AsyncOnNedbRepository<ID, E>> {
+    async deleteByIdentity(
+        identity: ID,
+    ): Promise<AsyncOnNedbRepository<ID, E>> {
         let id = identity.getValue();
         await this.remove({ id: id }, {});
         delete this.entities[id];

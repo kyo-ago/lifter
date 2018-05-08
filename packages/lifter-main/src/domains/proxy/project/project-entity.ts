@@ -5,7 +5,11 @@ import { ProjectBaseDir } from "./value-objects/project-base-dir";
 import { ProjectName } from "./value-objects/project-name";
 
 export class ProjectEntity extends BaseEntity<ProjectIdentity> {
-    constructor(projectIdentity: ProjectIdentity, private name: ProjectName, public baseDir: ProjectBaseDir) {
+    constructor(
+        projectIdentity: ProjectIdentity,
+        private name: ProjectName,
+        public baseDir: ProjectBaseDir,
+    ) {
         super(projectIdentity);
     }
 

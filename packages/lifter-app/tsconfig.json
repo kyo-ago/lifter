@@ -4,7 +4,6 @@
     "strict": false,
     "module": "esnext",
     "declaration": false,
-    "outDir": "./lib/",
     "rootDir": "./src/",
     "lib": ["dom", "es2017", "es2017.object"]
   },

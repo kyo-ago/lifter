@@ -1,7 +1,10 @@
 import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import { Application } from "../../application/application";
 
-export function getClientRequestModule(_: Application, clientRequests: ClientRequestEntityJSON[]) {
+export function getClientRequestModule(
+    _: Application,
+    clientRequests: ClientRequestEntityJSON[],
+) {
     return {
         namespaced: true,
         state: {

@@ -33,21 +33,25 @@ export interface RewriteRuleModifierEntityJSON {
     header: string;
 }
 
-export interface RewriteRuleUpdateModifierEntityJSON extends RewriteRuleModifierEntityJSON {
+export interface RewriteRuleUpdateModifierEntityJSON
+    extends RewriteRuleModifierEntityJSON {
     value: string;
 }
 
-export interface RewriteRuleDeleteModifierEntityJSON extends RewriteRuleModifierEntityJSON {}
+export interface RewriteRuleDeleteModifierEntityJSON
+    extends RewriteRuleModifierEntityJSON {}
 
 export interface CreateRewriteRuleModifierEntityJSON {
     header: string;
 }
 
-export interface CreateRewriteRuleUpdateModifierEntityJSON extends CreateRewriteRuleModifierEntityJSON {
+export interface CreateRewriteRuleUpdateModifierEntityJSON
+    extends CreateRewriteRuleModifierEntityJSON {
     value: string;
 }
 
-export interface CreateRewriteRuleDeleteModifierEntityJSON extends CreateRewriteRuleModifierEntityJSON {}
+export interface CreateRewriteRuleDeleteModifierEntityJSON
+    extends CreateRewriteRuleModifierEntityJSON {}
 
 export type RewriteRuleModifierMapJSON = {
     UPDATE: RewriteRuleUpdateModifierEntityJSON[];

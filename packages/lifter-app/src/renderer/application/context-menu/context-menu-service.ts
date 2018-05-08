@@ -1,4 +1,8 @@
-import { BrowserWindow, ContextMenuParams, MenuItemConstructorOptions } from "electron";
+import {
+    BrowserWindow,
+    ContextMenuParams,
+    MenuItemConstructorOptions,
+} from "electron";
 import * as contextMenu from "electron-context-menu";
 
 type ContextMenuEventType = "prepend" | "append";
@@ -32,7 +36,10 @@ export class ContextMenuService {
                 .filter(result => !!result);
         };
         let handler = (type: ContextMenuEventType) => {
-            return (params: ContextMenuParams, browserWindow: BrowserWindow) => {
+            return (
+                params: ContextMenuParams,
+                browserWindow: BrowserWindow,
+            ) => {
                 let results = next(type, params, browserWindow);
                 return results.length ? results : undefined;
             };

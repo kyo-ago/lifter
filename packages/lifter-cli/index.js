@@ -1,10 +1,12 @@
 const { createApplication } = require("@lifter/lifter-main");
 const inquirer = require("inquirer");
 
-let application = createApplication(`${__dirname}/repositories`, __dirname);
-
 (async () => {
-    await application.load();
+    let application = await createApplication(
+        `${__dirname}/repositories`,
+        __dirname,
+    );
+
     await application.startup();
 
     let answer = await inquirer.prompt({
@@ -13,20 +15,24 @@ let application = createApplication(`${__dirname}/repositories`, __dirname);
         message: "call method",
         choices: [
             {
-                name: "application.getCertificateService().fetchCurrentStatus()",
+                name:
+                    "application.getCertificateService().fetchCurrentStatus()",
                 value: application.getCertificateService().fetchCurrentStatus,
             },
             {
-                name: "application.getCertificateService().changeCertificateStatus()",
-                value: application.getCertificateService().changeCertificateStatus,
+                name:
+                    "application.getCertificateService().changeCertificateStatus()",
+                value: application.getCertificateService()
+                    .changeCertificateStatus,
             },
             {
-                name: "application.getNetworksetupProxyService().fetchProxyCommandGrantStatus()",
-                value: application.getNetworksetupProxyService().fetchProxyCommandGrantStatus,
+                name: "application.getProxyCommandGrantService().fetchStatus()",
+                value: application.getProxyCommandGrantService().fetchStatus,
             },
             {
-                name: "application.getNetworksetupProxyService().changeProxyCommandGrantStatus()",
-                value: application.getNetworksetupProxyService().changeProxyCommandGrantStatus,
+                name:
+                    "application.getProxyCommandGrantService().changeStatus()",
+                value: application.getProxyCommandGrantService().changeStatus,
             },
             {
                 name: "application.getUserSetting().getNoAutoEnableProxy()",

@@ -4,6 +4,9 @@ import { app } from "electron";
 let userDataPath = app ? app.getPath("userData") : ".";
 
 export const USER_DATA_PATH = userDataPath;
+export const USER_HOME_PATH = app
+    ? app.getPath("home")
+    : process.env.HOME || ".";
 export const REPOSITORY_BASE_DIR_PATH = `${userDataPath}/Repositories`;
 export const WINDOW_STATE_DIR = "WindowStates/";
 export const WindowManagerInit = {
@@ -11,5 +14,6 @@ export const WindowManagerInit = {
         defaultWidth: 1000,
         defaultHeight: 800,
         acceptFirstMouse: true,
+        resizable: true,
     },
 };

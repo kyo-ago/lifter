@@ -1,6 +1,9 @@
+import { injectable } from "inversify";
 import * as Datastore from "nedb";
+import "reflect-metadata";
 import { promisify } from "util";
 
+@injectable()
 export abstract class AsyncNedbIdGenerator {
     private datastore: Datastore;
     private identity = 0;
@@ -15,7 +18,9 @@ export abstract class AsyncNedbIdGenerator {
         this.datastore = new Datastore(dataStoreOptions);
         this.find = promisify(this.datastore.find.bind(this.datastore));
         this.update = promisify(this.datastore.update.bind(this.datastore));
-        this.loadDatabase = promisify(this.datastore.loadDatabase.bind(this.datastore));
+        this.loadDatabase = promisify(
+            this.datastore.loadDatabase.bind(this.datastore),
+        );
     }
 
     async load() {

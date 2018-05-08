@@ -62,7 +62,10 @@ export default {
             ]);
         },
         addUrlPattern() {
-            this.$store.dispatch("rewriteRule/addRule", this.$data.currentUrlPattern);
+            this.$store.dispatch(
+                "rewriteRule/addRule",
+                this.$data.currentUrlPattern,
+            );
         },
         onClickModifiersButton(id: number) {
             this.$store.commit("rewriteRuleModifiersDialog/show", id);
@@ -73,7 +76,11 @@ export default {
             return this.$store.state.rewriteRule.entries;
         },
     },
-    mixins: [makeTableHandlerMixin((store, entities) => store.dispatch("rewriteRule/deletes", entities))],
+    mixins: [
+        makeTableHandlerMixin((store, entities) =>
+            store.dispatch("rewriteRule/deletes", entities),
+        ),
+    ],
 };
 </script>
 

@@ -11,13 +11,16 @@ import { render } from "./components";
 import { getLocale, messages } from "./messages";
 import { getStore } from "./store";
 
-((context: any) => context.keys().forEach(context))(require.context("./", true, /\.css$/));
+((context: any) => context.keys().forEach(context))(
+    require.context("./", true, /\.css$/),
+);
 
 Vue.use(Vuex);
 Vue.use(VueI18n);
 
 let i18n = new VueI18n({
     locale: getLocale(navigator),
+    fallbackLocale: "en-US",
     messages,
 });
 

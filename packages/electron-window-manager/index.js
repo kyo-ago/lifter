@@ -43,7 +43,8 @@ var Window = function(name, title, url, setupTemplate, setup, showDevTools) {
     }
 
     // The window unique name, if omitted a serialized name will be used instead; window_1 ~> window_2 ~> ...
-    this.name = name || "window_" + (Object.keys(windowManager.windows).length + 1);
+    this.name =
+        name || "window_" + (Object.keys(windowManager.windows).length + 1);
 
     // The BrowserWindow module instance
     this.object = null;
@@ -143,7 +144,11 @@ Window.prototype.create = function(url) {
             this.setup.title = config.defaultWindowTitle;
         }
 
-        if (this.setup.title && config.windowsTitlePrefix && !config.defaultWindowTitle) {
+        if (
+            this.setup.title &&
+            config.windowsTitlePrefix &&
+            !config.defaultWindowTitle
+        ) {
             this.setup.title = config.windowsTitlePrefix + this.setup.title;
         }
     }
@@ -171,7 +176,7 @@ Window.prototype.create = function(url) {
 
     // Create the new browser window instance, with the passed setup
     var state = windowStateKeeper(this.setup);
-    this.object = new BrowserWindow(state);
+    this.object = new BrowserWindow(Object.assign({}, this.setup, state));
     state.manage(this.object);
 
     // Log the action
@@ -256,7 +261,10 @@ Window.prototype.loadURL = function(url, options) {
     url = utils.readyURL(url || this.setup.url);
 
     var instance = this,
-        layout = this.setup.layout !== false ? this.setup.layout || windowManager.config.defaultLayout : false;
+        layout =
+            this.setup.layout !== false
+                ? this.setup.layout || windowManager.config.defaultLayout
+                : false;
 
     // If a layout is specified
     var layoutFile = layouts.get(layout);
@@ -307,48 +315,65 @@ Window.prototype.loadURL = function(url, options) {
                 });
                 var generatedUrl = DirPath.basename(url);
 
-                FileSystem.writeFile("layouts/compiled/" + generatedUrl, html, error => {
-                    if (error) {
-                        console.log("Can not find the he targeted page :" + error);
-                        // Take the page down!
-                        instance.down();
-                        return false;
-                    }
+                FileSystem.writeFile(
+                    "layouts/compiled/" + generatedUrl,
+                    html,
+                    error => {
+                        if (error) {
+                            console.log(
+                                "Can not find the he targeted page :" + error,
+                            );
+                            // Take the page down!
+                            instance.down();
+                            return false;
+                        }
 
-                    instance.content().webContents.on("close", function(e) {
-                        e.preventDefault();
-                        console.log("closing page");
-                        var deleteUrl = instance
-                            .content()
-                            .getURL()
-                            .replace("file://", "");
-                        deleteUrl = deleteUrl.replace(/#.*$/g, "");
+                        instance.content().webContents.on("close", function(e) {
+                            e.preventDefault();
+                            console.log("closing page");
+                            var deleteUrl = instance
+                                .content()
+                                .getURL()
+                                .replace("file://", "");
+                            deleteUrl = deleteUrl.replace(/#.*$/g, "");
 
-                        FileSystem.exists(deleteUrl, function(exists) {
-                            if (exists) {
-                                // File exists deletings
-                                FileSystem.unlink(deleteUrl, function(error) {
-                                    if (error) {
-                                        console.log("An error ocurred updating the file" + error.message);
-                                        return;
-                                    }
-                                    console.log("File succesfully deleted");
-                                });
-                            } else {
-                                console.log("This file doesn't exist, cannot delete " + deleteUrl);
-                            }
+                            FileSystem.exists(deleteUrl, function(exists) {
+                                if (exists) {
+                                    // File exists deletings
+                                    FileSystem.unlink(deleteUrl, function(
+                                        error,
+                                    ) {
+                                        if (error) {
+                                            console.log(
+                                                "An error ocurred updating the file" +
+                                                    error.message,
+                                            );
+                                            return;
+                                        }
+                                        console.log("File succesfully deleted");
+                                    });
+                                } else {
+                                    console.log(
+                                        "This file doesn't exist, cannot delete " +
+                                            deleteUrl,
+                                    );
+                                }
+                            });
                         });
-                    });
 
-                    instance.content().loadURL(
-                        UrlPath.format({
-                            pathname: DirPath.join(utils.getAppLocalPath(), "layouts/compiled/" + generatedUrl),
-                            protocol: "file:",
-                            slashes: true,
-                        }),
-                        options,
-                    );
-                });
+                        instance.content().loadURL(
+                            UrlPath.format({
+                                pathname: DirPath.join(
+                                    utils.getAppLocalPath(),
+                                    "layouts/compiled/" + generatedUrl,
+                                ),
+                                protocol: "file:",
+                                slashes: true,
+                            }),
+                            options,
+                        );
+                    },
+                );
             });
         });
     } else {
@@ -375,7 +400,8 @@ Window.prototype.down = function() {
     this.setup.layout = false;
 
     // Either a custom failure call back, or call the global one
-    var callback = this.setup.onLoadFailure || windowManager.config.onLoadFailure;
+    var callback =
+        this.setup.onLoadFailure || windowManager.config.onLoadFailure;
 
     // Trigger the call back
     callback.call(null, this);
@@ -647,7 +673,9 @@ var utils = {
 
         // If the window dimensions are not set
         if (!windowWidth || !windowHeight) {
-            console.log("Cannot position a window with the width/height not defined!");
+            console.log(
+                "Cannot position a window with the width/height not defined!",
+            );
 
             // Put in in the center
             setup.center = true;
@@ -672,7 +700,11 @@ var utils = {
                 "leftBottom",
             ].indexOf(position) < 0
         ) {
-            console.log('The specified position "' + position + "\" is'not correct! Check the docs.");
+            console.log(
+                'The specified position "' +
+                    position +
+                    "\" is'not correct! Check the docs.",
+            );
             return false;
         }
 
@@ -840,7 +872,9 @@ var windowManager = {
          * The window url global load-failure callback
          * */
         onLoadFailure: function(window) {
-            window.content().loadURL("file://" + __dirname + "/loadFailure.html");
+            window
+                .content()
+                .loadURL("file://" + __dirname + "/loadFailure.html");
         },
     },
 
@@ -922,7 +956,13 @@ var windowManager = {
 
         Object.keys(list).forEach(key => {
             let window = list[key];
-            windowManager.createNew(key, window.title, window.url, window.setupTemplate, window.setup);
+            windowManager.createNew(
+                key,
+                window.title,
+                window.url,
+                window.setupTemplate,
+                window.setup,
+            );
         });
     },
 
@@ -931,7 +971,14 @@ var windowManager = {
      * */
     createNew: function(name, title, url, setupTemplate, setup, showDevTools) {
         // Create the window instance
-        var window = new Window(name, title, url, setupTemplate, setup, showDevTools);
+        var window = new Window(
+            name,
+            title,
+            url,
+            setupTemplate,
+            setup,
+            showDevTools,
+        );
 
         return window;
     },
@@ -940,7 +987,14 @@ var windowManager = {
      * Opens a new window
      * */
     open: function(name, title, content, setupTemplate, setup, showDevTools) {
-        var window = this.createNew(name, title, content, setupTemplate, setup, showDevTools);
+        var window = this.createNew(
+            name,
+            title,
+            content,
+            setupTemplate,
+            setup,
+            showDevTools,
+        );
         if (window) window.open();
         return window;
     },

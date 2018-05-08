@@ -1,3 +1,4 @@
+import { injectable } from "inversify";
 import { LocalFileResponseEntity } from "../local-file-response-entity";
 import { LocalFilResponseIdentity } from "../local-file-response-identity";
 import { LocalFileResponsePath } from "../value-objects/local-file-response-path";
@@ -10,6 +11,7 @@ export interface LocalFileResponseParam {
     size: number;
 }
 
+@injectable()
 export class LocalFileResponseFactory {
     private identity = 0;
 

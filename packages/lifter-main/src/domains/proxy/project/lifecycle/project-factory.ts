@@ -1,8 +1,10 @@
+import { injectable } from "inversify";
 import { ProjectEntity } from "../project-entity";
 import { ProjectIdentity } from "../project-identity";
 import { ProjectBaseDir } from "../value-objects/project-base-dir";
 import { ProjectName } from "../value-objects/project-name";
 
+@injectable()
 export class ProjectFactory {
     private identity = 0;
 

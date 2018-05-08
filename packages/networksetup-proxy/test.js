@@ -8,9 +8,16 @@ describe("networksetup-proxy", () => {
     });
 
     it("should return escaped parameter when symbol", function() {
-        assert.deepEqual(networksetupProxy.getSscapedParams(["hoge"]), ["hoge"]);
+        assert.deepEqual(networksetupProxy.getSscapedParams(["hoge"]), [
+            "hoge",
+        ]);
         assert.deepEqual(networksetupProxy.getSscapedParams([" "]), ['" "']);
-        assert.deepEqual(networksetupProxy.getSscapedParams(["\\"]), ['"\\\\"']);
-        assert.deepEqual(networksetupProxy.getSscapedParams([undefined, undefined]), ['""', '""']);
+        assert.deepEqual(networksetupProxy.getSscapedParams(["\\"]), [
+            '"\\\\"',
+        ]);
+        assert.deepEqual(
+            networksetupProxy.getSscapedParams([undefined, undefined]),
+            ['""', '""'],
+        );
     });
 });

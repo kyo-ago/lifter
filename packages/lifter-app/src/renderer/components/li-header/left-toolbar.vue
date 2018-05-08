@@ -20,7 +20,10 @@ export default {
     name: "left-toolbar",
     computed: {
         buttonType() {
-            if (this.$store.state.proxySettings.proxySettingStatus === "NoTargetInterfaces") {
+            if (
+                this.$store.state.proxySettings.proxySettingStatus ===
+                "NoTargetInterfaces"
+            ) {
                 return "info";
             }
             if (this.$store.state.proxySettings.proxySettingStatus === "On") {
@@ -29,7 +32,11 @@ export default {
             if (this.$store.state.proxySettings.proxySettingStatus === "Off") {
                 return "";
             }
-            console.error(`invalid proxySettingStatus "${this.$store.state.proxySettings.proxySettingStatus}"`);
+            console.error(
+                `invalid proxySettingStatus "${
+                    this.$store.state.proxySettings.proxySettingStatus
+                }"`,
+            );
             return "";
         },
     },

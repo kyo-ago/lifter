@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import "mocha";
-import { createLifecycleContextService } from "../../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../../test/mocks/get-test-container";
 import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { LocalFileResponseFactory } from "../../local-file-response/lifecycle/local-file-response-factory";
 import { AutoResponderFactory } from "../lifecycle/auto-responder-factory";
@@ -11,14 +11,18 @@ describe("FindMatchEntry.getLocalFileResponse", () => {
     let localFileResponseFactory: LocalFileResponseFactory;
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
-        let lifecycleContextService = await createLifecycleContextService();
-        autoResponderFactory = lifecycleContextService.autoResponderFactory;
-        localFileResponseFactory = lifecycleContextService.localFileResponseFactory;
-        clientRequestFactory = lifecycleContextService.clientRequestFactory;
+        let container = await getTestContainer();
+        autoResponderFactory = container.get(AutoResponderFactory);
+        localFileResponseFactory = container.get(LocalFileResponseFactory);
+        clientRequestFactory = container.get(ClientRequestFactory);
     });
 
     it("success", async () => {
-        let abstractAutoResponderEntity = await autoResponderFactory.create("File", "/hoge", __filename);
+        let abstractAutoResponderEntity = await autoResponderFactory.create(
+            "File",
+            "/hoge",
+            __filename,
+        );
         let findMatchEntry = new FindMatchEntry(localFileResponseFactory);
         let localFileResponseEntity = await findMatchEntry.getLocalFileResponse(
             Promise.resolve(null),
@@ -29,7 +33,11 @@ describe("FindMatchEntry.getLocalFileResponse", () => {
     });
 
     it("failed", async () => {
-        let abstractAutoResponderEntity = await autoResponderFactory.create("File", "/hoge", __filename);
+        let abstractAutoResponderEntity = await autoResponderFactory.create(
+            "File",
+            "/hoge",
+            __filename,
+        );
         let findMatchEntry = new FindMatchEntry(localFileResponseFactory);
         let localFileResponseEntity = await findMatchEntry.getLocalFileResponse(
             Promise.resolve(null),

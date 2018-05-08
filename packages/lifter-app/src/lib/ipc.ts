@@ -23,6 +23,16 @@ export interface deleteRewriteRuleModifierParam {
     modifiers: RewriteRuleModifierEntityJSON[];
 }
 
+export interface ChangeCertificateStatusParam {
+    status: CertificateStatus;
+    command: string[];
+}
+
+export interface ChangeProxyCommandGrantStatusParam {
+    status: ProxyCommandGrantStatus;
+    command: string[];
+}
+
 export interface ElectronIpcMap {
     addAutoResponderEntities: {
         param: string[];
@@ -44,15 +54,27 @@ export interface ElectronIpcMap {
 
     changeCertificateStatus: {
         param: void;
-        result: CertificateStatus;
+        result: ChangeCertificateStatusParam;
+    };
+    onChangeCertificateStatus: {
+        param: ChangeCertificateStatusParam;
+        result: ChangeCertificateStatusParam;
     };
     changeProxySettingStatus: {
         param: void;
         result: ProxySettingStatus;
     };
+    onChangeProxySettingService: {
+        param: ProxySettingStatus;
+        result: ProxySettingStatus;
+    };
     changeProxyCommandGrantStatus: {
         param: void;
-        result: ProxyCommandGrantStatus;
+        result: ChangeProxyCommandGrantStatusParam;
+    };
+    onChangeProxyCommandGrantStatus: {
+        param: ChangeProxyCommandGrantStatusParam;
+        result: ChangeProxyCommandGrantStatusParam;
     };
     changeNoAutoEnableProxySetting: {
         param: void;
@@ -101,7 +123,10 @@ export interface ElectronIpcMap {
 export const ipc = class {
     static subscribe<K extends keyof ElectronIpcMap>(
         key: K,
-        callback: (event: any, message: ElectronIpcMap[K]["param"]) => Promise<ElectronIpcMap[K]["result"]> | void,
+        callback: (
+            event: any,
+            message: ElectronIpcMap[K]["param"],
+        ) => Promise<ElectronIpcMap[K]["result"]> | void,
     ): void {
         return Ipc.subscribe(key, callback);
     }

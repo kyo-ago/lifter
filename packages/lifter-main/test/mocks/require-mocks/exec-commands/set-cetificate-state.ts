@@ -21,10 +21,16 @@ export function setCetificateState(newState: MockCertificateStatus) {
 
 let setMissingState = (stub: ExecCommandsStub) => {
     stub.findCertificate.rejects(
-        new Error(`\nsecurity: SecKeychainSearchCopyNext: The specified item could not be found in the keychain.\n`),
+        new Error(
+            `\nsecurity: SecKeychainSearchCopyNext: The specified item could not be found in the keychain.\n`,
+        ),
     );
 
-    stub.deleteCertificate.rejects(new Error(`\nUnable to delete certificate matching "${CERTIFICATE_NAME}"\n`));
+    stub.deleteCertificate.rejects(
+        new Error(
+            `\nUnable to delete certificate matching "${CERTIFICATE_NAME}"\n`,
+        ),
+    );
 
     stub.importCert.callsFake(() => {
         MockStateEvent.emit("updateCertificateState", "Installed");
@@ -35,7 +41,8 @@ let setMissingState = (stub: ExecCommandsStub) => {
 };
 
 let setInstalledState = (stub: ExecCommandsStub) => {
-    stub.findCertificate.resolves(`\nkeychain: "/Users/hoge/Library/Keychains/login.keychain-db"
+    stub.findCertificate
+        .resolves(`\nkeychain: "/Users/hoge/Library/Keychains/login.keychain-db"
 version: 512
 class: 0x80001000 
 attributes:
@@ -55,7 +62,9 @@ attributes:
     });
 
     stub.importCert.rejects(
-        new Error(`\nsecurity: SecKeychainItemImport: The specified item already exists in the keychain.\n`),
+        new Error(
+            `\nsecurity: SecKeychainItemImport: The specified item already exists in the keychain.\n`,
+        ),
     );
 
     stub.addTrustedCert.resolves(``);
@@ -63,19 +72,35 @@ attributes:
 
 let setInitializedState = (stub: ExecCommandsStub) => {
     [
-        [`/invalid`, `security: SecKeychainItemImport: Unknown format in import.`],
-        [`/dir`, `readFile: short read\nsecurity: Error reading infile /dir: Is a directory`],
-        [`/unknown`, `security: Error reading infile /unknown: No such file or directory`],
+        [
+            `/invalid`,
+            `security: SecKeychainItemImport: Unknown format in import.`,
+        ],
+        [
+            `/dir`,
+            `readFile: short read\nsecurity: Error reading infile /dir: Is a directory`,
+        ],
+        [
+            `/unknown`,
+            `security: Error reading infile /unknown: No such file or directory`,
+        ],
         [`/ca.key`, `1 key imported.`],
     ].forEach((match, resolve) => {
-        stub.importCert.withArgs(sinon.match(match)).rejects(new Error(`\n${resolve}\n`));
+        stub.importCert
+            .withArgs(sinon.match(match))
+            .rejects(new Error(`\n${resolve}\n`));
     });
 
     [
-        [`/userAuthenticationCancel`, `SecTrustSettingsSetTrustSettings: The authorization was cancelled by the user.`],
+        [
+            `/userAuthenticationCancel`,
+            `SecTrustSettingsSetTrustSettings: The authorization was cancelled by the user.`,
+        ],
         [`/unknown`, `Error reading file /missing`],
     ].forEach((match, resolve) => {
-        stub.addTrustedCert.withArgs(sinon.match(match)).rejects(new Error(`\n${resolve}\n`));
+        stub.addTrustedCert
+            .withArgs(sinon.match(match))
+            .rejects(new Error(`\n${resolve}\n`));
     });
 
     setMissingState(stub);

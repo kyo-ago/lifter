@@ -3,7 +3,10 @@
     "strict": false,
     "outDir": "./build/",
     "rootDir": "./",
-    "lib": ["dom", "es2017", "es2017.object"]
+    "types": ["reflect-metadata"],
+    "lib": ["es6", "dom", "es2017", "es2017.object"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "extends": "../../tsconfig-base.json",
   "include": [

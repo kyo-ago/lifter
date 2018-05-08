@@ -4,7 +4,7 @@ import "mocha";
 import * as Path from "path";
 import * as sinon from "sinon";
 import * as URL from "url";
-import { createApplication } from "../../../../test/mocks/create-services";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { LOCAL_PAC_FILE_URL } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientRequestService } from "./client-request-service";
@@ -14,12 +14,14 @@ describe("ClientRequestService", () => {
     let clientRequestService: ClientRequestService;
     let autoResponderService: AutoResponderService;
     let sandbox = sinon.createSandbox();
-    let clientResponderContext = sandbox.createStubInstance(ClientResponderContext);
+    let clientResponderContext = sandbox.createStubInstance(
+        ClientResponderContext,
+    );
 
     beforeEach(async () => {
-        let application = await createApplication();
-        clientRequestService = application.getServiceContext().clientRequestService;
-        autoResponderService = application.getServiceContext().autoResponderService;
+        let container = await getTestContainer();
+        clientRequestService = container.get(ClientRequestService);
+        autoResponderService = container.get(AutoResponderService);
         sandbox.resetHistory();
     });
 
@@ -59,7 +61,9 @@ describe("ClientRequestService", () => {
 
     it("onRequest.response localfile", async () => {
         await autoResponderService.store([__filename]);
-        clientResponderContext.getUrl.returns(URL.parse(`http://example.com/${Path.basename(__filename)}`));
+        clientResponderContext.getUrl.returns(
+            URL.parse(`http://example.com/${Path.basename(__filename)}`),
+        );
         await clientRequestService.onRequest(clientResponderContext);
         assert(clientResponderContext.response.calledOnce);
         let args = clientResponderContext.response.lastCall.args;
@@ -69,7 +73,9 @@ describe("ClientRequestService", () => {
 
     it("onRequest.pass no match files", async () => {
         await autoResponderService.store([__filename]);
-        clientResponderContext.getUrl.returns(URL.parse(`http://example.com/unknown.txt`));
+        clientResponderContext.getUrl.returns(
+            URL.parse(`http://example.com/unknown.txt`),
+        );
         await clientRequestService.onRequest(clientResponderContext);
         assert(clientResponderContext.pass.calledOnce);
         assert(clientResponderContext.response.notCalled);

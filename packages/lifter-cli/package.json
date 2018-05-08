@@ -1,10 +1,10 @@
 {
   "name": "@lifter/lifter-cli",
-  "description": "lifter proxy main process",
-  "version": "0.2.0",
+  "description": "lifter proxy cli client",
+  "version": "0.2.2",
   "author": "@kyo_ago",
   "dependencies": {
-    "@lifter/lifter-main": "^0.2.0",
+    "@lifter/lifter-main": "^0.2.2",
     "inquirer": "^5.2.0"
   },
   "license": "GPL-3.0",

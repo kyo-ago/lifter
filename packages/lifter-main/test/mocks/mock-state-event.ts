@@ -10,7 +10,10 @@ interface Events {
 }
 
 export const MockStateEvent = new class extends EventEmitter {
-    on<K extends keyof Events>(event: K, listener: (newState: Events[K]) => void) {
+    on<K extends keyof Events>(
+        event: K,
+        listener: (newState: Events[K]) => void,
+    ) {
         return super.on(event, listener);
     }
     emit<K extends keyof Events>(event: K, arg: Events[K]) {

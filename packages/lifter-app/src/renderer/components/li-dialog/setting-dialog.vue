@@ -35,44 +35,50 @@
         <div>
             <div>
                 <el-switch
-                    v-model="currentcertificateStatus"
+                    v-model="certificateStatus"
                     @change="changecertificateStatus"
                 ></el-switch>
-                {{
-                    currentcertificateStatus
-                        ? $t("CurrentLifterProxyCertificationIsInstalled")
-                        : $t("CurrentLifterProxyCertificationIsMissing")
-                }}
+                <span>
+                    {{
+                        certificateStatus
+                            ? $t("CurrentLifterProxyCertificationIsInstalled")
+                            : $t("CurrentLifterProxyCertificationIsMissing")
+                    }}
+                </span>
+                <textarea @focus="$event.target.select()" wrap="off" readonly>{{certificateCommands}}</textarea>
             </div>
             <div>
                 <el-switch
-                    v-model="currentProxyCommandGrantStatus"
+                    v-model="proxyCommandGrantStatus"
                     @change="changeProxyCommandGrantStatus"
                 ></el-switch>
-                {{
-                    currentProxyCommandGrantStatus
-                        ? $t("NetworkProxyCommandIsGranted")
-                        : $t("NetworkProxyCommandIsNotGranted")
-                }}
+                <span>
+                    {{
+                        proxyCommandGrantStatus
+                            ? $t("NetworkProxyCommandIsGranted")
+                            : $t("NetworkProxyCommandIsNotGranted")
+                    }}
+                </span>
+                <textarea @focus="$event.target.select()" wrap="off" readonly>{{proxyCommandGrantCommands}}</textarea>
             </div>
             <div>
                 <el-switch
-                    v-model="currentNoAutoEnableProxySetting"
+                    v-model="noAutoEnableProxySetting"
                     @change="changeNoAutoEnableProxySetting"
                 ></el-switch>
                 {{
-                    currentNoAutoEnableProxySetting
+                    noAutoEnableProxySetting
                         ? $t("EnableProxyOnStartup")
                         : $t("DisableProxyOnStartup")
                 }}
             </div>
             <div>
                 <el-switch
-                    v-model="currentNoPacFileProxySetting"
+                    v-model="noPacFileProxySetting"
                     @change="changeNoPacFileProxySetting"
                 ></el-switch>
                 {{
-                    currentNoPacFileProxySetting
+                    noPacFileProxySetting
                         ? $t("EnableProxyViaPac")
                         : $t("DisableProxyViaPac")
                 }}
@@ -84,26 +90,32 @@
 <script lang="ts">
 export default {
     name: "setting-dialog",
-    data() {
-        return {
-            currentcertificateStatus: this.$store.state.proxySettings.certificateState === "Installed",
-            currentProxyCommandGrantStatus: this.$store.state.proxySettings.proxyCommandGrantStatus === "On",
-            currentNoAutoEnableProxySetting: !this.$store.state.proxySettings.noAutoEnableProxySetting,
-            currentNoPacFileProxySetting: !this.$store.state.proxySettings.noPacFileProxySetting,
-        };
-    },
     computed: {
         certificateStatus() {
-            return this.$store.state.proxySettings.certificateState;
+            return (
+                this.$store.state.proxySettings.certificateState === "Installed"
+            );
+        },
+        certificateCommands() {
+            return this.$store.state.proxySettings.certificateCommands.join(
+                " && ",
+            );
         },
         proxyCommandGrantStatus() {
-            return this.$store.state.proxySettings.proxyCommandGrantStatus;
+            return (
+                this.$store.state.proxySettings.proxyCommandGrantStatus === "On"
+            );
+        },
+        proxyCommandGrantCommands() {
+            return this.$store.state.proxySettings.proxyCommandGrantCommands.join(
+                "\n",
+            );
         },
         noAutoEnableProxySetting() {
-            return this.$store.state.proxySettings.noAutoEnableProxySetting;
+            return !this.$store.state.proxySettings.noAutoEnableProxySetting;
         },
         noPacFileProxySetting() {
-            return this.$store.state.proxySettings.noPacFileProxySetting;
+            return !this.$store.state.proxySettings.noPacFileProxySetting;
         },
         isShowing() {
             return this.$store.state.settingDialog.isShowing;
@@ -115,24 +127,32 @@ export default {
         },
         async changecertificateStatus() {
             await this.$store.dispatch("proxySettings/changeCertificateStatus");
-            this.$data.currentcertificateStatus = this.$store.state.proxySettings.certificateState === "Installed";
         },
         async changeProxyCommandGrantStatus() {
-            await this.$store.dispatch("proxySettings/changeProxyCommandGrantStatus");
-            this.$data.currentProxyCommandGrantStatus =
-                this.$store.state.proxySettings.proxyCommandGrantStatus === "On";
+            await this.$store.dispatch(
+                "proxySettings/changeProxyCommandGrantStatus",
+            );
         },
         async changeNoAutoEnableProxySetting() {
-            await this.$store.dispatch("proxySettings/changeNoAutoEnableProxySetting");
-            this.$data.currentNoAutoEnableProxySetting = !this.$store.state.proxySettings.noAutoEnableProxySetting;
+            await this.$store.dispatch(
+                "proxySettings/changeNoAutoEnableProxySetting",
+            );
         },
         async changeNoPacFileProxySetting() {
-            await this.$store.dispatch("proxySettings/changeNoPacFileProxySetting");
-            this.$data.currentNoPacFileProxySetting = !this.$store.state.proxySettings.noPacFileProxySetting;
+            await this.$store.dispatch(
+                "proxySettings/changeNoPacFileProxySetting",
+            );
         },
     },
 };
 </script>
 
 <style scoped lang="scss">
+textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    background-color: lightgrey;
+    margin: 5px;
+}
 </style>

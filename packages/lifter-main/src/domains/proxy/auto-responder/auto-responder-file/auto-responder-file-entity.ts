@@ -4,8 +4,13 @@ import { AutoResponderEntity } from "../auto-responder-entity";
 import { AutoResponderFilePath } from "./value-objects/auto-responder-file-path";
 import { AutoResponderFilePattern } from "./value-objects/auto-responder-file-pattern";
 
-export class AutoResponderFileEntity extends AutoResponderEntity<AutoResponderFilePattern, AutoResponderFilePath> {
-    getMatchResponder(clientRequestEntity: ClientRequestEntity): Promise<LocalFileResponseParam | null> {
+export class AutoResponderFileEntity extends AutoResponderEntity<
+    AutoResponderFilePattern,
+    AutoResponderFilePath
+> {
+    getMatchResponder(
+        clientRequestEntity: ClientRequestEntity,
+    ): Promise<LocalFileResponseParam | null> {
         if (!this.pattern.isMatchPath(clientRequestEntity)) return null;
 
         return this.filePathToLocalFileResponseParam(this.path);

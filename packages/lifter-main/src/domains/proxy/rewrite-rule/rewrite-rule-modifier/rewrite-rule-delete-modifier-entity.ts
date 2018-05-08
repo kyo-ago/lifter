@@ -5,7 +5,10 @@ import { RewriteRuleModifierIdentity } from "./rewrite-rule-modifier-identity";
 import { RewriteRuleModifierHeader } from "./value-objects/rewrite-rule-modifier-header";
 
 export class RewriteRuleDeleteModifierEntity extends RewriteRuleModifierEntity {
-    constructor(identity: RewriteRuleModifierIdentity, private header: RewriteRuleModifierHeader) {
+    constructor(
+        identity: RewriteRuleModifierIdentity,
+        private header: RewriteRuleModifierHeader,
+    ) {
         super(identity);
     }
 

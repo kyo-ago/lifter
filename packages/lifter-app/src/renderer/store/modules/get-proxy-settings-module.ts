@@ -1,14 +1,23 @@
-import { CertificateStatus, ProxyCommandGrantStatus, ProxySettingStatus } from "@lifter/lifter-common";
-import { ApplicationMainStateJSON } from "../../../main/window-manager";
+import { ProxySettingStatus } from "@lifter/lifter-common";
+import {
+    ChangeCertificateStatusParam,
+    ChangeProxyCommandGrantStatusParam,
+} from "../../../lib/ipc";
+import { ApplicationMainStateJSON } from "../../../main/application-main-state";
 import { Application } from "../../application/application";
 
-export function getProxySettingsModule(application: Application, state: ApplicationMainStateJSON) {
+export function getProxySettingsModule(
+    application: Application,
+    state: ApplicationMainStateJSON,
+) {
     return {
         namespaced: true,
         state: {
+            certificateState: state.certificateState,
+            certificateCommands: state.certificateCommands,
             proxySettingStatus: state.proxySettingStatus,
             proxyCommandGrantStatus: state.proxyCommandGrantStatus,
-            certificateState: state.certificateState,
+            proxyCommandGrantCommands: state.proxyCommandGrantCommands,
             noAutoEnableProxySetting: state.noAutoEnableProxySetting,
             noPacFileProxySetting: state.noPacFileProxySetting,
         },
@@ -16,11 +25,19 @@ export function getProxySettingsModule(application: Application, state: Applicat
             changeProxySettingStatus(state, newStatus: ProxySettingStatus) {
                 state.proxySettingStatus = newStatus;
             },
-            changeProxyCommandGrantStatus(state, newStatus: ProxyCommandGrantStatus) {
-                state.proxyCommandGrantStatus = newStatus;
+            changeCertificateStatus(
+                state,
+                param: ChangeCertificateStatusParam,
+            ) {
+                state.certificateState = param.status;
+                state.certificateCommands = param.command;
             },
-            changeCertificateStatus(state, newStatus: CertificateStatus) {
-                state.certificateState = newStatus;
+            changeProxyCommandGrantStatus(
+                state,
+                param: ChangeProxyCommandGrantStatusParam,
+            ) {
+                state.proxyCommandGrantStatus = param.status;
+                state.proxyCommandGrantCommands = param.command;
             },
             changeNoAutoEnableProxySetting(state, newState: boolean) {
                 state.noAutoEnableProxySetting = newState;
@@ -36,14 +53,14 @@ export function getProxySettingsModule(application: Application, state: Applicat
                 return newStatus;
             },
             async changeProxyCommandGrantStatus({ commit }) {
-                let newStatus = await application.changeProxyCommandGrantStatus();
-                commit("changeProxyCommandGrantStatus", newStatus);
-                return newStatus;
+                let param = await application.changeProxyCommandGrantStatus();
+                commit("changeProxyCommandGrantStatus", param);
+                return param;
             },
             async changeCertificateStatus({ commit }) {
-                let newStatus = await application.changeCertificateStatus();
-                commit("changeCertificateStatus", newStatus);
-                return newStatus;
+                let param = await application.changeCertificateStatus();
+                commit("changeCertificateStatus", param);
+                return param;
             },
             async changeNoAutoEnableProxySetting({ commit }) {
                 let newState = await application.changeNoAutoEnableProxySetting();

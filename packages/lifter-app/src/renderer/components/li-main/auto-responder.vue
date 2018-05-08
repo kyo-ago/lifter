@@ -46,7 +46,11 @@ export default {
             return this.$store.state.autoResponder.entries;
         },
     },
-    mixins: [makeTableHandlerMixin((store, entities) => store.dispatch("autoResponder/deletes", entities))],
+    mixins: [
+        makeTableHandlerMixin((store, entities) =>
+            store.dispatch("autoResponder/deletes", entities),
+        ),
+    ],
 };
 </script>
 

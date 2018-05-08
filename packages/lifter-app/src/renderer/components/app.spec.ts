@@ -1,7 +1,7 @@
 import { Wrapper } from "@vue/test-utils";
 import * as assert from "assert";
 import "mocha";
-import { ApplicationMainStateJSON } from "../../main/window-manager";
+import { ApplicationMainStateJSON } from "../../main/application-main-state";
 import { ApplicationMock } from "../application/application.mock";
 import { HeaderTabNameToIndex } from "../store/modules/get-header-tab-module";
 import { createAppMock } from "./app.mock";
@@ -41,14 +41,20 @@ describe("app.vue", () => {
         let appWrapper: Wrapper<any>;
         beforeEach(async () => {
             let currentState = ApplicationMock.getCurrentState();
-            ApplicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
-                ...currentState,
-                rewriteRuleEntries: [entity],
-            }));
+            ApplicationMock.getCurrentState.callsFake(
+                (): ApplicationMainStateJSON => ({
+                    ...currentState,
+                    rewriteRuleEntries: [entity],
+                }),
+            );
             ApplicationMock.getRewriteRules.resolves([entity]);
             appWrapper = createAppMock();
-            appWrapper.find(TabContents).vm["changeTabIndex"](HeaderTabNameToIndex["Rewrite rule"]);
-            appWrapper.find(RewriteRule).vm["onClickModifiersButton"](entity.id);
+            appWrapper
+                .find(TabContents)
+                .vm["changeTabIndex"](HeaderTabNameToIndex["Rewrite rule"]);
+            appWrapper
+                .find(RewriteRule)
+                .vm["onClickModifiersButton"](entity.id);
             await appWrapper.vm.$nextTick();
         });
 
