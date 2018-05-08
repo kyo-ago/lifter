@@ -103,7 +103,7 @@
     "dist": "yarn build && electron-builder --config config/electron-builder.yml",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "postinstall": "electron-webpack dll",
-    "release": "yarn run dist -- build --publish onTag",
+    "release": "yarn run dist -- build --publish always",
     "start": "run-p dev",
     "storybook": "start-storybook -p 9001 -c storybook",
     "storybook:build": "build-storybook",
