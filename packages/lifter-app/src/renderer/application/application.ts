@@ -160,7 +160,15 @@ export class Application {
         drop: (files: File[]) => void,
     ) {
         global.addEventListener("dragover", e => e.preventDefault());
-        global.addEventListener("dragenter", dragenter);
+        global.addEventListener("dragenter", (event) => {
+            if (!event.dataTransfer || !event.dataTransfer.items.length) {
+                return;
+            }
+            if (!Array.from(event.dataTransfer.items).find((item) => item.kind === "file")) {
+                return;
+            }
+            dragenter();
+        });
         global.addEventListener("dragleave", event => {
             if (
                 event.clientX &&
