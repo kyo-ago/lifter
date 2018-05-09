@@ -9,7 +9,7 @@
         "NoTargetInterfaces": "有効なネットワークインターフェイスが見つかりません",
         "Off": "Proxyが無効です",
         "On": "Proxyが有効です"
-    },
+    }
 }
 </i18n>
 
