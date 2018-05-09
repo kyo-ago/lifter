@@ -1,13 +1,29 @@
+<i18n>
+{
+    "en-US": {
+        "NoTargetInterfaces": "Network disabled",
+        "Off": "Disable proxy",
+        "On": "Enable proxy"
+    },
+    "ja": {
+        "NoTargetInterfaces": "有効なネットワークインターフェイスが見つかりません",
+        "Off": "Proxyが無効です",
+        "On": "Proxyが有効です"
+    }
+}
+</i18n>
+
 <template>
     <div class="toolbar">
         <el-button
             icon="el-icon-view"
             size="mini"
+            data-test="changeProxySettingStatus"
             :type="buttonType"
-            @click="changeProxySettingStatus"
             :data-test-type="buttonType"
             :plain="buttonType==='info'"
-            data-test="changeProxySettingStatus"
+            :title="buttonTitle"
+            @click="changeProxySettingStatus"
         />
         <divider />
     </div>
@@ -38,6 +54,9 @@ export default {
                 }"`,
             );
             return "";
+        },
+        buttonTitle() {
+            return this.$t(this.$store.state.proxySettings.proxySettingStatus);
         },
     },
     methods: {

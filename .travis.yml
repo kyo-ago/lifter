@@ -1,6 +1,9 @@
 os: osx
 osx_image: xcode9.2
 
+notifications:
+  email: false
+
 language: node_js
 node_js:
   - "8.9.0"
