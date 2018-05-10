@@ -68,6 +68,13 @@ export class Application {
     changeProxySettingStatus(): Promise<ProxySettingStatus> {
         return ipc.publish("changeProxySettingStatus");
     }
+    onChangeProxySettingService(
+        callback: (proxySettingStatus: ProxySettingStatus) => void,
+    ) {
+        ipc.subscribe("onChangeProxySettingService", (_, param) =>
+            callback(param),
+        );
+    }
 
     changeProxyCommandGrantStatus(): Promise<
         ChangeProxyCommandGrantStatusParam
@@ -160,11 +167,15 @@ export class Application {
         drop: (files: File[]) => void,
     ) {
         global.addEventListener("dragover", e => e.preventDefault());
-        global.addEventListener("dragenter", (event) => {
+        global.addEventListener("dragenter", event => {
             if (!event.dataTransfer || !event.dataTransfer.items.length) {
                 return;
             }
-            if (!Array.from(event.dataTransfer.items).find((item) => item.kind === "file")) {
+            if (
+                !Array.from(event.dataTransfer.items).find(
+                    item => item.kind === "file",
+                )
+            ) {
                 return;
             }
             dragenter();

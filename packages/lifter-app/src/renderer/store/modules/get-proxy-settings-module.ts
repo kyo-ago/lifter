@@ -21,6 +21,11 @@ export function getProxySettingsModule(
             noAutoEnableProxySetting: state.noAutoEnableProxySetting,
             noPacFileProxySetting: state.noPacFileProxySetting,
         },
+        getters: {
+            proxyCommandIsNotGranted: state => {
+                return state.proxyCommandGrantStatus === "Off";
+            },
+        },
         mutations: {
             changeProxySettingStatus(state, newStatus: ProxySettingStatus) {
                 state.proxySettingStatus = newStatus;

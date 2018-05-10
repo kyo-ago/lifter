@@ -5,6 +5,7 @@ const inquirer = require("inquirer");
     let application = await createApplication(
         `${__dirname}/repositories`,
         __dirname,
+        process.env.HOME,
     );
 
     await application.startup();
