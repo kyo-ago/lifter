@@ -2,6 +2,7 @@ import { ProxyCommandGrantStatus } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { injectable } from "inversify";
 import { NetworksetupProxyFactory } from "../networksetup-proxy/lifecycle/networksetup-proxy-factory";
+import { ProxySettingService } from "../proxy-setting/proxy-setting-service";
 import { ProxyCommandGrantSetting } from "./vaue-objects/proxy-command-grant-setting";
 
 export interface getProxyCommandGrantService {
@@ -18,7 +19,10 @@ export class ProxyCommandGrantService {
     private proxyCommandGrantSetting: ProxyCommandGrantSetting;
     private networksetupProxy: NetworksetupProxy;
 
-    constructor(private networksetupProxyFactory: NetworksetupProxyFactory) {}
+    constructor(
+        private networksetupProxyFactory: NetworksetupProxyFactory,
+        private proxySettingService: ProxySettingService,
+    ) {}
 
     async load() {
         this.networksetupProxy = this.networksetupProxyFactory.getNetworksetupProxy();
@@ -86,10 +90,13 @@ export class ProxyCommandGrantService {
     onChangeStatus(
         callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void,
     ): void {
-        this.networksetupProxy.watchGrantCommands((result: boolean) => {
+        this.networksetupProxy.watchGrantCommands(async (result: boolean) => {
             this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(
                 result,
             );
+            await this.proxyCommandGrantSetting.callGranted(() => {
+                return this.proxySettingService.autoEnable()
+            });
             callback(this.proxyCommandGrantSetting.getStatus());
         });
     }

@@ -8,7 +8,7 @@ import * as URL from "url";
 import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { ClientRequestFactory } from "../client-request/lifecycle/client-request-factory";
 import { LocalFileResponseFactory } from "../local-file-response/lifecycle/local-file-response-factory";
-import { RewriteRuleService } from "./rewrite-rule-service";
+import { getRewriteRules, RewriteRuleService } from "./rewrite-rule-service";
 
 describe("RewriteRuleService", () => {
     let rewriteRuleService: RewriteRuleService;
@@ -100,7 +100,7 @@ describe("RewriteRuleService", () => {
         assert(result["content-type"] === "application/javascript");
     });
 
-    let getNetworksetupProxyService = () => {
+    let getRewriteRules = () => {
         return rewriteRuleService.getRewriteRules();
     };
 
@@ -108,10 +108,10 @@ describe("RewriteRuleService", () => {
         let entity = await rewriteRuleService
             .getRewriteRules()
             .addRule("/hoge/huga.js");
-        await getNetworksetupProxyService().addModifier("DELETE", entity.id, {
+        await getRewriteRules().addModifier("DELETE", entity.id, {
             header: "bar",
         });
-        let rewriteRules = await getNetworksetupProxyService().fetchAll();
+        let rewriteRules = await getRewriteRules().fetchAll();
         let deletes = rewriteRules[0].modifier["DELETE"];
         assert(deletes[deletes.length - 1].header === "bar");
     });

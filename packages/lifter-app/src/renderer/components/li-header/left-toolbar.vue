@@ -1,11 +1,13 @@
 <i18n>
 {
     "en-US": {
+        "NoProxyCommandGrant": "Require granted for the proxy command",
         "NoTargetInterfaces": "Network disabled",
         "Off": "Disable proxy",
         "On": "Enable proxy"
     },
     "ja": {
+        "NoProxyCommandGrant": "Proxy commandに権限が付与されていません",
         "NoTargetInterfaces": "有効なネットワークインターフェイスが見つかりません",
         "Off": "Proxyが無効です",
         "On": "Proxyが有効です"
@@ -23,6 +25,7 @@
             :data-test-type="buttonType"
             :plain="buttonType==='info'"
             :title="buttonTitle"
+            :disabled="disabled"
             @click="changeProxySettingStatus"
         />
         <divider />
@@ -36,6 +39,10 @@ export default {
     name: "left-toolbar",
     computed: {
         buttonType() {
+            console.log(this);
+            if (this.$store.getters.proxyCommandIsNotGranted) {
+                return "info";
+            }
             if (
                 this.$store.state.proxySettings.proxySettingStatus ===
                 "NoTargetInterfaces"
@@ -56,7 +63,13 @@ export default {
             return "";
         },
         buttonTitle() {
+            if (this.$store.getters.proxyCommandIsNotGranted) {
+                return this.$t("NoProxyCommandGrant");
+            }
             return this.$t(this.$store.state.proxySettings.proxySettingStatus);
+        },
+        disabled() {
+            return this.$store.getters.proxyCommandIsNotGranted;
         },
     },
     methods: {

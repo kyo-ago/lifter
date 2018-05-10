@@ -55,6 +55,12 @@ export class ProxySettingService {
         await this.disable();
     }
 
+    async autoEnable(): Promise<void> {
+        if (this.userSettingsService.getNoAutoEnableProxy()) {
+            await this.enable();
+        }
+    }
+
     private async getCurrentStatus(): Promise<ProxySettingStatus> {
         return await this.getStatus();
     }
@@ -105,6 +111,7 @@ export class ProxySettingService {
 
     private async getStatus(): Promise<ProxySettingStatus> {
         let networkInterfaceEntities = await this.networkInterfaceService.fetchAllInterface();
+        console.log(networkInterfaceEntities.length);
         if (!networkInterfaceEntities.length) {
             return "NoTargetInterfaces";
         }

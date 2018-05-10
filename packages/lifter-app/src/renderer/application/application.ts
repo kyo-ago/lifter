@@ -68,6 +68,13 @@ export class Application {
     changeProxySettingStatus(): Promise<ProxySettingStatus> {
         return ipc.publish("changeProxySettingStatus");
     }
+    onChangeProxySettingService(
+        callback: (proxySettingStatus: ProxySettingStatus) => void,
+    ) {
+        ipc.subscribe("onChangeProxySettingService", (_, param) =>
+            callback(param),
+        );
+    }
 
     changeProxyCommandGrantStatus(): Promise<
         ChangeProxyCommandGrantStatusParam
