@@ -1,6 +1,6 @@
 {
   "name": "@lifter/networksetup-proxy",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "@kyo_ago",
   "dependencies": {
     "@lifter/file-watcher": "^0.2.2",
