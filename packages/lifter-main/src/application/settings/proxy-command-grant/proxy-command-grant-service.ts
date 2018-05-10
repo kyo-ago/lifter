@@ -1,8 +1,8 @@
 import { ProxyCommandGrantStatus } from "@lifter/lifter-common";
 import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { injectable } from "inversify";
+import * as Rx from "rxjs/Rx";
 import { NetworksetupProxyFactory } from "../networksetup-proxy/lifecycle/networksetup-proxy-factory";
-import { ProxySettingService } from "../proxy-setting/proxy-setting-service";
 import { ProxyCommandGrantSetting } from "./vaue-objects/proxy-command-grant-setting";
 
 export interface getProxyCommandGrantService {
@@ -16,18 +16,22 @@ export interface getProxyCommandGrantService {
 
 @injectable()
 export class ProxyCommandGrantService {
+    private observable: Rx.Subject<ProxyCommandGrantStatus> = new Rx.Subject();
     private proxyCommandGrantSetting: ProxyCommandGrantSetting;
     private networksetupProxy: NetworksetupProxy;
 
-    constructor(
-        private networksetupProxyFactory: NetworksetupProxyFactory,
-        private proxySettingService: ProxySettingService,
-    ) {}
+    constructor(private networksetupProxyFactory: NetworksetupProxyFactory) {}
 
     async load() {
         this.networksetupProxy = this.networksetupProxyFactory.getNetworksetupProxy();
         let hasGrant = await this.networksetupProxy.hasGrant();
         this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(hasGrant);
+        this.networksetupProxy.watchGrantCommands(async (result: boolean) => {
+            this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(
+                result,
+            );
+            this.observable.next(this.proxyCommandGrantSetting.getStatus());
+        });
     }
 
     getProxyCommandGrantService(): getProxyCommandGrantService {
@@ -90,14 +94,6 @@ export class ProxyCommandGrantService {
     onChangeStatus(
         callback: (proxyCommandGrantStatus: ProxyCommandGrantStatus) => void,
     ): void {
-        this.networksetupProxy.watchGrantCommands(async (result: boolean) => {
-            this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(
-                result,
-            );
-            await this.proxyCommandGrantSetting.callGranted(() => {
-                return this.proxySettingService.autoEnable()
-            });
-            callback(this.proxyCommandGrantSetting.getStatus());
-        });
+        this.observable.subscribe(callback);
     }
 }

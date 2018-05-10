@@ -39,7 +39,6 @@ export default {
     name: "left-toolbar",
     computed: {
         buttonType() {
-            console.log(this);
             if (this.$store.getters.proxyCommandIsNotGranted) {
                 return "info";
             }

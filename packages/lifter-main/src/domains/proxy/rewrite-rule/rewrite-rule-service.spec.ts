@@ -8,7 +8,7 @@ import * as URL from "url";
 import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { ClientRequestFactory } from "../client-request/lifecycle/client-request-factory";
 import { LocalFileResponseFactory } from "../local-file-response/lifecycle/local-file-response-factory";
-import { getRewriteRules, RewriteRuleService } from "./rewrite-rule-service";
+import { RewriteRuleService } from "./rewrite-rule-service";
 
 describe("RewriteRuleService", () => {
     let rewriteRuleService: RewriteRuleService;

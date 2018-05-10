@@ -1,10 +1,14 @@
 import * as Watch from "@lifter/file-watcher";
-import { ProxySettingStatus } from "@lifter/lifter-common";
+import {
+    ProxyCommandGrantStatus,
+    ProxySettingStatus,
+} from "@lifter/lifter-common";
 import { injectable } from "inversify";
 import { PROXY_PREFERENCES_PLIST_PATH } from "../../../settings";
 import { NetworkInterfaceService } from "../network-interface/network-interface-service";
 import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
 import { PacFileService } from "../pac-file/pac-file-service";
+import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
 import { UserSettingsService } from "../user-settings/user-settings-service";
 
 export interface getProxySettingService {
@@ -22,6 +26,7 @@ export class ProxySettingService {
         private pacFileService: PacFileService,
         private networksetupProxyService: NetworksetupProxyService,
         private networkInterfaceService: NetworkInterfaceService,
+        private proxyCommandGrantService: ProxyCommandGrantService,
     ) {}
 
     load() {
@@ -29,6 +34,13 @@ export class ProxySettingService {
             // ignore return value
             void this.changeProxyType();
         });
+        this.proxyCommandGrantService.onChangeStatus(
+            (proxyCommandGrantStatus: ProxyCommandGrantStatus) => {
+                if (proxyCommandGrantStatus === "On") {
+                    void this.autoEnable();
+                }
+            },
+        );
     }
 
     getProxySettingService(): getProxySettingService {

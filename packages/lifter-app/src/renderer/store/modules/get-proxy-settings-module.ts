@@ -24,7 +24,7 @@ export function getProxySettingsModule(
         getters: {
             proxyCommandIsNotGranted: state => {
                 return state.proxyCommandGrantStatus === "Off";
-            }
+            },
         },
         mutations: {
             changeProxySettingStatus(state, newStatus: ProxySettingStatus) {
