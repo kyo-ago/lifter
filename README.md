@@ -1,4 +1,4 @@
-# lifter
+# Lifter
 
 Local Proxy for frontend developers.
 

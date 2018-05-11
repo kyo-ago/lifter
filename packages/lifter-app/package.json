@@ -94,13 +94,13 @@
     "element-ui": "2.3.2"
   },
   "scripts": {
-    "build": "npm-run-all --parallel build:**",
+    "build": "npm-run-all --parallel build:*",
     "build:main": "electron-webpack main",
     "build:renderer": "webpack --config config/webpack.renderer.build.js",
     "clean": "rm -fr dist lib",
     "depcruise": "depcruise --validate .dependency-cruiser.json src",
     "dev": "electron-webpack dev",
-    "dist": "electron-builder --config config/electron-builder.yml",
+    "dist": "yarn build && electron-builder --config config/electron-builder.yml",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "postinstall": "electron-webpack dll",
     "release": "yarn run dist build --publish always",
