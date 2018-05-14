@@ -123,7 +123,6 @@ export class ProxySettingService {
 
     private async getStatus(): Promise<ProxySettingStatus> {
         let networkInterfaceEntities = await this.networkInterfaceService.fetchAllInterface();
-        console.log(networkInterfaceEntities.length);
         if (!networkInterfaceEntities.length) {
             return "NoTargetInterfaces";
         }
