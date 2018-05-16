@@ -53,11 +53,13 @@ export class ClientRequestService {
     async onRequest(
         clientResponderContext: ClientResponderContext,
     ): Promise<void> {
-        let clientRequestEntity = this.store(clientResponderContext.getUrl());
+        let url = clientResponderContext.getUrl();
 
-        if (clientRequestEntity.href === LOCAL_PAC_FILE_URL) {
+        if (LOCAL_PAC_FILE_URL.test(url.href)) {
             return await this.pacFileService.response(clientResponderContext);
         }
+
+        let clientRequestEntity = this.store(url);
 
         return await this.autoResponderService.response(
             clientResponderContext,

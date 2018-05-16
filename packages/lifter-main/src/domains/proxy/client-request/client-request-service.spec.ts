@@ -5,7 +5,7 @@ import * as Path from "path";
 import * as sinon from "sinon";
 import * as URL from "url";
 import { getTestContainer } from "../../../../test/mocks/get-test-container";
-import { LOCAL_PAC_FILE_URL } from "../../../settings";
+import { BIND_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientRequestService } from "./client-request-service";
 import { ClientResponderContext } from "./lib/client-responder-context";
@@ -54,7 +54,7 @@ describe("ClientRequestService", () => {
     });
 
     it("onRequest.response LOCAL_PAC_FILE_URL", async () => {
-        clientResponderContext.getUrl.returns(URL.parse(LOCAL_PAC_FILE_URL));
+        clientResponderContext.getUrl.returns(URL.parse(`http://${BIND_HOST_NAME}:${PROXY_PORT}/proxy.pac`));
         await clientRequestService.onRequest(clientResponderContext);
         assert(clientResponderContext.response.calledOnce);
     });

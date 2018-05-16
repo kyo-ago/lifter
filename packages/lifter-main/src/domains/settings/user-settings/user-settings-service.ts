@@ -9,9 +9,9 @@ export interface getUserSetting {
     changeNoPacFileProxy: () => Promise<boolean>;
 }
 
-export interface MatchPattern {
-    Some?: () => any;
-    None?: () => any;
+export interface MatchPattern<T> {
+    Some?: () => T;
+    None?: () => T;
 }
 
 @injectable()
@@ -55,16 +55,18 @@ export class UserSettingsService {
         return newSetting;
     }
 
-    isAutoEnableProxy(matchPattern: MatchPattern): any {
-        return this.userSettingsStorage.resolve("noAutoEnableProxy")
-            ? matchPattern.Some && matchPattern.Some()
-            : matchPattern.None && matchPattern.None();
+    isAutoEnableProxy<T>(matchPattern: MatchPattern<T>): T {
+        if (this.userSettingsStorage.resolve("noAutoEnableProxy")) {
+            return matchPattern.None ? matchPattern.None() : undefined;
+        }
+        return matchPattern.Some ? matchPattern.Some() : undefined;
     }
 
-    isPacFileProxy(matchPattern: MatchPattern): any {
-        return this.userSettingsStorage.resolve("noPacFileProxy")
-            ? matchPattern.Some && matchPattern.Some()
-            : matchPattern.None && matchPattern.None();
+    isPacFileProxy<T>(matchPattern: MatchPattern<T>): T {
+        if (this.userSettingsStorage.resolve("noPacFileProxy")) {
+            return matchPattern.None ? matchPattern.None() : undefined;
+        }
+        return matchPattern.Some ? matchPattern.Some() : undefined;
     }
 
     onChangeNoPacFileProxy(callback: (noPacFileProxy: boolean) => void): void {

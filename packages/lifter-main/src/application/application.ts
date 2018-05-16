@@ -48,8 +48,8 @@ export class Application {
     ) {}
 
     async startup() {
-        await this.proxySettingService.startup();
         await this.proxyService.listen();
+        await this.proxySettingService.startup();
     }
 
     async shutdown(): Promise<void> {
