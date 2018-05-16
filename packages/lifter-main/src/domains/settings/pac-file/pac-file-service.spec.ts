@@ -3,9 +3,9 @@ import "mocha";
 import * as Path from "path";
 import * as sinon from "sinon";
 import { getTestContainer } from "../../../../test/mocks/get-test-container";
-import { AutoResponderService } from "../../../domains/proxy/auto-responder/auto-responder-service";
-import { ClientResponderContext } from "../../../domains/proxy/client-request/lib/client-responder-context";
 import { PROXY_SERVER_NAME } from "../../../settings";
+import { AutoResponderService } from "../../proxy/auto-responder/auto-responder-service";
+import { ClientResponderContext } from "../../proxy/client-request/lib/client-responder-context";
 import { PacFileService } from "./pac-file-service";
 
 describe("PacFileService", () => {

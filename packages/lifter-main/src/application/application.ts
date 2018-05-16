@@ -11,27 +11,27 @@ import {
     getRewriteRules,
     RewriteRuleService,
 } from "../domains/proxy/rewrite-rule/rewrite-rule-service";
-import { ProxyService } from "./proxy/proxy-service";
 import {
     CertificateService,
     getCertificateService,
-} from "./settings/certificate/certificate-service";
+} from "../domains/settings/certificate/certificate-service";
 import {
     getProxyBypassDomains,
     ProxyBypassDomainService,
-} from "./settings/proxy-bypass-domain/proxy-bypass-domain-service";
+} from "../domains/settings/proxy-bypass-domain/proxy-bypass-domain-service";
 import {
     getProxyCommandGrantService,
     ProxyCommandGrantService,
-} from "./settings/proxy-command-grant/proxy-command-grant-service";
+} from "../domains/settings/proxy-command-grant/proxy-command-grant-service";
+import {
+    getUserSetting,
+    UserSettingsService,
+} from "../domains/settings/user-settings/user-settings-service";
+import { ProxyService } from "./proxy/proxy-service";
 import {
     getProxySettingService,
     ProxySettingService,
 } from "./settings/proxy-setting/proxy-setting-service";
-import {
-    getUserSetting,
-    UserSettingsService,
-} from "./settings/user-settings/user-settings-service";
 
 @injectable()
 export class Application {
@@ -48,10 +48,7 @@ export class Application {
     ) {}
 
     async startup() {
-        await this.userSettingsService.isAutoEnableProxy({
-            Some: () => this.proxySettingService.startup(),
-            None: () => Promise.resolve(),
-        });
+        await this.proxySettingService.startup();
         await this.proxyService.listen();
     }
 

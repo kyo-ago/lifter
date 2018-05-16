@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
+import { fetchIfconfig } from "../../../application/libs/fetch-ifconfig";
 import { getListnetworkserviceorder } from "../../../libs/exec-commands";
-import { fetchIfconfig } from "../../libs/fetch-ifconfig";
 import {
     NetworkDeviceParam,
     NetworkInterfaceFactory,

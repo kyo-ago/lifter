@@ -1,11 +1,11 @@
 import { IOResult, NetworksetupProxy } from "@lifter/networksetup-proxy";
-import { BaseEntity } from "../../../domains/base/base-entity";
 import {
     getProxyByPassDomains,
     getSecureWebproxy,
     getWebproxy,
 } from "../../../libs/exec-commands";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
+import { BaseEntity } from "../../base/base-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";
 import { ParseGetwebproxyCommand } from "./specs/parse-getwebproxy-command";

@@ -1,5 +1,5 @@
 import * as execa from "execa";
-import { NetworkInterfaceEntity } from "../application/settings/network-interface/network-interface-entity";
+import { NetworkInterfaceEntity } from "../domains/settings/network-interface/network-interface-entity";
 import {
     CERTIFICATE_NAME,
     IFCONFIG_COMMAND,

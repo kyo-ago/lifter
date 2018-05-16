@@ -2,8 +2,8 @@ import * as assert from "assert";
 import "mocha";
 import { getTestContainer } from "../../../../test/mocks/get-test-container";
 import { MockStateEvent } from "../../../../test/mocks/mock-state-event";
-import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
-import { UserSettingsService } from "../user-settings/user-settings-service";
+import { ProxyCommandGrantService } from "../../../domains/settings/proxy-command-grant/proxy-command-grant-service";
+import { UserSettingsService } from "../../../domains/settings/user-settings/user-settings-service";
 import { ProxySettingService } from "./proxy-setting-service";
 
 describe("ProxySettingService", () => {

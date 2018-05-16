@@ -1,52 +1,43 @@
-import { NetworksetupProxy } from "@lifter/networksetup-proxy";
 import { injectable } from "inversify";
 import { NetworkInterfaceEntity } from "../network-interface/network-interface-entity";
 import { NetworkInterfaceService } from "../network-interface/network-interface-service";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
-import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
-import { NetworksetupProxyFactory } from "./lifecycle/networksetup-proxy-factory";
+import { NetworksetupProxyContainer } from "./networksetup-proxy-container";
 
 @injectable()
 export class NetworksetupProxyService {
-    private networksetupProxy: NetworksetupProxy;
-
     constructor(
-        private networksetupProxyFactory: NetworksetupProxyFactory,
+        private networksetupProxyCommand: NetworksetupProxyContainer,
         private networkInterfaceService: NetworkInterfaceService,
-        private proxyCommandGrantService: ProxyCommandGrantService,
     ) {}
-
-    async load() {
-        this.networksetupProxy = this.networksetupProxyFactory.getNetworksetupProxy();
-    }
 
     enableProxy(): Promise<void> {
         return this.callAllInterface(ni =>
-            ni.enableProxy(this.networksetupProxy),
+            ni.enableProxy(this.networksetupProxyCommand.getComand()),
         );
     }
 
     disableProxy(): Promise<void> {
         return this.callAllInterface(ni =>
-            ni.disableProxy(this.networksetupProxy),
+            ni.disableProxy(this.networksetupProxyCommand.getComand()),
         );
     }
 
     clearAutoProxyUrl() {
         return this.callAllInterface(ni =>
-            ni.clearAutoProxyUrl(this.networksetupProxy),
+            ni.clearAutoProxyUrl(this.networksetupProxyCommand.getComand()),
         );
     }
 
     setAutoProxyUrl() {
         return this.callAllInterface(ni =>
-            ni.setAutoProxyUrl(this.networksetupProxy),
+            ni.setAutoProxyUrl(this.networksetupProxyCommand.getComand()),
         );
     }
 
     reloadAutoProxyUrl() {
         return this.callAllInterface(ni =>
-            ni.reloadAutoProxyUrl(this.networksetupProxy),
+            ni.reloadAutoProxyUrl(this.networksetupProxyCommand.getComand()),
         );
     }
 
@@ -55,7 +46,7 @@ export class NetworksetupProxyService {
     ) {
         return this.callAllInterface(async ni => {
             await ni.setProxyBypassDomains(
-                this.networksetupProxy,
+                this.networksetupProxyCommand.getComand(),
                 proxyBypassDomainEntities,
             );
         });
@@ -66,9 +57,7 @@ export class NetworksetupProxyService {
             networkInterfaceEntity: NetworkInterfaceEntity,
         ) => Promise<void>,
     ): Promise<void> {
-        return this.proxyCommandGrantService.callGranted(async () => {
-            let networkInterfaceEntities = await this.networkInterfaceService.fetchAllInterface();
-            await Promise.all(networkInterfaceEntities.map(ni => callback(ni)));
-        });
+        let networkInterfaceEntities = await this.networkInterfaceService.fetchAllInterface();
+        await Promise.all(networkInterfaceEntities.map(ni => callback(ni)));
     }
 }

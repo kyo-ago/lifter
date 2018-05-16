@@ -4,12 +4,12 @@ import {
     ProxySettingStatus,
 } from "@lifter/lifter-common";
 import { injectable } from "inversify";
+import { NetworkInterfaceService } from "../../../domains/settings/network-interface/network-interface-service";
+import { NetworksetupProxyService } from "../../../domains/settings/networksetup-proxy/networksetup-proxy-service";
+import { PacFileService } from "../../../domains/settings/pac-file/pac-file-service";
+import { ProxyCommandGrantService } from "../../../domains/settings/proxy-command-grant/proxy-command-grant-service";
+import { UserSettingsService } from "../../../domains/settings/user-settings/user-settings-service";
 import { PROXY_PREFERENCES_PLIST_PATH } from "../../../settings";
-import { NetworkInterfaceService } from "../network-interface/network-interface-service";
-import { NetworksetupProxyService } from "../networksetup-proxy/networksetup-proxy-service";
-import { PacFileService } from "../pac-file/pac-file-service";
-import { ProxyCommandGrantService } from "../proxy-command-grant/proxy-command-grant-service";
-import { UserSettingsService } from "../user-settings/user-settings-service";
 
 export interface getProxySettingService {
     fetch: () => Promise<ProxySettingStatus>;
@@ -60,7 +60,7 @@ export class ProxySettingService {
     }
 
     async startup(): Promise<void> {
-        await this.enable();
+        await this.autoEnable();
     }
 
     async shutdown(): Promise<void> {
@@ -68,9 +68,10 @@ export class ProxySettingService {
     }
 
     async autoEnable(): Promise<void> {
-        if (this.userSettingsService.getNoAutoEnableProxy()) {
-            await this.enable();
-        }
+        await this.userSettingsService.isAutoEnableProxy({
+            Some: () => this.enable(),
+            None: () => Promise.resolve(),
+        });
     }
 
     private async getCurrentStatus(): Promise<ProxySettingStatus> {
@@ -105,9 +106,12 @@ export class ProxySettingService {
             NoTargetInterfaces: (): Promise<void> => Promise.resolve(),
             Off: async (): Promise<void> => Promise.resolve(),
             On: async (): Promise<void> => {
-                await this.userSettingsService.isPacFileProxy({
-                    Some: () => this.networksetupProxyService.disableProxy(),
-                    None: () => this.pacFileService.stop(),
+                await this.proxyCommandGrantService.callGranted(() => {
+                    return this.userSettingsService.isPacFileProxy({
+                        Some: () =>
+                            this.networksetupProxyService.disableProxy(),
+                        None: () => this.pacFileService.stop(),
+                    });
                 });
                 await this.enable();
             },
@@ -134,16 +138,20 @@ export class ProxySettingService {
     }
 
     private async enable(): Promise<void> {
-        await this.userSettingsService.isPacFileProxy({
-            Some: () => this.pacFileService.start(),
-            None: () => this.networksetupProxyService.enableProxy(),
+        await this.proxyCommandGrantService.callGranted(() => {
+            return this.userSettingsService.isPacFileProxy({
+                Some: () => this.pacFileService.start(),
+                None: () => this.networksetupProxyService.enableProxy(),
+            });
         });
     }
 
     private async disable() {
-        await this.userSettingsService.isPacFileProxy({
-            Some: () => this.pacFileService.stop(),
-            None: () => this.networksetupProxyService.disableProxy(),
+        await this.proxyCommandGrantService.callGranted(() => {
+            return this.userSettingsService.isPacFileProxy({
+                Some: () => this.pacFileService.stop(),
+                None: () => this.networksetupProxyService.disableProxy(),
+            });
         });
     }
 }

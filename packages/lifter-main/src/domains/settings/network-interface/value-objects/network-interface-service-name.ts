@@ -3,6 +3,6 @@
  *
  * ex. Wi-Fi
  */
-import { BaseValueObject } from "../../../../domains/base/value-objects/base-value-object";
+import { BaseValueObject } from "../../../base/value-objects/base-value-object";
 
 export class NetworkInterfaceServiceName extends BaseValueObject<string> {}

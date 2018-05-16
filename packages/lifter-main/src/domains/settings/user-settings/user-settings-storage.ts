@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import * as Datastore from "nedb";
 import { promisify } from "util";
-import { ProjectEntity } from "../../../domains/proxy/project/project-entity";
+import { ProjectEntity } from "../../proxy/project/project-entity";
 
 export interface UserSettings {
     noAutoEnableProxy: boolean;
