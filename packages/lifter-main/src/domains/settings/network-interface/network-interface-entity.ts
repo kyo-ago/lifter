@@ -1,13 +1,15 @@
 import { IOResult, NetworksetupProxy } from "@lifter/networksetup-proxy";
 import {
+    getAutoproxyurl,
     getProxyByPassDomains,
     getSecureWebproxy,
-    getWebproxy,
+    getWebproxy
 } from "../../../libs/exec-commands";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { BaseEntity } from "../../base/base-entity";
 import { ProxyBypassDomainEntity } from "../proxy-bypass-domain/proxy-bypass-domain-entity";
 import { NetworkInterfaceIdentity } from "./network-interface-identity";
+import { ParseGetAutoproxyUrl } from "./specs/parse-get-autoproxy-url";
 import { ParseGetwebproxyCommand } from "./specs/parse-getwebproxy-command";
 import { NetworkInterfaceName } from "./value-objects/network-interface-name";
 import { NetworkInterfaceServiceName } from "./value-objects/network-interface-service-name";
@@ -102,7 +104,6 @@ export class NetworkInterfaceEntity extends BaseEntity<
             return;
         }
 
-        await networksetupProxy.setautoproxyurl(this.serviceName, "");
         await networksetupProxy.setautoproxystate(this.serviceName, "off");
     }
 
@@ -116,6 +117,9 @@ export class NetworkInterfaceEntity extends BaseEntity<
             getSecureWebproxy(this),
         ]);
         let result = results.find(stdout => ParseGetwebproxyCommand(stdout));
-        return Boolean(result);
+        if (Boolean(result)) {
+            return true;
+        }
+        return ParseGetAutoproxyUrl(await getAutoproxyurl(this));
     }
 }

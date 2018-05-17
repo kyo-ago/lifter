@@ -25,7 +25,7 @@ export class ProxyCommandGrantService {
     ) {}
 
     async load() {
-        this.networksetupProxy = this.networksetupProxyContainer.getComand();
+        this.networksetupProxy = this.networksetupProxyContainer.getCommand();
         let hasGrant = await this.networksetupProxy.hasGrant();
         this.proxyCommandGrantSetting = new ProxyCommandGrantSetting(hasGrant);
         this.networksetupProxy.watchGrantCommands(async (result: boolean) => {

@@ -40,6 +40,11 @@ en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST> mtu 1500
         status: active
 `);
 
+stub.getAutoproxyurl.resolves(`
+URL: (null)
+Enabled: No
+`);
+
 mockRequire("../../../../src/libs/exec-commands", stub);
 
 afterEach(() => {

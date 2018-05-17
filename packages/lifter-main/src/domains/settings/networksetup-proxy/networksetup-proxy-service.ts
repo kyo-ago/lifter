@@ -13,31 +13,31 @@ export class NetworksetupProxyService {
 
     enableProxy(): Promise<void> {
         return this.callAllInterface(ni =>
-            ni.enableProxy(this.networksetupProxyCommand.getComand()),
+            ni.enableProxy(this.networksetupProxyCommand.getCommand()),
         );
     }
 
     disableProxy(): Promise<void> {
         return this.callAllInterface(ni =>
-            ni.disableProxy(this.networksetupProxyCommand.getComand()),
+            ni.disableProxy(this.networksetupProxyCommand.getCommand()),
         );
     }
 
     clearAutoProxyUrl() {
         return this.callAllInterface(ni =>
-            ni.clearAutoProxyUrl(this.networksetupProxyCommand.getComand()),
+            ni.clearAutoProxyUrl(this.networksetupProxyCommand.getCommand()),
         );
     }
 
     setAutoProxyUrl() {
         return this.callAllInterface(ni =>
-            ni.setAutoProxyUrl(this.networksetupProxyCommand.getComand()),
+            ni.setAutoProxyUrl(this.networksetupProxyCommand.getCommand()),
         );
     }
 
     reloadAutoProxyUrl() {
         return this.callAllInterface(ni =>
-            ni.reloadAutoProxyUrl(this.networksetupProxyCommand.getComand()),
+            ni.reloadAutoProxyUrl(this.networksetupProxyCommand.getCommand()),
         );
     }
 
@@ -46,7 +46,7 @@ export class NetworksetupProxyService {
     ) {
         return this.callAllInterface(async ni => {
             await ni.setProxyBypassDomains(
-                this.networksetupProxyCommand.getComand(),
+                this.networksetupProxyCommand.getCommand(),
                 proxyBypassDomainEntities,
             );
         });

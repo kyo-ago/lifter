@@ -14,7 +14,7 @@ export class NetworksetupProxyContainer {
         );
     }
 
-    getComand() {
+    getCommand() {
         return this.networksetupProxy;
     }
 }
