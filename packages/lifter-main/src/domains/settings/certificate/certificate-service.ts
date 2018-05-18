@@ -1,6 +1,6 @@
 import * as Watch from "@lifter/file-watcher";
+import { CertificateStatus } from "@lifter/lifter-common";
 import { injectable } from "inversify";
-import { CertificateStatus } from "../../../../../lifter-common/build/index";
 import {
     addTrustedCert,
     deleteCertificate,
