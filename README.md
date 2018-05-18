@@ -1,24 +1,18 @@
-# Lifter
+# Lifter proxy
 
 Local Proxy for frontend developers.
 
-### Usage
+Lifter proxy is built with [node-http-mitm-proxy](https://github.com/joeferner/node-http-mitm-proxy), [electron](https://github.com/electron/electron) and [vuejs](https://github.com/vuejs/vue)
 
-Launch by `yarn run app`.
+![](resources/screenshot-1.png)
 
-    yarn install
-    yarn run app
+## Installing
 
-## Development
+[Download the correct version](https://github.com/kyo-ago/lifter/releases/latest)
 
-    yarn install
-    yarn run bootstrap
+## Support Environment
 
-## Running tests
-
-Install devDependencies and Run `npm test`:
-
-    npm i -d && npm test
+* macOS 10.13.*
 
 ## Author
 

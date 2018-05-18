@@ -2,8 +2,8 @@ import { ClientRequestEntityJSON } from "@lifter/lifter-common";
 import { injectable } from "inversify";
 import * as Rx from "rxjs/Rx";
 import * as URL from "url";
-import { PacFileService } from "../../../application/settings/pac-file/pac-file-service";
 import { LOCAL_PAC_FILE_URL } from "../../../settings";
+import { PacFileService } from "../../settings/pac-file/pac-file-service";
 import { AutoResponderService } from "../auto-responder/auto-responder-service";
 import { ClientRequestEntity } from "./client-request-entity";
 import { ClientResponderContext } from "./lib/client-responder-context";
@@ -53,11 +53,13 @@ export class ClientRequestService {
     async onRequest(
         clientResponderContext: ClientResponderContext,
     ): Promise<void> {
-        let clientRequestEntity = this.store(clientResponderContext.getUrl());
+        let url = clientResponderContext.getUrl();
 
-        if (clientRequestEntity.href === LOCAL_PAC_FILE_URL) {
+        if (LOCAL_PAC_FILE_URL.test(url.href)) {
             return await this.pacFileService.response(clientResponderContext);
         }
+
+        let clientRequestEntity = this.store(url);
 
         return await this.autoResponderService.response(
             clientResponderContext,

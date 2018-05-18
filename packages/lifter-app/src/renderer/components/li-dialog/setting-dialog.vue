@@ -92,24 +92,16 @@ export default {
     name: "setting-dialog",
     computed: {
         certificateStatus() {
-            return (
-                this.$store.state.proxySettings.certificateState === "Installed"
-            );
+            return this.$store.getters['proxySettings/certificateInstalled'];
         },
         certificateCommands() {
-            return this.$store.state.proxySettings.certificateCommands.join(
-                " && ",
-            );
+            return this.$store.getters['proxySettings/certificateCommand'];
         },
         proxyCommandGrantStatus() {
-            return (
-                this.$store.state.proxySettings.proxyCommandGrantStatus === "On"
-            );
+            return this.$store.getters['proxySettings/proxyCommandIsGranted'];
         },
         proxyCommandGrantCommands() {
-            return this.$store.state.proxySettings.proxyCommandGrantCommands.join(
-                "\n",
-            );
+            return this.$store.getters['proxySettings/proxyCommandGrantCommand'];
         },
         noAutoEnableProxySetting() {
             return !this.$store.state.proxySettings.noAutoEnableProxySetting;

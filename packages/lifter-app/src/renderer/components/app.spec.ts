@@ -2,7 +2,7 @@ import { Wrapper } from "@vue/test-utils";
 import * as assert from "assert";
 import "mocha";
 import { ApplicationMainStateJSON } from "../../main/application-main-state";
-import { ApplicationMock } from "../application/application.mock";
+import { ApplicationMock, setApplicationMockState } from "../application/application.mock";
 import { HeaderTabNameToIndex } from "../store/modules/get-header-tab-module";
 import { createAppMock } from "./app.mock";
 import DeleteModifiersTable from "./li-dialog/rewrite-rule-modifiers-dialog/delete-modifiers-table.vue";
@@ -17,6 +17,9 @@ describe("app.vue", () => {
     });
 
     it("changeProxySettingStatus", async () => {
+        setApplicationMockState({
+            proxyCommandGrantStatus: "On",
+        });
         let appWrapper = createAppMock();
 
         let target = appWrapper.find('[data-test="changeProxySettingStatus"]');

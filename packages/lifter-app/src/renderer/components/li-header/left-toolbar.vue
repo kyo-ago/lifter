@@ -39,36 +39,23 @@ export default {
     name: "left-toolbar",
     computed: {
         buttonType() {
-            if (this.$store.getters.proxyCommandIsNotGranted) {
-                return "info";
-            }
-            if (
-                this.$store.state.proxySettings.proxySettingStatus ===
-                "NoTargetInterfaces"
-            ) {
-                return "info";
-            }
-            if (this.$store.state.proxySettings.proxySettingStatus === "On") {
-                return "danger";
-            }
-            if (this.$store.state.proxySettings.proxySettingStatus === "Off") {
-                return "";
-            }
-            console.error(
-                `invalid proxySettingStatus "${
-                    this.$store.state.proxySettings.proxySettingStatus
-                }"`,
-            );
-            return "";
+            return this.$store.getters['proxySettings/matchState']({
+                NotGranted: () => "info",
+                NoTargetInterfaces: () => "info",
+                On: () => "danger",
+                Off: () => "",
+            });
         },
         buttonTitle() {
-            if (this.$store.getters.proxyCommandIsNotGranted) {
-                return this.$t("NoProxyCommandGrant");
-            }
-            return this.$t(this.$store.state.proxySettings.proxySettingStatus);
+            return this.$store.getters['proxySettings/matchState']({
+                NotGranted: () => "NoProxyCommandGrant",
+                NoTargetInterfaces: () => "NoTargetInterfaces",
+                On: () => "On",
+                Off: () => "Off",
+            });
         },
         disabled() {
-            return this.$store.getters.proxyCommandIsNotGranted;
+            return this.$store.getters['proxySettings/proxyCommandIsNotGranted'];
         },
     },
     methods: {

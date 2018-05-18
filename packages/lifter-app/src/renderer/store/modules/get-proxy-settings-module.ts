@@ -22,8 +22,31 @@ export function getProxySettingsModule(
             noPacFileProxySetting: state.noPacFileProxySetting,
         },
         getters: {
-            proxyCommandIsNotGranted: state => {
-                return state.proxyCommandGrantStatus === "Off";
+            certificateInstalled: ({ certificateState }) => certificateState === "Installed",
+            certificateCommand: ({ certificateCommands }) => certificateCommands.join(" && "),
+            proxyCommandIsGranted: ({ proxyCommandGrantStatus }) => proxyCommandGrantStatus === "On",
+            proxyCommandIsNotGranted: (_, { proxyCommandIsGranted }) => !proxyCommandIsGranted,
+            proxyCommandGrantCommand: ({ proxyCommandGrantCommands }) => proxyCommandGrantCommands.join("\n"),
+            matchState: ({ proxySettingStatus }, { proxyCommandIsGranted }) => (matcher: {
+                NotGranted: () => string,
+                NoTargetInterfaces: () => string,
+                On: () => string,
+                Off: () => string,
+            }): string => {
+                if (!proxyCommandIsGranted) {
+                    return matcher.NotGranted();
+                }
+                if (proxySettingStatus === "NoTargetInterfaces") {
+                    return matcher.NoTargetInterfaces();
+                }
+                if (proxySettingStatus === "On") {
+                    return matcher.On();
+                }
+                if (proxySettingStatus === "Off") {
+                    return matcher.Off();
+                }
+                console.error('Invalid matchState error');
+                return "";
             },
         },
         mutations: {

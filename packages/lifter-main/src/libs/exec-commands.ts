@@ -1,5 +1,5 @@
 import * as execa from "execa";
-import { NetworkInterfaceEntity } from "../application/settings/network-interface/network-interface-entity";
+import { NetworkInterfaceEntity } from "../domains/settings/network-interface/network-interface-entity";
 import {
     CERTIFICATE_NAME,
     IFCONFIG_COMMAND,
@@ -55,6 +55,10 @@ export function getProxyByPassDomains(
         "-getproxybypassdomains",
         device.serviceName,
     ]);
+}
+
+export function getAutoproxyurl(device: NetworkInterfaceEntity): Promise<string> {
+    return ExecCommand(NETWORK_SETUP_COMMAND, ["-getautoproxyurl", device.serviceName,]);
 }
 
 export function findCertificate(): Promise<string> {
