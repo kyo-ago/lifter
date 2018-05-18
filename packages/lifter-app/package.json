@@ -1,13 +1,13 @@
 {
   "name": "@lifter/lifter-app",
   "description": "lifter proxy application",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "author": "@kyo_ago",
   "dependencies": {
     "@lifter/electron-window-manager": "^0.2.2",
     "@lifter/file-watcher": "^0.2.2",
     "@lifter/lifter-common": "^0.2.2",
-    "@lifter/lifter-main": "^0.2.3",
+    "@lifter/lifter-main": "^0.2.5",
     "@lifter/networksetup-proxy": "^0.2.3",
     "electron-context-menu": "^0.9.1",
     "electron-ipc": "^0.3.0",
