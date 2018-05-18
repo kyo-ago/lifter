@@ -12,7 +12,7 @@ export function ParseGetAutoproxyUrl(stdout: string): boolean {
         .reduce(
             (base: Partial<CommandResult>, cur: string) => {
                 let [key, ...val] = cur.split(/:/);
-                (<any>base)[key.trim()] = val.join(':').trim();
+                (<any>base)[key.trim()] = val.join(":").trim();
                 return base;
             },
             <Partial<CommandResult>>{},

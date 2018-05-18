@@ -39,7 +39,7 @@ export default {
     name: "left-toolbar",
     computed: {
         buttonType() {
-            return this.$store.getters['proxySettings/matchState']({
+            return this.$store.getters["proxySettings/matchState"]({
                 NotGranted: () => "info",
                 NoTargetInterfaces: () => "info",
                 On: () => "danger",
@@ -47,7 +47,7 @@ export default {
             });
         },
         buttonTitle() {
-            return this.$store.getters['proxySettings/matchState']({
+            return this.$store.getters["proxySettings/matchState"]({
                 NotGranted: () => "NoProxyCommandGrant",
                 NoTargetInterfaces: () => "NoTargetInterfaces",
                 On: () => "On",
@@ -55,7 +55,9 @@ export default {
             });
         },
         disabled() {
-            return this.$store.getters['proxySettings/proxyCommandIsNotGranted'];
+            return this.$store.getters[
+                "proxySettings/proxyCommandIsNotGranted"
+            ];
         },
     },
     methods: {

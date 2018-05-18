@@ -46,7 +46,9 @@ if ("undefined" !== typeof afterEach) {
 
 export const ApplicationMock = applicationMock;
 
-export function setApplicationMockState(state: Partial<ApplicationMainStateJSON> = {}) {
+export function setApplicationMockState(
+    state: Partial<ApplicationMainStateJSON> = {},
+) {
     applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
         autoResponderEntries: [],
         clientRequestEntries: [],

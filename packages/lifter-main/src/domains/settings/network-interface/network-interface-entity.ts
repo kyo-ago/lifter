@@ -3,7 +3,7 @@ import {
     getAutoproxyurl,
     getProxyByPassDomains,
     getSecureWebproxy,
-    getWebproxy
+    getWebproxy,
 } from "../../../libs/exec-commands";
 import { NETWORK_HOST_NAME, PROXY_PORT } from "../../../settings";
 import { BaseEntity } from "../../base/base-entity";

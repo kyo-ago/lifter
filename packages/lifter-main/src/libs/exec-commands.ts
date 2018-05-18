@@ -57,8 +57,13 @@ export function getProxyByPassDomains(
     ]);
 }
 
-export function getAutoproxyurl(device: NetworkInterfaceEntity): Promise<string> {
-    return ExecCommand(NETWORK_SETUP_COMMAND, ["-getautoproxyurl", device.serviceName,]);
+export function getAutoproxyurl(
+    device: NetworkInterfaceEntity,
+): Promise<string> {
+    return ExecCommand(NETWORK_SETUP_COMMAND, [
+        "-getautoproxyurl",
+        device.serviceName,
+    ]);
 }
 
 export function findCertificate(): Promise<string> {

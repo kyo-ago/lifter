@@ -54,7 +54,9 @@ describe("ClientRequestService", () => {
     });
 
     it("onRequest.response LOCAL_PAC_FILE_URL", async () => {
-        clientResponderContext.getUrl.returns(URL.parse(`http://${BIND_HOST_NAME}:${PROXY_PORT}/proxy.pac`));
+        clientResponderContext.getUrl.returns(
+            URL.parse(`http://${BIND_HOST_NAME}:${PROXY_PORT}/proxy.pac`),
+        );
         await clientRequestService.onRequest(clientResponderContext);
         assert(clientResponderContext.response.calledOnce);
     });

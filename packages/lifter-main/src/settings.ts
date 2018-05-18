@@ -6,7 +6,9 @@ export const BIND_HOST_NAME = "127.0.0.1";
 export const SECURITY_COMMAND = "/usr/bin/security";
 export const HTTP_SSL_CA_DIR_NAME = `http-mitm-proxy`;
 export const PROXY_SERVER_NAME = `${NETWORK_HOST_NAME}:${PROXY_PORT}`;
-export const LOCAL_PAC_FILE_URL = new RegExp(`^http://${NETWORK_HOST_NAME}|${BIND_HOST_NAME}:${PROXY_PORT}/proxy\.pac$`);
+export const LOCAL_PAC_FILE_URL = new RegExp(
+    `^http://${NETWORK_HOST_NAME}|${BIND_HOST_NAME}:${PROXY_PORT}/proxy\.pac$`,
+);
 export const PROXY_PREFERENCES_PLIST_PATH =
     "/Library/Preferences/SystemConfiguration/preferences.plist";
 

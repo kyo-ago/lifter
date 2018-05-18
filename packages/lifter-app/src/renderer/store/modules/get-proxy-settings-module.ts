@@ -22,16 +22,24 @@ export function getProxySettingsModule(
             noPacFileProxySetting: state.noPacFileProxySetting,
         },
         getters: {
-            certificateInstalled: ({ certificateState }) => certificateState === "Installed",
-            certificateCommand: ({ certificateCommands }) => certificateCommands.join(" && "),
-            proxyCommandIsGranted: ({ proxyCommandGrantStatus }) => proxyCommandGrantStatus === "On",
-            proxyCommandIsNotGranted: (_, { proxyCommandIsGranted }) => !proxyCommandIsGranted,
-            proxyCommandGrantCommand: ({ proxyCommandGrantCommands }) => proxyCommandGrantCommands.join("\n"),
-            matchState: ({ proxySettingStatus }, { proxyCommandIsGranted }) => (matcher: {
-                NotGranted: () => string,
-                NoTargetInterfaces: () => string,
-                On: () => string,
-                Off: () => string,
+            certificateInstalled: ({ certificateState }) =>
+                certificateState === "Installed",
+            certificateCommand: ({ certificateCommands }) =>
+                certificateCommands.join(" && "),
+            proxyCommandIsGranted: ({ proxyCommandGrantStatus }) =>
+                proxyCommandGrantStatus === "On",
+            proxyCommandIsNotGranted: (_, { proxyCommandIsGranted }) =>
+                !proxyCommandIsGranted,
+            proxyCommandGrantCommand: ({ proxyCommandGrantCommands }) =>
+                proxyCommandGrantCommands.join("\n"),
+            matchState: (
+                { proxySettingStatus },
+                { proxyCommandIsGranted },
+            ) => (matcher: {
+                NotGranted: () => string;
+                NoTargetInterfaces: () => string;
+                On: () => string;
+                Off: () => string;
             }): string => {
                 if (!proxyCommandIsGranted) {
                     return matcher.NotGranted();
@@ -45,7 +53,7 @@ export function getProxySettingsModule(
                 if (proxySettingStatus === "Off") {
                     return matcher.Off();
                 }
-                console.error('Invalid matchState error');
+                console.error("Invalid matchState error");
                 return "";
             },
         },
