@@ -7,19 +7,8 @@ let sandbox = sinon.createSandbox();
 
 let applicationMock = sandbox.createStubInstance<Application>(Application);
 
-applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
-    autoResponderEntries: [],
-    clientRequestEntries: [],
-    proxyBypassDomainEntries: [],
-    rewriteRuleEntries: [],
-    certificateState: "Missing",
-    certificateCommands: [],
-    proxySettingStatus: "Off",
-    proxyCommandGrantStatus: "Off",
-    proxyCommandGrantCommands: [],
-    noAutoEnableProxySetting: false,
-    noPacFileProxySetting: false,
-}));
+setApplicationMockState();
+
 let contextMenuService = sandbox.createStubInstance<ContextMenuService>(
     ContextMenuService,
 );
@@ -56,3 +45,20 @@ if ("undefined" !== typeof afterEach) {
 }
 
 export const ApplicationMock = applicationMock;
+
+export function setApplicationMockState(state: Partial<ApplicationMainStateJSON> = {}) {
+    applicationMock.getCurrentState.callsFake((): ApplicationMainStateJSON => ({
+        autoResponderEntries: [],
+        clientRequestEntries: [],
+        proxyBypassDomainEntries: [],
+        rewriteRuleEntries: [],
+        certificateState: "Missing",
+        certificateCommands: [],
+        proxySettingStatus: "Off",
+        proxyCommandGrantStatus: "Off",
+        proxyCommandGrantCommands: [],
+        noAutoEnableProxySetting: false,
+        noPacFileProxySetting: false,
+        ...state,
+    }));
+}
