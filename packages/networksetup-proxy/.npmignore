@@ -1,6 +1,6 @@
+example/
 rust/proxy-setting.rs
 index.ts
 tsconfig.json
-example/
 package-lock.json
 test.js
