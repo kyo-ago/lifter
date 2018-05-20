@@ -1,0 +1,6 @@
+config/
+dist/
+mocks/
+stories/
+storybook/
+test/

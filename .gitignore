@@ -19,7 +19,7 @@ yarn-debug.log
 /packages/*/build/
 /packages/*/dist/
 /packages/*/lib/
-/packages/*/*Repositories/
+/packages/*/repositories/
 /packages/*/.http-mitm-proxy/
 /packages/*/http-mitm-proxy/
 /packages/**/package-lock.json

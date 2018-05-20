@@ -1,12 +1,12 @@
 {
   "name": "@lifter/lifter-main",
   "description": "lifter proxy main process",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": "@kyo_ago",
   "dependencies": {
     "@lifter/electron-window-manager": "^0.2.2",
     "@lifter/file-watcher": "^0.2.2",
-    "@lifter/lifter-common": "^0.2.2",
+    "@lifter/lifter-common": "^0.2.6",
     "@lifter/networksetup-proxy": "^0.2.3",
     "execa": "^0.10.0",
     "http-mitm-proxy": "^0.6.1",
