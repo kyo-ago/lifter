@@ -18,8 +18,8 @@ export function getProxySettingsModule(
             proxySettingStatus: state.proxySettingStatus,
             proxyCommandGrantStatus: state.proxyCommandGrantStatus,
             proxyCommandGrantCommands: state.proxyCommandGrantCommands,
-            noAutoEnableProxySetting: state.noAutoEnableProxySetting,
-            noPacFileProxySetting: state.noPacFileProxySetting,
+            autoEnableProxySetting: state.autoEnableProxySetting,
+            pacFileProxySetting: state.pacFileProxySetting,
         },
         getters: {
             certificateInstalled: ({ certificateState }) =>
@@ -32,6 +32,10 @@ export function getProxySettingsModule(
                 !proxyCommandIsGranted,
             proxyCommandGrantCommand: ({ proxyCommandGrantCommands }) =>
                 proxyCommandGrantCommands.join("\n"),
+            autoEnableProxySetting: ({ autoEnableProxySetting }) =>
+                autoEnableProxySetting === "On",
+            pacFileProxySetting: ({ pacFileProxySetting }) =>
+                pacFileProxySetting === "On",
             matchState: (
                 { proxySettingStatus },
                 { proxyCommandIsGranted },
@@ -75,11 +79,11 @@ export function getProxySettingsModule(
                 state.proxyCommandGrantStatus = param.status;
                 state.proxyCommandGrantCommands = param.command;
             },
-            changeNoAutoEnableProxySetting(state, newState: boolean) {
-                state.noAutoEnableProxySetting = newState;
+            changeAutoEnableProxySetting(state, newState: boolean) {
+                state.autoEnableProxySetting = newState;
             },
-            changeNoPacFileProxySetting(state, newState: boolean) {
-                state.noPacFileProxySetting = newState;
+            changePacFileProxySetting(state, newState: boolean) {
+                state.pacFileProxySetting = newState;
             },
         },
         actions: {
@@ -98,14 +102,14 @@ export function getProxySettingsModule(
                 commit("changeCertificateStatus", param);
                 return param;
             },
-            async changeNoAutoEnableProxySetting({ commit }) {
-                let newState = await application.changeNoAutoEnableProxySetting();
-                commit("changeNoAutoEnableProxySetting", newState);
+            async changeAutoEnableProxySetting({ commit }) {
+                let newState = await application.changeAutoEnableProxySetting();
+                commit("changeAutoEnableProxySetting", newState);
                 return newState;
             },
-            async changeNoPacFileProxySetting({ commit }) {
-                let newState = await application.changeNoPacFileProxySetting();
-                commit("changeNoPacFileProxySetting", newState);
+            async changePacFileProxySetting({ commit }) {
+                let newState = await application.changePacFileProxySetting();
+                commit("changePacFileProxySetting", newState);
                 return newState;
             },
         },

@@ -4,13 +4,13 @@ import { promisify } from "util";
 import { ProjectEntity } from "../../proxy/project/project-entity";
 
 export interface UserSettings {
-    noAutoEnableProxy: boolean;
-    noPacFileProxy: boolean;
+    autoEnableProxy: boolean;
+    pacFileProxy: boolean;
 }
 
 const DefaultUserSettings: UserSettings = {
-    noAutoEnableProxy: false,
-    noPacFileProxy: false,
+    autoEnableProxy: true,
+    pacFileProxy: true,
 };
 
 @injectable()

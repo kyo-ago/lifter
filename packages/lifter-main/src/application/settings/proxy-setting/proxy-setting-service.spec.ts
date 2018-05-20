@@ -38,7 +38,7 @@ describe("ProxySettingService", () => {
 
     it("change to fetch", async () => {
         await userSettingsService.isAutoEnableProxy({
-            Some: () => userSettingsService.changeNoPacFileProxy(),
+            On: () => userSettingsService.changePacFileProxy(),
         });
 
         MockStateEvent.emit("updateProxyCommandGrantStatus", "On");
@@ -53,6 +53,6 @@ describe("ProxySettingService", () => {
         let fetchResult = await getNetworksetupProxyService().fetch();
         assert(fetchResult === "On");
 
-        await userSettingsService.changeNoPacFileProxy();
+        await userSettingsService.changePacFileProxy();
     });
 });

@@ -1,7 +1,9 @@
 import {
+    AutoEnableProxyStatus,
     AutoResponderEntityJSON,
     ClientRequestEntityJSON,
     CreateRewriteRuleModifierEntityJSON,
+    PacFileProxyStatus,
     ProxyBypassDomainEntityJSON,
     ProxySettingStatus,
     RewriteRuleEntityJSON,
@@ -90,12 +92,12 @@ export class Application {
         );
     }
 
-    changeNoAutoEnableProxySetting(): Promise<boolean> {
-        return ipc.publish("changeNoAutoEnableProxySetting");
+    changeAutoEnableProxySetting(): Promise<AutoEnableProxyStatus> {
+        return ipc.publish("changeAutoEnableProxySetting");
     }
 
-    changeNoPacFileProxySetting(): Promise<boolean> {
-        return ipc.publish("changeNoPacFileProxySetting");
+    changePacFileProxySetting(): Promise<PacFileProxyStatus> {
+        return ipc.publish("changePacFileProxySetting");
     }
 
     async getProxyBypassDomains(): Promise<ProxyBypassDomainEntityJSON[]> {

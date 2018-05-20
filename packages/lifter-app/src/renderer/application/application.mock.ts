@@ -20,8 +20,8 @@ applicationMock.deleteAutoResponderEntities.resolves();
 applicationMock.changeCertificateStatus.resolves("Installed");
 applicationMock.changeProxySettingStatus.resolves("On");
 applicationMock.changeProxyCommandGrantStatus.resolves("On");
-applicationMock.changeNoAutoEnableProxySetting.resolves(true);
-applicationMock.changeNoPacFileProxySetting.resolves(true);
+applicationMock.changeAutoEnableProxySetting.resolves("Off");
+applicationMock.changePacFileProxySetting.resolves("Off");
 
 applicationMock.getProxyBypassDomains.resolves([]);
 applicationMock.saveProxyBypassDomains.resolves(undefined);
@@ -59,8 +59,8 @@ export function setApplicationMockState(
         proxySettingStatus: "Off",
         proxyCommandGrantStatus: "Off",
         proxyCommandGrantCommands: [],
-        noAutoEnableProxySetting: false,
-        noPacFileProxySetting: false,
+        autoEnableProxySetting: "Off",
+        pacFileProxySetting: "Off",
         ...state,
     }));
 }

@@ -1,8 +1,10 @@
 import {
+    AutoEnableProxyStatus,
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
     CreateRewriteRuleModifierEntityJSON,
+    PacFileProxyStatus,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
@@ -76,13 +78,13 @@ export interface ElectronIpcMap {
         param: ChangeProxyCommandGrantStatusParam;
         result: ChangeProxyCommandGrantStatusParam;
     };
-    changeNoAutoEnableProxySetting: {
+    changeAutoEnableProxySetting: {
         param: void;
-        result: boolean;
+        result: AutoEnableProxyStatus;
     };
-    changeNoPacFileProxySetting: {
+    changePacFileProxySetting: {
         param: void;
-        result: boolean;
+        result: PacFileProxyStatus;
     };
 
     getProxyBypassDomains: {
