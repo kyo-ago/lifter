@@ -84,12 +84,12 @@ export function ApplicationSubscriber(application: Application) {
             });
         });
 
-    ipc.subscribe("changeNoAutoEnableProxySetting", () => {
-        return application.getUserSetting().changeNoAutoEnableProxy();
+    ipc.subscribe("changeAutoEnableProxySetting", () => {
+        return application.getUserSetting().changeAutoEnableProxy();
     });
 
-    ipc.subscribe("changeNoPacFileProxySetting", () => {
-        return application.getUserSetting().changeNoPacFileProxy();
+    ipc.subscribe("changePacFileProxySetting", () => {
+        return application.getUserSetting().changePacFileProxy();
     });
 
     ipc.subscribe("getRewriteRules", () => {

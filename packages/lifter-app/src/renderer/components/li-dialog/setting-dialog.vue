@@ -36,7 +36,7 @@
             <div>
                 <el-switch
                     v-model="certificateStatus"
-                    @change="changecertificateStatus"
+                    @change="changeCertificateStatus"
                 ></el-switch>
                 <span>
                     {{
@@ -63,22 +63,22 @@
             </div>
             <div>
                 <el-switch
-                    v-model="noAutoEnableProxySetting"
-                    @change="changeNoAutoEnableProxySetting"
+                    v-model="autoEnableProxySetting"
+                    @change="changeAutoEnableProxySetting"
                 ></el-switch>
                 {{
-                    noAutoEnableProxySetting
+                    autoEnableProxySetting
                         ? $t("EnableProxyOnStartup")
                         : $t("DisableProxyOnStartup")
                 }}
             </div>
             <div>
                 <el-switch
-                    v-model="noPacFileProxySetting"
-                    @change="changeNoPacFileProxySetting"
+                    v-model="pacFileProxySetting"
+                    @change="changePacFileProxySetting"
                 ></el-switch>
                 {{
-                    noPacFileProxySetting
+                    pacFileProxySetting
                         ? $t("EnableProxyViaPac")
                         : $t("DisableProxyViaPac")
                 }}
@@ -105,11 +105,11 @@ export default {
                 "proxySettings/proxyCommandGrantCommand"
             ];
         },
-        noAutoEnableProxySetting() {
-            return !this.$store.state.proxySettings.noAutoEnableProxySetting;
+        autoEnableProxySetting() {
+            return this.$store.getters["proxySettings/autoEnableProxySetting"];
         },
-        noPacFileProxySetting() {
-            return !this.$store.state.proxySettings.noPacFileProxySetting;
+        pacFileProxySetting() {
+            return this.$store.getters["proxySettings/pacFileProxySetting"];
         },
         isShowing() {
             return this.$store.state.settingDialog.isShowing;
@@ -119,7 +119,7 @@ export default {
         hideSettingDialog() {
             this.$store.commit("settingDialog/hide");
         },
-        async changecertificateStatus() {
+        async changeCertificateStatus() {
             await this.$store.dispatch("proxySettings/changeCertificateStatus");
         },
         async changeProxyCommandGrantStatus() {
@@ -127,14 +127,14 @@ export default {
                 "proxySettings/changeProxyCommandGrantStatus",
             );
         },
-        async changeNoAutoEnableProxySetting() {
+        async changeAutoEnableProxySetting() {
             await this.$store.dispatch(
-                "proxySettings/changeNoAutoEnableProxySetting",
+                "proxySettings/changeAutoEnableProxySetting",
             );
         },
-        async changeNoPacFileProxySetting() {
+        async changePacFileProxySetting() {
             await this.$store.dispatch(
-                "proxySettings/changeNoPacFileProxySetting",
+                "proxySettings/changePacFileProxySetting",
             );
         },
     },

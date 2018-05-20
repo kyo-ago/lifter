@@ -6,6 +6,10 @@ export type ProxySettingStatus = "On" | "Off" | "NoTargetInterfaces";
 
 export type ProxyCommandGrantStatus = "On" | "Off";
 
+export type AutoEnableProxyStatus = "On" | "Off";
+
+export type PacFileProxyStatus = "On" | "Off";
+
 export type RewriteRuleActionType = "UPDATE" | "DELETE";
 
 export type AutoResponderType = "File" | "Directory" | "Glob";

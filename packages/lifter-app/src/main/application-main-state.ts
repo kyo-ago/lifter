@@ -1,7 +1,9 @@
 import {
+    AutoEnableProxyStatus,
     AutoResponderEntityJSON,
     CertificateStatus,
     ClientRequestEntityJSON,
+    PacFileProxyStatus,
     ProxyBypassDomainEntityJSON,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
@@ -19,8 +21,8 @@ export interface ApplicationMainStateJSON {
     proxySettingStatus: ProxySettingStatus;
     proxyCommandGrantStatus: ProxyCommandGrantStatus;
     proxyCommandGrantCommands: string[];
-    noAutoEnableProxySetting: boolean;
-    noPacFileProxySetting: boolean;
+    autoEnableProxySetting: AutoEnableProxyStatus;
+    pacFileProxySetting: PacFileProxyStatus;
 }
 
 export async function getApplicationMainStateJSON(
@@ -45,15 +47,15 @@ export async function getApplicationMainStateJSON(
         proxySettingStatus,
         proxyCommandGrantStatus,
         proxyCommandGrantCommands,
-        noAutoEnableProxySetting,
-        noPacFileProxySetting,
+        autoEnableProxySetting,
+        pacFileProxySetting,
     ] = await Promise.all([
         application.getCertificateService().fetchCurrentCommands(),
         application.getProxySettingService().fetch(),
         application.getProxyCommandGrantService().fetchStatus(),
         application.getProxyCommandGrantService().fetchCommands(),
-        application.getUserSetting().getNoAutoEnableProxy(),
-        application.getUserSetting().getNoPacFileProxy(),
+        application.getUserSetting().getAutoEnableProxy(),
+        application.getUserSetting().getPacFileProxy(),
     ]);
 
     return {
@@ -66,7 +68,7 @@ export async function getApplicationMainStateJSON(
         proxySettingStatus,
         proxyCommandGrantStatus,
         proxyCommandGrantCommands,
-        noAutoEnableProxySetting,
-        noPacFileProxySetting,
+        autoEnableProxySetting,
+        pacFileProxySetting,
     };
 }

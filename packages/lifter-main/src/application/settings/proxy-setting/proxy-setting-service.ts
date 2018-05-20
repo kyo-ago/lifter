@@ -1,5 +1,6 @@
 import * as Watch from "@lifter/file-watcher";
 import {
+    PacFileProxyStatus,
     ProxyCommandGrantStatus,
     ProxySettingStatus,
 } from "@lifter/lifter-common";
@@ -30,10 +31,12 @@ export class ProxySettingService {
     ) {}
 
     load() {
-        this.userSettingsService.onChangeNoPacFileProxy((_: boolean) => {
-            // ignore return value
-            void this.changeProxyType();
-        });
+        this.userSettingsService.onChangePacFileProxy(
+            (_: PacFileProxyStatus) => {
+                // ignore return value
+                void this.changeProxyType();
+            },
+        );
         this.proxyCommandGrantService.onChangeStatus(
             (proxyCommandGrantStatus: ProxyCommandGrantStatus) => {
                 if (proxyCommandGrantStatus === "On") {
@@ -69,8 +72,8 @@ export class ProxySettingService {
 
     async autoEnable(): Promise<void> {
         await this.userSettingsService.isAutoEnableProxy({
-            Some: () => this.enable(),
-            None: () => Promise.resolve(),
+            On: () => this.enable(),
+            Off: () => Promise.resolve(),
         });
     }
 
@@ -108,9 +111,8 @@ export class ProxySettingService {
             On: async (): Promise<void> => {
                 await this.proxyCommandGrantService.callGranted(() => {
                     return this.userSettingsService.isPacFileProxy({
-                        Some: () =>
-                            this.networksetupProxyService.disableProxy(),
-                        None: () => this.pacFileService.stop(),
+                        On: () => this.networksetupProxyService.disableProxy(),
+                        Off: () => this.pacFileService.stop(),
                     });
                 });
                 await this.enable();
@@ -140,8 +142,8 @@ export class ProxySettingService {
     private async enable(): Promise<void> {
         await this.proxyCommandGrantService.callGranted(() => {
             return this.userSettingsService.isPacFileProxy({
-                Some: () => this.pacFileService.start(),
-                None: () => this.networksetupProxyService.enableProxy(),
+                On: () => this.pacFileService.start(),
+                Off: () => this.networksetupProxyService.enableProxy(),
             });
         });
     }
@@ -149,8 +151,8 @@ export class ProxySettingService {
     private async disable() {
         await this.proxyCommandGrantService.callGranted(() => {
             return this.userSettingsService.isPacFileProxy({
-                Some: () => this.pacFileService.stop(),
-                None: () => this.networksetupProxyService.disableProxy(),
+                On: () => this.pacFileService.stop(),
+                Off: () => this.networksetupProxyService.disableProxy(),
             });
         });
     }

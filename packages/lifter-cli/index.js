@@ -36,20 +36,20 @@ const inquirer = require("inquirer");
                 value: application.getProxyCommandGrantService().changeStatus,
             },
             {
-                name: "application.getUserSetting().getNoAutoEnableProxy()",
-                value: application.getUserSetting().getNoAutoEnableProxy,
+                name: "application.getUserSetting().getAutoEnableProxy()",
+                value: application.getUserSetting().getAutoEnableProxy,
             },
             {
-                name: "application.getUserSetting().changeNoPacFileProxy()",
-                value: application.getUserSetting().changeNoPacFileProxy,
+                name: "application.getUserSetting().changePacFileProxy()",
+                value: application.getUserSetting().changePacFileProxy,
             },
             {
-                name: "application.getUserSetting().getNoPacFileProxy()",
-                value: application.getUserSetting().getNoPacFileProxy,
+                name: "application.getUserSetting().getPacFileProxy()",
+                value: application.getUserSetting().getPacFileProxy,
             },
             {
-                name: "application.getUserSetting().changeNoAutoEnableProxy()",
-                value: application.getUserSetting().changeNoAutoEnableProxy,
+                name: "application.getUserSetting().changeAutoEnableProxy()",
+                value: application.getUserSetting().changeAutoEnableProxy,
             },
             {
                 name: "application.getProxySettingService().fetch()",

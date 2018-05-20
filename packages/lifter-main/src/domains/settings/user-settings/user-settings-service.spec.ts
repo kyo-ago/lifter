@@ -14,23 +14,23 @@ describe("UserSettingsService", () => {
         return userSettingsService.getUserSetting();
     };
 
-    it("getNoAutoEnableProxy", async () => {
-        let result = getUserSetting().getNoAutoEnableProxy();
-        assert(result === false);
+    it("getAutoEnableProxy", async () => {
+        let result = getUserSetting().getAutoEnableProxy();
+        assert(result === "On");
     });
 
-    it("changeNoAutoEnableProxy", async () => {
-        let result = await getUserSetting().changeNoAutoEnableProxy();
-        assert(result === true);
+    it("changeAutoEnableProxy", async () => {
+        let result = await getUserSetting().changeAutoEnableProxy();
+        assert(result === "Off");
     });
 
-    it("getNoPacFileProxy", async () => {
-        let result = getUserSetting().getNoPacFileProxy();
-        assert(result === false);
+    it("getPacFileProxy", async () => {
+        let result = getUserSetting().getPacFileProxy();
+        assert(result === "On");
     });
 
-    it("changeNoPacFileProxy", async () => {
-        let result = await getUserSetting().changeNoPacFileProxy();
-        assert(result === true);
+    it("changePacFileProxy", async () => {
+        let result = await getUserSetting().changePacFileProxy();
+        assert(result === "Off");
     });
 });
