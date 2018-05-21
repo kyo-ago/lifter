@@ -4,32 +4,34 @@ import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponseParam } from "../local-file-response/lifecycle/local-file-response-factory";
 import { ProjectIdentity } from "../project/project-identity";
-import { AutoResponderFilePath } from "./value-objects/auto-responder-file-path";
 import { AutoResponderIdentity } from "./auto-responder-identity";
-import { AutoResponderPath } from "./value-objects/auto-responder-path";
+import { AutoResponderAnyPath } from "./value-objects/auto-responder-any-path";
+import { AutoResponderFilePath } from "./value-objects/auto-responder-file-path";
 import { AutoResponderPattern } from "./value-objects/auto-responder-pattern";
 
-export type AbstractAutoResponderEntity = AutoResponderEntity<
-    AutoResponderPattern,
-    AutoResponderPath
->;
-
-export abstract class AutoResponderEntity<
-    Pattern extends AutoResponderPattern,
-    Path extends AutoResponderPath
-> extends BaseEntity<AutoResponderIdentity> {
+export class AutoResponderEntity extends BaseEntity<AutoResponderIdentity> {
     constructor(
         identity: AutoResponderIdentity,
-        public pattern: Pattern,
-        public path: Path,
+        public pattern: AutoResponderPattern,
+        public path: AutoResponderAnyPath,
         public projectIdentity: ProjectIdentity,
     ) {
         super(identity);
     }
 
-    abstract getMatchResponder(
+    async getMatchResponder(
         clientRequestEntity: ClientRequestEntity,
-    ): Promise<LocalFileResponseParam | null>;
+    ): Promise<LocalFileResponseParam | null> {
+        if (!this.pattern.isMatchPath(clientRequestEntity)) return null;
+
+        let filePath = await this.path.getAutoResponderFilePath(
+            clientRequestEntity,
+        );
+
+        return filePath
+            ? this.filePathToLocalFileResponseParam(filePath)
+            : null;
+    }
 
     get json(): AutoResponderEntityJSON {
         return {

@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import { ClientRequestEntity } from "../../client-request/client-request-entity";
 import { LocalFileResponseFactory } from "../../local-file-response/lifecycle/local-file-response-factory";
 import { LocalFileResponseEntity } from "../../local-file-response/local-file-response-entity";
-import { AbstractAutoResponderEntity } from "../auto-responder-entity";
+import { AutoResponderEntity } from "../auto-responder-entity";
 
 @injectable()
 export class FindMatchEntry {
@@ -11,7 +11,7 @@ export class FindMatchEntry {
     async getLocalFileResponse(
         promise: Promise<LocalFileResponseEntity | null>,
         clientRequestEntity: ClientRequestEntity,
-        autoResponderEntity: AbstractAutoResponderEntity,
+        autoResponderEntity: AutoResponderEntity,
     ): Promise<LocalFileResponseEntity | null> {
         let result = await promise;
         if (result) return result;

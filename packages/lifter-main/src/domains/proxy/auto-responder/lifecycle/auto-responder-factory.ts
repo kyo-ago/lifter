@@ -5,11 +5,10 @@ import * as Path from "path";
 import { AsyncNedbIdGenerator } from "../../../base/async-nedb-id-generator";
 import { ProjectEntity } from "../../project/project-entity";
 import { ProjectIdentity } from "../../project/project-identity";
-import { AbstractAutoResponderEntity } from "../auto-responder-entity";
-import { AutoResponderGlobEntity } from "../auto-responder-glob/auto-responder-glob-entity";
-import { AutoResponderAnyPath } from "../auto-responder-glob/value-objects/auto-responder-any-path";
-import { AutoResponderGlobPattern } from "../auto-responder-glob/value-objects/auto-responder-glob-pattern";
+import { AutoResponderEntity } from "../auto-responder-entity";
 import { AutoResponderIdentity } from "../auto-responder-identity";
+import { AutoResponderAnyPath } from "../value-objects/auto-responder-any-path";
+import { AutoResponderPattern } from "../value-objects/auto-responder-pattern";
 
 @injectable()
 export class AutoResponderFactory extends AsyncNedbIdGenerator {
@@ -18,47 +17,41 @@ export class AutoResponderFactory extends AsyncNedbIdGenerator {
     }
 
     static fromJSON(autoResponderEntityJSON: AutoResponderEntityJSON) {
-        return new AutoResponderGlobEntity(
+        return new AutoResponderEntity(
             new AutoResponderIdentity(autoResponderEntityJSON.id),
-            new AutoResponderGlobPattern(autoResponderEntityJSON.pattern),
+            new AutoResponderPattern(autoResponderEntityJSON.pattern),
             new AutoResponderAnyPath(autoResponderEntityJSON.path),
             new ProjectIdentity(autoResponderEntityJSON.projectId),
         );
     }
 
-    create(
-        pattern: string,
-        path: string,
-    ): AbstractAutoResponderEntity {
-        return new AutoResponderGlobEntity(
+    create(pattern: string, path: string): AutoResponderEntity {
+        return new AutoResponderEntity(
             new AutoResponderIdentity(this.getNextIdNumber()),
-            new AutoResponderGlobPattern(pattern),
+            new AutoResponderPattern(pattern),
             new AutoResponderAnyPath(path),
             this.projectEntity.getIdentity(),
         );
     }
 
-    createFromFile(file: File): Promise<AbstractAutoResponderEntity> {
+    createFromFile(file: File): Promise<AutoResponderEntity> {
         return this.createFrom(file.name, (<any>file).path);
     }
 
-    createFromPath(path: string): Promise<AbstractAutoResponderEntity> {
+    createFromPath(path: string): Promise<AutoResponderEntity> {
         return this.createFrom(Path.basename(path), path);
     }
 
     private createFrom(
         pattern: string,
         path: string,
-    ): Promise<AbstractAutoResponderEntity> {
+    ): Promise<AutoResponderEntity> {
         return new Promise((resolve, reject) => {
-            fs.stat(path, (err) => {
+            fs.stat(path, err => {
                 if (err) {
                     return reject(err);
                 }
-                let autoResponderEntity = this.create(
-                    pattern,
-                    path,
-                );
+                let autoResponderEntity = this.create(pattern, path);
                 resolve(autoResponderEntity);
             });
         });

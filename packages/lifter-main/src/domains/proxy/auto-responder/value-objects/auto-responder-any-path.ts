@@ -1,7 +1,7 @@
 import * as Path from "path";
-import { ClientRequestEntity } from "../../../client-request/client-request-entity";
-import { AutoResponderFilePath } from "../../value-objects/auto-responder-file-path";
-import { AutoResponderPath } from "../../value-objects/auto-responder-path";
+import { ClientRequestEntity } from "../../client-request/client-request-entity";
+import { AutoResponderFilePath } from "./auto-responder-file-path";
+import { AutoResponderPath } from "./auto-responder-path";
 
 export class AutoResponderAnyPath extends AutoResponderPath {
     async getAutoResponderFilePath(

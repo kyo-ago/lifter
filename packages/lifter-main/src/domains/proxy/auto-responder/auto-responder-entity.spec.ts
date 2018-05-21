@@ -1,12 +1,12 @@
 import * as assert from "assert";
 import "mocha";
 import * as Path from "path";
-import { getTestContainer } from "../../../../../test/mocks/get-test-container";
-import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
-import { AutoResponderFactory } from "../lifecycle/auto-responder-factory";
-import { AutoResponderGlobEntity } from "./auto-responder-glob-entity";
+import { getTestContainer } from "../../../../test/mocks/get-test-container";
+import { ClientRequestFactory } from "../client-request/lifecycle/client-request-factory";
+import { AutoResponderEntity } from "./auto-responder-entity";
+import { AutoResponderFactory } from "./lifecycle/auto-responder-factory";
 
-describe("AutoResponderGlobEntity.getMatchResponder", () => {
+describe("AutoResponderEntity.getMatchResponder", () => {
     let autoResponderFactory: AutoResponderFactory;
     let clientRequestFactory: ClientRequestFactory;
     beforeEach(async () => {
@@ -17,11 +17,8 @@ describe("AutoResponderGlobEntity.getMatchResponder", () => {
     let createAutoResponderGlobEntity = (
         pattern: string,
         path: string,
-    ): AutoResponderGlobEntity => {
-        return <AutoResponderGlobEntity>autoResponderFactory.create(
-            pattern,
-            path,
-        );
+    ): AutoResponderEntity => {
+        return <AutoResponderEntity>autoResponderFactory.create(pattern, path);
     };
 
     it("file path", async () => {
