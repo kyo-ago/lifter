@@ -7,13 +7,6 @@
         @row-click="selectRow"
     >
         <el-table-column
-            prop="type"
-            label="Type"
-            align="center"
-            width="60"
-            resizable
-        />
-        <el-table-column
             prop="pattern"
             label="Pattern"
             width="150"

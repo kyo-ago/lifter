@@ -42,6 +42,8 @@ describe("PacFileService", () => {
         assert(func()("") === "DIRECT");
         let basename = Path.basename(__filename);
         assert(func()(`/${basename}`) === `PROXY ${PROXY_SERVER_NAME}`);
+        assert(func()(`/hoge/${basename}`) === `PROXY ${PROXY_SERVER_NAME}`);
         assert(func()(`/${basename}.hoge`) === "DIRECT");
+        assert(func()(`/hoge/${basename}.hoge`) === "DIRECT");
     });
 });

@@ -1,13 +1,10 @@
-import {
-    AutoResponderEntityJSON,
-    AutoResponderType,
-} from "@lifter/lifter-common";
+import { AutoResponderEntityJSON } from "@lifter/lifter-common";
 import * as mime from "mime";
 import { BaseEntity } from "../../base/base-entity";
 import { ClientRequestEntity } from "../client-request/client-request-entity";
 import { LocalFileResponseParam } from "../local-file-response/lifecycle/local-file-response-factory";
 import { ProjectIdentity } from "../project/project-identity";
-import { AutoResponderFilePath } from "./auto-responder-file/value-objects/auto-responder-file-path";
+import { AutoResponderFilePath } from "./value-objects/auto-responder-file-path";
 import { AutoResponderIdentity } from "./auto-responder-identity";
 import { AutoResponderPath } from "./value-objects/auto-responder-path";
 import { AutoResponderPattern } from "./value-objects/auto-responder-pattern";
@@ -23,7 +20,6 @@ export abstract class AutoResponderEntity<
 > extends BaseEntity<AutoResponderIdentity> {
     constructor(
         identity: AutoResponderIdentity,
-        public type: AutoResponderType,
         public pattern: Pattern,
         public path: Path,
         public projectIdentity: ProjectIdentity,
@@ -38,7 +34,6 @@ export abstract class AutoResponderEntity<
     get json(): AutoResponderEntityJSON {
         return {
             id: this.id,
-            type: this.type,
             pattern: this.pattern.value,
             path: this.path.value,
             projectId: this.projectIdentity.getValue(),

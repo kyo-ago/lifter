@@ -19,7 +19,6 @@ describe("FindMatchEntry.getLocalFileResponse", () => {
 
     it("success", async () => {
         let abstractAutoResponderEntity = await autoResponderFactory.create(
-            "File",
             "/hoge",
             __filename,
         );
@@ -34,7 +33,6 @@ describe("FindMatchEntry.getLocalFileResponse", () => {
 
     it("failed", async () => {
         let abstractAutoResponderEntity = await autoResponderFactory.create(
-            "File",
             "/hoge",
             __filename,
         );

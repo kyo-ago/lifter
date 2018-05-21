@@ -19,7 +19,6 @@ describe("AutoResponderGlobEntity.getMatchResponder", () => {
         path: string,
     ): AutoResponderGlobEntity => {
         return <AutoResponderGlobEntity>autoResponderFactory.create(
-            "Glob",
             pattern,
             path,
         );

@@ -1,6 +1,6 @@
-import { ClientRequestEntity } from "../../../client-request/client-request-entity";
-import { GetFileMatchCodeString } from "../../lib/get-match-path-code-string";
-import { AutoResponderPattern } from "../../value-objects/auto-responder-pattern";
+import { ClientRequestEntity } from "../../client-request/client-request-entity";
+import { GetFileMatchCodeString } from "../lib/get-match-path-code-string";
+import { AutoResponderPattern } from "./auto-responder-pattern";
 
 export class AutoResponderFilePattern extends AutoResponderPattern {
     static createSafeValue(text: string) {

@@ -15,8 +15,7 @@ export class AutoResponderGlobPattern extends AutoResponderPattern {
     getMatchCodeString(proxyConnect: string): string {
         // similar matchBase option
         let regexp = String(this.matchRegexp)
-            .replace(/^\/\^/, "/")
-            .replace(/\$\/$/, "/");
+            .replace(/^\/\^/, "/");
 
         return `
             if ((${regexp}).test(url)) {

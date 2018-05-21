@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import "mocha";
-import { getTestContainer } from "../../../../../../test/mocks/get-test-container";
-import { ClientRequestFactory } from "../../../client-request/lifecycle/client-request-factory";
+import { getTestContainer } from "../../../../../test/mocks/get-test-container";
+import { ClientRequestFactory } from "../../client-request/lifecycle/client-request-factory";
 import { AutoResponderFilePattern } from "./auto-responder-file-pattern";
 
 describe("AutoResponderFilePattern", () => {

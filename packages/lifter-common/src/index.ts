@@ -12,11 +12,8 @@ export type PacFileProxyStatus = "On" | "Off";
 
 export type RewriteRuleActionType = "UPDATE" | "DELETE";
 
-export type AutoResponderType = "File" | "Directory" | "Glob";
-
 export interface AutoResponderEntityJSON {
     id: number;
-    type: AutoResponderType;
     pattern: string;
     path: string;
     projectId: number;

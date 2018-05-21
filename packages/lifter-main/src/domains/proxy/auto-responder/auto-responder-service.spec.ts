@@ -23,12 +23,10 @@ describe("AutoResponderService", () => {
     it("getAutoResponder.add", async () => {
         let autoResponder = autoResponderService.getAutoResponder();
         let results = await autoResponder.add([__filename]);
-        assert(results[0].type === "File");
         assert(results[0].path === __filename);
 
         let fetchResults = await autoResponder.fetchAll();
         assert(fetchResults.length === 1);
-        assert(fetchResults[0].type === "File");
         assert(fetchResults[0].path === __filename);
     });
 
@@ -69,7 +67,7 @@ describe("AutoResponderService", () => {
 
     it("find choose from entities", async () => {
         let entities = Array.from(Array(10)).map((_, index) =>
-            autoResponderFactory.create("File", String(index), __filename),
+            autoResponderFactory.create(String(index), __filename),
         );
         await autoResponderRepository.storeList(entities);
 
