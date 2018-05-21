@@ -47,12 +47,13 @@ export default {
             });
         },
         buttonTitle() {
-            return this.$store.getters["proxySettings/matchState"]({
+            let title = this.$store.getters["proxySettings/matchState"]({
                 NotGranted: () => "NoProxyCommandGrant",
                 NoTargetInterfaces: () => "NoTargetInterfaces",
                 On: () => "On",
                 Off: () => "Off",
             });
+            return this.$t(title);
         },
         disabled() {
             return this.$store.getters[
