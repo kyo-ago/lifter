@@ -10,7 +10,7 @@ export interface UserSettings {
 
 const DefaultUserSettings: UserSettings = {
     autoEnableProxy: true,
-    pacFileProxy: true,
+    pacFileProxy: false,
 };
 
 @injectable()
@@ -46,6 +46,7 @@ export class UserSettingsStorage {
             base[cur.name] = cur.value;
             return base;
         }, this.userSettings);
+        this.userSettings.pacFileProxy = false;
     }
 
     resolve<S extends keyof UserSettings>(name: S): UserSettings[S] {

@@ -72,6 +72,7 @@
                         : $t("DisableProxyOnStartup")
                 }}
             </div>
+            <!--
             <div>
                 <el-switch
                     v-model="pacFileProxySetting"
@@ -83,6 +84,7 @@
                         : $t("DisableProxyViaPac")
                 }}
             </div>
+            -->
         </div>
     </el-dialog>
 </template>
